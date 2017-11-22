@@ -8,6 +8,7 @@ import { Input } from '../../components/Input'
 import { Button } from '../../components/Button'
 import { PickerView } from '../../components/Picker';
 import { CustomTabBar } from '../../components/CustomTabBar';
+import { SearchBar } from '../../components/SearchBar';
 
 import { MyAddress } from './Views/address'
 import { Modyfiy } from './Views/modal'
@@ -56,13 +57,14 @@ export default class Address extends Component {
         (async function fetchAddress(that) {
             try {
                 if (posting) return;
+                console.log(getState().CurrentPage, getState().total)
                 if (getState().CurrentPage === getState().total) return;
                 dispatch('pose', true);
                 const res = await fetch(Url + 'user/ListAddress2', {
                     method: 'POST',
                     body: JSON.stringify({
                         type: 0,
-                        keyword: '',
+                        keyword: that.currentkey,
                         CurrentPage: CurrentPage,
                         pageSize: 15,
                         addressType: 0
@@ -91,6 +93,7 @@ export default class Address extends Component {
         })(this)
     }
     componentDidMount() {
+        this.currentkey = ''
         this._load();
     }
     onEditDone = (addr) => {
@@ -149,6 +152,46 @@ export default class Address extends Component {
         })(this)
     }
 
+
+    onEndEditing = (value) => {
+        (async function fetchAddress(that) {
+            try {
+                if (posting) return;
+                that.setState({
+                    address: []
+                })
+                that.currentkey = value
+                dispatch('page', 1);
+                dispatch('pose', true);
+                const res = await fetch(Url + 'user/ListAddress2', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        type: 0,
+                        keyword: value,
+                        CurrentPage: CurrentPage,
+                        pageSize: 15,
+                        addressType: 0
+                    }),
+                    headers: header.get()
+                })
+
+                const json = await res.json();
+
+                dispatch('total', json.data.totalPages);
+
+                that.setState({
+                    address: json.data.items
+                })
+                dispatch('pose', false);
+                const page = getState().CurrentPage + 1;
+                dispatch('page', page);
+
+            } catch (e) {
+                console.log(e);
+            }
+        })(this)
+    }
+
     renderAddressItem = (child, index) => {
         const addr = child.item;
         if (!addr) return null;
@@ -166,6 +209,7 @@ export default class Address extends Component {
     _keyExtractor = (addr, index) => addr.id
 
 
+
     renderAddress = () => {
         if (this.state.address === null) return null;
         const address = this.state.address.filter((addr) => {
@@ -175,7 +219,7 @@ export default class Address extends Component {
             return addr
         })
         return (
-            <View style={{ height: '100%' }}>
+            <View style={{ height: height - 44 - 25 - 25 }}>
                 <FlatList
                     style={{ zIndex: -10 }}
                     data={address}
@@ -195,7 +239,8 @@ export default class Address extends Component {
     render() {
         return (
             <View>
-                <View >
+                <View style={{ alignItems: "center" }}>
+                    <SearchBar backgroundColor="#bfbfbf" onEndEditing={this.onEndEditing} searchColor="white" onChangeInput={this.onChangeInput} />
                     {this.renderAddress()}
                 </View>
 

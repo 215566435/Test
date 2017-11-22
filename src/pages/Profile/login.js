@@ -11,7 +11,7 @@ import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Spin } from '../../components/Spin'
 
-import { Url } from '../../util';
+import { Url, hostName } from '../../util';
 
 
 
@@ -180,7 +180,7 @@ export default class LoginPage extends React.Component {
             <Code ref={(ins) => this.ins = ins} />
             <Button title='登陆' onPress={this.normal} />
             <Button title='取消' onPress={this.cancel} style={{ backgroundColor: '#919191' }} />
-            <WechatButton onPress={this.wxChat} />
+            {3 ? null : <WechatButton onPress={this.wxChat} />}
 
             {this.state.loading ? <View style={{ height: '100%', width: '100%', alignItems: "center", justifyContent: "center", position: 'absolute' }}>
                 <View style={{
@@ -228,7 +228,7 @@ class Code extends React.Component {
                 <TouchableOpacity onPress={this.onChange} style={{ flexDirection: 'row', justifyContent: "center", alignItems: 'center' }} >
                     {this.state.show ? (<Image
                         source={{
-                            uri: 'http://www.austgo.com/api/verify?t='
+                            uri: `http://${hostName}/api/verify?t=`
                                 + this.state.time
                         }}
                         style={{

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Image, Dimensions, Text, TouchableOpacity, Platform, FlatList, Modal } from 'react-native';
+import { View, ScrollView, Image, Dimensions, Text, TouchableOpacity, Platform, FlatList, Modal, Switch } from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons'; // 4.4.2
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
@@ -19,6 +19,9 @@ export class Body extends Component {
         Carousel: []
     }
 
+    onCartPress = () => {
+        this.props.navigate('Cart')
+    }
 
     componentWillReceiveProps(e) {
     }
@@ -51,8 +54,8 @@ export class Body extends Component {
                                         resizeMode='contain'
                                     />
                                     <Text numberOfLines={2} style={{ fontSize: 12 }}>{itm.n}</Text>
-                                    <Text numberOfLines={2} style={{ fontSize: 12, color: '#f56a00' }}>{price.p ? price.p : '¥' + itm.ap.p.r}</Text>
-                                    <Text numberOfLines={2} style={{ fontSize: 10, color: '#919191' }}>包邮价:{price.pi ? price.pi : '¥' + itm.ap.p.ri}</Text>
+                                    <Text numberOfLines={2} style={{ fontSize: 12, color: '#f56a00' }}>{price.p !== '$null' ? price.p : '¥' + itm.ap.p.r}</Text>
+                                    <Text numberOfLines={2} style={{ fontSize: 10, color: '#919191' }}>包邮价:{price.pi !== '$null' ? price.pi : '¥' + itm.ap.p.ri}</Text>
                                 </View>
                             </TouchableOpacity>
                         )
@@ -67,10 +70,10 @@ export class Body extends Component {
 
     render() {
         if (!this.props.event) return <View style={{ height: '100%', justifyContent: "center", alignItems: "center" }}><Spin /></View>
-        const { event, search } = this.props;
+        const { event, search, isAud, EventOnValueChange } = this.props;
         return (
             <View>
-                <PriceListHeader search={search} />
+                <PriceListHeader search={search} isShowAud={isAud} onValueChange={EventOnValueChange} onCartPress={this.onCartPress} />
                 <View style={{ backgroundColor: "#e9e9e9", height: height - 43 - 44 - (Platform.OS === 'ios' ? 25 : 0) }}>
                     <FlatList
                         data={event}
@@ -89,18 +92,38 @@ export class Body extends Component {
 }
 
 class PriceListHeader extends React.Component {
+    state = {
+        show: false
+    }
+
     onFocus = () => {
         this.props.search()
     }
 
+    onCartPress = () => {
+        this.setState({
+            show: false
+        })
+        if (this.props.onCartPress) this.props.onCartPress()
+    }
+
+    onPress = () => {
+        this.setState({
+            show: true
+        })
+        if (this.props.onPress) this.props.onPress()
+    }
+    onClose = () => {
+        this.setState({
+            show: false
+        })
+    }
 
     render() {
         const {
             isPanelVisiable,
-            onPress,
             onValueChange,
-            isShowPicture,
-            onShowPicture
+            isShowAud
             } = this.props
 
         return (
@@ -108,13 +131,48 @@ class PriceListHeader extends React.Component {
                 <PageHeader style={{ backgroundColor: '#f46e65' }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: "center", top: Platform.OS === 'ios' ? 10 : 0 }}>
                         <FakeSearchBar placeholder='秒杀 ' onFocus={this.onFocus} />
-                        <TouchableOpacity style={{ right: 4, width: 40 }} onPress={onPress}><SimpleLineIcons name='options' size={26} color='#fcdbd9' /></TouchableOpacity>
+                        <TouchableOpacity style={{ right: 4, width: 40 }} onPress={this.onPress}><SimpleLineIcons name='options' size={26} color='#fcdbd9' /></TouchableOpacity>
+                        <Modal
+                            visible={this.state.show}
+                            transparent={true}
+                        >
+                            <View
+                                style={{
+                                    height: 80,
+                                    width: 150,
+                                    backgroundColor: "#222222",
+                                    zIndex: 10,
+                                    right: 4,
+                                    position: 'absolute',
+                                    top: 45 + (Platform.OS === 'ios' ? 23 : 0),
+                                    borderRadius: 5,
+                                    padding: 5
+                                }}
+                            >
+                                <SwitchWithTitle title={'显示澳币'} onValueChange={onValueChange} value={isShowAud} />
+                                <TouchableOpacity onPress={this.onCartPress} style={{ marginTop: 10 }}>
+                                    <Text style={{ textAlign: "center", color: 'white', fontSize: 14 }}>购物车</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <TouchableOpacity style={{ height: '100%', width: '100%', position: 'absolute' }} onPress={this.onClose}>
+                            </TouchableOpacity>
+                        </Modal>
                     </View>
                 </PageHeader>
             </View>
         )
     }
 }
+
+const SwitchWithTitle = ({ title, tintColor = 'white', ...otherProps }) => {
+    return (
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Text style={{ color: tintColor }}>{title}</Text>
+            <Switch {...otherProps} onTintColor='#f46e65' />
+        </View>
+    )
+}
+
 
 class FakeSearchBar extends Component {
 

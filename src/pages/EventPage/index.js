@@ -14,12 +14,14 @@ class EventPage extends Component {
         return (
             <View style={{ backgroundColor: "white" }}>
                 <Body
+                    {...this.props.navigation}
                     event={this.props.event}
                     onAppend={this.props.onAppend}
                     onItemPress={(id) => this.props.itemPress(id, this)}
                     search={() => this.props.search(this)}
                     isAud={this.props.isAud}
                     onActivityPress={(id) => this.props.onActivityPress(id, this)}
+                    EventOnValueChange={this.props.EventOnValueChange}
                 />
             </View>
         )
@@ -40,6 +42,7 @@ function mapDispatch(dispatch) {
         itemPress: (id, that) => dispatch({ type: 'itemPress', id: id, instance: that }),
         search: (that) => dispatch({ type: 'search', instance: that }),
         onActivityPress: (id, that) => dispatch({ type: 'onActivityPress', id: id, instance: that }),
+        EventOnValueChange: () => dispatch({ type: 'EventOnValueChange' })
     }
 }
 export default connect(mapState, mapDispatch)(EventPage)

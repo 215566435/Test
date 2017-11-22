@@ -67,7 +67,7 @@ class Cart extends Component {
                     <Text>商品总额</Text>
                 </View>
                 <View>
-                    <Text style={{ color: 'white' }}>{`结算(${total})`}</Text>
+                    <Text style={{ color: 'white' }}>{`结算(${(this.props.isAud ? '$' : "¥") + total})`}</Text>
                 </View>
             </CustomTabBar>
         )
@@ -161,10 +161,10 @@ class Cart extends Component {
 }
 
 const mapState = (state) => {
-    console.log(state.Cart)
     return {
         items: state.Cart.items,
-        total: state.Cart.total
+        total: state.Cart.total,
+        isAud: state.PriceList.isAud
     }
 }
 
@@ -173,7 +173,8 @@ const mapDispatch = (dispatch) => {
         FetchCart: () => dispatch({ type: 'fetchCart' }),
         modifyItem: (item) => { dispatch({ type: 'modify', item: item }) },
         deleteItem: (item) => { dispatch({ type: 'delete', item: item }) },
-        checkOut: (instance) => { dispatch({ type: 'checkOut', instance: instance }) }
+        checkOut: (instance) => { dispatch({ type: 'checkOut', instance: instance }) },
+        onValueChange: () => dispatch({ type: 'CartChangeCurrency' })
     }
 }
 

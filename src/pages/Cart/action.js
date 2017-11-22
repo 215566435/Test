@@ -9,16 +9,19 @@ function* modifyItems({ url, body }) {
         headers: header.get(),
         body: JSON.stringify(body),
     })
-    console.log(res)
     return yield res.json();
 }
 
 const actionStategy = {
     fetchCart: function* (state) {
+        const PriceState = yield select(state => state.PriceList);
+        const currency = PriceState.isAud ? 'AUD' : "RMB"
+
         const json = yield modifyItems({
             url: Url + 'cart/ListSummary',
-            body: {}
+            body: { currency: currency }
         })
+
         yield put({
             type: 'Cart_SET_STATE',
             data: {
@@ -28,6 +31,17 @@ const actionStategy = {
             }
         })
 
+    },
+    CartChangeCurrency: function* (state, others) {
+        const PriceState = yield select(states => states.PriceList);
+
+        const audState = !PriceState.isAud;
+        yield put({
+            type: 'SET_STATE',
+            data: { ...PriceState, isAud: audState }
+        })
+
+        yield actionStategy.fetchCart(state)
     },
     modify: function* (state, others) {
         const value = others.item.value;

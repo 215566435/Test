@@ -1,13 +1,29 @@
 
 import React, { Component } from 'react';
-import { View, ScrollView, Dimensions, Text, TouchableOpacity, FlatList, Image, Animated } from 'react-native'
+import { View, ScrollView, Dimensions, Text, TouchableOpacity, FlatList, Image, Animated, Modal, Platform, Switch } from 'react-native'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 import { PageHeader } from '../../../components/PageHeader';
 
 export class Header extends Component {
+    state = {
+        show: false
+    }
+
     goBack = () => {
         this.props.navigation.goBack()
+    }
+    option = () => {
+        if (this.props.option) this.props.option();
+        this.setState({
+            show: true
+        })
+    }
+
+    onClose = () => {
+        this.setState({
+            show: false
+        })
     }
 
     render() {
@@ -32,11 +48,42 @@ export class Header extends Component {
                     <View>
                         <Text style={{ fontSize: 18, textAlign: 'center' }}>购物车</Text>
                     </View>
-                    <TouchableOpacity style={{ width: 40 }} onPress={this.props.option}>
+                    <TouchableOpacity style={{ width: 40 }} onPress={this.option}>
                         <SimpleLineIcons name="options" size={26} />
                     </TouchableOpacity>
+                    <Modal
+                        visible={this.state.show}
+                        transparent={true}
+                    >
+                        <View
+                            style={{
+                                height: 50,
+                                width: 150,
+                                backgroundColor: "#222222",
+                                zIndex: 10,
+                                right: 4,
+                                position: 'absolute',
+                                top: 45 + (Platform.OS === 'ios' ? 23 : 0),
+                                borderRadius: 5,
+                                padding: 5
+                            }}
+                        >
+                            <SwitchWithTitle title={'显示澳币'} onValueChange={this.props.onValueChange} value={this.props.isAud} />
+                        </View>
+                        <TouchableOpacity style={{ height: '100%', width: '100%', position: 'absolute' }} onPress={this.onClose}>
+                        </TouchableOpacity>
+                    </Modal>
                 </View>
             </PageHeader>
         )
     }
+}
+
+const SwitchWithTitle = ({ title, tintColor = 'white', ...otherProps }) => {
+    return (
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Text style={{ color: tintColor }}>{title}</Text>
+            <Switch {...otherProps} onTintColor='#f46e65' />
+        </View>
+    )
 }

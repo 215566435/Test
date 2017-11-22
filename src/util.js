@@ -15,7 +15,8 @@ export const EveryChildWidth = (children) => {
     return 100 / childCount + '%'
 }
 
-export const Url = 'http://test.austgo.com/api/app/1.2/';
+export const hostName = 'test.austgo.com'
+export const Url = `http://${hostName}/api/app/1.2/`;
 
 
 

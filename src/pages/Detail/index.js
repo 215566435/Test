@@ -3,7 +3,7 @@
  * 用于商品展示页面
  */
 import React, { Component, PureComponent } from 'react'
-import { View, Text, StyleSheet, ScrollView, Dimensions, Image, Platform, Switch, Animated, TouchableOpacity, FlatList, Modal, ActionSheetIOS } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Dimensions, Image, Platform, Switch, Animated, TouchableOpacity, FlatList, Modal, ActionSheetIOS, ImageBackground } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons'; // 4.4.2
 import { StackNavigator } from 'react-navigation'; // 1.0.0-beta.14
@@ -24,12 +24,12 @@ import { stateBarMargin } from '../../util'
 const { height, width } = Dimensions.get('window')
 
 
-
 class DetailPage extends Component {
     state = {
         isSkuSelectShow: false,
         property: null,
-        share: false
+        share: false,
+        contentImg: []
     }
     static defaultProps = {
         price: '',
@@ -49,8 +49,13 @@ class DetailPage extends Component {
         }
         if (index === 1) {
             console.log(this.props.contentImg)
+            const newImage = this.props.contentImg.map((item) => {
+                item.choose = false;
+                return item
+            })
             this.setState({
-                share: true
+                share: true,
+                contentImg: newImage
             })
             // ActionSheetIOS.showShareActionSheetWithOptions({
             //     url: [this.props.contentImg[0].url]
@@ -66,6 +71,41 @@ class DetailPage extends Component {
         if (index === 3) {
             this.onSkuPress();
         }
+    }
+
+    shareTabPress = (e, child, index) => {
+        if (index === 0) {
+            this.setState({
+                share: false
+            })
+        } else if (index === 1) {
+            const filtered = this.state.contentImg.filter((item) => {
+                if (item.choose) {
+                    return item
+                }
+            })
+            const urlMap = filtered.map((item) => {
+                return item.url
+            })
+            ActionSheetIOS.showShareActionSheetWithOptions({
+                url: urlMap
+            }, () => {
+
+            }, () => {                                                              
+                console.log('分享成功')
+            })
+        }
+    }
+
+    chooseImage = (item) => {
+        this.setState({
+            contentImg: this.state.contentImg.map((i) => {
+                if (i.url === item.url) {
+                    i.choose = !i.choose
+                }
+                return i
+            })
+        })
     }
 
     onSkuPress = () => {
@@ -151,25 +191,36 @@ class DetailPage extends Component {
                 >
                     <ScrollView style={{ height: height - 44 }}>
                         <View style={{ flexDirection: 'row', flexWrap: "wrap" }}>
-                            {this.props.contentImg.map((item) => {
+                            {this.state.contentImg.map((item) => {
                                 return (
-                                    <TouchableOpacity>
-                                        <Image
+                                    <TouchableOpacity key={item.url} onPress={() => this.chooseImage(item)}>
+                                        <ImageBackground
+                                            style={{ justifyContent: "center", alignItems: "center" }}
                                             key={item.url}
                                             source={{ uri: item.url }}
                                             style={{
                                                 height: 150,
                                                 width: width / 3
                                             }}
-                                        />
+                                        >
+                                            {item.choose ? <Ionicons name='md-checkmark-circle' size={25} color='#f56a00' style={{ backgroundColor: "rgba(0,0,0,0)", position: "absolute" }} /> : null}
+                                        </ImageBackground>
                                     </TouchableOpacity>
                                 )
                             })}
                         </View>
                     </ScrollView>
-                    <CustomTabBar >
+                    <CustomTabBar
+                        onPress={this.shareTabPress}
+                        childColor={(child, index) => {
+                            const color = ['white', '#f56a00']
+                            return color[index]
+                        }}
+                        shouldUpdate={true}
+                    >
                         <Text>返回</Text>
-                        <Text style={{ color: 'white' }}>分享</Text>
+                        <Text style={{ color: "white" }}>分享</Text>
+
                     </CustomTabBar>
                 </Modal>
                 <View

@@ -91,8 +91,8 @@ export class Body extends Component {
                                                     resizeMode='contain'
                                                 />
                                                 <Text numberOfLines={2} style={{ fontSize: 12 }}>{itm.n}</Text>
-                                                <Text style={{ color: '#f56a00' }}>{price.p ? price.p : '¥' + itm.ap.p.r}</Text>
-                                                <Text style={{ fontSize: 10, color: '#919191' }}>包邮价:{price.pi ? price.pi : '¥' + itm.ap.p.ri}</Text>
+                                                <Text style={{ color: '#f56a00' }}>{price.p !== '$null' ? price.p : '¥' + itm.ap.p.r}</Text>
+                                                <Text style={{ fontSize: 10, color: '#919191' }}>包邮价:{price.pi !== '$null' ? price.pi : '¥' + itm.ap.p.ri}</Text>
                                             </View>
                                         </TouchableOpacity>
                                     )
@@ -159,6 +159,7 @@ class PriceListHeader extends React.Component {
     onFocus = () => {
         this.props.search()
     }
+
     onPress = () => {
         this.setState({
             show: true

@@ -59,6 +59,13 @@ const actionStategy = {
     },
     search: function* (state, others) {
         others.instance.props.navigation.navigate('Search')
+    },
+    EventOnValueChange: function* () {
+        const state = yield select(state => state.PriceList)
+        yield put({
+            type: 'SET_STATE',
+            data: { ...state, isAud: state.isAud !== void 666 ? !state.isAud : true }
+        })
     }
 }
 

@@ -1450,7 +1450,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.austgo.daigou.check;
+				PRODUCT_BUNDLE_IDENTIFIER = com.austgo.daigou;
 				PRODUCT_NAME = austgoapp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1479,7 +1479,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.austgo.daigou.check;
+				PRODUCT_BUNDLE_IDENTIFIER = com.austgo.daigou;
 				PRODUCT_NAME = austgoapp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
