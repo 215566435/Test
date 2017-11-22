@@ -92,6 +92,9 @@ export class Modyfiy extends Component {
         })(this, e)
 
     }
+    onGoBack = () => {
+        this.props.done()
+    }
     render() {
         const { addr } = this.props;
         return (
@@ -109,6 +112,7 @@ export class Modyfiy extends Component {
                     <Picker.Item label="是" value="是" />
                 </PickerView>
                 <Button title='保存' onPress={this.onSubmit} />
+                <Button title='返回' style={{ backgroundColor: '#919191' }} onPress={this.onGoBack} />
             </ScrollView>
         )
     }

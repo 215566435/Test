@@ -95,7 +95,10 @@ const actionStategy = {
             others.instance.props.navigation.navigate('Settle', {
                 deliveryInfo: json.data.couriers,
                 total: json.data.t,
-                Cartinstance: others.instance
+                Cartinstance: others.instance,
+                currency: json.data.cr,
+                origin: json.data.o,
+                Couriers: json.data.u
             });
         } else {
             Alert.alert(

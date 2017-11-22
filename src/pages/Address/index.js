@@ -239,7 +239,7 @@ export default class Address extends Component {
     render() {
         return (
             <View>
-                <View style={{ alignItems: "center" }}>
+                <View style={{ alignItems: "center", backgroundColor: "white" }}>
                     <SearchBar backgroundColor="#bfbfbf" onEndEditing={this.onEndEditing} searchColor="white" onChangeInput={this.onChangeInput} />
                     {this.renderAddress()}
                 </View>

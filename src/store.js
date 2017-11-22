@@ -14,7 +14,7 @@ import { reducer as EventPage } from './pages/EventPage/reducer';
 import { reducer as SearchPage } from './pages/SearchPage/reducer';
 import { reducer as Category } from './pages/Category/reducer';
 import { reducer as Activity } from './pages/Activity/reducer';
-
+import { reducer as Person } from './pages/Person/reducer';
 
 const tmpReducer = (state = {}, action) => {
     const type = action.type
@@ -31,7 +31,8 @@ const appReducer = combineReducers({
     EventPage: EventPage,
     SearchPage: SearchPage,
     Category: Category,
-    Activity: Activity
+    Activity: Activity,
+    Person: Person
 })
 
 const sagaMiddleware = createSagaMiddleware(rootSaga)

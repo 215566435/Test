@@ -31,9 +31,13 @@ export default class Settle extends Component {
         mycommits: '',
         isSelf: false,
         isSelfString: '仓库代发',
-        total: ''
+        total: '',
+        currency: '',
+        origin: '',
+        Couriers: ''
     }
     onPress = (e, child, index) => {
+        console.log(this.state)
         if (index === 0) {
             if (this.props.navigation.goBack)
                 this.props.navigation.goBack()
@@ -57,24 +61,41 @@ export default class Settle extends Component {
         const deliveryInfo = this.props.navigation.state.params.deliveryInfo.filter((item) => {
             if (item.a) return item
         });
+
+        let defaultDelivery = deliveryInfo[0].n;
+
+        deliveryInfo.forEach((item) => {
+            if (that.props.navigation.state.params.origin.Couriers = item.i) {
+                defaultDelivery = item.n
+                return
+            }
+        })
+
+        const origin = (that.props.navigation.state.params.currency === 'RMB' ? '¥' : '$') + this.props.navigation.state.params.origin
+        const total = (that.props.navigation.state.params.currency === 'RMB' ? '¥' : '$') + this.props.navigation.state.params.total
+
         AsyncStorage.multiGet(['Receiver', 'Sender']).then((res) => {
             that.setState({
                 Receiver: JSON.parse(res[0][1]) || '',
                 Sender: JSON.parse(res[1][1]) || { a: '', d: false, i: '', id: '', n: '', p: '', se: false, t: 'Sender' },
                 deliveryInfo: deliveryInfo,
-                defaultDelivery: deliveryInfo[0].n,
-                total: that.props.navigation.state.params.total
+                defaultDelivery: defaultDelivery,
+                total: total,
+                currency: that.props.navigation.state.params.currency,
+                origin: origin,
+                Couriers: that.props.navigation.state.params.origin.Couriers
             })
         })
     }
 
     renderTabBar = () => (
-        <CustomTabBar childColor={(child, index) => tabColor[index]} onPress={this.onPress}>
+        <CustomTabBar childColor={(child, index) => tabColor[index]} onPress={this.onPress} shouldUpdate={true}>
             <View>
                 <Text>返回</Text>
             </View>
             <View>
-                <Text>商品总额</Text>
+                <Text style={{ fontSize: 12 }}>商品总额:{this.state.origin}</Text>
+                <Text style={{ fontSize: 12 }}>包邮价:{this.state.total}</Text>
             </View>
             <View>
                 <Text style={{ color: 'white' }}>提交订单</Text>
@@ -111,7 +132,7 @@ export default class Settle extends Component {
     renderForm = () => (
         <View style={{
             transform: [
-                { translateY: this.state.isKeyboardVisiable ? -120 : 0 }
+                { translateY: this.state.isKeyboardVisiable ? -180 : 0 }
             ]
         }}>
             <PickerView addonBefore='物流方式' onValueChange={this.OnPackingMethod} value={this.state.isSelfString}>

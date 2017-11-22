@@ -1,5 +1,5 @@
 import { call, put, take, select } from 'redux-saga/effects';
-import { Url, header } from '../../util';
+import { Url, header, setLogin } from '../../util';
 
 
 var posing = false
@@ -7,6 +7,7 @@ var currentPage = 1
 var currentKeyWord = ''
 
 const fetchPost = (url, body) => {
+
     return fetch(url, {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
@@ -28,6 +29,7 @@ function* FetchList() {
 
 const actionStategy = {
     FetchList: function* (state) {
+        yield setLogin()
         const json = yield FetchList();
         const FlatList = state.FlatList
         const newData = FlatList ? [...state.FlatList, ...json.data.items] : json.data.items;

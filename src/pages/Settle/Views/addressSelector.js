@@ -57,14 +57,15 @@ export class AddressSelector extends Component {
         })
     }
     onEditDone = (item) => {
-
-        this.props.onFinish({
-            item: item,
-            type: this.props.type
-        });
         this.setState({
             isEditVisiable: !this.state.isEditVisiable
         })
+        if (item) {
+            this.props.onFinish({
+                item: item,
+                type: this.props.type
+            });
+        }
     }
 
     onGoBack = (item) => {

@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+import { Platform, AsyncStorage } from 'react-native';
 import React from 'react';
 import { call, put, take, select } from 'redux-saga/effects';
 
@@ -48,4 +48,14 @@ export function* fetchApi({ url, body }) {
         body: JSON.stringify(body),
     })
     return yield res.json();
+}
+
+export function* setLogin() {
+    res = yield AsyncStorage.multiGet(['token', 'name'])
+    if (res[0][1] === null) {
+
+    } else {
+        header.set(res[0][1])
+
+    }
 }

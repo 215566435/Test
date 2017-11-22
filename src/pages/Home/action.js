@@ -1,8 +1,9 @@
 import { call, put, take, select } from 'redux-saga/effects';
-import { Url, header } from '../../util';
+import { Url, header, setLogin } from '../../util';
 
 
 function* fetchFunc({ url, body }) {
+    yield setLogin()
     const res = yield call(fetch, url, {
         method: 'POST',
         headers: header.get(),

@@ -180,7 +180,7 @@ export default class LoginPage extends React.Component {
             <Code ref={(ins) => this.ins = ins} />
             <Button title='登陆' onPress={this.normal} />
             <Button title='取消' onPress={this.cancel} style={{ backgroundColor: '#919191' }} />
-            {3 ? null : <WechatButton onPress={this.wxChat} />}
+            <WechatButton onPress={this.wxChat} />
 
             {this.state.loading ? <View style={{ height: '100%', width: '100%', alignItems: "center", justifyContent: "center", position: 'absolute' }}>
                 <View style={{
