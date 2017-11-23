@@ -1,5 +1,5 @@
 import { call, put, take, select } from 'redux-saga/effects';
-import { Alert } from 'react-native'
+import { Alert, AsyncStorage } from 'react-native'
 import { Url, header } from '../../util';
 
 
@@ -86,9 +86,14 @@ const actionStategy = {
         })
     },
     checkOut: function* (state, others) {
+        const res = yield AsyncStorage.multiGet(['Receiver', 'Sender'])
+        const returnWithAddress = res[0][1] ? false : true;
+
         const json = yield modifyItems({
             url: Url + 'cart/ListSummary',
-            body: {}
+            body: {
+                returnWithAddress: returnWithAddress
+            }
         })
 
         if (json.data.isValid) {
@@ -98,7 +103,12 @@ const actionStategy = {
                 Cartinstance: others.instance,
                 currency: json.data.cr,
                 origin: json.data.o,
-                Couriers: json.data.u
+                Couriers: json.data.u,
+                Receiver: returnWithAddress ? json.data.Receiver : JSON.parse(res[0][1]),
+                Sender: returnWithAddress ? json.data.Sender : JSON.parse(res[1][1]),
+                insurance: json.data.s,
+                deliveryFee: json.data.e,
+                buyInsurance: json.data.l
             });
         } else {
             Alert.alert(

@@ -41,7 +41,7 @@ const ERR_MSG = {
 
 function alert(msg) {
     Alert.alert(
-        '信息有误',
+        '登陆失败',
         ERR_MSG[msg] ? ERR_MSG[msg] : msg,
         [
             { text: 'Cancel', style: 'cancel' },
@@ -57,8 +57,13 @@ export default class LoginPage extends React.Component {
         name: '',
         psw: '',
         code: '',
+        hash: '',
+        unionId: '',
         keyboardHeight: 0,
-        loading: false
+        loading: false,
+        login: '登陆',
+        register: false,
+        old: false
     }
 
     loginFinish = (json) => {
@@ -74,6 +79,16 @@ export default class LoginPage extends React.Component {
                 time: Date.now() + Math.random() * 100
             })
             alert(json.message)
+
+            if (json.message === '请绑定') {
+                this.setState({
+                    login: '我是老客户，绑定此微信号',
+                    register: true,
+                    hash: json.data.hash,
+                    unionId: json.data.unionId
+                })
+            }
+
         }
     }
     componentWillUnmount() {
@@ -130,13 +145,53 @@ export default class LoginPage extends React.Component {
                 that.setState({
                     loading: true
                 })
-                const res = await fetch(Url + 'user/Login', {
-                    method: "POST",
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
+
+                const body = that.state.old ? {
+                    username: that.state.name,
+                    password: that.state.psw,
+                    verify: that.state.code,
+                    unionId: that.state.unionId,
+                    hash: that.state.hash
+                } : {
                         username: that.state.name,
                         password: that.state.psw,
                         verify: that.state.code
+                    }
+                console.log(body);
+
+                const res = await fetch(Url + 'user/Login', {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                })
+
+                const json = await res.json()
+
+                console.log(json);
+
+                that.loginFinish(json);
+            }
+        )(this)
+    }
+    Old = () => {
+        this.setState({
+            register: false,
+            old: true
+        })
+    }
+
+    New = () => {
+        (
+            async (that) => {
+                that.setState({
+                    loading: true
+                })
+                const res = await fetch(Url + 'user/RegisterByWechat', {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        hash: that.state.hash,
+                        unionId: that.state.unionId
                     })
                 })
 
@@ -180,7 +235,7 @@ export default class LoginPage extends React.Component {
             <Code ref={(ins) => this.ins = ins} />
             <Button title='登陆' onPress={this.normal} />
             <Button title='取消' onPress={this.cancel} style={{ backgroundColor: '#919191' }} />
-            <WechatButton onPress={this.wxChat} />
+            {this.state.old ? null : <WechatButton onPress={this.wxChat} />}
 
             {this.state.loading ? <View style={{ height: '100%', width: '100%', alignItems: "center", justifyContent: "center", position: 'absolute' }}>
                 <View style={{
@@ -200,9 +255,19 @@ export default class LoginPage extends React.Component {
 
         </View>
     )
+    renderRegister = () => {
+        return (
+            <View style={{
+                height: '100%', justifyContent: 'center'
+            }}>
+                <Button title='我是老用户，绑定微信' onPress={this.Old} />
+                <Button title='我是新账户，一键注册' onPress={this.New} style={{ backgroundColor: '#00a854' }} />
+            </View>
+        )
+    }
 
     render() {
-        return this.renderContent()
+        return this.state.register ? this.renderRegister() : this.renderContent()
     }
 }
 

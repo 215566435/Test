@@ -11,8 +11,14 @@ import { Spin } from '../../components/Spin'
 import { All } from './Views/all'
 
 
+class Arrow extends Component {
+
+}
+
 class ManifestPage extends Component {
     static navigationOptions = {
+        headerBackTitle: "返回",
+        headerTruncatedBackTitle: '返回',
         title: '我的订单'
     }
     static defaultProps = {

@@ -66,8 +66,7 @@ export default class Address extends Component {
                         type: 0,
                         keyword: that.currentkey,
                         CurrentPage: CurrentPage,
-                        pageSize: 15,
-                        addressType: 0
+                        pageSize: 15
                     }),
                     headers: header.get()
                 })
@@ -243,7 +242,6 @@ export default class Address extends Component {
                     <SearchBar backgroundColor="#bfbfbf" onEndEditing={this.onEndEditing} searchColor="white" onChangeInput={this.onChangeInput} />
                     {this.renderAddress()}
                 </View>
-
                 <Modal
                     visible={this.state.isEditing}
                     animationType="slide"

@@ -12,6 +12,7 @@ import { Input } from '../../components/Input'
 import { stateBarMargin } from '../../util'
 import { Popup } from '../../components/Popup'
 import { PickerView } from '../../components/Picker'
+import { Spin } from '../../components/Spin'
 
 import { AddressSelector } from './Views/addressSelector'
 
@@ -34,7 +35,11 @@ export default class Settle extends Component {
         total: '',
         currency: '',
         origin: '',
-        Couriers: ''
+        Couriers: '',
+        insurance: '',
+        deliveryFee: '',
+        buyInsurance: false,
+        loading: false
     }
     onPress = (e, child, index) => {
         console.log(this.state)
@@ -64,27 +69,31 @@ export default class Settle extends Component {
 
         let defaultDelivery = deliveryInfo[0].n;
 
-        deliveryInfo.forEach((item) => {
-            if (that.props.navigation.state.params.origin.Couriers = item.i) {
-                defaultDelivery = item.n
-                return
+        for (let index in deliveryInfo) {
+            let item = deliveryInfo[index]
+            if (that.props.navigation.state.params.Couriers = item.i) {
+                console.log(that.props.navigation.state.params.Couriers)
+                defaultDelivery = item.n;
+                break;
             }
-        })
+        }
 
         const origin = (that.props.navigation.state.params.currency === 'RMB' ? '¥' : '$') + this.props.navigation.state.params.origin
         const total = (that.props.navigation.state.params.currency === 'RMB' ? '¥' : '$') + this.props.navigation.state.params.total
 
-        AsyncStorage.multiGet(['Receiver', 'Sender']).then((res) => {
-            that.setState({
-                Receiver: JSON.parse(res[0][1]) || '',
-                Sender: JSON.parse(res[1][1]) || { a: '', d: false, i: '', id: '', n: '', p: '', se: false, t: 'Sender' },
-                deliveryInfo: deliveryInfo,
-                defaultDelivery: defaultDelivery,
-                total: total,
-                currency: that.props.navigation.state.params.currency,
-                origin: origin,
-                Couriers: that.props.navigation.state.params.origin.Couriers
-            })
+
+        that.setState({
+            deliveryInfo: deliveryInfo,
+            defaultDelivery: defaultDelivery,
+            total: total,
+            currency: that.props.navigation.state.params.currency,
+            origin: origin,
+            Couriers: that.props.navigation.state.params.origin.Couriers,
+            Receiver: that.props.navigation.state.params.Receiver,
+            Sender: that.props.navigation.state.params.Sender,
+            insurance: that.props.navigation.state.params.insurance,
+            deliveryFee: that.props.navigation.state.params.deliveryFee,
+            buyInsurance: that.props.navigation.state.params.buyInsurance
         })
     }
 
@@ -95,7 +104,7 @@ export default class Settle extends Component {
             </View>
             <View>
                 <Text style={{ fontSize: 12 }}>商品总额:{this.state.origin}</Text>
-                <Text style={{ fontSize: 12 }}>包邮价:{this.state.total}</Text>
+                <Text style={{ fontSize: 12 }}>订单总额:{this.state.total}</Text>
             </View>
             <View>
                 <Text style={{ color: 'white' }}>提交订单</Text>
@@ -123,16 +132,83 @@ export default class Settle extends Component {
         })
     }
     onCourierChange = (value) => {
-        const Courier = updateCourier.call(this, value);
-        this.setState({
-            defaultDelivery: value
-        })
+
+        (async (that) => {
+            let Courier = null;
+            for (let index in that.state.deliveryInfo) {
+                if (that.state.deliveryInfo[index].n === value) {
+                    Courier = that.state.deliveryInfo[index]
+                    break;
+                }
+            }
+            if (Courier) {
+                that.setState({
+                    loading: true,
+                    defaultDelivery: value
+                })
+                const res = await fetch(Url + 'cart/SwitchCourier', {
+                    method: 'POST',
+                    headers: header.get(),
+                    body: JSON.stringify(Courier)
+                })
+                const json = await res.json()
+                if (!json.success) {
+                    Alert.alert(json.message)
+                }
+                console.log(json)
+
+
+                const origin = (json.data.cr === 'RMB' ? '¥' : '$') + json.data.o
+                const total = (json.data.cr === 'RMB' ? '¥' : '$') + json.data.t
+                that.setState({
+                    deliveryFee: json.data.e,
+                    total: total,
+                    origin: origin,
+                    buyInsurance: false,
+                    loading: false,
+                    defaultDelivery: value
+                })
+
+
+            }
+        })(this)
+    }
+
+    buyInsurance = () => {
+        (async (that) => {
+            that.setState({
+                loading: true
+            })
+            const res = await fetch(Url + 'cart/SetInsurance', {
+                method: 'POST',
+                headers: header.get(),
+                body: JSON.stringify({
+                    i: !that.state.buyInsurance
+                })
+            })
+
+            const json = await res.json();
+            const deliveryInfo = json.data.couriers.filter((item) => {
+                if (item.a) return item
+            });
+            const origin = (json.data.cr === 'RMB' ? '¥' : '$') + json.data.o
+            const total = (json.data.cr === 'RMB' ? '¥' : '$') + json.data.t
+            that.setState({
+                deliveryInfo: deliveryInfo,
+                total: total,
+                currency: json.data.cr,
+                origin: origin,
+                Couriers: json.data.couriers,
+                buyInsurance: !that.state.buyInsurance,
+                loading: false
+            })
+        })(this)
     }
 
     renderForm = () => (
         <View style={{
             transform: [
-                { translateY: this.state.isKeyboardVisiable ? -180 : 0 }
+                { translateY: this.state.isKeyboardVisiable ? -220 : 0 }
             ]
         }}>
             <PickerView addonBefore='物流方式' onValueChange={this.OnPackingMethod} value={this.state.isSelfString}>
@@ -148,13 +224,33 @@ export default class Settle extends Component {
                         <PickerView addonBefore='选择快递' value={this.state.defaultDelivery} onValueChange={this.onCourierChange}>
                             {this.state.deliveryInfo.map((item) => <Picker.Item key={item.i} label={item.n} value={item.n} />)}
                         </PickerView>
+                        <View style={{ paddingLeft: 15, height: 40, flexDirection: "row", alignItems: "center", borderBottomWidth: 0.5, borderBottomColor: "#e9e9e9" }}>
+                            <Text>代发邮费</Text>
+                            <Text style={{ marginLeft: 30 }}>{(this.state.currency === 'RMB' ? '¥' : '$') + this.state.deliveryFee}</Text>
+                        </View>
+                        <TouchableOpacity
+                            style={{
+                                paddingLeft: 15,
+                                height: 40,
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                borderBottomWidth: 0.5,
+                                borderBottomColor: "#e9e9e9"
+                            }}
+                            onPress={this.buyInsurance}
+                        >
+                            <SimpleLineIcons name="check" size={20} color={this.state.buyInsurance ? '#108EE9' : 'black'} />
+                            <Text style={{ color: this.state.buyInsurance ? '#108EE9' : 'black' }}>
+                                {this.state.buyInsurance ? `购买保险(已购买:${this.state.insurance}%)` : `购买保险(费用:${this.state.insurance}%)`}
+                            </Text>
+                        </TouchableOpacity>
                         <AddressSelector type='Receiver' value={this.state.Receiver} onFinish={this.onSelectAddress} />
-                        <AddressSelector type='Sender' value={this.state.Sender} onFinish={this.onSelectAddress} />
+                        <AddressSelector type='Sender' value={this.state.Sender} onFinish={this.onSelectAddress} propsHeight={80} />
                         <Input addonBefore='订单留言' placeholder='后台及打包人员可见信息' onFocus={this.onFocus} onBlur={this.onBlur} name='their_commits' onChangeText={this.onChangeText} />
                         <Input addonBefore='我的备注' placeholder='留备信息，仅自己可见' onFocus={this.onFocus} onBlur={this.onBlur} name='mycommits' onChangeText={this.onChangeText} />
                     </View>
                 )}
-
         </View>
     )
 
@@ -165,6 +261,22 @@ export default class Settle extends Component {
                     {this.renderForm()}
                 </ScrollView>
                 {this.renderTabBar()}
+                {this.state.loading ? (
+                    <View style={{ height: '100%', width: "100%", position: 'absolute', alignItems: "center", justifyContent: "center", zIndex: 10 }} >
+                        <View style={{
+                            height: 150,
+                            width: 150,
+                            backgroundColor: "white",
+                            borderRadius: 5,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            borderWidth: 0.5,
+                            borderColor: "#fccca7"
+                        }}>
+                            <Spin />
+                            <Text style={{ color: '#404040' }}>{'请稍后...'}</Text>
+                        </View>
+                    </View>) : null}
             </View>
         )
     }
@@ -190,6 +302,7 @@ function updateCourier(value) {
                         if (!json.success) {
                             Alert.alert(json.message)
                         }
+                        console.log(json)
                     })
                     .catch((err) => {
                         Alert.alert('出错', err)

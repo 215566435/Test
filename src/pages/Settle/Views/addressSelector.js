@@ -1,11 +1,12 @@
-import { View, Text, TouchableOpacity, Modal, FlatList, Dimensions, ScrollView } from 'react-native'
+import { View, Text, TouchableOpacity, Modal, FlatList, Dimensions, ScrollView, Platform } from 'react-native'
 import React, { Component } from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'; // 4.4.2
 
 import { CustomTabBar } from '../../../components/CustomTabBar'
 import { header, Url } from '../../../util';
 import { Spin } from '../../../components/Spin';
-import { Modyfiy } from '../../Address/Views/modal'
+import { Modyfiy } from '../../Address/Views/modal';
+import { SearchBar } from '../../../components/SearchBar';
 
 
 const { height, width } = Dimensions.get('window')
@@ -40,7 +41,8 @@ const setDefault = () => {
 export class AddressSelector extends Component {
     static defaultProps = {
         addOnBefore: null,
-        type: 'Receiver'
+        type: 'Receiver',
+        propsHeight: 120
     }
     state = {
         isChosenVisiable: false,
@@ -84,9 +86,9 @@ export class AddressSelector extends Component {
 
     render() {
         const { isChosenVisiable, isEditVisiable } = this.state;
-        const { value, type } = this.props;
+        const { value, type, propsHeight } = this.props;
         const typeString = type === 'Receiver' ? '收件人' : '发件人';
-        const containerHeight = 120;
+        const containerHeight = propsHeight;
         return (
             <ScrollView pagingEnabled horizontal showsHorizontalScrollIndicator={false} bounces={false}>
                 <ContentText value={value} type={type} containerHeight={containerHeight} />
@@ -151,7 +153,8 @@ class ContentText extends Component {
 
 class AddressPicker extends Component {
     state = {
-        address: null
+        address: null,
+        keyword: ''
     }
     componentDidMount() {
         this._load();
@@ -176,13 +179,14 @@ class AddressPicker extends Component {
                     method: 'POST',
                     body: JSON.stringify({
                         type: 0,
-                        keyword: '',
+                        keyword: that.keyword,
                         CurrentPage: CurrentPage,
                         pageSize: 15,
                         addressType: that.props.type === 'Receiver' ? 0 : 1
                     }),
                     headers: header.get()
                 })
+                dispatch('pose', false);
 
                 const json = await res.json();
                 console.log(json)
@@ -205,6 +209,42 @@ class AddressPicker extends Component {
             }
         })(this)
     }
+    _search = () => {
+        (async function fetchAddress(that) {
+            try {
+
+                const res = await fetch(Url + 'user/ListAddress2', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        type: 0,
+                        keyword: that.keyword,
+                        CurrentPage: 1,
+                        pageSize: 15,
+                        addressType: that.props.type === 'Receiver' ? 0 : 1
+                    }),
+                    headers: header.get()
+                })
+                dispatch('pose', false);
+
+                const json = await res.json();
+                console.log(that.keyword)
+                dispatch('total', json.data.totalPages);
+
+                if (that._isMounted) {
+                    that.setState({
+                        address: json.data.items
+                    }, (() => {
+                        dispatch('pose', false);
+                        const page = getState().CurrentPage + 1;
+                        dispatch('page', page);
+                    }))
+                }
+            } catch (e) {
+                console.log(e);
+            }
+        })(this)
+    }
+
     goBack = () => {
         setDefault();
         this.props.goBack('goback');
@@ -219,12 +259,20 @@ class AddressPicker extends Component {
             type: this.props.type
         });
     }
+    onEndEditing = (text) => {
+        this.keyword = text
+        this._search()
+    }
+    onChangeInput = (text) => {
+
+    }
 
     render() {
         return (
-            <View style={{ backgroundColor: '#eee' }}>
+            <View style={{ backgroundColor: 'white', justifyContent: "center", marginTop: Platform.OS === 'ios' ? 25 : 0 }}>
+                <SearchBar backgroundColor="#bfbfbf" onEndEditing={this.onEndEditing} searchColor="white" onChangeInput={this.onChangeInput} />
                 <FlatList
-                    style={{ zIndex: -10, height: height - 44 }}
+                    style={{ zIndex: -10, height: height - 44 - 44 - 10 }}
                     data={this.state.address}
                     renderItem={this.renderAddressItem}
                     onEndReached={() => this._load()}
@@ -251,7 +299,9 @@ class AddrItem extends React.Component {
                 style={{
                     padding: 20,
                     marginBottom: 2,
-                    backgroundColor: 'white'
+                    backgroundColor: 'white',
+                    borderBottomWidth: 0.5,
+                    borderBottomColor: '#e9e9e9'
                 }}
                 onPress={() => this.props.onItemPress(item)}
             >
