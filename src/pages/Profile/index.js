@@ -40,6 +40,7 @@ const ProfileHOC = () => {
                 <View>
                     <Profile
                         {...this.props}
+                        refreshAll={this.props.refreshAll}
                         ref='Profile'
                     />
                 </View>
@@ -47,6 +48,19 @@ const ProfileHOC = () => {
         }
     }
 }
+
+const mapDispatch = (dispatch) => {
+
+    return {
+        refreshAll: () => {
+            dispatch({ type: 'fetchHome' })
+            dispatch({ type: 'FetchList' })
+            dispatch({ type: 'fetchHome' })
+        }
+    }
+}
+
+const connected = connect(null, mapDispatch)(ProfileHOC())
 
 const Login = (props) => {
     return (
@@ -59,7 +73,7 @@ Login.navigationOptions = {
 
 const ProfileNavigator = StackNavigator({
     Profile: {
-        screen: ProfileHOC(),
+        screen: connected,
         navigationOptions: {
             header: null
         }

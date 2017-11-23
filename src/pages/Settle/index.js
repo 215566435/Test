@@ -71,8 +71,7 @@ export default class Settle extends Component {
 
         for (let index in deliveryInfo) {
             let item = deliveryInfo[index]
-            if (that.props.navigation.state.params.Couriers = item.i) {
-                console.log(that.props.navigation.state.params.Couriers)
+            if (that.props.navigation.state.params.Couriers === item.i) {
                 defaultDelivery = item.n;
                 break;
             }
@@ -316,6 +315,7 @@ function updateCourier(value) {
 
 function createOrder() {
     let that = this;
+    console.log(this.state.total.slice(1))
     fetch(Url + 'order/create', {
         method: 'POST',
         headers: header.get(),
@@ -324,7 +324,7 @@ function createOrder() {
             s: this.state.Sender,
             e: this.state.their_commits,
             m: this.state.mycommits,
-            t: this.state.total
+            t: this.state.total.slice(1)
         })
     }).
         then((res) => {

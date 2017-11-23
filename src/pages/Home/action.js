@@ -15,6 +15,7 @@ function* fetchFunc({ url, body }) {
 
 const actionStategy = {
     fetchHome: function* (state) {
+        console.log('获取')
         const json = yield fetchFunc({ url: Url + 'home/index', body: '' });
         yield put({
             type: 'Home_SET_STATE',
@@ -42,6 +43,12 @@ const actionStategy = {
             type: 'SET_STATE',
             data: { ...state, isAud: state.isAud !== void 666 ? !state.isAud : true }
         })
+    },
+    refreshAll: function* () {
+        console.log('刷新')
+        yield put({
+            type: 'fetchHome'
+        })
     }
 }
 
@@ -57,6 +64,7 @@ export const watch = function* () {
         try {
             const state = yield select(state => state.Home)
             const actionFn = actionStategy[type]
+            console.log(actionFn)
             if (!actionFn) continue
             yield call(actionFn, state, others)
         } catch (e) {

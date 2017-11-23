@@ -3,7 +3,7 @@
  * 本页面是用于个人登陆功能
  */
 import React from 'react'
-import { View, Text, TextInput, TouchableOpacity, Image, Alert, Keyboard, Modal } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, Image, Alert, Keyboard, Modal, Switch } from 'react-native'
 import * as WeChat from 'react-native-wechat';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'; // 4.4.2
 
@@ -59,11 +59,15 @@ export default class LoginPage extends React.Component {
         code: '',
         hash: '',
         unionId: '',
+        'ensure-psw': '',
+        email: '',
+        country: '',
         keyboardHeight: 0,
         loading: false,
         login: '登陆',
-        register: false,
-        old: false
+        register: 0,
+        old: false,
+        newRegister: false
     }
 
     loginFinish = (json) => {
@@ -78,41 +82,20 @@ export default class LoginPage extends React.Component {
             this.ins.setState({
                 time: Date.now() + Math.random() * 100
             })
-            alert(json.message)
+
 
             if (json.message === '请绑定') {
                 this.setState({
                     login: '我是老客户，绑定此微信号',
-                    register: true,
+                    register: 1,
                     hash: json.data.hash,
                     unionId: json.data.unionId
                 })
+            } else {
+                alert(json.message)
             }
-
         }
     }
-    componentWillUnmount() {
-        this.keyboardDidShowListener.remove();
-        this.keyboardDidHideListener.remove();
-    }
-
-    componentWillMount() {
-        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow.bind(this));
-        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide.bind(this));
-    }
-
-    _keyboardDidShow(e) {
-        this.setState({
-            keyboardHeight: 80
-        })
-    }
-
-    _keyboardDidHide(e) {
-        this.setState({
-            keyboardHeight: 0
-        })
-    }
-
 
     wxChat = () => {//微信
         (
@@ -180,7 +163,9 @@ export default class LoginPage extends React.Component {
         })
     }
 
-    New = () => {
+
+
+    _NewConfirm = () => {
         (
             async (that) => {
                 that.setState({
@@ -203,6 +188,17 @@ export default class LoginPage extends React.Component {
             }
         )(this)
     }
+    New = () => {
+        Alert.alert(
+            '一键注册账户确认',
+            '点击确认后，系统将自动帮你创建一个账户并绑定到当前微信。如果您已经有账户，请使用[我是老用户，绑定微信]按钮。\n确定要一键注册吗？',
+            [
+                { text: '取消', style: 'cancel' },
+                { text: '一键注册', onPress: () => this._NewConfirm() },
+            ],
+            { cancelable: false }
+        )
+    }
     onChange = (text, name) => {
         this.setState({
             [name]: text
@@ -221,6 +217,39 @@ export default class LoginPage extends React.Component {
     cancel = () => {
         this.props.loginCancel()
     }
+    newRegister = (is_Fnished) => {
+        if (is_Fnished === true) {
+            (
+                async (that) => {
+                    that.setState({
+                        loading: true
+                    })
+                    const res = await fetch(Url + 'user/Register', {
+                        method: "POST",
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            username: that.state.name,
+                            password: that.state.psw,
+                            Password2: that.state['ensure-psw'],
+                            country: that.state.country,
+                            realemail: that.state.email,
+                            verify: that.state.code
+                        })
+                    })
+
+                    const json = await res.json()
+
+                    console.log(json);
+
+                    that.loginFinish(json);
+                }
+            )(this)
+        } else {
+            this.setState({
+                register: 2
+            })
+        }
+    }
 
     renderContent = () => (
         <View style={{
@@ -234,6 +263,7 @@ export default class LoginPage extends React.Component {
 
             <Code ref={(ins) => this.ins = ins} />
             <Button title='登陆' onPress={this.normal} />
+            <Button title='没有账户，转到新用户注册' onPress={this.newRegister} style={{ backgroundColor: "#f56a00" }} />
             <Button title='取消' onPress={this.cancel} style={{ backgroundColor: '#919191' }} />
             {this.state.old ? null : <WechatButton onPress={this.wxChat} />}
 
@@ -260,14 +290,58 @@ export default class LoginPage extends React.Component {
             <View style={{
                 height: '100%', justifyContent: 'center'
             }}>
-                <Button title='我是老用户，绑定微信' onPress={this.Old} />
-                <Button title='我是新账户，一键注册' onPress={this.New} style={{ backgroundColor: '#00a854' }} />
+                <View>
+                    <Text style={{ fontSize: 22, textAlign: "center" }}>微信账户绑定</Text>
+                </View>
+                <Button title='我是老用户，绑定微信' onPress={this.Old} style={{ backgroundColor: '#00a854' }} />
+                <Button title='我是新账户，一键注册' onPress={this.New} />
+            </View>
+        )
+    }
+    _onfocuse = () => {
+        this.setState({
+            keyboardHeight: 160
+        })
+    }
+
+    onBlur = () => {
+        this.setState({
+            keyboardHeight: 0
+        })
+    }
+    newToAustGo = () => {
+
+        return (
+            <View style={{
+                height: '100%', justifyContent: 'center', transform: [
+                    { translateY: 0 - this.state.keyboardHeight }
+                ]
+            }}>
+                <Input addonBefore='登陆名' name='name' onChangeText={this.onChange} />
+                <Input addonBefore='密码' name='psw' onChangeText={this.onChange} />
+                <Input addonBefore='确认密码' name='ensure-psw' onChangeText={this.onChange} />
+                <Input addonBefore='Email' name='email' onChangeText={this.onChange} onFocus={this._onfocuse} onBlur={this.onBlur} />
+                <Input addonBefore='国家' name='country' onChangeText={this.onChange} onFocus={this._onfocuse} onBlur={this.onBlur} />
+                <Input addonBefore='验证码' name='code' onChangeText={this.onChange} onFocus={this._onfocuse} onBlur={this.onBlur} />
+
+                <Code ref={(ins) => this.ins = ins} />
+                <Button title='注册' onPress={() => this.newRegister(true)} />
+                <Button title='取消' onPress={this.cancel} style={{ backgroundColor: '#919191' }} />
             </View>
         )
     }
 
     render() {
-        return this.state.register ? this.renderRegister() : this.renderContent()
+
+        if (this.state.register === 0) {
+            return this.renderContent()
+        }
+        if (this.state.register === 1) {
+            return this.renderRegister()
+        }
+        if (this.state.register === 2) {
+            return this.newToAustGo()
+        }
     }
 }
 

@@ -7,7 +7,6 @@ import { View, Text, StyleSheet, Image, Dimensions, ScrollView, TouchableOpacity
 import { StackNavigator } from 'react-navigation'; // 1.0.0-beta.14
 
 
-
 import { Grid } from '../../components/Grid';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'; // 4.4.2
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -75,6 +74,7 @@ export default class Profile extends React.Component {
                         userName: personInformation.data.name,
                         isLogined: true
                     })
+                    this.props.refreshAll()
                 })
                 .catch((res) => {
                     //登陆失败

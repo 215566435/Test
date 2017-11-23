@@ -76,6 +76,7 @@ export class Content extends Component {
         } = this.props;
 
         if (!model.CreateTime) return <Spin />;
+        const CurrencySwitcher = model.Currency === 'RMB' ? '¥' : "$";
 
         const time = model.CreateTime.split('T');
         return (
@@ -96,10 +97,11 @@ export class Content extends Component {
 
                 </Cells>
                 <Cells>
-                    <Text style={{ color: '#f56a00' }}>总价格：{model.Price}</Text>
-                    <Text style={{ color: '#919191' }}>商品价格：{model.OriginalPrice}</Text>
-                    <Text style={{ color: '#919191' }}>快递费：{model.Delivery}</Text>
-                    <Text style={{ color: '#919191' }}>保险：{model.Insurance}</Text>
+                    <Text style={{ color: '#f56a00' }}>总价格：{CurrencySwitcher + model.Price}</Text>
+                    <Text style={{ color: '#919191' }}>商品价格：{CurrencySwitcher + model.OriginalPrice}</Text>
+                    <Text style={{ color: '#919191' }}>快递费：{CurrencySwitcher + model.Delivery}</Text>
+                    <Text style={{ color: '#919191' }}>保险：{CurrencySwitcher + model.Insurance}</Text>
+                    <Text style={{ color: '#919191' }}>代发税费：{CurrencySwitcher + model.OtherPrice}</Text>
                 </Cells>
                 <Cells>
                     <Text>物流方式：{model.IsPickup ? '现场提货' : '仓库代发'}</Text>
