@@ -86,7 +86,7 @@ export class AddressSelector extends Component {
 
     render() {
         const { isChosenVisiable, isEditVisiable } = this.state;
-        const { value, type, propsHeight } = this.props;
+        let { value, type, propsHeight } = this.props;
         const typeString = type === 'Receiver' ? '收件人' : '发件人';
         const containerHeight = propsHeight;
         return (

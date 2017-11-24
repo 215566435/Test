@@ -104,7 +104,7 @@ class Cart extends Component {
                     style={{
                         backgroundColor: 'white',
                         marginTop: 0.5,
-                        height: 120,
+                        height: 140,
                         width: width,
                         alignItems: 'center',
                         flexDirection: 'row'
@@ -130,7 +130,7 @@ class Cart extends Component {
                     </View>
                 </View>
                 <TouchableOpacity
-                    style={{ height: 120, width: 100, backgroundColor: '#f04134', justifyContent: 'center', alignItems: 'center' }}
+                    style={{ height: 140, width: 100, backgroundColor: '#f04134', justifyContent: 'center', alignItems: 'center' }}
                     onPress={() => {
                         this.props.deleteItem({
                             qty: item.qty,

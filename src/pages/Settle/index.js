@@ -36,8 +36,9 @@ export default class Settle extends Component {
         currency: '',
         origin: '',
         Couriers: '',
-        insurance: '',
+        insuranceRate: '',
         deliveryFee: '',
+        otherFee: '',
         buyInsurance: false,
         loading: false
     }
@@ -81,7 +82,7 @@ export default class Settle extends Component {
         const total = (that.props.navigation.state.params.currency === 'RMB' ? '¥' : '$') + this.props.navigation.state.params.total
 
         console.log(that.props.navigation.state.params)
-        that.setState({
+        this.setState({
             deliveryInfo: deliveryInfo,
             defaultDelivery: defaultDelivery,
             total: total,
@@ -90,9 +91,11 @@ export default class Settle extends Component {
             Couriers: that.props.navigation.state.params.origin.Couriers,
             Receiver: that.props.navigation.state.params.Receiver,
             Sender: that.props.navigation.state.params.Sender,
-            insurance: that.props.navigation.state.params.insurance,
-            deliveryFee: that.props.navigation.state.params.deliveryFee,
-            buyInsurance: that.props.navigation.state.params.buyInsurance
+            insuranceRate: that.props.navigation.state.params.insuranceRate,
+            otherFee: that.props.navigation.state.params.otherFee,
+            buyInsurance: that.props.navigation.state.params.buyInsurance,
+            insuranceFee: that.props.navigation.state.params.insuranceFee,
+            deliveryFee: that.props.navigation.state.params.deliveryFee
         })
     }
 
@@ -160,12 +163,15 @@ export default class Settle extends Component {
                 const origin = (json.data.cr === 'RMB' ? '¥' : '$') + json.data.o
                 const total = (json.data.cr === 'RMB' ? '¥' : '$') + json.data.t
                 that.setState({
-                    deliveryFee: json.data.e,
+                    otherFee: json.data.e,
                     total: total,
                     origin: origin,
                     buyInsurance: json.data.l,
+                    insuranceRate: json.data.s,
+                    insuranceFee: json.data.r,
                     loading: false,
-                    defaultDelivery: value
+                    defaultDelivery: value,
+                    deliveryFee: json.data.dd
                 })
             }
         })(this)
@@ -196,7 +202,10 @@ export default class Settle extends Component {
                 currency: json.data.cr,
                 origin: origin,
                 Couriers: json.data.couriers,
+                insuranceRate: json.data.s,
+                insuranceFee: json.data.r,
                 buyInsurance: !that.state.buyInsurance,
+                deliveryFee: json.data.dd,
                 loading: false
             })
         })(this)
@@ -223,11 +232,17 @@ export default class Settle extends Component {
                         </PickerView>
                         {this.state.deliveryFee === 0 ? null :
                             (<View style={{ paddingLeft: 15, height: 40, flexDirection: "row", alignItems: "center", borderBottomWidth: 0.5, borderBottomColor: "#e9e9e9" }}>
-                                <Text>代发税费</Text>
+                                <Text>快递费</Text>
                                 <Text style={{ marginLeft: 30 }}>{(this.state.currency === 'RMB' ? '¥' : '$') + this.state.deliveryFee}</Text>
                             </View>)
                         }
-                        {this.state.insurance === 0 ? null : (
+                        {this.state.otherFee === 0 ? null :
+                            (<View style={{ paddingLeft: 15, height: 40, flexDirection: "row", alignItems: "center", borderBottomWidth: 0.5, borderBottomColor: "#e9e9e9" }}>
+                                <Text>代发税费</Text>
+                                <Text style={{ marginLeft: 30 }}>{(this.state.currency === 'RMB' ? '¥' : '$') + this.state.otherFee}</Text>
+                            </View>)
+                        }
+                        {this.state.insuranceRate === 0 ? null : (
                             <TouchableOpacity
                                 style={{
                                     paddingLeft: 15,
@@ -240,9 +255,13 @@ export default class Settle extends Component {
                                 }}
                                 onPress={this.buyInsurance}
                             >
-                                <SimpleLineIcons name="check" size={20} color={this.state.buyInsurance ? '#108EE9' : 'black'} />
+                                {this.state.buyInsurance ?
+                                    <SimpleLineIcons name="check" size={20} color={this.state.buyInsurance ? '#108EE9' : 'black'} />
+                                    :
+                                    <View style={{ height: 20, width: 20, borderRadius: 10, borderWidth: 1 }} />
+                                }
                                 <Text style={{ color: this.state.buyInsurance ? '#108EE9' : 'black' }}>
-                                    {this.state.buyInsurance ? `购买保险(已购买:${this.state.insurance}%)` : `购买保险(费用:${this.state.insurance}%)`}
+                                    {this.state.buyInsurance ? `购买保险(已购买:${this.state.insuranceRate}%,${(this.state.currency === 'RMB' ? '¥' : '$') + this.state.insuranceFee})` : `购买保险(费用:${this.state.insuranceRate}%,${(this.state.currency === 'RMB' ? '¥' : '$') + this.state.insuranceFee})`}
                                 </Text>
                             </TouchableOpacity>
                         )}
@@ -256,6 +275,7 @@ export default class Settle extends Component {
     )
 
     render() {
+        console.log('更新')
         return (
             <View style={{ backgroundColor: 'white' }}>
                 <ScrollView style={{ height: height - 44 - stateBarMargin(0), marginTop: stateBarMargin(0) }}>
@@ -338,7 +358,7 @@ function createOrder() {
                     } else {
                         that.props.navigation.goBack()
                         that.props.navigation.state.params.Cartinstance.props.FetchCart()
-                        that.props.navigation.navigate('Manifest')
+                        that.props.navigation.navigate('GoodState', { id: json.data.i })
                         Alert.alert('下单成功！')
                     }
                 })

@@ -9,6 +9,7 @@ import PriceList from './index';
 import DetailPage from '../Detail';
 import Cart from '../Cart';
 import Settle from '../Settle';
+import GoodState from '../GoodState';
 
 export default StackNavigator(
     {
@@ -41,7 +42,15 @@ export default StackNavigator(
                 tabBarVisible: false,
                 gesturesEnabled: true
             }
-        }
+        },
+        GoodState: {
+            screen: (props) => <GoodState {...props} />,
+            navigationOptions: {
+                title: '订单详情',
+                tabBarVisible: false,
+                gesturesEnabled: true
+            }
+        },
     },
     {
         initialRouteName: 'PriceList',

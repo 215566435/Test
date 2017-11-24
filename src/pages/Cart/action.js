@@ -89,7 +89,7 @@ const actionStategy = {
     checkOut: function* (state, others) {
         const res = yield AsyncStorage.multiGet(['Receiver', 'Sender'])
         const returnWithAddress = res[0][1] ? false : true;
-
+        console.log(returnWithAddress)
         const json = yield modifyItems({
             url: Url + 'cart/ListSummary',
             body: {
@@ -97,6 +97,21 @@ const actionStategy = {
             }
         })
 
+
+        if (!json.success) {
+            Alert.alert(
+                '操作失败',
+                json.message,
+                [
+                    { text: 'Cancel' },
+                    { text: 'OK' },
+                ],
+                { cancelable: false }
+            )
+            return;
+        }
+
+        console.log(json.data)
         if (json.data.isValid) {
             others.instance.props.navigation.navigate('Settle', {
                 deliveryInfo: json.data.couriers,
@@ -105,11 +120,13 @@ const actionStategy = {
                 currency: json.data.cr,
                 origin: json.data.o,
                 Couriers: json.data.u,
-                Receiver: returnWithAddress ? json.data.Receiver : JSON.parse(res[0][1]),
-                Sender: returnWithAddress ? json.data.Sender : JSON.parse(res[1][1]),
-                insurance: json.data.s,
-                deliveryFee: json.data.e,
-                buyInsurance: json.data.l
+                Receiver: returnWithAddress ? json.data.receiver : JSON.parse(res[0][1]),
+                Sender: returnWithAddress ? json.data.sender : JSON.parse(res[1][1]),
+                insuranceRate: json.data.s,
+                otherFee: json.data.e,
+                buyInsurance: json.data.l,
+                insuranceFee: json.data.r,
+                deliveryFee: json.data.dd
             });
         } else {
             Alert.alert(
@@ -122,7 +139,6 @@ const actionStategy = {
                 { cancelable: false }
             )
         }
-        console.log(json);
     }
 }
 
