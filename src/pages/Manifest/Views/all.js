@@ -110,7 +110,7 @@ class OrderItem extends Component {
         const { child, onPress } = this.props;
         const item = child.item;
         const time = item.t.split('T')
-
+        console.log(item)
         return (
             <View style={{ borderBottomWidth: 5, borderBottomColor: '#f7f7f7' }}>
                 <TouchableOpacity onPress={onPress}>

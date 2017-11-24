@@ -80,7 +80,7 @@ export default class Settle extends Component {
         const origin = (that.props.navigation.state.params.currency === 'RMB' ? '¥' : '$') + this.props.navigation.state.params.origin
         const total = (that.props.navigation.state.params.currency === 'RMB' ? '¥' : '$') + this.props.navigation.state.params.total
 
-
+        console.log(that.props.navigation.state.params)
         that.setState({
             deliveryInfo: deliveryInfo,
             defaultDelivery: defaultDelivery,
@@ -167,8 +167,6 @@ export default class Settle extends Component {
                     loading: false,
                     defaultDelivery: value
                 })
-
-
             }
         })(this)
     }
@@ -248,8 +246,8 @@ export default class Settle extends Component {
                                 </Text>
                             </TouchableOpacity>
                         )}
-                        <AddressSelector type='Receiver' value={this.state.Receiver} onFinish={this.onSelectAddress} />
-                        <AddressSelector type='Sender' value={this.state.Sender} onFinish={this.onSelectAddress} propsHeight={80} />
+                        <AddressSelector type='Receiver' value={this.state.Receiver || ''} onFinish={this.onSelectAddress} />
+                        <AddressSelector type='Sender' value={this.state.Sender || ''} onFinish={this.onSelectAddress} propsHeight={80} />
                         <Input addonBefore='订单留言' placeholder='后台及打包人员可见信息' onFocus={this.onFocus} onBlur={this.onBlur} name='their_commits' onChangeText={this.onChangeText} />
                         <Input addonBefore='我的备注' placeholder='留备信息，仅自己可见' onFocus={this.onFocus} onBlur={this.onBlur} name='mycommits' onChangeText={this.onChangeText} />
                     </View>
