@@ -37,7 +37,7 @@ class Search extends Component {
 }
 
 function mapState(state) {
-    console.log(state)
+
     return {
         hotKey: state.SearchPage.hotKey,
         item: state.SearchPage.item,

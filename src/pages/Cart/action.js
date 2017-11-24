@@ -22,6 +22,7 @@ const actionStategy = {
             body: { currency: currency }
         })
 
+
         yield put({
             type: 'Cart_SET_STATE',
             data: {

@@ -52,7 +52,6 @@ const actionStategy = {
         const json = yield res.json();
         const aryRes = getSizeSync(json.data.ci);
         const firstPatch = { ...state, page: json.data, contentImg: aryRes }
-
         yield put({
             type: 'Detail_SET_STATE',
             data: firstPatch

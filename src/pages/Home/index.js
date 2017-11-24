@@ -15,6 +15,7 @@ class Home extends Component {
     }
 
     render() {
+        console.log('首页渲染')
         return (
             <View style={{ backgroundColor: "white" }}>
                 <Body

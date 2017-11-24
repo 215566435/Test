@@ -15,7 +15,14 @@ export const EveryChildWidth = (children) => {
     return 100 / childCount + '%'
 }
 
-export const hostName = 'test.austgo.com'
+export var hostName = 'test.austgo.com'
+
+if (__DEV__) {
+    hostName = 'test.austgo.com'
+} else {
+    hostName = 'www.austgo.com'
+}
+
 export const Url = `http://${hostName}/api/app/1.2/`;
 
 
@@ -35,10 +42,6 @@ class Header {
     }
 }
 
-
-
-
-
 export var header = new Header()
 
 export function* fetchApi({ url, body }) {
@@ -56,6 +59,5 @@ export function* setLogin() {
 
     } else {
         header.set(res[0][1])
-
     }
 }

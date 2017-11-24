@@ -29,14 +29,30 @@ export default class Profile extends React.Component {
 
     ToolBoxOnPress = (e, child, index) => {
         if (child.props.name === 'logout') {
-            AsyncStorage.removeItem('token')
-                .then((res) => {
-                    this.checkLogin()
-                })
-                .catch((res) => {
-                    //出错
-                })
+            Alert.alert(
+                '退出登陆',
+                '您确定需要退出登陆吗?',
+                [
+                    { text: '取消', style: 'cancel' },
+                    {
+                        text: '确定退出', onPress: () => {
+                            AsyncStorage.removeItem('token')
+                                .then((res) => {
+                                    this.checkLogin()
+                                })
+                                .catch((res) => {
+                                    //出错
+                                })
+                        }
+                    },
+                ],
+                { cancelable: false }
+            )
         } else {
+            if (this.state.userName === '') {
+                this.checkLogin()
+                return
+            }
             this.props.navigation.navigate(child.props.name)
         }
     }
@@ -103,9 +119,9 @@ export default class Profile extends React.Component {
                 >
                     <ToolItem text='我的订单' name='Manifest' Image={<FontAwesome name="file-text-o" color={ToolItemColor} size={ToolItemSize} />} />
                     <ToolItem text='地址管理' name='Address' Image={<MaterialCommunityIcons color={ToolItemColor} name="map-marker-radius" size={ToolItemSize} />} />
-                    <ToolItem text='预存款' Image={<Ionicons name="logo-yen" color={ToolItemColor} size={ToolItemSize} />} />
+                    <ToolItem text='预存款' name="Deposite" Image={<Ionicons name="logo-yen" color={ToolItemColor} size={ToolItemSize} />} />
                     <ToolItem text='个人信息' name='Person' Image={<MaterialCommunityIcons color={ToolItemColor} name="account-card-details" size={ToolItemSize} />} />
-                    <ToolItem text='修改密码' Image={<MaterialCommunityIcons color={ToolItemColor} name="lock" size={ToolItemSize} />} />
+                    <ToolItem text='修改密码' name='Password' Image={<MaterialCommunityIcons color={ToolItemColor} name="lock" size={ToolItemSize} />} />
                     <ToolItem text='退出登陆' name='logout' Image={<Entypo name="log-out" color={ToolItemColor} size={ToolItemSize} />} />
                 </Grid>
                 <Modal

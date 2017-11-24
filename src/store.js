@@ -15,6 +15,9 @@ import { reducer as SearchPage } from './pages/SearchPage/reducer';
 import { reducer as Category } from './pages/Category/reducer';
 import { reducer as Activity } from './pages/Activity/reducer';
 import { reducer as Person } from './pages/Person/reducer';
+import { reducer as Deposite } from './pages/DepositeLog/reducer';
+import { reducer as Password } from './pages/Password/reducer';
+
 
 const tmpReducer = (state = {}, action) => {
     const type = action.type
@@ -32,7 +35,9 @@ const appReducer = combineReducers({
     SearchPage: SearchPage,
     Category: Category,
     Activity: Activity,
-    Person: Person
+    Person: Person,
+    Deposite: Deposite,
+    Password: Password
 })
 
 const sagaMiddleware = createSagaMiddleware(rootSaga)

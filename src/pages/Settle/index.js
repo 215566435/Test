@@ -163,7 +163,7 @@ export default class Settle extends Component {
                     deliveryFee: json.data.e,
                     total: total,
                     origin: origin,
-                    buyInsurance: false,
+                    buyInsurance: json.data.l,
                     loading: false,
                     defaultDelivery: value
                 })
@@ -223,27 +223,31 @@ export default class Settle extends Component {
                         <PickerView addonBefore='选择快递' value={this.state.defaultDelivery} onValueChange={this.onCourierChange}>
                             {this.state.deliveryInfo.map((item) => <Picker.Item key={item.i} label={item.n} value={item.n} />)}
                         </PickerView>
-                        <View style={{ paddingLeft: 15, height: 40, flexDirection: "row", alignItems: "center", borderBottomWidth: 0.5, borderBottomColor: "#e9e9e9" }}>
-                            <Text>代发邮费</Text>
-                            <Text style={{ marginLeft: 30 }}>{(this.state.currency === 'RMB' ? '¥' : '$') + this.state.deliveryFee}</Text>
-                        </View>
-                        <TouchableOpacity
-                            style={{
-                                paddingLeft: 15,
-                                height: 40,
-                                flexDirection: "row",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                borderBottomWidth: 0.5,
-                                borderBottomColor: "#e9e9e9"
-                            }}
-                            onPress={this.buyInsurance}
-                        >
-                            <SimpleLineIcons name="check" size={20} color={this.state.buyInsurance ? '#108EE9' : 'black'} />
-                            <Text style={{ color: this.state.buyInsurance ? '#108EE9' : 'black' }}>
-                                {this.state.buyInsurance ? `购买保险(已购买:${this.state.insurance}%)` : `购买保险(费用:${this.state.insurance}%)`}
-                            </Text>
-                        </TouchableOpacity>
+                        {this.state.deliveryFee === 0 ? null :
+                            (<View style={{ paddingLeft: 15, height: 40, flexDirection: "row", alignItems: "center", borderBottomWidth: 0.5, borderBottomColor: "#e9e9e9" }}>
+                                <Text>代发税费</Text>
+                                <Text style={{ marginLeft: 30 }}>{(this.state.currency === 'RMB' ? '¥' : '$') + this.state.deliveryFee}</Text>
+                            </View>)
+                        }
+                        {this.state.insurance === 0 ? null : (
+                            <TouchableOpacity
+                                style={{
+                                    paddingLeft: 15,
+                                    height: 40,
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    borderBottomWidth: 0.5,
+                                    borderBottomColor: "#e9e9e9"
+                                }}
+                                onPress={this.buyInsurance}
+                            >
+                                <SimpleLineIcons name="check" size={20} color={this.state.buyInsurance ? '#108EE9' : 'black'} />
+                                <Text style={{ color: this.state.buyInsurance ? '#108EE9' : 'black' }}>
+                                    {this.state.buyInsurance ? `购买保险(已购买:${this.state.insurance}%)` : `购买保险(费用:${this.state.insurance}%)`}
+                                </Text>
+                            </TouchableOpacity>
+                        )}
                         <AddressSelector type='Receiver' value={this.state.Receiver} onFinish={this.onSelectAddress} />
                         <AddressSelector type='Sender' value={this.state.Sender} onFinish={this.onSelectAddress} propsHeight={80} />
                         <Input addonBefore='订单留言' placeholder='后台及打包人员可见信息' onFocus={this.onFocus} onBlur={this.onBlur} name='their_commits' onChangeText={this.onChangeText} />
@@ -261,7 +265,7 @@ export default class Settle extends Component {
                 </ScrollView>
                 {this.renderTabBar()}
                 {this.state.loading ? (
-                    <View style={{ height: '100%', width: "100%", position: 'absolute', alignItems: "center", justifyContent: "center", zIndex: 10 }} >
+                    <View style={{ height: '70%', width: "100%", position: 'absolute', alignItems: "center", justifyContent: "center", zIndex: 10 }} >
                         <View style={{
                             height: 150,
                             width: 150,
@@ -336,6 +340,7 @@ function createOrder() {
                     } else {
                         that.props.navigation.goBack()
                         that.props.navigation.state.params.Cartinstance.props.FetchCart()
+                        that.props.navigation.navigate('Manifest')
                         Alert.alert('下单成功！')
                     }
                 })

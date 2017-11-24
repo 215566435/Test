@@ -16,6 +16,9 @@ import DetailPage from '../Detail';
 import GoodState from '../GoodState';
 import Cart from '../Cart';
 import Settle from '../Settle';
+import Deposite from '../DepositeLog';
+import Password from '../Password';
+
 
 
 const ProfileInstace = null;
@@ -55,7 +58,6 @@ const mapDispatch = (dispatch) => {
         refreshAll: () => {
             dispatch({ type: 'fetchHome' })
             dispatch({ type: 'FetchList' })
-            dispatch({ type: 'fetchHome' })
         }
     }
 }
@@ -124,6 +126,22 @@ const ProfileNavigator = StackNavigator({
         screen: (props) => <Settle {...props} />,
         navigationOptions: {
             header: null,
+            tabBarVisible: false,
+            gesturesEnabled: true
+        }
+    },
+    Password: {
+        screen: (props) => <Password {...props} />,
+        navigationOptions: {
+            title: '修改密码',
+            tabBarVisible: false,
+            gesturesEnabled: true
+        }
+    },
+    Deposite: {
+        screen: (props) => <Deposite {...props} />,
+        navigationOptions: {
+            title: '预存款记录',
             tabBarVisible: false,
             gesturesEnabled: true
         }

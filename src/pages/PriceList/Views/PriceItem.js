@@ -24,7 +24,6 @@ export class PriceItem extends React.Component {
             onLoad: false
         })
     }
-
     renderImage = (item) => (
         <View>
             <ImageBackground

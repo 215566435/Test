@@ -24,6 +24,22 @@ const PriceSelector = (price) => {
     return price.itemPrice.currency === 'RMB' ? `¥${price.itemPrice.price}` : `$${price.itemPrice.price}`;
 }
 
+const stockStatus = {
+    NotForSale: '已下架',
+    OutStock: '无货',
+    ByStock: '按库存',
+    ByBook: '需预订',
+    InStock: '有货'
+}
+const stockStatusColor = {
+    NotForSale: "#919191",
+    OutStock: "#f04134",
+    ByStock: '#7265e6',
+    ByBook: '#f7629e',
+    InStock: '#108ee9'
+}
+
+
 const tabColor = ['white', '#f04134']
 class Cart extends Component {
     state = {
@@ -81,7 +97,7 @@ class Cart extends Component {
         const item = child.item;
         const url = 'http://cdn2u.com' + item.image + `?width=${150}` + `&height=${150}` + `&constrain=${true}` + `&bgcolor=white`;
         const Price = PriceSelector(item.price)
-
+        console.log(item)
         return (
             <ScrollView horizontal showsHorizontalScrollIndicator={false} pagingEnabled bounces={false} >
                 <View
@@ -106,6 +122,7 @@ class Cart extends Component {
                     />
                     <View style={{ width: '65%' }}>
                         <Text style={{ padding: 10 }} adjustsFontSizeToFit numberOfLines={4}>{item.name}</Text>
+                        <Text style={{ padding: 10, color: stockStatusColor[item.status] }} adjustsFontSizeToFit numberOfLines={4}>{stockStatus[item.status]}</Text>
                         <View style={{ flexDirection: 'row', paddingLeft: 10, alignItems: 'center' }}>
                             <Text style={{ marginRight: 10, fontSize: 13, color: '#f78e3d' }}>{Price}</Text>
                             <Stepper tintColor="#f46e65" value={item.qty} onChange={(value) => this.modifyItem(value, item.id)} />

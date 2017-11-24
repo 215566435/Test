@@ -60,24 +60,11 @@ const actionStategy = {
             ],
             { cancelable: false }
         )
+        others.instance.props.navigation.goBack();
         console.log(json)
     }
 }
 
-// [Required]
-// [Email]
-// public string RealEmail { get; set; }
-
-// [Required]
-// public string Name { get; set; }
-
-// [Required]
-// public string Phone { get; set; }
-
-// [Required]
-// public string Country { get; set; }
-
-// public string Wechat { get; set; }
 
 function convert() {
     return Object.keys(actionStategy)

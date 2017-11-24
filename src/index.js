@@ -10,7 +10,7 @@ export default class AustGoApp extends React.Component {
     componentDidMount() {
         WeChat.registerApp('wx558e460ec290964b');
         console.disableYellowBox = true;
-
+        console.log(__DEV__)
     }
     render() {
         return (

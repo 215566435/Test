@@ -11,6 +11,9 @@ class GoodState extends Component {
         const id = this.props.navigation.state.params.id
         this.props.fetchGoodState(id)
     }
+    componentWillUnmount() {
+        this.props.clearGoodState()
+    }
     Pay = (OrderId, Id) => {
         Alert.alert(
             '确认支付',
@@ -40,6 +43,7 @@ class GoodState extends Component {
                     onGoodPress={(id) => this.props.onGoodPress(id, this)}
                     Pay={this.Pay}
                     Payment={this.props.Payment}
+                    MarkAsSentToBuyer={this.props.MarkAsSentToBuyer}
                 />
             </View>
         )
@@ -66,7 +70,9 @@ function mapDispatch(dispatch) {
         Return: () => dispatch({ type: 'LogReturn' }),
         ReturnAttach: () => dispatch({ type: 'ReturnAttach' }),
         onGoodPress: (id, that) => dispatch({ type: 'onGoodPress', id: id, instance: that }),
-        Pay: (OrderId, Id) => dispatch({ type: "Pay", OrderId: OrderId, Id: Id })
+        Pay: (OrderId, Id) => dispatch({ type: "Pay", OrderId: OrderId, Id: Id }),
+        clearGoodState: () => dispatch({ type: 'clearGoodState' }),
+        MarkAsSentToBuyer: () => dispatch({ type: "MarkAsSentToBuyer" })
     }
 }
 

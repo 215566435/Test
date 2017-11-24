@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TextInput, ScrollView, FlatList, Dimensions, Image, Button, Platform, Switch, Animated, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, ScrollView, FlatList, Dimensions, Image, Button, Platform, Switch, Animated, TouchableOpacity, InteractionManager, reque } from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons'; // 4.4.2
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';

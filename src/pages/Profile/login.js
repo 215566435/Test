@@ -3,13 +3,14 @@
  * 本页面是用于个人登陆功能
  */
 import React from 'react'
-import { View, Text, TextInput, TouchableOpacity, Image, Alert, Keyboard, Modal, Switch } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, Image, Alert, Keyboard, Modal, Switch, Picker } from 'react-native'
 import * as WeChat from 'react-native-wechat';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'; // 4.4.2
 
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Spin } from '../../components/Spin'
+import { PickerView } from '../../components/Picker'
 
 import { Url, hostName } from '../../util';
 
@@ -61,7 +62,7 @@ export default class LoginPage extends React.Component {
         unionId: '',
         'ensure-psw': '',
         email: '',
-        country: '',
+        country: '中国',
         keyboardHeight: 0,
         loading: false,
         login: '登陆',
@@ -93,6 +94,9 @@ export default class LoginPage extends React.Component {
                 })
             } else {
                 alert(json.message)
+                this.setState({
+                    code:''
+                })
             }
         }
     }
@@ -259,7 +263,7 @@ export default class LoginPage extends React.Component {
         }} >
             <Input addonBefore='登陆名' name='name' onChangeText={this.onChange} />
             <Input addonBefore='密码' password={true} name='psw' onChangeText={this.onChange} />
-            <Input addonBefore='验证码' name='code' onChangeText={this.onChange} />
+            <Input addonBefore='验证码' name='code' onChangeText={this.onChange} value={this.state.code} />
 
             <Code ref={(ins) => this.ins = ins} />
             <Button title='登陆' onPress={this.normal} />
@@ -309,6 +313,13 @@ export default class LoginPage extends React.Component {
             keyboardHeight: 0
         })
     }
+    onTypeChange = (value) => {
+        console.log(value)
+        this.setState({
+            country: value
+        })
+    }
+
     newToAustGo = () => {
 
         return (
@@ -321,7 +332,12 @@ export default class LoginPage extends React.Component {
                 <Input addonBefore='密码' name='psw' onChangeText={this.onChange} />
                 <Input addonBefore='确认密码' name='ensure-psw' onChangeText={this.onChange} />
                 <Input addonBefore='Email' name='email' onChangeText={this.onChange} onFocus={this._onfocuse} onBlur={this.onBlur} />
-                <Input addonBefore='国家' name='country' onChangeText={this.onChange} onFocus={this._onfocuse} onBlur={this.onBlur} />
+                <PickerView addonBefore='国家' value={this.state.country} onValueChange={this.onTypeChange}>
+                    <Picker.Item label="中国" value="中国" />
+                    <Picker.Item label="新西兰" value="新西兰" />
+                    <Picker.Item label="澳大利亚" value="澳大利亚" />
+                    <Picker.Item label="其他国家" value="其他国家" />
+                </PickerView>
                 <Input addonBefore='验证码' name='code' onChangeText={this.onChange} onFocus={this._onfocuse} onBlur={this.onBlur} />
 
                 <Code ref={(ins) => this.ins = ins} />

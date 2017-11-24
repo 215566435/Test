@@ -1,6 +1,6 @@
 import { call, put, take, select } from 'redux-saga/effects';
 import { Url, header, setLogin } from '../../util';
-
+import { AsyncStorage } from 'react-native';
 
 var posing = false
 var currentPage = 1

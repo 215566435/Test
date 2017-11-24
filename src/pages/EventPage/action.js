@@ -18,7 +18,6 @@ function* getEvent(state, page) {
             PageSize: 3
         }
     });
-    console.log(json)
     return json
 
 }

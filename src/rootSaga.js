@@ -9,6 +9,8 @@ import { watch as SearchPage } from './pages/SearchPage/action';
 import { watch as Category } from './pages/Category/action';
 import { watch as Activity } from './pages/Activity/action';
 import { watch as Person } from './pages/Person/action';
+import { watch as Deposite } from './pages/DepositeLog/action';
+import { watch as Password } from './pages/Password/action';
 
 import { fork, take } from 'redux-saga/effects';
 
@@ -24,6 +26,8 @@ export default function* rootSaga() {
         fork(SearchPage),
         fork(Category),
         fork(Activity),
-        fork(Person)
+        fork(Person),
+        fork(Deposite),
+        fork(Password)
     ]
 }

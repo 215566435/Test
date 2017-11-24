@@ -51,7 +51,7 @@ export class Body extends Component {
     )
 
     render() {
-        const { title, price, onSkuPress, CarouselImage = [], contentImg = [], content } = this.props;
+        const { title, price, onSkuPress, CarouselImage = [], contentImg = [], content, shareText } = this.props;
         return (
             <ScrollView style={{ height: '100%' }}>
                 <Carousel>
@@ -62,7 +62,7 @@ export class Body extends Component {
                 <Title title={title} />
                 <PriceText price={price} />
                 <Sku onPress={onSkuPress} />
-                <Bref content={content} />
+                <Bref content={content} shareText={shareText} />
                 <FlatList
                     style={{ zIndex: -10 }}
                     data={contentImg}

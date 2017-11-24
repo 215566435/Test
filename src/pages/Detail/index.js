@@ -3,7 +3,7 @@
  * 用于商品展示页面
  */
 import React, { Component, PureComponent } from 'react'
-import { View, Text, StyleSheet, ScrollView, Dimensions, Image, Platform, Switch, Animated, TouchableOpacity, FlatList, Modal, ActionSheetIOS, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Dimensions, Image, Platform, Switch, Animated, TouchableOpacity, FlatList, Modal, ActionSheetIOS, ImageBackground, Clipboard, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons'; // 4.4.2
 import { StackNavigator } from 'react-navigation'; // 1.0.0-beta.14
@@ -29,7 +29,8 @@ class DetailPage extends Component {
         isSkuSelectShow: false,
         property: null,
         share: false,
-        contentImg: []
+        contentImg: [],
+        loading: false
     }
     static defaultProps = {
         price: '',
@@ -57,13 +58,6 @@ class DetailPage extends Component {
                 share: true,
                 contentImg: newImage
             })
-            // ActionSheetIOS.showShareActionSheetWithOptions({
-            //     url: [this.props.contentImg[0].url]
-            // }, () => {
-
-            // }, () => {
-            //     console.log('分享成功')
-            // })
         }
         if (index === 2) {
             this.props.navigation.navigate('Cart');
@@ -79,6 +73,10 @@ class DetailPage extends Component {
                 share: false
             })
         } else if (index === 1) {
+
+            this.setState({
+                loading: true
+            })
             const filtered = this.state.contentImg.filter((item) => {
                 if (item.choose) {
                     return item
@@ -87,12 +85,30 @@ class DetailPage extends Component {
             const urlMap = filtered.map((item) => {
                 return item.url
             })
+
+            if (urlMap.length === 0) {
+                Alert.alert(
+                    '分享失败',
+                    '请选择至少一张图片进行分享',
+                    [
+                        { text: '返回', style: 'cancel' },
+                    ],
+                    { cancelable: false }
+                )
+                return;
+            }
+
+            Clipboard.setString(this.props.shareText)
             ActionSheetIOS.showShareActionSheetWithOptions({
                 url: urlMap
             }, () => {
-
-            }, () => {                                                              
-                console.log('分享成功')
+                this.setState({
+                    loading: false
+                })
+            }, () => {
+                this.setState({
+                    loading: false
+                })
             })
         }
     }
@@ -185,6 +201,7 @@ class DetailPage extends Component {
         return (
             <View>
                 {this.renderPopup()}
+
                 <Modal
                     visible={this.state.share}
                     animationType="slide"
@@ -209,6 +226,25 @@ class DetailPage extends Component {
                                 )
                             })}
                         </View>
+                        {this.props.shareText === '' ? null : (<View style={{ padding: 10, marginTop: 10 }}>
+                            <Text style={{ color: '#108ee9' }}>分享图片后，以下文案将自动复制到手机剪切板中</Text>
+                            <Text>{this.props.shareText}</Text>
+                        </View>)}
+                        {this.state.loading ? <View style={{ height: '100%', width: '100%', alignItems: "center", justifyContent: "center", position: 'absolute' }}>
+                            <View style={{
+                                height: 150,
+                                width: 150,
+                                backgroundColor: "white",
+                                borderRadius: 5,
+                                alignItems: "center",
+                                justifyContent: "center",
+                                borderWidth: 0.5,
+                                borderColor: "#fccca7"
+                            }}>
+                                <Spin />
+                                <Text style={{ color: '#404040' }}>{'分享准备中...'}</Text>
+                            </View>
+                        </View> : null}
                     </ScrollView>
                     <CustomTabBar
                         onPress={this.shareTabPress}
@@ -239,6 +275,7 @@ class DetailPage extends Component {
                         CarouselImage={this.props.CarouselImage}
                         contentImg={this.props.contentImg}
                         content={this.props.content}
+                        shareText={this.props.shareText}
                     />
                 </View>
                 <CustomTabBar
@@ -302,7 +339,8 @@ const mapState = (state) => {
         pt: detail.page.pt,
         content: contentSelector(detail.page.c),
         price: detail.page.ap.p,
-        price2: detail.page.ap.p2
+        price2: detail.page.ap.p2,
+        shareText: detail.page.st
     }
 }
 

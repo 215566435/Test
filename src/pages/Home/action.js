@@ -1,6 +1,7 @@
 import { call, put, take, select } from 'redux-saga/effects';
 import { Url, header, setLogin } from '../../util';
-
+import { AsyncStorage } from 'react-native';
+import { combineReducers } from 'redux';
 
 function* fetchFunc({ url, body }) {
     yield setLogin()
@@ -15,11 +16,23 @@ function* fetchFunc({ url, body }) {
 
 const actionStategy = {
     fetchHome: function* (state) {
-        console.log('获取')
         const json = yield fetchFunc({ url: Url + 'home/index', body: '' });
         yield put({
             type: 'Home_SET_STATE',
             data: { ...state, Carousel: json.data.s, goodNews: json.data.g, event: json.data.e, hotKey: json.data.h }
+        })
+
+        const Aud = yield AsyncStorage.getItem('isAud')
+        let fix = false;
+        if (Aud === 'true') {
+            fix = true;
+        } else {
+            fix = false;
+        }
+        const PriceList = yield select(p => p.PriceList)
+        yield put({
+            type: 'SET_STATE',
+            data: { ...PriceList, isAud: fix }
         })
 
     },
@@ -45,7 +58,6 @@ const actionStategy = {
         })
     },
     refreshAll: function* () {
-        console.log('刷新')
         yield put({
             type: 'fetchHome'
         })
@@ -64,7 +76,6 @@ export const watch = function* () {
         try {
             const state = yield select(state => state.Home)
             const actionFn = actionStategy[type]
-            console.log(actionFn)
             if (!actionFn) continue
             yield call(actionFn, state, others)
         } catch (e) {

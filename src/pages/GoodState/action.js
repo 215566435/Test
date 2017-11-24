@@ -114,7 +114,23 @@ const actionStategy = {
             })
         }
 
-        console.log(json)
+        yield put({
+            type: 'fetchData'
+        })
+    },
+    MarkAsSentToBuyer: function* (state) {
+        const json = yield fetchSelect({
+            url: Url + 'order/MarkAsSentToBuyer',
+            body: {
+                id: state.model.i
+            }
+        })
+    },
+    clearGoodState: function* (state) {
+        yield put({
+            type: "GoodState_SET_STATE",
+            data: { ...state, model: {} }
+        })
     }
 }
 
