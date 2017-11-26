@@ -11,6 +11,7 @@ import { watch as Activity } from './pages/Activity/action';
 import { watch as Person } from './pages/Person/action';
 import { watch as Deposite } from './pages/DepositeLog/action';
 import { watch as Password } from './pages/Password/action';
+import { watch as Login } from './pages/Login/action';
 
 import { fork, take } from 'redux-saga/effects';
 
@@ -28,6 +29,7 @@ export default function* rootSaga() {
         fork(Activity),
         fork(Person),
         fork(Deposite),
-        fork(Password)
+        fork(Password),
+        fork(Login)
     ]
 }

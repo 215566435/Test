@@ -9,7 +9,6 @@ import { connect } from 'react-redux'
 
 import ManifestPage from '../Manifest'
 import Profile from './profile'
-import LoginPage from './login'
 import Person from '../Person'
 import Address from '../Address'
 import DetailPage from '../Detail';
@@ -63,15 +62,6 @@ const mapDispatch = (dispatch) => {
 }
 
 const connected = connect(null, mapDispatch)(ProfileHOC())
-
-const Login = (props) => {
-    return (
-        <LoginPage {...props} />
-    )
-}
-Login.navigationOptions = {
-    title: '账户登陆'
-}
 
 const ProfileNavigator = StackNavigator({
     Profile: {
@@ -161,14 +151,7 @@ export default StackNavigator(
             navigationOptions: {
                 header: null
             }
-        },
-        Login: {
-            screen: Login,
-            navigationOptions: {
-                tabBarVisible: false
-            }
-        },
-
+        }
     },
     {
         mode: 'modal',

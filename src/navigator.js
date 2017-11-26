@@ -18,12 +18,12 @@ const RootTabs = TabNavigator({
     EventPage: {
         screen: EventPage,
         navigationOptions: {
-            tabBarLabel: '最新活动*',
+            tabBarLabel: '最新活动',
             tabBarIcon: ({ tintColor, focused }) => (
                 <FontAwesome
                     name='volume-up'
                     size={26}
-                    style={{ color: tintColor }}
+                    style={{ color: tintColor, backgroundColor: 'transparent' }}
                 />
             ),
         },
@@ -36,7 +36,7 @@ const RootTabs = TabNavigator({
                 <FontAwesome
                     name={focused ? 'list-alt' : 'list-alt'}
                     size={26}
-                    style={{ color: tintColor }}
+                    style={{ color: tintColor, backgroundColor: 'transparent' }}
                 />
             ),
         },
@@ -49,7 +49,7 @@ const RootTabs = TabNavigator({
                 <Ionicons
                     name={focused ? 'ios-home' : 'ios-home-outline'}
                     size={26}
-                    style={{ color: tintColor }}
+                    style={{ color: tintColor, backgroundColor: 'transparent' }}
                 />
             ),
         },
@@ -62,7 +62,7 @@ const RootTabs = TabNavigator({
                 <Ionicons
                     name='md-list-box'
                     size={26}
-                    style={{ color: tintColor }}
+                    style={{ color: tintColor, backgroundColor: 'transparent' }}
                 />
             ),
         },
@@ -75,7 +75,7 @@ const RootTabs = TabNavigator({
                 <Ionicons
                     name={focused ? 'ios-person' : 'ios-person-outline'}
                     size={26}
-                    style={{ color: tintColor }}
+                    style={{ color: tintColor, backgroundColor: 'transparent' }}
                 />
             ),
         },

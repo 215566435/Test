@@ -87,7 +87,9 @@ export class Content extends Component {
             <ScrollView style={{ height: '100%', backgroundColor: '#e9e9e9' }}>
                 <Cells style={{ padding: 20, flexDirection: 'row', justifyContent: "space-between", backgroundColor: PackStatusColor[model.PackStatus] }}>
                     <View>
-                        <Text style={{ fontSize: 18, color: 'white' }}>{model.OrderStatus === 'Paid' ? PackStatus[model.PackStatus] : '待支付'}</Text>
+                        <Text style={{ fontSize: 18, color: 'white' }}>
+                            {model.OrderStatus === 'Paid' ? PackStatus[model.PackStatus] : model.OrderStatus === 'Cancelled' ? PackStatus[model.PackStatus] : '待支付'}
+                        </Text>
                         <Text style={{ color: 'white' }}>{model.Id}</Text>
                         <Text style={{ color: 'white' }}>{time[0] + '  ' + time[1].substring(0, 5)}</Text>
                     </View>

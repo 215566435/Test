@@ -35,6 +35,7 @@ const ButtonStyle = StyleSheet.create({
     },
     title: {
         fontSize: 16,
-        color: '#fff3cf'
+        color: '#fff3cf',
+        backgroundColor: "transparent"
     }
 })

@@ -2,14 +2,15 @@
  * 2017/10/26 方正 创建
  * 本页面是用于个人登陆功能
  */
-import React from 'react'
+import React, { Component } from 'react'
 import { View, Text, TextInput, TouchableOpacity, Image, Alert, Keyboard, Modal, Switch, Picker } from 'react-native'
 import * as WeChat from 'react-native-wechat';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'; // 4.4.2
 
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
-import { Spin } from '../../components/Spin'
+import { Spin } from '../../components/Spin';
+import { SpinScreen } from '../../components/Spin'
 import { PickerView } from '../../components/Picker'
 
 import { Url, hostName } from '../../util';
@@ -24,8 +25,9 @@ const WechatButton = ({ onPress }) => {
                     name='wechat'
                     size={44}
                     color='#62b900'
+                    style={{ backgroundColor: "transparent" }}
                 />
-                <Text>微信登陆</Text>
+                <Text style={{ backgroundColor: "transparent" }}>微信登陆</Text>
             </View>
         </TouchableOpacity>
     )
@@ -33,13 +35,19 @@ const WechatButton = ({ onPress }) => {
 
 var FIRST_TIME_PRESS = true;
 
-
+/**
+ * 服务器返回的错误代码，用map来对应
+ */
 const ERR_MSG = {
     'UserName Required': '用户名必须填写',
     'Password Required': '密码必须填写',
     "Verify Required": '验证码必须填写'
 }
 
+/**
+ * 封装的alert方法
+ * @param {string} msg 
+ */
 function alert(msg) {
     Alert.alert(
         '登陆失败',
@@ -95,7 +103,7 @@ export default class LoginPage extends React.Component {
             } else {
                 alert(json.message)
                 this.setState({
-                    code:''
+                    code: ''
                 })
             }
         }
@@ -255,7 +263,10 @@ export default class LoginPage extends React.Component {
         }
     }
 
-    renderContent = () => (
+    /**
+     * 正常登陆页面
+     */
+    renderNormalLogin = () => (
         <View style={{
             height: '100%', justifyContent: 'center', transform: [
                 { translateY: 0 - this.state.keyboardHeight }
@@ -271,24 +282,13 @@ export default class LoginPage extends React.Component {
             <Button title='取消' onPress={this.cancel} style={{ backgroundColor: '#919191' }} />
             {this.state.old ? null : <WechatButton onPress={this.wxChat} />}
 
-            {this.state.loading ? <View style={{ height: '100%', width: '100%', alignItems: "center", justifyContent: "center", position: 'absolute' }}>
-                <View style={{
-                    height: 150,
-                    width: 150,
-                    backgroundColor: "white",
-                    borderRadius: 5,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderWidth: 0.5,
-                    borderColor: "#fccca7"
-                }}>
-                    <Spin />
-                    <Text style={{ color: '#404040' }}>{'登陆中...'}</Text>
-                </View>
-            </View> : null}
+            {this.state.loading ? <SpinScreen text={'登陆中...'} /> : null}
 
         </View>
     )
+    /**
+     * 用户微信登陆的绑定界面
+     */
     renderRegister = () => {
         return (
             <View style={{
@@ -319,6 +319,9 @@ export default class LoginPage extends React.Component {
             country: value
         })
     }
+    /**
+     * 这个人完全没有注册过
+     */
 
     newToAustGo = () => {
 
@@ -350,7 +353,7 @@ export default class LoginPage extends React.Component {
     render() {
 
         if (this.state.register === 0) {
-            return this.renderContent()
+            return this.renderNormalLogin()
         }
         if (this.state.register === 1) {
             return this.renderRegister()
@@ -361,6 +364,10 @@ export default class LoginPage extends React.Component {
     }
 }
 
+
+/**
+ * 验证码组件，使用time来更新
+ */
 class Code extends React.Component {
     state = {
         time: Date.now() + Math.random() * 100,
