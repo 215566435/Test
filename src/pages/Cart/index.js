@@ -41,6 +41,7 @@ const stockStatusColor = {
 
 
 const tabColor = ['white', '#f04134']
+
 class Cart extends Component {
     state = {
         isPanelShow: false,
@@ -80,10 +81,10 @@ class Cart extends Component {
         return (
             <CustomTabBar childColor={(child, index) => tabColor[index]} onPress={this.onPress} shouldUpdate={true}>
                 <View>
-                    <Text>商品总额</Text>
+                    <Text style={{ backgroundColor: "transparent" }}>商品总额</Text>
                 </View>
                 <View>
-                    <Text style={{ color: 'white' }}>{`结算(${(this.props.isAud ? '$' : "¥") + total})`}</Text>
+                    <Text style={{ color: 'white', backgroundColor: "transparent" }}>{`结算(${(this.props.isAud ? '$' : "¥") + total})`}</Text>
                 </View>
             </CustomTabBar>
         )
@@ -121,10 +122,10 @@ class Cart extends Component {
                         }}
                     />
                     <View style={{ width: '65%' }}>
-                        <Text style={{ padding: 10 }} adjustsFontSizeToFit numberOfLines={4}>{item.name}</Text>
-                        <Text style={{ padding: 10, color: stockStatusColor[item.status] }} adjustsFontSizeToFit numberOfLines={4}>{stockStatus[item.status]}</Text>
+                        <Text style={{ padding: 10, backgroundColor: "transparent" }} adjustsFontSizeToFit numberOfLines={4}>{item.name}</Text>
+                        <Text style={{ padding: 10, backgroundColor: "transparent", color: stockStatusColor[item.status] }} adjustsFontSizeToFit numberOfLines={4}>{stockStatus[item.status]}</Text>
                         <View style={{ flexDirection: 'row', paddingLeft: 10, alignItems: 'center' }}>
-                            <Text style={{ marginRight: 10, fontSize: 13, color: '#f78e3d' }}>{Price}</Text>
+                            <Text style={{ marginRight: 10, fontSize: 13, color: '#f78e3d', backgroundColor: "transparent" }}>{Price}</Text>
                             <Stepper tintColor="#f46e65" value={item.qty} onChange={(value) => this.modifyItem(value, item.id)} />
                         </View>
                     </View>
@@ -141,7 +142,8 @@ class Cart extends Component {
                     <Text
                         style={{
                             fontSize: 18,
-                            color: '#fff3cf'
+                            color: '#fff3cf',
+                            backgroundColor: "transparent"
                         }}
                     >
                         删除

@@ -210,7 +210,7 @@ export default class Address extends Component {
 
 
     renderAddress = () => {
-        if (this.state.address === null) return null;
+        if (!this.state.address) return null;
         const address = this.state.address.filter((addr) => {
             if (addr.n !== null) {
                 return addr
@@ -219,7 +219,8 @@ export default class Address extends Component {
         })
         return (
             <View style={{ height: height - 44 - 25 - 25 }}>
-                <FlatList
+
+                {this.state.address.length !== 0 ? <FlatList
                     style={{ zIndex: -10 }}
                     data={address}
                     renderItem={this.renderAddressItem}
@@ -227,7 +228,10 @@ export default class Address extends Component {
                     initialNumToRender={6}
                     keyExtractor={this._keyExtractor}
                     onEndReachedThreshold={0.1}
-                />
+                /> : <View style={{ height: "91%", justifyContent: "center", alignItems: "center" }}>
+                        <Text style={{ fontSize: 20, backgroundColor: "transparent", color: '#919191' }}>暂无</Text>
+                    </View>
+                }
                 <CustomTabBar childColor={() => '#f46e65'} onPress={this.onAddAddress}>
                     <Text style={{ color: 'white' }}>新增地址</Text>
                 </CustomTabBar>

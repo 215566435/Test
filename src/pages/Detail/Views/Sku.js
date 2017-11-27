@@ -12,7 +12,7 @@ export class Sku extends Component {
         return (
             <TouchableOpacity onPress={onPress}>
                 <View style={{ marginTop: 2, flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'white', paddingVertical: 15, paddingHorizontal: 10 }}>
-                    <Text style={{ color: '#f04134' }}>查看库存和型号</Text>
+                    <Text style={{ color: '#f04134', backgroundColor: "transparent" }}>查看库存和型号</Text>
                     <View
                         style={{
                             borderRightWidth: 2,

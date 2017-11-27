@@ -30,14 +30,14 @@ export class MyAddress extends Component {
         return (
             <View style={{ padding: 20, backgroundColor: 'white', marginBottom: 4, borderBottomWidth: 0.5, borderBottomColor: '#d9d9d9' }}>
                 <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
-                    <Text style={{ color: '#5a5a5a' }}>{type + '：'}{this.props.name}</Text>
-                    <Text style={{ color: '#5a5a5a' }}>{this.props.phone}</Text>
+                    <Text style={{ color: '#5a5a5a', backgroundColor: "transparent" }}>{type + '：'}{this.props.name}</Text>
+                    <Text style={{ color: '#5a5a5a', backgroundColor: "transparent" }}>{this.props.phone}</Text>
                 </View>
-                <Text numberOfLines={4} style={{ color: '#5a5a5a' }}>{this.props.address}</Text>
+                <Text numberOfLines={4} style={{ color: '#5a5a5a', backgroundColor: "transparent" }}>{this.props.address}</Text>
                 <View style={{ flexDirection: 'row', marginTop: 20, alignItems: 'center' }}>
                     <Icon title='编辑' name='edit' onPress={onEdit} />
                     <Icon title='删除' name='bitbucket' onPress={this.onDelete} />
-                    <Text>{this.props.default ? '默认收件人' : null}</Text>
+                    <Text style={{ backgroundColor: "transparent" }}>{this.props.default ? '默认收件人' : null}</Text>
                 </View>
             </View>
         )
@@ -58,8 +58,8 @@ class Icon extends Component {
                     alignItems: 'center'
                 }}
             >
-                <FontAwesome name={name} size={20} color={'#5a5a5a'} />
-                <Text style={{ color: '#919191' }}>{title}</Text>
+                <FontAwesome name={name} size={20} color={'#5a5a5a'} style={{ backgroundColor: "transparent" }} />
+                <Text style={{ color: '#919191', backgroundColor: "transparent" }}>{title}</Text>
             </TouchableOpacity>
         )
     }

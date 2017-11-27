@@ -5,6 +5,7 @@ import SplashScreen from 'react-native-splash-screen'
 
 class App extends React.Component {
   componentDidMount() {
+    SplashScreen.hide();
     codePush.sync({
       deploymentKey: 'KpO0hcjaOTrc4XwWYqOfE9yk560m9753d84a-48fc-4420-83eb-7d61a334bad6',
     }, (status) => {

@@ -27,13 +27,13 @@ export class Bref extends Component {
         const bref = (
             <View style={{ backgroundColor: 'white', padding: 10, marginTop: 2 }} onPress={this.copy}>
                 {shareText !== '' ? <TouchableOpacity onPress={this.copy}>
-                    <Text style={{ color: "#108ee9" }}>分享文案(点击复制到剪切板)：</Text>
-                    <Text style={{ marginBottom: 15 }}>{shareText}</Text>
+                    <Text style={{ color: "#108ee9", backgroundColor: "transparent" }}>分享文案(点击复制到剪切板)：</Text>
+                    <Text style={{ marginBottom: 15, backgroundColor: "transparent" }}>{shareText}</Text>
                 </TouchableOpacity> : null}
 
-                <Text>{length > 3 ? '描述\n' : ''}{'\n' + content}</Text>
+                <Text style={{ backgroundColor: "transparent" }}>{length > 3 ? '描述\n' : ''}{'\n' + content}</Text>
             </View>
         )
-        return length > 3 ? bref : <Text style={{ padding: 10, backgroundColor: "white" }}>分享文案：暂无</Text>;
+        return length > 3 ? bref : <Text style={{ padding: 10, backgroundColor: "white", backgroundColor: "transparent" }}>分享文案：暂无</Text>;
     }
 }

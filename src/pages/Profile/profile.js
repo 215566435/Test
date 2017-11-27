@@ -16,16 +16,46 @@ import Entypo from 'react-native-vector-icons/Entypo';
 
 import LoginPage from '../Login'
 
-import { header } from '../../util'
+import { header, Url } from '../../util'
 import { ModalWrapper } from '../../HOC/ModalWrapper'
 
 const { width, height } = Dimensions.get('window')
 
 const Login = ModalWrapper(LoginPage);
+
+
+
 export default class Profile extends React.Component {
     state = {
         isLogined: true,
-        userName: ''
+        userName: '',
+        userBalence: {
+            aud: '',
+            rmb: ''
+        }
+    }
+
+    fetchBalance = () => {
+        (async (that) => {
+            const res = await fetch(Url + 'user/GetDepositBalance', {
+                method: 'POST',
+                headers: header.get(),
+                body: "{}"
+            })
+
+            const json = await res.json()
+            that.setState({
+                userBalence: {
+                    aud: json.data[1],
+                    rmb: json.data[0]
+                }
+            })
+
+        })(this)
+    }
+
+    componentDidMount() {
+        this.fetchBalance()
     }
 
     /**
@@ -47,6 +77,9 @@ export default class Profile extends React.Component {
                             AsyncStorage.removeItem('token')
                                 .then((res) => {
                                     this.checkLogin()
+                                    this.setState({
+                                        userBalence: ""
+                                    })
                                 })
                                 .catch((res) => {
                                     //出错
@@ -68,7 +101,11 @@ export default class Profile extends React.Component {
                 if (res[0][1] === null) {
                     this.setState({
                         isLogined: false,
-                        userName: ''
+                        userName: '',
+                        userBalence: {
+                            aud: '',
+                            rmb: ''
+                        }
                     })
                 } else {
                     header.set(res[0][1])
@@ -83,9 +120,11 @@ export default class Profile extends React.Component {
             })
     }
     onLogin = (personInformation) => {
-        if (personInformation.success === true) {
-            header.set(personInformation.data.token)
 
+        if (personInformation.success === true) {
+
+
+            header.set(personInformation.data.token)
             AsyncStorage.multiSet([
                 ['token', personInformation.data.token],
                 ['name', personInformation.data.name]
@@ -96,6 +135,7 @@ export default class Profile extends React.Component {
                         isLogined: true
                     })
                     this.props.refreshAll()
+                    this.fetchBalance()
                 })
                 .catch((res) => {
                     //登陆失败
@@ -110,7 +150,7 @@ export default class Profile extends React.Component {
     render() {
         return (
             <ScrollView style={headStyle.container}>
-                <Head userName={this.state.userName} />
+                <Head userName={this.state.userName} userBalence={this.state.userBalence} />
                 <GridBody GridItemClick={this.onGridItemClick} />
                 <Login visible={!this.state.isLogined} login={this.onLogin} loginCancel={this.loginCancel} />
             </ScrollView>
@@ -161,10 +201,21 @@ class Head extends React.Component {
 
     shouldComponentUpdate(nextProps) {
 
-        return nextProps.userName !== this.props.userName
+        return nextProps.userName !== this.props.userName ||
+            nextProps.userBalence !== this.props.userBalence
     }
+
+    renderBalance = () => {
+        const { userBalence } = this.props;
+        if (userBalence.rmb === '' && userBalence.aud === '') {
+            return '预存款：0'
+        } else {
+            return `预存款：${userBalence.rmb}，${userBalence.aud}`
+        }
+    }
+
     render() {
-        const { userName } = this.props;
+        const { userName, userBalence } = this.props;
         return (
             <View style={headStyle.head}>
                 <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -173,6 +224,8 @@ class Head extends React.Component {
                         source={{ uri: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509577007&di=91baca655f3d432af3a0586dbfc5e834&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01e50a55bee3b66ac7253f361e874b.jpg' }}
                     />
                     <Text style={{ margin: 8, color: '#fff3cf', backgroundColor: 'transparent' }}>欢迎您，{userName}</Text>
+                    <Text style={{ margin: 8, color: '#fff3cf', backgroundColor: 'transparent' }}>{this.renderBalance()}</Text>
+                    <Text style={{ margin: 8, color: '#fff3cf', backgroundColor: 'transparent' }}></Text>
                 </View>
             </View>
         )

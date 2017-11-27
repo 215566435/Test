@@ -55,14 +55,17 @@ export class Stepper extends Component {
                     <Entypo
                         name="minus"
                         color='#919191'
-                        size={27} />
+                        size={27}
+                        style={{ backgroundColor: "transparent" }}
+                    />
                 </TouchableOpacity>
                 <Text
                     style={{
                         width: 40,
                         padding: 5,
                         backgroundColor: tintColor,
-                        textAlign: "center"
+                        textAlign: "center",
+                        backgroundColor: "transparent"
                     }}
                 >
                     {this.state.value + ''}
@@ -75,7 +78,7 @@ export class Stepper extends Component {
                         alignItems: 'center',
                         backgroundColor: '#f5f5f5'
                     }}>
-                    <Entypo name="plus" color='#919191' size={27} />
+                    <Entypo name="plus" color='#919191' size={27} style={{ backgroundColor: "transparent" }} />
                 </TouchableOpacity>
             </View>
         )

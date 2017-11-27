@@ -87,7 +87,7 @@ class CateItem extends Component {
                 }}
                 onPress={onPress}
             >
-                <Text style={{ fontSize: 12 }}>{name}</Text>
+                <Text style={{ fontSize: 12, backgroundColor: "transparent" }}>{name}</Text>
             </TouchableOpacity>
         )
     }

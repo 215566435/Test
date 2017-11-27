@@ -165,11 +165,11 @@ class DetailPage extends Component {
         const PopupTabBar = () => (
             <View>
                 <CustomTabBar disable={true} childColor={() => ('white')} onPress={this.PopupTabBarPress}>
-                    <View><Text>购买数量</Text></View>
+                    <View><Text style={{ backgroundColor: "transparent" }}>购买数量</Text></View>
                     <Stepper onChange={this.onPopChange} />
                 </CustomTabBar>
                 <CustomTabBar childColor={this.childColor} onPress={this.PopupTabBarPress}>
-                    <View><Text>返回</Text></View>
+                    <View><Text style={{ backgroundColor: "transparent" }}>返回</Text></View>
                     <View><Text style={{ color: 'white' }}>加入购物车</Text></View>
                 </CustomTabBar>
             </View>
@@ -201,7 +201,6 @@ class DetailPage extends Component {
         return (
             <View>
                 {this.renderPopup()}
-
                 <Modal
                     visible={this.state.share}
                     animationType="slide"
@@ -227,8 +226,8 @@ class DetailPage extends Component {
                             })}
                         </View>
                         {this.props.shareText === '' ? null : (<View style={{ padding: 10, marginTop: 10 }}>
-                            <Text style={{ color: '#108ee9' }}>分享图片后，以下文案将自动复制到手机剪切板中</Text>
-                            <Text>{this.props.shareText}</Text>
+                            <Text style={{ color: '#108ee9', backgroundColor: "transparent" }}>分享图片后，以下文案将自动复制到手机剪切板中</Text>
+                            <Text style={{ backgroundColor: "transparent" }}>{this.props.shareText}</Text>
                         </View>)}
                         {this.state.loading ? <View style={{ height: '100%', width: '100%', alignItems: "center", justifyContent: "center", position: 'absolute' }}>
                             <View style={{
@@ -254,8 +253,8 @@ class DetailPage extends Component {
                         }}
                         shouldUpdate={true}
                     >
-                        <Text>返回</Text>
-                        <Text style={{ color: "white" }}>分享</Text>
+                        <Text style={{ backgroundColor: "transparent" }}>返回</Text>
+                        <Text style={{ color: "white", backgroundColor: "transparent" }}>分享</Text>
 
                     </CustomTabBar>
                 </Modal>
@@ -282,8 +281,8 @@ class DetailPage extends Component {
                     childColor={(child, index) => color[index]}
                     onPress={this.tabOnPress}
                 >
-                    <Ionicons name='ios-arrow-dropleft-outline' size={34} />
-                    {btns.map((btn, index) => <Text key={index} style={{ color: 'white' }}>{btn}</Text>)}
+                    <Ionicons name='ios-arrow-dropleft-outline' size={34} style={{ backgroundColor: "transparent" }} />
+                    {btns.map((btn, index) => <Text key={index} style={{ color: 'white', backgroundColor: "transparent" }}>{btn}</Text>)}
                 </CustomTabBar>
             </View>
         )

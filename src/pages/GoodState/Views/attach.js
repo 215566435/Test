@@ -118,7 +118,6 @@ export class Attach extends Component {
                     <ScrollView >
                         <View style={{ flexDirection: 'row', flexWrap: "wrap" }}>
                             {this.state.images.map((img) => {
-                                console.log(img)
                                 return (
                                     <TouchableOpacity onPress={() => this.choose(img)} key={img.id}>
                                         <Image
@@ -149,12 +148,12 @@ export class Attach extends Component {
                         borderColor: "#fccca7"
                     }}>
                         <Spin />
-                        <Text style={{ color: '#404040' }}>{'图片准备中...'}</Text>
+                        <Text style={{ color: '#404040', backgroundColor: "transparent" }}>{'图片准备中...'}</Text>
                     </View>
                 </View> : null}
                 <CustomTabBar onPress={this.onTabBarPress}>
-                    <Text>返回</Text>
-                    <Text>发给客户</Text>
+                    <Text style={{ backgroundColor: "transparent" }}>返回</Text>
+                    <Text style={{ backgroundColor: "transparent" }}>发给客户</Text>
                 </CustomTabBar>
             </View>
         )

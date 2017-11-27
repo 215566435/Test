@@ -20,7 +20,8 @@ export class Title extends Component {
             >
                 <Text
                     style={{
-                        fontSize: 16
+                        fontSize: 16,
+                        backgroundColor: "transparent"
                     }}
                 >
                     {title}

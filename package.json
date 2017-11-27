@@ -18,6 +18,8 @@
     "upgrade": "react-native upgrade",
     "build": "./publish.sh",
     "look": "code-push deployment ls aust-go -k",
+    "looka": "code-push deployment ls austgo-android -k",
+    "builda": "react-native bundle --platform android --entry-file index.android.js --bundle-output ./bundles/index.android.bundle --assets-dest ./bundles/ --dev false",
     "flow": "flow"
   },
   "jest": {

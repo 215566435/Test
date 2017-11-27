@@ -20,8 +20,8 @@ export class Log extends Component {
 
             return (
                 <Cells key={item.i} style={{ backgroundColor: 'white' }}>
-                    <Text>{item.c}</Text>
-                    <Text style={{ color: '#bfbfbf' }}>{`${time[0]}   ${time[1].substring(0, 8)}`}</Text>
+                    <Text style={{ backgroundColor: "transparent" }}>{item.c}</Text>
+                    <Text style={{ color: '#bfbfbf', backgroundColor: "transparent" }}>{`${time[0]}   ${time[1].substring(0, 8)}`}</Text>
                 </Cells>
             )
         })
@@ -39,7 +39,7 @@ export class Log extends Component {
                     </ScrollView>
                 </View>
                 <CustomTabBar onPress={Return}>
-                    <Text>返回</Text>
+                    <Text style={{ backgroundColor: "transparent" }}>返回</Text>
                 </CustomTabBar>
             </View>
         )

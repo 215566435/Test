@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView, FlatList, Dimensions, ImageBackground } from 'react-native';
 
-import { Spin } from '../../../components/Spin';
+import { Spin, SpinScreen } from '../../../components/Spin';
 
 
 
@@ -26,22 +26,22 @@ export class Body extends Component {
         return (
             <View style={{ borderBottomColor: '#e9e9e9', borderBottomWidth: 0.5, marginTop: 10, flexDirection: 'row', justifyContent: "space-between", padding: 10 }}>
                 <View >
-                    {item.content ? <Text>{item.content}</Text> : <Text>{item.type}</Text>}
+                    {item.content ? <Text style={{ backgroundColor: "transparent" }}>{item.content}</Text> : <Text>{item.type}</Text>}
                     <View style={{ flexDirection: "row" }}>
-                        <Text style={{ color: '#919191' }}>{item.date}</Text>
-                        <Text style={{ marginLeft: 15, color: "#919191" }}>{item.time}</Text>
+                        <Text style={{ color: '#919191', backgroundColor: "transparent" }}>{item.date}</Text>
+                        <Text style={{ marginLeft: 15, color: "#919191", backgroundColor: "transparent" }}>{item.time}</Text>
                     </View>
                 </View>
-                <Text style={{ color: item.depositChange > 0 ? '#00a854' : '#404040', fontSize: 18 }}>{item.depositChangeStr}</Text>
+                <Text style={{ color: item.depositChange > 0 ? '#00a854' : '#404040', fontSize: 18, backgroundColor: "transparent" }}>{item.depositChangeStr}</Text>
             </View>
         )
     }
     _keyExtractor = (item) => item.id
-    
+
     render() {
         const { Deposite } = this.props;
 
-        if (!Deposite) return <Spin />
+        if (!Deposite) return <SpinScreen />
         return (
             <FlatList
                 data={Deposite}

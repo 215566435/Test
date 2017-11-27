@@ -98,7 +98,7 @@ export const PackStatus = {
     WaitingForProcess: '待处理',
     Default: '未生效',
     Pending: '配货中',
-    ReadyToShip: '代发走',
+    ReadyToShip: '待发走',
     ReadyToPickup: '待提货',
     Shipped: '已发货',
     Picked: '已提走'

@@ -90,6 +90,7 @@ const actionStategy = {
         const res = yield AsyncStorage.multiGet(['Receiver', 'Sender'])
         const returnWithAddress = res[0][1] ? false : true;
         console.log(returnWithAddress)
+
         const json = yield modifyItems({
             url: Url + 'cart/ListSummary',
             body: {

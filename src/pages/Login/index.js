@@ -13,6 +13,9 @@ import { Spin } from '../../components/Spin';
 import { SpinScreen } from '../../components/Spin'
 import { PickerView } from '../../components/Picker'
 
+
+import NormalLogin from './Views/NormalLogin'
+
 import { Url, hostName } from '../../util';
 
 
@@ -314,7 +317,7 @@ export default class LoginPage extends React.Component {
         })
     }
     onTypeChange = (value) => {
-        console.log(value)
+
         this.setState({
             country: value
         })

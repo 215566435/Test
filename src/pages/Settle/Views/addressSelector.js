@@ -93,11 +93,11 @@ export class AddressSelector extends Component {
             <ScrollView pagingEnabled horizontal showsHorizontalScrollIndicator={false} bounces={false}>
                 <ContentText value={value} type={type} containerHeight={containerHeight} />
                 <TouchableOpacity onPress={this.onPress} style={{ width: 70, height: containerHeight, backgroundColor: '#948aec' }} >
-                    <View style={{ alignItems: "center", justifyContent: 'center', flex: 1 }}><Text style={{ fontSize: 15, color: 'white' }}>选取</Text></View>
+                    <View style={{ alignItems: "center", justifyContent: 'center', flex: 1 }}><Text style={{ fontSize: 15, color: 'white', backgroundColor: "transparent" }}>选取</Text></View>
                 </TouchableOpacity>
                 {value.n ?
                     <TouchableOpacity onPress={this.onEdit} style={{ width: 70, height: containerHeight, backgroundColor: '#f78e3d' }} >
-                        <View style={{ alignItems: "center", justifyContent: 'center', flex: 1 }}><Text style={{ fontSize: 15, color: 'white' }}>编辑</Text></View>
+                        <View style={{ alignItems: "center", justifyContent: 'center', flex: 1 }}><Text style={{ fontSize: 15, color: 'white', backgroundColor: "transparent" }}>编辑</Text></View>
                     </TouchableOpacity>
                     :
                     null
@@ -137,13 +137,13 @@ class ContentText extends Component {
                     width: width
                 }}
             >
-                <Text>{typeString}</Text>
+                <Text style={{ backgroundColor: "transparent" }}>{typeString}</Text>
                 <View style={{ marginLeft: 20 }}>
-                    <Text numberOfLines={4} style={{ color: '#bfbfbf' }}>{value.n ? null : `向左滑动选取或编辑${typeString}`}</Text>
-                    <Text numberOfLines={4}  >{value.n ? '名字：' + value.n : null}</Text>
-                    <Text numberOfLines={4}  >{value.p ? '电话：' + value.p : null}</Text>
-                    <Text numberOfLines={4}  >{value.i ? '身份证：' + value.i : null}</Text>
-                    <Text numberOfLines={4} style={{ width: 230 }}>{value ? value.a : null}</Text>
+                    <Text numberOfLines={4} style={{ color: '#bfbfbf', backgroundColor: "transparent" }}>{value.n ? null : `向左滑动选取或编辑${typeString}`}</Text>
+                    <Text numberOfLines={4} style={{ backgroundColor: "transparent" }} >{value.n ? '名字：' + value.n : null}</Text>
+                    <Text numberOfLines={4} style={{ backgroundColor: "transparent" }} >{value.p ? '电话：' + value.p : null}</Text>
+                    <Text numberOfLines={4} style={{ backgroundColor: "transparent" }} >{value.i ? '身份证：' + value.i : null}</Text>
+                    <Text numberOfLines={4} style={{ width: 230, backgroundColor: "transparent" }}>{value ? value.a : null}</Text>
                 </View>
             </View>
         )
@@ -282,7 +282,7 @@ class AddressPicker extends Component {
                 />
                 <CustomTabBar childColor={() => '#f7f7f7'} onPress={this.goBack}>
                     <View>
-                        <Text>返回</Text>
+                        <Text style={{ backgroundColor: "transparent" }}>返回</Text>
                     </View>
                 </CustomTabBar>
             </View>
@@ -306,11 +306,11 @@ class AddrItem extends React.Component {
                 onPress={() => this.props.onItemPress(item)}
             >
                 <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
-                    <Text>{item.n}</Text>
-                    <Text>{item.p}</Text>
+                    <Text style={{ backgroundColor: "transparent" }}>{item.n}</Text>
+                    <Text style={{ backgroundColor: "transparent" }}>{item.p}</Text>
                 </View>
                 <View style={{ marginTop: 10 }}>
-                    <Text>{item.a}</Text>
+                    <Text style={{ backgroundColor: "transparent" }}>{item.a}</Text>
                 </View>
             </TouchableOpacity>
         )

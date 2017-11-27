@@ -40,7 +40,7 @@ export class SearchBar extends React.Component {
         return (
             <View style={{ marginLeft: 8, borderRadius: 5, flexDirection: 'row', backgroundColor: backgroundColor, height: 30, width: '70%', alignItems: 'center' }}>
                 <View style={{ marginLeft: 8, flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Ionicons name='ios-search-outline' size={18} color={searchColor} />
+                    <Ionicons name='ios-search-outline' size={18} color={searchColor} style={{ backgroundColor: "transparent" }} />
                     <TextInput
                         returnKeyType='search'
                         placeholder={placeholder}
@@ -51,7 +51,7 @@ export class SearchBar extends React.Component {
                         onFocus={this.props.onFocus}
                         autoFocus={autoFocus}
                     />
-                    <Ionicons onPress={this.onDelete} name='ios-close-circle' size={18} color={searchColor} style={{ opacity: fixDeleteBtnVisiable }} />
+                    <Ionicons onPress={this.onDelete} name='ios-close-circle' size={18} color={searchColor} style={{ opacity: fixDeleteBtnVisiable, backgroundColor: "transparent" }} />
                 </View>
             </View>
         )

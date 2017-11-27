@@ -34,6 +34,7 @@ const ProfileHOC = () => {
         }
         onTabPress({ route, index }, jump) {
             this.refs.Profile.checkLogin()
+            this.refs.Profile.fetchBalance()
             jump(index)
         }
         render() {

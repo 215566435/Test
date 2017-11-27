@@ -90,7 +90,7 @@ class Code extends React.Component {
                         resizeMode='contain'
                     />)
                         : null}
-                    <Text>点击刷新</Text>
+                    <Text style={{ backgroundColor: "transparent" }}>点击刷新</Text>
                 </TouchableOpacity>
             </View>
         )

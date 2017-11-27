@@ -102,14 +102,14 @@ export default class Settle extends Component {
     renderTabBar = () => (
         <CustomTabBar childColor={(child, index) => tabColor[index]} onPress={this.onPress} shouldUpdate={true}>
             <View>
-                <Text>返回</Text>
+                <Text style={{ backgroundColor: "transparent" }}>返回</Text>
             </View>
             <View>
-                <Text style={{ fontSize: 12 }}>商品总额:{this.state.origin}</Text>
-                <Text style={{ fontSize: 12 }}>订单总额:{this.state.total}</Text>
+                <Text style={{ fontSize: 12, backgroundColor: "transparent" }}>商品总额:{this.state.origin}</Text>
+                <Text style={{ fontSize: 12, backgroundColor: "transparent" }}>订单总额:{this.state.total}</Text>
             </View>
             <View>
-                <Text style={{ color: 'white' }}>提交订单</Text>
+                <Text style={{ color: 'white', backgroundColor: "transparent" }}>提交订单</Text>
             </View>
         </CustomTabBar>
     )
@@ -222,7 +222,7 @@ export default class Settle extends Component {
                 <Picker.Item label="现场打包" value="现场打包" />
             </PickerView>
             {this.state.isSelf ?
-                <Text style={{ textAlign: 'center', marginTop: 20, fontSize: 20, color: '#f46e65' }}>
+                <Text style={{ textAlign: 'center', marginTop: 20, fontSize: 20, color: '#f46e65', backgroundColor: "transparent" }}>
                     请到仓库现场自己提货
                 </Text> :
                 (
@@ -232,14 +232,14 @@ export default class Settle extends Component {
                         </PickerView>
                         {this.state.deliveryFee === 0 ? null :
                             (<View style={{ paddingLeft: 15, height: 40, flexDirection: "row", alignItems: "center", borderBottomWidth: 0.5, borderBottomColor: "#e9e9e9" }}>
-                                <Text>快递费</Text>
-                                <Text style={{ marginLeft: 30 }}>{(this.state.currency === 'RMB' ? '¥' : '$') + this.state.deliveryFee}</Text>
+                                <Text style={{ backgroundColor: "transparent" }}>快递费</Text>
+                                <Text style={{ marginLeft: 30, backgroundColor: "transparent" }}>{(this.state.currency === 'RMB' ? '¥' : '$') + this.state.deliveryFee}</Text>
                             </View>)
                         }
                         {this.state.otherFee === 0 ? null :
                             (<View style={{ paddingLeft: 15, height: 40, flexDirection: "row", alignItems: "center", borderBottomWidth: 0.5, borderBottomColor: "#e9e9e9" }}>
-                                <Text>代发税费</Text>
-                                <Text style={{ marginLeft: 30 }}>{(this.state.currency === 'RMB' ? '¥' : '$') + this.state.otherFee}</Text>
+                                <Text style={{ backgroundColor: "transparent" }}>代发税费</Text>
+                                <Text style={{ marginLeft: 30, backgroundColor: "transparent" }}>{(this.state.currency === 'RMB' ? '¥' : '$') + this.state.otherFee}</Text>
                             </View>)
                         }
                         {this.state.insuranceRate === 0 ? null : (
@@ -260,7 +260,7 @@ export default class Settle extends Component {
                                     :
                                     <View style={{ height: 20, width: 20, borderRadius: 10, borderWidth: 1 }} />
                                 }
-                                <Text style={{ color: this.state.buyInsurance ? '#108EE9' : 'black' }}>
+                                <Text style={{ color: this.state.buyInsurance ? '#108EE9' : 'black', backgroundColor: "transparent" }}>
                                     {this.state.buyInsurance ? `购买保险(已购买:${this.state.insuranceRate}%,${(this.state.currency === 'RMB' ? '¥' : '$') + this.state.insuranceFee})` : `购买保险(费用:${this.state.insuranceRate}%,${(this.state.currency === 'RMB' ? '¥' : '$') + this.state.insuranceFee})`}
                                 </Text>
                             </TouchableOpacity>
@@ -295,7 +295,7 @@ export default class Settle extends Component {
                             borderColor: "#fccca7"
                         }}>
                             <Spin />
-                            <Text style={{ color: '#404040' }}>{'请稍后...'}</Text>
+                            <Text style={{ color: '#404040', backgroundColor: "transparent" }}>{'请稍后...'}</Text>
                         </View>
                     </View>) : null}
             </View>

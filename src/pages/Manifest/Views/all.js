@@ -55,12 +55,19 @@ export class All extends Component {
         title: '我的订单'
     }
     componentWillReceiveProps(next) {
-        console.log(next.list)
     }
 
     _keyExtractor = (child, index) => child.i
     renderItem = (child, index) => (<OrderItem child={child} onPress={() => this.props.onPress(child.item)} />)
     render() {
+
+        if (this.props.list && this.props.list.length === 0) {
+            return (
+                <View style={{ height: '70%', justifyContent: "center", alignItems: "center" }}>
+                    <Text style={{ fontSize: 20, backgroundColor: "transparent", color: '#919191' }}>暂无</Text>
+                </View>
+            )
+        }
         return (
             <FlatList
                 style={{ height: height - 104, backgroundColor: 'white' }}
@@ -83,21 +90,21 @@ class OrderItem extends Component {
             const url = 'http://cdn2u.com' + item.im + `?width=${250}` + `&height=${250}` + `&constrain=${true}` + `&bgcolor=white`;
             return (
                 <View key={item.i} style={{ flexDirection: 'row', width: '100%', marginTop: 5, alignItems: 'center', paddingHorizontal: 5 }}>
-                    <View style={{ height: 100, width: 100, borderWidth: 0.5, alignItems: "center", justifyContent: "center", borderColor: "#bfbfbf" }}>
+                    <View style={{ height: 100, width: 100, borderWidth: 0.5, alignItems: "center", justifyContent: "center", borderColor: "#bfbfbf", backgroundColor: "transparent" }}>
                         <Image
                             source={{ uri: url }}
                             style={{ height: 90, width: 90 }}
                         />
                     </View>
                     <View style={{ width: '70%', padding: 10 }}>
-                        <Text >{item.sn}</Text>
+                        <Text style={{ backgroundColor: "transparent" }} >{item.sn}</Text>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
-                            <Text style={{ color: '#f56a00', fontSize: 18 }}>{item.c === 'RMB' ? "¥" : "$"}{item.i}</Text>
-                            <Text style={{ color: '#bfbfbf' }}>{stockState[item.ss]}</Text>
+                            <Text style={{ color: '#f56a00', fontSize: 18, backgroundColor: "transparent" }}>{item.c === 'RMB' ? "¥" : "$"}{item.i}</Text>
+                            <Text style={{ color: '#bfbfbf', backgroundColor: "transparent" }}>{stockState[item.ss]}</Text>
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={{ color: itemStateColor[item.s] }}>{itemState[item.s]}</Text>
-                            <Text>数量:{item.q}</Text>
+                            <Text style={{ color: itemStateColor[item.s], backgroundColor: "transparent" }}>{itemState[item.s]}</Text>
+                            <Text style={{ backgroundColor: "transparent" }}>数量:{item.q}</Text>
                         </View>
                     </View>
                 </View>
@@ -110,7 +117,6 @@ class OrderItem extends Component {
         const { child, onPress } = this.props;
         const item = child.item;
         const time = item.t.split('T')
-        console.log(item)
         return (
             <View style={{ borderBottomWidth: 5, borderBottomColor: '#f7f7f7' }}>
                 <TouchableOpacity onPress={onPress}>
@@ -118,16 +124,16 @@ class OrderItem extends Component {
                         <View style={{ padding: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                             <View>
                                 <View style={{ flexDirection: 'row' }}>
-                                    <Text>{item.i}</Text>
-                                    <Text style={{ marginLeft: 10, fontSize: 13 }}>{item.pc > 1 ? `子订单:${item.si + 1}/${item.pc}` : null}</Text>
+                                    <Text style={{ backgroundColor: "transparent" }}>{item.i}</Text>
+                                    <Text style={{ marginLeft: 10, fontSize: 13, backgroundColor: "transparent" }}>{item.pc > 1 ? `子订单:${item.si + 1}/${item.pc}` : null}</Text>
                                 </View>
-                                <Text style={{ fontSize: 10, color: '#bfbfbf' }}>{time[0]}  {time[1].substring(0, 5)}</Text>
+                                <Text style={{ fontSize: 10, color: '#bfbfbf', backgroundColor: "transparent" }}>{time[0]}  {time[1].substring(0, 5)}</Text>
                             </View>
                             <View>
-                                <Text>{item.r}</Text>
-                                <Text style={{ fontSize: 10, color: '#5a5a5a' }}>{item.u ? '现场打包' : '仓库代发'}</Text>
+                                <Text style={{ backgroundColor: "transparent" }}>{item.r}</Text>
+                                <Text style={{ fontSize: 10, color: '#5a5a5a', backgroundColor: "transparent" }}>{item.u ? '现场打包' : '仓库代发'}</Text>
                             </View>
-                            <Text style={{ color: orderColor[item.o] }}>{orderState[item.o]}</Text>
+                            <Text style={{ color: orderColor[item.o], backgroundColor: "transparent" }}>{orderState[item.o]}</Text>
                         </View>
                     </View>
                     {this.getGoods()}

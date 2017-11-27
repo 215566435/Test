@@ -167,7 +167,9 @@ class PriceListHeader extends React.Component {
                 <PageHeader style={{ backgroundColor: '#f46e65' }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: "center", top: Platform.OS === 'ios' ? 10 : 0 }}>
                         <SearchBar placeholder='搜索报价' onEndEditing={this.props.onEndEditing} />
-                        <TouchableOpacity style={{ right: 4, width: 40 }} onPress={onPress}><SimpleLineIcons name='options' size={26} color='#fcdbd9' /></TouchableOpacity>
+                        <TouchableOpacity style={{ right: 4, width: 40 }} onPress={onPress}>
+                            <SimpleLineIcons name='options' size={26} color='#fcdbd9' style={{ backgroundColor: "transparent" }} />
+                        </TouchableOpacity>
                     </View>
                 </PageHeader>
                 {isPanelVisiable ?
@@ -176,7 +178,7 @@ class PriceListHeader extends React.Component {
                         <SwitchWithTitle title='显示澳币' onValueChange={onCurrencyChange} value={isAud} />
                         <SwitchWithTitle title='显示包邮参考价' onValueChange={onDeliveryFree} value={isDeliveryFree} />
                         <TouchableOpacity onPress={onCartPress}>
-                            <Text style={{ textAlign: "center", color: 'white', fontSize: 14 }}>购物车</Text>
+                            <Text style={{ textAlign: "center", color: 'white', fontSize: 14, backgroundColor: "transparent" }}>购物车</Text>
                         </TouchableOpacity>
                     </SmallPanel>) :
                     null
@@ -190,7 +192,7 @@ class PriceListHeader extends React.Component {
 const SwitchWithTitle = ({ title, tintColor = 'white', ...otherProps }) => {
     return (
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Text style={{ color: tintColor }}>{title}</Text>
+            <Text style={{ color: tintColor, backgroundColor: "transparent" }}>{title}</Text>
             <Switch {...otherProps} onTintColor='#f46e65' />
         </View>
     )

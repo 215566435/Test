@@ -39,4 +39,5 @@ function mapDispatch(dispatch) {
         clearDeposite: () => dispatch({ type: 'clearDeposite' })
     }
 }
+
 export default connect(mapState, mapDispatch)(Deposite)

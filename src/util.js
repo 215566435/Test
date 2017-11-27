@@ -26,6 +26,21 @@ if (__DEV__) {
 export const Url = `http://${hostName}/api/app/1.2/`;
 
 
+/**
+ * 这个函数用于请求，是一个协程函数
+ * 
+ */
+export function* fetchCombind({ url, body }) {
+    const res = yield fetch(Url + url, {
+        method: 'POST',
+        headers: header.get(),
+        body: JSON.stringify(body),
+    })
+    return yield res.json();
+}
+
+
+
 
 class Header {
     _token = '';

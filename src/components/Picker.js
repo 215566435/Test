@@ -92,7 +92,9 @@ export class PickerView extends Component {
                     </View>
 
                 </Modal>
-                {addonBefore ? <Text style={{ width: 80, paddingLeft: 14, fontSize: 14, paddingTop: size[this.props.size], paddingBottom: size[this.props.size] }}>{addonBefore}</Text> : null}
+                {addonBefore ?
+                    <Text style={{ width: 80, backgroundColor: "transparent", paddingLeft: 14, fontSize: 14, paddingTop: size[this.props.size], paddingBottom: size[this.props.size] }}>
+                        {addonBefore}</Text> : null}
                 <TouchableOpacity
                     onPress={this.onPress}
                     style={{
@@ -103,7 +105,8 @@ export class PickerView extends Component {
                 >
                     <Text
                         style={{
-                            fontSize: 14
+                            fontSize: 14,
+                            backgroundColor: "transparent"
                         }}
                     >
                         {this.state.selectValue}

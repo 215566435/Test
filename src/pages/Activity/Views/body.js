@@ -24,7 +24,7 @@ export class Body extends Component {
                         Pheight={120}
                         Pwidth={120}
                     />
-                    <Text>{item.n}</Text>
+                    <Text style={{ backgroundColor: "transparent" }}>{item.n}</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -40,10 +40,10 @@ export class Body extends Component {
         const listHeader = (
             <View>
                 <AnimatedImage url={'http://cdn2u.com' + url + `?width=${500}` + `&height=${500}` + `&bgcolor=white `} />
-                <Text style={{ fontSize: 20, marginBottom: 10, padding: 10 }}>{title}</Text>
-                <Text style={{ fontSize: 15, marginBottom: 10, padding: 10 }}>描述</Text>
-                <Text style={{ fontSize: 13, marginBottom: 10, padding: 10 }}>{bref}</Text>
-                <Text style={{ marginBottom: 10, padding: 10 }}>相关商品</Text>
+                <Text style={{ fontSize: 20, marginBottom: 10, padding: 10, backgroundColor: "transparent" }}>{title}</Text>
+                <Text style={{ fontSize: 15, marginBottom: 10, padding: 10, backgroundColor: "transparent" }}>描述</Text>
+                <Text style={{ fontSize: 13, marginBottom: 10, padding: 10, backgroundColor: "transparent" }}>{bref}</Text>
+                <Text style={{ marginBottom: 10, padding: 10, backgroundColor: "transparent" }}>相关商品</Text>
             </View>
         )
         return (
@@ -60,7 +60,7 @@ export class Body extends Component {
                     ListHeaderComponent={listHeader}
                 />
                 <CustomTabBar onPress={this.CustomTabBarPress}>
-                    <Text>返回</Text>
+                    <Text style={{ backgroundColor: "transparent" }}>返回</Text>
                 </CustomTabBar>
             </View>
         )

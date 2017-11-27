@@ -25,7 +25,7 @@ export class Pop extends Component {
         const name = fixProperty ? (fixProperty.n === '' ? '默认型号' : fixProperty.n) : '默认型号';
         if (onChange && fixProperty) onChange(fixProperty);
         console.log(fixProperty)
-        if(!fixProperty) return null;
+        if (!fixProperty) return null;
         return (
             <View style={{ padding: 10 }}>
                 <View style={{ flexDirection: 'row' }}>
@@ -33,12 +33,12 @@ export class Pop extends Component {
                         <Image resizeMode='contain' style={{ height: 100, width: 100 }} source={{ uri: uri }} />
                     </View>
                     <View style={{ marginLeft: 10, width: 200, padding: 5, justifyContent: 'center' }}>
-                        <Text >{title}</Text>
+                        <Text style={{ backgroundColor: "transparent" }}>{title}</Text>
                     </View>
                 </View>
                 <View style={{ flexDirection: 'row', marginBottom: 10, marginTop: 10 }}>
-                    <Text>所选型号:</Text>
-                    <Text style={{ color: '#f46e65' }}>{name}</Text>
+                    <Text style={{ backgroundColor: "transparent" }}>所选型号:</Text>
+                    <Text style={{ color: '#f46e65', backgroundColor: "transparent" }}>{name}</Text>
                 </View>
                 <Spes property={property} pt={this.props.pt} choose={this.choose} />
                 <PriceQuntity au={fixProperty.ap.a} rmb={fixProperty.ap.r} quntity={fixProperty.st} />
@@ -64,13 +64,13 @@ class PriceQuntity extends Component {
         return (
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-                    <Text>价格：</Text>
-                    <Text style={{ fontSize: 18, color: '#f78e3d' }}>$ {au}</Text>
-                    <Text style={{ marginLeft: 8, fontSize: 18, color: '#f78e3d' }}>¥ {rmb}</Text>
+                    <Text style={{ backgroundColor: "transparent" }}>价格：</Text>
+                    <Text style={{ fontSize: 18, color: '#f78e3d', backgroundColor: "transparent" }}>$ {au}</Text>
+                    <Text style={{ marginLeft: 8, fontSize: 18, color: '#f78e3d', backgroundColor: "transparent" }}>¥ {rmb}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-                    <Text>库存数量：</Text>
-                    <Text style={{ fontSize: 18, color: '#919191' }}>{quntity <= 0 ? 0 : quntity}</Text>
+                    <Text style={{ backgroundColor: "transparent" }}>库存数量：</Text>
+                    <Text style={{ fontSize: 18, color: '#919191', backgroundColor: "transparent" }}>{quntity <= 0 ? 0 : quntity}</Text>
                 </View>
             </View>
         )
@@ -133,7 +133,7 @@ class RowItem extends Component {
         return (
             <TouchableOpacity activeOpacity={0.4} onPress={this.props.onPress} style={{ backgroundColor: chosen, padding: 2 }}>
                 <View style={{ width: stockWidth, height: 30, borderRadius: 15, backgroundColor: colorHelper[state], alignItems: 'center', justifyContent: 'center' }} >
-                    <Text style={{ color: 'white', fontSize: 12 }}>{stock >= 99 ? '99+' : displayHelper(state, stock)}</Text>
+                    <Text style={{ color: 'white', fontSize: 12, backgroundColor: "transparent" }}>{stock >= 99 ? '99+' : displayHelper(state, stock)}</Text>
                 </View>
             </TouchableOpacity>
         )
@@ -181,7 +181,7 @@ class Spes extends Component {
             const color = pt[0].v[i];
             map.push(
                 <View key={i} style={{ flexDirection: 'row' }}>
-                    <Text style={{ color: 'black', width: colorLength, fontSize: 12 }} adjustsFontSizeToFit numberOfLines={1}>{color}</Text>
+                    <Text style={{ color: 'black', width: colorLength, fontSize: 12, backgroundColor: "transparent" }} adjustsFontSizeToFit numberOfLines={1}>{color}</Text>
                     {row}
                 </View>
             )
@@ -190,7 +190,7 @@ class Spes extends Component {
         const size = sizeAry.map((item, index) => {
             return (
                 <View key={item} style={{ padding: 2 }}>
-                    <Text style={{ color: 'black', width: index === 0 ? colorLength : stockWidth }}>{item === 0 ? null : item}</Text>
+                    <Text style={{ color: 'black', width: index === 0 ? colorLength : stockWidth, backgroundColor: "transparent" }}>{item === 0 ? null : item}</Text>
                 </View>
             )
         })
@@ -215,7 +215,7 @@ class Spes extends Component {
             return (
                 <View key={item.n} style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Text
-                        style={{ width: fontSize, fontSize: 12 }}
+                        style={{ width: fontSize, fontSize: 12, backgroundColor: "transparent" }}
                     >
                         {name}
                     </Text>
@@ -235,7 +235,7 @@ class Spes extends Component {
                                 justifyContent: 'center'
                             }}
                         >
-                            <Text style={{ color: 'white', fontSize: 12 }}>{stock >= 99 ? '99+' : displayHelper(state, stock)}</Text>
+                            <Text style={{ color: 'white', fontSize: 12, backgroundColor: "transparent" }}>{stock >= 99 ? '99+' : displayHelper(state, stock)}</Text>
                         </View>
                     </TouchableOpacity>
                 </View>

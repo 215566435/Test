@@ -31,14 +31,14 @@ export class Content extends Component {
                             />
                         </View>
                         <View style={{ width: '70%', padding: 10 }}>
-                            <Text >{item.sn}</Text>
+                            <Text style={{ backgroundColor: "transparent" }}>{item.sn}</Text>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
-                                <Text style={{ color: '#f56a00', fontSize: 18 }}>{item.c === 'RMB' ? "¥" : "$"}{item.i}</Text>
-                                <Text style={{ color: '#bfbfbf' }}>{stockState[item.ss]}</Text>
+                                <Text style={{ color: '#f56a00', fontSize: 18, backgroundColor: "transparent" }}>{item.c === 'RMB' ? "¥" : "$"}{item.i}</Text>
+                                <Text style={{ color: '#bfbfbf', backgroundColor: "transparent" }}>{stockState[item.ss]}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <Text style={{ color: itemStateColor[item.s] }}>{itemState[item.s]}</Text>
-                                <Text>数量:{item.q}</Text>
+                                <Text style={{ color: itemStateColor[item.s], backgroundColor: "transparent" }}>{itemState[item.s]}</Text>
+                                <Text style={{ backgroundColor: "transparent" }}>数量:{item.q}</Text>
                             </View>
                         </View>
                     </View>
@@ -54,7 +54,7 @@ export class Content extends Component {
                 {model.Packs.map((item, index) => {
                     return (
                         <TouchableOpacity key={index} style={{ marginLeft: index > 0 ? 10 : 0 }} onPress={() => this.props.onChildPress(item.i)}>
-                            <Text style={{ color: item.i === model.Id ? '#f56a00' : 'black' }}>{`子订单${1 + index}`}</Text>
+                            <Text style={{ color: item.i === model.Id ? '#f56a00' : 'black', backgroundColor: "transparent" }}>{`子订单${1 + index}`}</Text>
                         </TouchableOpacity>
                     )
                 })}
@@ -87,19 +87,19 @@ export class Content extends Component {
             <ScrollView style={{ height: '100%', backgroundColor: '#e9e9e9' }}>
                 <Cells style={{ padding: 20, flexDirection: 'row', justifyContent: "space-between", backgroundColor: PackStatusColor[model.PackStatus] }}>
                     <View>
-                        <Text style={{ fontSize: 18, color: 'white' }}>
+                        <Text style={{ fontSize: 18, color: 'white', backgroundColor: "transparent" }}>
                             {model.OrderStatus === 'Paid' ? PackStatus[model.PackStatus] : model.OrderStatus === 'Cancelled' ? PackStatus[model.PackStatus] : '待支付'}
                         </Text>
-                        <Text style={{ color: 'white' }}>{model.Id}</Text>
-                        <Text style={{ color: 'white' }}>{time[0] + '  ' + time[1].substring(0, 5)}</Text>
+                        <Text style={{ color: 'white', backgroundColor: "transparent" }}>{model.Id}</Text>
+                        <Text style={{ color: 'white', backgroundColor: "transparent" }}>{time[0] + '  ' + time[1].substring(0, 5)}</Text>
                     </View>
-                    {model.OrderStatus === 'Paid' ? <Text style={{ color: "white" }}>已支付</Text> : (
+                    {model.OrderStatus === 'Paid' ? <Text style={{ color: "white", backgroundColor: "transparent" }}>已支付</Text> : (
                         <TouchableOpacity
                             disabled={model.balance > model.Price ? false : true}
                             onPress={() => Pay(model.OrderId, model.Id)}
                             style={{ width: 70, height: 55, backgroundColor: '#f56a00', alignItems: "center", justifyContent: "center", borderRadius: 5, padding: 10 }}
                         >
-                            <Text style={{ color: 'white', fontSize: 12 }}>
+                            <Text style={{ color: 'white', fontSize: 12, backgroundColor: "transparent" }}>
                                 {model.balance > model.Price ? '使用预存款支付' : '请到网站充值'}
                             </Text>
                         </TouchableOpacity>)
@@ -107,34 +107,34 @@ export class Content extends Component {
 
                 </Cells>
                 <Cells>
-                    <Text style={{ color: '#f56a00' }}>总价格：{CurrencySwitcher + model.Price}</Text>
-                    <Text style={{ color: '#919191' }}>商品价格：{CurrencySwitcher + model.OriginalPrice}</Text>
-                    {model.Delivery !== 0 ? <Text style={{ color: '#919191' }}>快递费：{CurrencySwitcher + model.Delivery}</Text> : null}
-                    {model.Insurance !== 0 ? <Text style={{ color: '#919191' }}>保险：{CurrencySwitcher + model.Insurance}</Text> : null}
-                    {model.OtherPrice !== 0 ? <Text style={{ color: '#919191' }}>代发税费：{CurrencySwitcher + model.OtherPrice}</Text> : null}
+                    <Text style={{ color: '#f56a00', backgroundColor: "transparent" }}>总价格：{CurrencySwitcher + model.Price}</Text>
+                    <Text style={{ color: '#919191', backgroundColor: "transparent" }}>商品价格：{CurrencySwitcher + model.OriginalPrice}</Text>
+                    {model.Delivery !== 0 ? <Text style={{ color: '#919191', backgroundColor: "transparent" }}>快递费：{CurrencySwitcher + model.Delivery}</Text> : null}
+                    {model.Insurance !== 0 ? <Text style={{ color: '#919191', backgroundColor: "transparent" }}>保险：{CurrencySwitcher + model.Insurance}</Text> : null}
+                    {model.OtherPrice !== 0 ? <Text style={{ color: '#919191', backgroundColor: "transparent" }}>代发税费：{CurrencySwitcher + model.OtherPrice}</Text> : null}
                 </Cells>
                 <Cells>
-                    <Text>物流方式：{model.IsPickup ? '现场提货' : '仓库代发'}</Text>
+                    <Text style={{ backgroundColor: "transparent" }}>物流方式：{model.IsPickup ? '现场提货' : '仓库代发'}</Text>
                 </Cells>
                 {model.Receiver ? (
                     <Cells>
                         <View style={{ flexDirection: 'row', justifyContent: "space-between", marginBottom: 10 }}>
-                            <Text>{'收件人：' + model.Receiver.n}</Text>
-                            <Text>{model.Receiver.p}</Text>
+                            <Text style={{ backgroundColor: "transparent" }}>{'收件人：' + model.Receiver.n}</Text>
+                            <Text style={{ backgroundColor: "transparent" }}>{model.Receiver.p}</Text>
                         </View>
-                        <Text>{'地址：' + model.Receiver.a}</Text>
+                        <Text style={{ backgroundColor: "transparent" }}>{'地址：' + model.Receiver.a}</Text>
                     </Cells>) : null
                 }
 
                 {model.Packs ? this.Packs(model) : null}
                 <TouchableOpacity onPress={onGetLog}>
                     <Cells>
-                        <Text>{'订单历史记录'}</Text>
+                        <Text style={{ backgroundColor: "transparent" }}>{'订单历史记录'}</Text>
                     </Cells>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={onGetAttach}>
                     <Cells>
-                        <Text>{`订单附件(${model.AttachNumber})`}</Text>
+                        <Text style={{ backgroundColor: "transparent" }}>{`订单附件(${model.AttachNumber})`}</Text>
                     </Cells>
                 </TouchableOpacity>
                 {this.getGoods()}
@@ -156,7 +156,7 @@ export class Content extends Component {
                         borderColor: "#fccca7"
                     }}>
                         <Spin />
-                        <Text style={{ color: '#404040' }}>{'支付中...'}</Text>
+                        <Text style={{ color: '#404040', backgroundColor: "transparent" }}>{'支付中...'}</Text>
                     </View>
                 </View>) : null}
 

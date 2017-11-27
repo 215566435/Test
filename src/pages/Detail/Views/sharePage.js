@@ -34,8 +34,8 @@ export class SharePage extends React.Component {
                     </View>
                 </ScrollView>
                 <CustomTabBar >
-                    <Text>返回</Text>
-                    <Text style={{ color: 'white' }}>分享</Text>
+                    <Text style={{ backgroundColor: "transparent" }}>返回</Text>
+                    <Text style={{ color: 'white', backgroundColor: "transparent" }}>分享</Text>
                 </CustomTabBar>
             </Modal>
         )

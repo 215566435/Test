@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { View, ScrollView, Dimensions, Text, TouchableOpacity, FlatList, Image, Animated, Modal, Platform, Switch } from 'react-native'
+import { View, ScrollView, Dimensions, Text, TouchableOpacity, FlatList, Image, Animated, Modal, Platform, Switch } from 'react-native';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 import { PageHeader } from '../../../components/PageHeader';
@@ -46,10 +46,10 @@ export class Header extends Component {
                         />
                     </TouchableOpacity>
                     <View>
-                        <Text style={{ fontSize: 18, textAlign: 'center' }}>购物车</Text>
+                        <Text style={{ fontSize: 18, textAlign: 'center', backgroundColor: "transparent" }}>购物车</Text>
                     </View>
                     <TouchableOpacity style={{ width: 40 }} onPress={this.option}>
-                        <SimpleLineIcons name="options" size={26} />
+                        <SimpleLineIcons name="options" size={26} style={{ backgroundColor: "transparent" }} />
                     </TouchableOpacity>
                     <Modal
                         visible={this.state.show}

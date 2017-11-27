@@ -42,9 +42,9 @@ export class Body extends Component {
                         style={{ height: 120, width: 150 }}
                         resizeMode="contain"
                     />
-                    <Text numberOfLines={2} style={{ fontSize: 12 }}>{item.n}</Text>
-                    <Text style={{ color: '#f56a00' }}>{price.p ? price.p : '¥' + itm.ap.p.r}</Text>
-                    <Text style={{ fontSize: 10, color: '#919191' }}>包邮价:{price.pi ? price.pi : '¥' + itm.ap.p.ri}</Text>
+                    <Text numberOfLines={2} style={{ fontSize: 12, backgroundColor: "transparent" }}>{item.n}</Text>
+                    <Text style={{ color: '#f56a00', backgroundColor: "transparent" }}>{price.p ? price.p : '¥' + itm.ap.p.r}</Text>
+                    <Text style={{ fontSize: 10, color: '#919191', backgroundColor: "transparent" }}>包邮价:{price.pi ? price.pi : '¥' + itm.ap.p.ri}</Text>
                 </View>
             </TouchableOpacity>
 
@@ -76,7 +76,15 @@ export class Body extends Component {
         if (loading) {
             return <View style={{ justifyContent: "center", alignItems: "center", height: '100%' }}><Spin /></View>
         }
+
         if (this.props.item) {
+            if (this.props.item.length === 0) {
+                return (
+                    <View>
+                        <Text style={{ fontSize: 20, backgroundColor: "transparent", color: '#919191' }}>暂无商品</Text>
+                    </View>
+                )
+            }
             return this.renderSearchList()
         }
 
@@ -98,7 +106,7 @@ export class Body extends Component {
                             borderRadius: 4
                         }}
                     >
-                        <Text style={{ color: '#f04134' }}>{item}</Text>
+                        <Text style={{ color: '#f04134', backgroundColor: "transparent" }}>{item}</Text>
                     </TouchableOpacity>
                 )
             })}
