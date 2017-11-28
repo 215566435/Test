@@ -74,7 +74,6 @@ export class PriceItem extends React.Component {
                         borderBottomWidth: 0.5,
                         borderBottomColor: 'rgba(120,120,120,0.3)',
                         backgroundColor: 'white',
-
                     }}
                 >
                     <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'center', alignItems: "center" }} >

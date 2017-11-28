@@ -11,6 +11,8 @@ import { Input } from '../../components/Input'
 import { Button } from '../../components/Button'
 import { Spin } from '../../components/Spin'
 import { PickerView } from '../../components/Picker'
+import { Code } from '../../components/Code'
+
 
 import { hostName } from '../../util';
 
@@ -57,47 +59,6 @@ class Password extends Component {
         )
     }
 }
-
-class Code extends React.Component {
-    state = {
-        time: Date.now() + Math.random() * 100,
-        show: true
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        return nextState.time !== this.state.time
-    }
-
-    onChange = () => {
-        this.setState({
-            time: Date.now() + Math.random() * 100
-        })
-    }
-
-    render() {
-        return (
-            <View style={{ justifyContent: "center", alignItems: 'center' }}>
-                <TouchableOpacity onPress={this.onChange} style={{ flexDirection: 'row', justifyContent: "center", alignItems: 'center' }} >
-                    {this.state.show ? (<Image
-                        source={{
-                            uri: `http://${hostName}/api/verify?t=`
-                                + this.state.time
-                        }}
-                        style={{
-                            width: 150,
-                            height: 80
-                        }}
-                        resizeMode='contain'
-                    />)
-                        : null}
-                    <Text style={{ backgroundColor: "transparent" }}>点击刷新</Text>
-                </TouchableOpacity>
-            </View>
-        )
-    }
-}
-
-
 
 const mapState = (state) => {
     return {

@@ -89,6 +89,7 @@ const RootTabs = TabNavigator({
             style: {
                 height: 44
             },
+            showIcon: true,
             activeBackgroundColor: 'white',
             activeTintColor: '#f04134',
             inactiveBackgroundColor: 'white',

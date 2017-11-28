@@ -49,7 +49,9 @@ const actionStategy = {
             body: '{}'
         })
 
+        
         const json = yield res.json();
+        console.log(json)
         const aryRes = getSizeSync(json.data.ci);
         const firstPatch = { ...state, page: json.data, contentImg: aryRes }
         yield put({

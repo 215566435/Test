@@ -112,6 +112,9 @@ class OrderItem extends Component {
         })
         return goods
     }
+    shouldComponentUpdate(nextProps) {
+        return nextProps.child.item.i != this.props.child.item.i
+    }
 
     render() {
         const { child, onPress } = this.props;

@@ -18,7 +18,6 @@ const actionStategy = {
             url: Url + 'user/Current',
             body: {}
         });
-        console.log(json)
         const added = {
             email: json.data.email,
             id: json.data.id,
@@ -61,7 +60,6 @@ const actionStategy = {
             { cancelable: false }
         )
         others.instance.props.navigation.goBack();
-        console.log(json)
     }
 }
 

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView, StyleSheet, Dimensions, TouchableOpacity, Image, Platform, Share, ActionSheetIOS, Alert } from 'react-native';
-import fs from 'react-native-fs';
 import Ionicons from 'react-native-vector-icons/Ionicons'; // 4.4.2
 import { Cells } from './Cells'
 import * as WeChat from 'react-native-wechat';

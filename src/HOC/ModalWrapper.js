@@ -14,6 +14,7 @@ export const ModalWrapper = (Component) => {
                 <Modal
                     animationType='slide'
                     visible={visible}
+                    onRequestClose={() => { }}
                 >
                     <Component {...others} />
                 </Modal>

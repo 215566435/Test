@@ -160,6 +160,7 @@ class Spes extends Component {
         for (let i = 0; i < x; i++) {
             let row = [];
             for (let j = 0; j < y; j++) {
+                if (!property[i][j]) continue;
                 const stock = property[i][j].st;
                 const state = property[i][j].s;
 

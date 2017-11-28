@@ -16,23 +16,14 @@ class Person extends Component {
     static navigationOptions = {
         title: '个人信息'
     }
-
-    onSubmit = () => {
-        this.props.onSubmit(this)
-    }
     componentDidMount() {
         this.props.fetchPerson()
     }
-    onChangeText = (text, name) => {
-        this.props.onChangeText(text, name)
-    }
-    onTypeChange = (value) => {
-        this.props.onChangeText(value, 'country')
-    }
 
-    onGoBack = () => {
-        this.props.navigation.goBack();
-    }
+    onSubmit = () => this.props.onSubmit(this)
+    onChangeText = (text, name) => this.props.onChangeText(text, name);
+    onTypeChange = (value) => this.props.onChangeText(value, 'country');
+    onGoBack = () => this.props.navigation.goBack();
 
     render() {
         const { info } = this.props;

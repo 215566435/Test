@@ -191,6 +191,7 @@ class PriceListHeader extends React.Component {
                         <Modal
                             visible={this.state.show}
                             transparent={true}
+                            onRequestClose={() => { }}
                         >
                             <View
                                 style={{

@@ -78,7 +78,10 @@ export default class Profile extends React.Component {
                                 .then((res) => {
                                     this.checkLogin()
                                     this.setState({
-                                        userBalence: ""
+                                        userBalence: {
+                                            rmb: '',
+                                            aud: ''
+                                        }
                                     })
                                 })
                                 .catch((res) => {
@@ -119,7 +122,7 @@ export default class Profile extends React.Component {
                 //出错
             })
     }
-    onLogin = (personInformation) => {
+    onLoginFinished = (personInformation) => {
 
         if (personInformation.success === true) {
 
@@ -152,7 +155,7 @@ export default class Profile extends React.Component {
             <ScrollView style={headStyle.container}>
                 <Head userName={this.state.userName} userBalence={this.state.userBalence} />
                 <GridBody GridItemClick={this.onGridItemClick} />
-                <Login visible={!this.state.isLogined} login={this.onLogin} loginCancel={this.loginCancel} />
+                <Login visible={!this.state.isLogined} login={this.onLoginFinished} loginCancel={this.loginCancel} />
             </ScrollView>
         )
     }
@@ -210,7 +213,11 @@ class Head extends React.Component {
         if (userBalence.rmb === '' && userBalence.aud === '') {
             return '预存款：0'
         } else {
-            return `预存款：${userBalence.rmb}，${userBalence.aud}`
+            if (userBalence.rmb && userBalence.aud) {
+                return `预存款：${userBalence.rmb}，${userBalence.aud}`
+            } else {
+                return '预存款：0'
+            }
         }
     }
 

@@ -14,7 +14,7 @@
     "ios": "react-native run-ios",
     "test": "node node_modules/jest/bin/jest.js --watch",
     "pack": "react-native bundle --platform ios --entry-file index.ios.js --bundle-output /Users/zf/Desktop/austgo-app/ios/main.jsbundle --dev false",
-    "unlink": "react-native unlink react-native-wechat",
+    "link": "react-native link react-native-splash-screen",
     "upgrade": "react-native upgrade",
     "build": "./publish.sh",
     "look": "code-push deployment ls aust-go -k",
