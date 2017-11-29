@@ -18,7 +18,9 @@ export class Bref extends Component {
     }
     copy = () => {
         Clipboard.setString(this.props.shareText)
-        Alert.alert('已复制', '已复制到剪切板', [], { cancelable: false })
+        Alert.alert('已复制', '已复制到剪切板', [
+            { text: '返回', style: 'cancel' },
+        ], { cancelable: false })
     }
 
     render() {

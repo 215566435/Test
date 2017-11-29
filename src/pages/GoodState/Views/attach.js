@@ -3,11 +3,11 @@ import { View, Text, ScrollView, StyleSheet, Dimensions, TouchableOpacity, Image
 import Ionicons from 'react-native-vector-icons/Ionicons'; // 4.4.2
 import { Cells } from './Cells'
 import * as WeChat from 'react-native-wechat';
-
+import { sharePictures } from 'react-native-share-local'
 
 import { CustomTabBar } from '../../../components/CustomTabBar'
 import { Spin } from '../../../components/Spin';
-import { Url } from '../../../util';
+import { Url, header } from '../../../util';
 
 const { height, width } = Dimensions.get('window')
 // export interface ShareActionSheetIOSOptions {
@@ -72,15 +72,31 @@ export class Attach extends Component {
         this.props.MarkAsSentToBuyer();
 
         try {
-            ActionSheetIOS.showShareActionSheetWithOptions({
-                url: urlArray
-            }, () => {
+            if (Platform.OS === 'ios') {
+                ActionSheetIOS.showShareActionSheetWithOptions({
+                    url: urlArray
+                }, () => {
 
-            }, () => {
-                this.setState({
-                    loading: false
+                }, () => {
+                    this.setState({
+                        loading: false
+                    })
                 })
-            })
+            } else {
+                sharePictures({
+                    winTitle: "窗口标题",
+                    subject: "主题",
+                    imagesUrl: urlArray,
+                    text: "测试一下朋友圈分享",
+                    //component:["com.tencent.mobileqq","com.tencent.mobileqq.activity.JumpActivity"],
+                    component: ["com.tencent.mm", "com.tencent.mm.ui.tools.ShareToTimeLineUI","com.tencent.mm.ui.tools.ShareUI"],
+                    callback: (error) => {
+                        alert("success")
+                    }
+                })
+
+            }
+
         } catch (e) {
             console.log(e)
         }
@@ -113,14 +129,14 @@ export class Attach extends Component {
         console.log('草泥马')
         return (
             <View style={{ height: '100%' }}>
-                <View style={{ height: height - 44 - margin, marginTop: margin, backgroundColor: '#f5f5f5' }}>
+                <View style={{ height: height - 44 - margin - (Platform.OS === 'ios' ? 0 : 24), marginTop: margin, backgroundColor: '#f5f5f5' }}>
                     <ScrollView >
                         <View style={{ flexDirection: 'row', flexWrap: "wrap" }}>
                             {this.state.images.map((img) => {
                                 return (
                                     <TouchableOpacity onPress={() => this.choose(img)} key={img.id}>
                                         <Image
-                                            source={{ uri: 'http://cdn2u.com' + img.file + '?width=500&height=500&constrain=true&bgcolor=white' }}
+                                            source={{ uri: 'http://cdn2u.com' + img.file + '?width=500&height=500&constrain=true&bgcolor=white', headers: header.get() }}
                                             style={{ width: 150, height: 150 }}
                                             resizeMode="contain"
                                         />

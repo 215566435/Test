@@ -2,7 +2,7 @@
  * 2017/11/02 方正创建
  */
 import React, { Component } from 'react';
-import { View, ScrollView, Dimensions, Text, TouchableOpacity, FlatList, Image, Animated, Modal } from 'react-native'
+import { View, ScrollView, Dimensions, Text, TouchableOpacity, FlatList, Image, Animated, Modal, Platform } from 'react-native'
 import { connect } from 'react-redux';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
@@ -98,14 +98,14 @@ class Cart extends Component {
         const item = child.item;
         const url = 'http://cdn2u.com' + item.image + `?width=${150}` + `&height=${150}` + `&constrain=${true}` + `&bgcolor=white`;
         const Price = PriceSelector(item.price)
-        console.log(item)
+        const rowHeight = 160;//每个单元的高度
         return (
             <ScrollView horizontal showsHorizontalScrollIndicator={false} pagingEnabled bounces={false} >
                 <View
                     style={{
                         backgroundColor: 'white',
                         marginTop: 0.5,
-                        height: 140,
+                        height: rowHeight,
                         width: width,
                         alignItems: 'center',
                         flexDirection: 'row'
@@ -131,7 +131,7 @@ class Cart extends Component {
                     </View>
                 </View>
                 <TouchableOpacity
-                    style={{ height: 140, width: 100, backgroundColor: '#f04134', justifyContent: 'center', alignItems: 'center' }}
+                    style={{ height: rowHeight, width: 100, backgroundColor: '#f04134', justifyContent: 'center', alignItems: 'center' }}
                     onPress={() => {
                         this.props.deleteItem({
                             qty: item.qty,
@@ -170,7 +170,7 @@ class Cart extends Component {
         return (
             <View>
                 <Header {...props} />
-                <View style={{ height: height - (43/* 头的宽度*/ + stateBarMargin(0)/* 状态栏高度*/ + 44/* 底部状态栏*/) }} >
+                <View style={{ height: height - (43/* 头的宽度*/ + stateBarMargin(0)/* 状态栏高度*/ + 44/* 底部状态栏*/) - (Platform.OS === 'ios' ? 0 : 24) }} >
                     {this.renderFlatList()}
                 </View>
                 {this.renderTabBar()}

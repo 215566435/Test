@@ -52,6 +52,8 @@ const actionStategy = {
     },
     AUDonValueChange: function* () {
         const state = yield select(state => state.PriceList)
+        const fix = !state.isAud ? 'true' : 'false'
+        AsyncStorage.setItem('isAud', fix)
         yield put({
             type: 'SET_STATE',
             data: { ...state, isAud: state.isAud !== void 666 ? !state.isAud : true }

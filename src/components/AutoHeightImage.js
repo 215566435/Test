@@ -30,6 +30,8 @@ export class AutoHeightImage extends React.Component {
             this.setState({
                 height: width * h / w
             })
+        }, (err) => {
+            console.log(err)
         })
     }
     Spin = () => {
@@ -56,7 +58,11 @@ export class AutoHeightImage extends React.Component {
                         height: this.state.height
                     }}
                     source={{
-                        uri: uri
+                        uri: uri,
+                        headers: {
+                            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;',
+                            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36',
+                        }
                     }}
                 />
             </View>

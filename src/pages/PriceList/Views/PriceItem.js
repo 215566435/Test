@@ -4,7 +4,7 @@
  * 价格表的每一条记录
  */
 import React from 'react';
-import { View, Text, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Text, TouchableOpacity, ImageBackground, Platform } from 'react-native';
 import { Spin } from '../../../components/Spin'
 
 export class PriceItem extends React.Component {
@@ -70,7 +70,7 @@ export class PriceItem extends React.Component {
                 <View
                     style={{
                         padding: 10,
-                        height: 88,
+                        height: Platform.OS === 'ios' ? 88 : 100,
                         borderBottomWidth: 0.5,
                         borderBottomColor: 'rgba(120,120,120,0.3)',
                         backgroundColor: 'white',

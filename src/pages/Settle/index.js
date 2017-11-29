@@ -3,7 +3,7 @@
  * 订单结算页面
  */
 import React, { Component } from 'react';
-import { View, ScrollView, Dimensions, Text, TouchableOpacity, FlatList, Image, Animated, Modal, Button, Picker, Alert, AsyncStorage } from 'react-native'
+import { View, ScrollView, Dimensions, Text, TouchableOpacity, FlatList, Image, Animated, Modal, Button, Picker, Alert, AsyncStorage, Platform } from 'react-native'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 import { PageHeader } from '../../components/PageHeader'
@@ -278,7 +278,7 @@ export default class Settle extends Component {
         console.log('更新')
         return (
             <View style={{ backgroundColor: 'white' }}>
-                <ScrollView style={{ height: height - 44 - stateBarMargin(0), marginTop: stateBarMargin(0) }}>
+                <ScrollView style={{ height: height - 44 - stateBarMargin(0) - (Platform.OS === 'ios' ? 0 : 24), marginTop: stateBarMargin(0) }}>
                     {this.renderForm()}
                 </ScrollView>
                 {this.renderTabBar()}

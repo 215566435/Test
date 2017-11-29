@@ -153,9 +153,11 @@ export default class Profile extends React.Component {
     render() {
         return (
             <ScrollView style={headStyle.container}>
-                <Head userName={this.state.userName} userBalence={this.state.userBalence} />
-                <GridBody GridItemClick={this.onGridItemClick} />
-                <Login visible={!this.state.isLogined} login={this.onLoginFinished} loginCancel={this.loginCancel} />
+                <View style={{ height: height - 44 }}>
+                    <Head userName={this.state.userName} userBalence={this.state.userBalence} />
+                    <GridBody GridItemClick={this.onGridItemClick} />
+                    <Login visible={!this.state.isLogined} login={this.onLoginFinished} loginCancel={this.loginCancel} />
+                </View>
             </ScrollView>
         )
     }
@@ -224,7 +226,10 @@ class Head extends React.Component {
     render() {
         const { userName, userBalence } = this.props;
         return (
-            <View style={headStyle.head}>
+            <View style={{
+                height: 250,
+                backgroundColor: '#f46e65',
+            }}>
                 <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                     <Image
                         style={{ width: 60, height: 60, borderRadius: 60 / 2 }}

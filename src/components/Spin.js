@@ -8,7 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'; // 4.4.2
 
 export class Spin extends Component {
     state = {
-        rotate: new Animated.Value(0)
+        rotate: new Animated.Value(0.01)
     }
 
     componentDidMount() {
@@ -41,7 +41,7 @@ export class Spin extends Component {
                 transform: [
                     {
                         rotate: this.state.rotate.interpolate({
-                            inputRange: [0, 1],
+                            inputRange: [0.01, 1],
                             outputRange: ['0deg', '360deg']
                         })
                     },

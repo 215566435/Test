@@ -39,6 +39,7 @@
 		B151BCBDADE04223AF3EF4FF /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A924FC82BF74B21AABED54F /* libCodePush.a */; };
 		16263F8E0D07443083EFA718 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AAB727519A44FF7B4E32611 /* libz.tbd */; };
 		1261B32F38214C939AFDBF58 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52381AEE381443E8B691C4FE /* libSplashScreen.a */; };
+		3395AB213F6F40B196DB4A39 /* libRNShareLocal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEF8010C1B69443D9551D66C /* libRNShareLocal.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -271,6 +272,8 @@
 		2AAB727519A44FF7B4E32611 /* libz.tbd */ = {isa = PBXFileReference; name = "libz.tbd"; path = "usr/lib/libz.tbd"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = sourcecode.text-based-dylib-definition; explicitFileType = undefined; includeInIndex = 0; };
 		AF2ED263321B4D6EB2D88626 /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; name = "SplashScreen.xcodeproj"; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		52381AEE381443E8B691C4FE /* libSplashScreen.a */ = {isa = PBXFileReference; name = "libSplashScreen.a"; path = "libSplashScreen.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		F2F03647E9C54680AAB37695 /* RNShareLocal.xcodeproj */ = {isa = PBXFileReference; name = "RNShareLocal.xcodeproj"; path = "../node_modules/react-native-share-local/IOS/RNShareLocal.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		DEF8010C1B69443D9551D66C /* libRNShareLocal.a */ = {isa = PBXFileReference; name = "libRNShareLocal.a"; path = "libRNShareLocal.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -302,6 +305,7 @@
 				B151BCBDADE04223AF3EF4FF /* libCodePush.a in Frameworks */,
 				16263F8E0D07443083EFA718 /* libz.tbd in Frameworks */,
 				1261B32F38214C939AFDBF58 /* libSplashScreen.a in Frameworks */,
+				3395AB213F6F40B196DB4A39 /* libRNShareLocal.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -472,6 +476,7 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				3EECF5D7BAC948D3B084D707 /* CodePush.xcodeproj */,
 				AF2ED263321B4D6EB2D88626 /* SplashScreen.xcodeproj */,
+				F2F03647E9C54680AAB37695 /* RNShareLocal.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1031,11 +1036,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-code-push/ios/CodePush/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
+					"$(SRCROOT)/../node_modules/react-native-share-local/IOS/RNShareLocal",
 				);
 			};
 			name = Debug;
@@ -1058,11 +1065,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-code-push/ios/CodePush/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
+					"$(SRCROOT)/../node_modules/react-native-share-local/IOS/RNShareLocal",
 				);
 			};
 			name = Release;
@@ -1086,6 +1095,7 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-code-push/ios/CodePush/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
+					"$(SRCROOT)/../node_modules/react-native-share-local/IOS/RNShareLocal",
 				);
 			};
 			name = Debug;
@@ -1108,6 +1118,7 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-code-push/ios/CodePush/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
+					"$(SRCROOT)/../node_modules/react-native-share-local/IOS/RNShareLocal",
 				);
 			};
 			name = Release;
@@ -1139,11 +1150,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-code-push/ios/CodePush/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
+					"$(SRCROOT)/../node_modules/react-native-share-local/IOS/RNShareLocal",
 				);
 			};
 			name = Debug;
@@ -1175,11 +1188,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-code-push/ios/CodePush/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
+					"$(SRCROOT)/../node_modules/react-native-share-local/IOS/RNShareLocal",
 				);
 			};
 			name = Release;
@@ -1206,6 +1221,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};
 			name = Debug;
@@ -1230,6 +1246,7 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);

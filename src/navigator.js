@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Platform } from 'react-native';
 import { TabNavigator } from 'react-navigation'; // 1.0.0-beta.14
 import Ionicons from 'react-native-vector-icons/Ionicons'; // 4.4.2
 import FontAwesome from 'react-native-vector-icons/FontAwesome'; // 4.4.2
@@ -14,15 +14,17 @@ import Home from './pages/Home/router'
 import EventPage from './pages/EventPage/router'
 
 
+const iconsSize = Platform.OS === 'ios' ? 26 : 15;
+
 const RootTabs = TabNavigator({
     EventPage: {
         screen: EventPage,
         navigationOptions: {
-            tabBarLabel: '最新活动*',
+            tabBarLabel: '最新活动',
             tabBarIcon: ({ tintColor, focused }) => (
                 <FontAwesome
                     name='volume-up'
-                    size={26}
+                    size={iconsSize}
                     style={{ color: tintColor, backgroundColor: 'transparent' }}
                 />
             ),
@@ -35,7 +37,7 @@ const RootTabs = TabNavigator({
             tabBarIcon: ({ tintColor, focused }) => (
                 <FontAwesome
                     name={focused ? 'list-alt' : 'list-alt'}
-                    size={26}
+                    size={iconsSize}
                     style={{ color: tintColor, backgroundColor: 'transparent' }}
                 />
             ),
@@ -48,7 +50,7 @@ const RootTabs = TabNavigator({
             tabBarIcon: ({ tintColor, focused }) => (
                 <Ionicons
                     name={focused ? 'ios-home' : 'ios-home-outline'}
-                    size={26}
+                    size={iconsSize}
                     style={{ color: tintColor, backgroundColor: 'transparent' }}
                 />
             ),
@@ -61,7 +63,7 @@ const RootTabs = TabNavigator({
             tabBarIcon: ({ tintColor, focused }) => (
                 <Ionicons
                     name='md-list-box'
-                    size={26}
+                    size={iconsSize}
                     style={{ color: tintColor, backgroundColor: 'transparent' }}
                 />
             ),
@@ -74,7 +76,7 @@ const RootTabs = TabNavigator({
             tabBarIcon: ({ tintColor, focused }) => (
                 <Ionicons
                     name={focused ? 'ios-person' : 'ios-person-outline'}
-                    size={26}
+                    size={iconsSize}
                     style={{ color: tintColor, backgroundColor: 'transparent' }}
                 />
             ),
@@ -87,7 +89,19 @@ const RootTabs = TabNavigator({
         animationEnabled: false,
         tabBarOptions: {
             style: {
-                height: 44
+                height: 44,
+                backgroundColor: "#f5f5f5",
+            },
+            labelStyle: {
+                fontSize: 8,
+            },
+            iconStyle: {
+                width: 15,
+                height: 15
+            },
+            indicatorStyle: {
+                top: 0,
+                backgroundColor: "#f04134"
             },
             showIcon: true,
             activeBackgroundColor: 'white',

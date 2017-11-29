@@ -11,7 +11,6 @@ import { PageHeader } from '../../../components/PageHeader'
 
 
 
-
 const { width, height } = Dimensions.get('window')
 
 export class Body extends Component {
@@ -33,7 +32,13 @@ export class Body extends Component {
                 <Text style={{ fontSize: 20, padding: 10, color: '#f56a00', backgroundColor: "transparent" }}>🌟{item.n}🌟</Text>
                 <TouchableOpacity onPress={() => onActivityPress(item.id)}>
                     <Image
-                        source={{ uri: 'http://cdn2u.com' + item.i + '?width=750&constrain=true&bgcolor=white' }}
+                        source={{
+                            uri: 'http://cdn2u.com' + item.i + '?width=750&constrain=true&bgcolor=white',
+                            headers: {
+                                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;',
+                                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36',
+                            }
+                        }}
                         style={{ height: 200, width: width }}
                         resizeMode='contain'
                     />
@@ -49,7 +54,13 @@ export class Body extends Component {
                             <TouchableOpacity key={itm.id} style={{ marginLeft: index > 0 ? 1 : 0, marginTop: 1, backgroundColor: "white", padding: 5 }} onPress={() => this.props.onItemPress(itm.id)}>
                                 <View style={{ height: 150, width: 100 }}>
                                     <Image
-                                        source={{ uri: 'http://cdn2u.com' + itm.i + '?width=140&height=140&constrain=true&bgcolor=white' }}
+                                        source={{
+                                            uri: 'http://cdn2u.com' + itm.i + '?width=140&height=140&constrain=true&bgcolor=white',
+                                            headers: {
+                                                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;',
+                                                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36',
+                                            }
+                                        }}
                                         style={{ height: 100, width: 100 }}
                                         resizeMode='contain'
                                     />
@@ -74,7 +85,7 @@ export class Body extends Component {
         return (
             <View>
                 <PriceListHeader search={search} isShowAud={isAud} onValueChange={EventOnValueChange} onCartPress={this.onCartPress} />
-                <View style={{ backgroundColor: "#e9e9e9", height: height - 43 - 44 - (Platform.OS === 'ios' ? 25 : 0) }}>
+                <View style={{ backgroundColor: "#e9e9e9", height: height - 43 - 44 - 25 }}>
                     <FlatList
                         data={event}
                         renderItem={this.renderEvent}

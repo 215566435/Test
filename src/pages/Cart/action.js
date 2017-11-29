@@ -35,6 +35,8 @@ const actionStategy = {
     },
     CartChangeCurrency: function* (state, others) {
         const PriceState = yield select(states => states.PriceList);
+        const fix = !PriceState.isAud ? 'true' : 'false'
+        AsyncStorage.setItem('isAud', fix)
 
         const audState = !PriceState.isAud;
         yield put({

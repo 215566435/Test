@@ -7,6 +7,7 @@ import { View, Text, StyleSheet, ScrollView, Dimensions, Image, Platform, Switch
 import { connect } from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons'; // 4.4.2
 import { StackNavigator } from 'react-navigation'; // 1.0.0-beta.14
+import { sharePictures } from 'react-native-share-local'
 
 import { Spin } from '../../components/Spin'
 import { Stepper } from '../../components/Stepper'
@@ -73,10 +74,6 @@ class DetailPage extends Component {
                 share: false
             })
         } else if (index === 1) {
-
-            this.setState({
-                loading: true
-            })
             const filtered = this.state.contentImg.filter((item) => {
                 if (item.choose) {
                     return item
@@ -99,17 +96,34 @@ class DetailPage extends Component {
             }
 
             Clipboard.setString(this.props.shareText)
-            ActionSheetIOS.showShareActionSheetWithOptions({
-                url: urlMap
-            }, () => {
+            if (Platform.OS === 'ios') {
                 this.setState({
-                    loading: false
+                    loading: true
                 })
-            }, () => {
-                this.setState({
-                    loading: false
+                ActionSheetIOS.showShareActionSheetWithOptions({
+                    url: urlMap
+                }, () => {
+                    this.setState({
+                        loading: false
+                    })
+                }, () => {
+                    this.setState({
+                        loading: false
+                    })
                 })
-            })
+            } else {
+                sharePictures({
+                    winTitle: "窗口标题",
+                    subject: "主题",
+                    imagesUrl: urlMap,
+                    text: "测试一下朋友圈分享",
+                    //component:["com.tencent.mobileqq","com.tencent.mobileqq.activity.JumpActivity"],
+                    component: ["com.tencent.mm", "com.tencent.mm.ui.tools.ShareToTimeLineUI", "com.tencent.mm.ui.tools.ShareImgUI"],
+                    callback: (error) => {
+                        alert("success")
+                    }
+                })
+            }
         }
     }
 
@@ -260,7 +274,7 @@ class DetailPage extends Component {
                 </Modal>
                 <View
                     style={{
-                        height: height - 44,
+                        height: height - 44 - (Platform.OS === 'ios' ? 0 : 24),
                         backgroundColor: "#eee",
                     }}
                 >

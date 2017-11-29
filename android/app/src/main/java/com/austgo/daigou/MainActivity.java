@@ -1,4 +1,4 @@
-package com.austgo-app;
+package com.austgo.daigou;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "austgo-app";
+        return "austgoapp";
     }
 }

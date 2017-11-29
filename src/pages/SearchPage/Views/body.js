@@ -34,7 +34,7 @@ export class Body extends Component {
             pi: isAud ? '$' + item.p.ai : '¥' + item.p.ri
         }
         return (
-            <TouchableOpacity style={{ height: 200, width: width / 2, margin: 0.5, padding: 10, backgroundColor: "white" }} onPress={() => this.props.GoodItem(item.id)}>
+            <TouchableOpacity style={{ height: 210, width: width / 2, margin: 0.5, padding: 10, backgroundColor: "white" }} onPress={() => this.props.GoodItem(item.id)}>
                 <View >
                     <Image
                         key={item.i}

@@ -28,7 +28,11 @@ export class Code extends React.Component {
                     {this.state.show ? (<Image
                         source={{
                             uri: `http://${hostName}/api/verify?t=`
-                                + this.state.time
+                                + this.state.time,
+                            headers: {
+                                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;',
+                                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36',
+                            }
                         }}
                         style={{
                             width: 150,

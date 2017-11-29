@@ -9,10 +9,6 @@ const { height, width } = Dimensions.get("window")
 
 export class Body extends Component {
 
-    componentDidMount() {
-
-    }
-
     renderItem = (child, index) => {
         const item = child.item;
         return (
@@ -49,7 +45,7 @@ export class Body extends Component {
         return (
             <View>
                 <FlatList
-                    style={{ zIndex: 10, height: height - 44 }}
+                    style={{ zIndex: 10, height: height - 44 - 24 }}
                     data={item}
                     renderItem={this.renderItem}
                     numColumns={2}
@@ -94,7 +90,13 @@ class AnimatedImage extends Component {
             <View style={{ justifyContent: "center", alignItems: "center" }}>
                 <ImageBackground
                     style={{ height: Pheight, width: Pwidth, justifyContent: "center", alignItems: "center" }}
-                    source={{ uri: url }}
+                    source={{
+                        uri: url,
+                        headers: {
+                            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;',
+                            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36',
+                        }
+                    }}
                     onLoadStart={this.onLoadStart}
                     onLoadEnd={this.onLoadEnd}
                     resizeMode={this.props.resizeMode}
@@ -105,9 +107,3 @@ class AnimatedImage extends Component {
         )
     }
 }
-
-const bodyState = StyleSheet.create({
-    AnimatedImage: { justifyContent: "center", alignItems: "center" },
-    insideImage: { height: 200, width: width }
-
-})

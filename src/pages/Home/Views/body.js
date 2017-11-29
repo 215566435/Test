@@ -8,6 +8,7 @@ import { PageHeader } from '../../../components/PageHeader'
 
 import Ionicons from 'react-native-vector-icons/Ionicons'; // 4.4.2
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import { header } from '../../../util';
 
 const { width, height } = Dimensions.get('window')
 
@@ -29,7 +30,7 @@ export class Body extends Component {
                         return (
                             <View key={index} style={{ alignItems: 'center', marginTop: 10 }}>
                                 <Text style={{ fontSize: 20, color: '#f46e65', backgroundColor: "transparent" }}>🌟{itm.n}🌟</Text>
-                                <Grid onPress={this.props.onLayoutPress} cols={2} wMargin={5} hMargin={5} itemHeight={190} borderWidth={0.5} borderColor={'rgba(120,120,120,0.3)'}>
+                                <Grid onPress={this.props.onLayoutPress} cols={2} wMargin={5} hMargin={5} itemHeight={(Platform.OS === 'ios' ? 190 : 220)} borderWidth={0.5} borderColor={'rgba(120,120,120,0.3)'}>
                                     {itm.g.map((item) => {
                                         const { isAud } = this.props;
                                         const price = {
@@ -86,7 +87,13 @@ export class Body extends Component {
                                         <TouchableOpacity key={itm.i} onPress={() => this.props.onEventPress(itm.id)}>
                                             <View style={{ height: 200, width: 120, padding: 10, borderWidth: 0.5, borderColor: "#f7f7f7" }}>
                                                 <Image
-                                                    source={{ uri: 'http://cdn2u.com' + itm.i + '?width=140&height=140&constrain=true&bgcolor=white' }}
+                                                    source={{
+                                                        uri: 'http://cdn2u.com' + itm.i + '?width=140&height=140&constrain=true&bgcolor=white',
+                                                        header: {
+                                                            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;',
+                                                            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36',
+                                                        }
+                                                    }}
                                                     style={{ height: 100, width: 100 }}
                                                     resizeMode='contain'
                                                 />
@@ -112,7 +119,7 @@ export class Body extends Component {
             if (!this.props.event) return <View style={{ height: '80%', justifyContent: "center", alignItems: "center" }}><Spin /></View>
 
             return (
-                <ScrollView style={{ height: height - 44 - 45 - (Platform.OS === 'ios' ? 23 : 0) }} >
+                <ScrollView style={{ height: height - 44 - 45 - (Platform.OS === 'ios' ? 23 : 24) }} >
                     <Carousel>
                         {this.props.Carousel.map((item) => {
                             return <Image

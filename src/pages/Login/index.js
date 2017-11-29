@@ -3,7 +3,7 @@
  * 本页面是用于个人登陆功能
  */
 import React, { Component } from 'react'
-import { View, Text, TextInput, TouchableOpacity, Image, Alert, Keyboard, Modal, Switch, Picker } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, Image, Alert, Keyboard, Modal, Switch, Picker, Platform, ToastAndroid } from 'react-native'
 import * as WeChat from 'react-native-wechat';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'; // 4.4.2
 
@@ -16,7 +16,7 @@ import { PickerView } from '../../components/Picker'
 
 import NormalLogin from './Views/NormalLogin'
 
-import { Url, hostName } from '../../util';
+import { Url, hostName, header } from '../../util';
 
 
 
@@ -82,6 +82,7 @@ export default class LoginPage extends React.Component {
         newRegister: false
     }
 
+
     loginFinish = (json) => {
         this.setState({
             loading: false
@@ -116,23 +117,27 @@ export default class LoginPage extends React.Component {
         (
             async (that) => {
                 try {
-                    that.setState({
-                        loading: true
-                    })
+                    if (Platform.OS === 'ios') {
+                        that.setState({
+                            loading: true
+                        })
+                    } else {
+                        ToastAndroid.showWithGravity('登陆中...', ToastAndroid.SHORT, ToastAndroid.CENTER);
+                    }
                     const wxRes = await WeChat.sendAuthRequest('snsapi_userinfo');
                     const code = wxRes.code;
+
                     const res = await fetch(Url + 'user/LoginByWechat', {
                         method: "POST",
-                        headers: { 'Content-Type': 'application/json' },
+                        headers: header.get(),
                         body: JSON.stringify({
                             WechatCode: code
                         })
                     })
                     const json = await res.json();
                     that.loginFinish(json);
-                    console.log(json)
                 } catch (e) {
-                    alert('微信登陆出错')
+                    alert('微信登陆出错', e)
                 }
             }
         )(this)
@@ -159,7 +164,7 @@ export default class LoginPage extends React.Component {
 
                 const res = await fetch(Url + 'user/Login', {
                     method: "POST",
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: header.get(),
                     body: JSON.stringify(body)
                 })
 
@@ -188,7 +193,7 @@ export default class LoginPage extends React.Component {
                 })
                 const res = await fetch(Url + 'user/RegisterByWechat', {
                     method: "POST",
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: header.get(),
                     body: JSON.stringify({
                         hash: that.state.hash,
                         unionId: that.state.unionId
@@ -241,7 +246,7 @@ export default class LoginPage extends React.Component {
                     })
                     const res = await fetch(Url + 'user/Register', {
                         method: "POST",
-                        headers: { 'Content-Type': 'application/json' },
+                        headers: header.get(),
                         body: JSON.stringify({
                             username: that.state.name,
                             password: that.state.psw,
@@ -394,7 +399,11 @@ class Code extends React.Component {
                     {this.state.show ? (<Image
                         source={{
                             uri: `http://${hostName}/api/verify?t=`
-                                + this.state.time
+                                + this.state.time,
+                            headers: {
+                                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;',
+                                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36'
+                            }
                         }}
                         style={{
                             width: 150,

@@ -1,4 +1,4 @@
-package com.austgoapp.wxapi;
+package com.austgo.daigou.wxapi;
 
 import android.app.Activity;
 import android.os.Bundle;

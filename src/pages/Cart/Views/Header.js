@@ -29,7 +29,7 @@ export class Header extends Component {
     render() {
         return (
             <PageHeader style={{ backgroundColor: 'white', zIndex: 10 }}>
-                <View style={{ alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', top: 10 }}>
+                <View style={{ alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', top: Platform.OS === 'ios' ? 10 : 0 }}>
                     <TouchableOpacity onPress={this.goBack} style={{ width: 40 }}>
                         <View
                             style={{

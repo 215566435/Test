@@ -14,13 +14,14 @@
     "ios": "react-native run-ios",
     "test": "node node_modules/jest/bin/jest.js --watch",
     "pack": "react-native bundle --platform ios --entry-file index.ios.js --bundle-output /Users/zf/Desktop/austgo-app/ios/main.jsbundle --dev false",
-    "link": "react-native link react-native-splash-screen",
+    "link": "react-native link react-native-share-local",
     "upgrade": "react-native upgrade",
     "build": "./publish.sh",
     "look": "code-push deployment ls aust-go -k",
     "looka": "code-push deployment ls austgo-android -k",
     "builda": "react-native bundle --platform android --entry-file index.android.js --bundle-output ./bundles/index.android.bundle --assets-dest ./bundles/ --dev false",
-    "flow": "flow"
+    "flow": "flow",
+    "apack":"./gradlew assembleRelease"
   },
   "jest": {
     "preset": "jest-expo"

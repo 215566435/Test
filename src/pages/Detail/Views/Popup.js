@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Platform } from 'react-native';
 
 import { Spin } from '../../../components/Spin';
 import { Stepper } from '../../../components/Stepper';
@@ -130,10 +130,11 @@ class RowItem extends Component {
 
     render() {
         const { color, stock, chosen, stockWidth, state } = this.props;
+        const fontSize = Platform.OS === 'ios' ? 12 : 8;
         return (
             <TouchableOpacity activeOpacity={0.4} onPress={this.props.onPress} style={{ backgroundColor: chosen, padding: 2 }}>
-                <View style={{ width: stockWidth, height: 30, borderRadius: 15, backgroundColor: colorHelper[state], alignItems: 'center', justifyContent: 'center' }} >
-                    <Text style={{ color: 'white', fontSize: 12, backgroundColor: "transparent" }}>{stock >= 99 ? '99+' : displayHelper(state, stock)}</Text>
+                <View style={{ width: stockWidth, height: stockWidth, borderRadius: stockWidth / 2, backgroundColor: colorHelper[state], alignItems: 'center', justifyContent: 'center' }} >
+                    <Text style={{ color: 'white', fontSize: fontSize, backgroundColor: "transparent" }}>{stock >= 99 ? '99+' : displayHelper(state, stock)}</Text>
                 </View>
             </TouchableOpacity>
         )
@@ -155,7 +156,7 @@ class Spes extends Component {
         const x = HowManyProperty[0];
         const y = HowManyProperty[1];
         let map = []
-        let colorLength = maxSize(pt[0].v) * 1.2, stockWidth = 30;
+        let colorLength = maxSize(pt[0].v) * 1.2, stockWidth = Platform.OS === 'ios' ? 30 : 25;
 
         for (let i = 0; i < x; i++) {
             let row = [];
