@@ -52,7 +52,7 @@ export class Body extends Component {
                         }
                         return (
                             <TouchableOpacity key={itm.id} style={{ marginLeft: index > 0 ? 1 : 0, marginTop: 1, backgroundColor: "white", padding: 5 }} onPress={() => this.props.onItemPress(itm.id)}>
-                                <View style={{ height: 150, width: 100 }}>
+                                <View style={{ height: 200, width: 100 }}>
                                     <Image
                                         source={{
                                             uri: 'http://cdn2u.com' + itm.i + '?width=140&height=140&constrain=true&bgcolor=white',

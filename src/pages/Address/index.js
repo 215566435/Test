@@ -218,7 +218,7 @@ export default class Address extends Component {
             return addr
         })
         return (
-            <View style={{ height: height - 44 - 25 - 25 }}>
+            <View style={{ height: height - 44 - 25 - 25 - (Platform.OS === 'ios' ? 0 : 14) }}>
 
                 {this.state.address.length !== 0 ? <FlatList
                     style={{ zIndex: -10 }}

@@ -90,13 +90,13 @@ export default class LoginPage extends React.Component {
 
         if (json.success) {
             FIRST_TIME_PRESS = true;
-            this.props.login(json);
+
+            this.props.Profile.onLoginFinished(json);
+            this.props.navigation.goBack()
         } else {
             this.ins.setState({
                 time: Date.now() + Math.random() * 100
             })
-
-
             if (json.message === '请绑定') {
                 this.setState({
                     login: '我是老客户，绑定此微信号',
@@ -235,7 +235,8 @@ export default class LoginPage extends React.Component {
     }
 
     cancel = () => {
-        this.props.loginCancel()
+        this.props.navigation.goBack()
+        // this.props.loginCancel()
     }
     newRegister = (is_Fnished) => {
         if (is_Fnished === true) {
@@ -276,9 +277,7 @@ export default class LoginPage extends React.Component {
      */
     renderNormalLogin = () => (
         <View style={{
-            height: '100%', justifyContent: 'center', transform: [
-                { translateY: 0 - this.state.keyboardHeight }
-            ]
+            height: '100%', justifyContent: 'center'
         }} >
             <Input addonBefore='登陆名' name='name' onChangeText={this.onChange} />
             <Input addonBefore='密码' password={true} name='psw' onChangeText={this.onChange} />

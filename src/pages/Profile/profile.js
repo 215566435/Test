@@ -27,7 +27,6 @@ const Login = ModalWrapper(LoginPage);
 
 export default class Profile extends React.Component {
     state = {
-        isLogined: true,
         userName: '',
         userBalence: {
             aud: '',
@@ -102,8 +101,8 @@ export default class Profile extends React.Component {
             .then((res) => {
 
                 if (res[0][1] === null) {
+                    this.props.navigation.navigate('Login')
                     this.setState({
-                        isLogined: false,
                         userName: '',
                         userBalence: {
                             aud: '',
@@ -113,7 +112,6 @@ export default class Profile extends React.Component {
                 } else {
                     header.set(res[0][1])
                     this.setState({
-                        isLogined: true,
                         userName: res[1][1]
                     })
                 }
@@ -135,7 +133,6 @@ export default class Profile extends React.Component {
                 .then((res) => {
                     this.setState({
                         userName: personInformation.data.name,
-                        isLogined: true
                     })
                     this.props.refreshAll()
                     this.fetchBalance()
@@ -156,7 +153,6 @@ export default class Profile extends React.Component {
                 <View style={{ height: height - 44 }}>
                     <Head userName={this.state.userName} userBalence={this.state.userBalence} />
                     <GridBody GridItemClick={this.onGridItemClick} />
-                    <Login visible={!this.state.isLogined} login={this.onLoginFinished} loginCancel={this.loginCancel} />
                 </View>
             </ScrollView>
         )

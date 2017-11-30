@@ -16,10 +16,13 @@ import SettlePage from '../Settle'
 
 import { Header } from './Views/Header';
 import { CheckBox } from './Views/CheckBox';
-
+import { CartItem } from './Views/CartItem';
 
 const { height, width } = Dimensions.get('window')
 
+/**
+ * 一个函数用于判断是什么币种
+ */
 const PriceSelector = (price) => {
     return price.itemPrice.currency === 'RMB' ? `¥${price.itemPrice.price}` : `$${price.itemPrice.price}`;
 }
@@ -100,56 +103,7 @@ class Cart extends Component {
         const Price = PriceSelector(item.price)
         const rowHeight = 160;//每个单元的高度
         return (
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} pagingEnabled bounces={false} >
-                <View
-                    style={{
-                        backgroundColor: 'white',
-                        marginTop: 0.5,
-                        height: rowHeight,
-                        width: width,
-                        alignItems: 'center',
-                        flexDirection: 'row'
-                    }}>
-                    <Image
-                        source={{ uri: url }}
-                        style={{
-                            width: 100,
-                            height: 100,
-                            borderWidth: 0.5,
-                            borderColor: 'rgba(120,120,120,0.3)',
-                            resizeMode: 'contain',
-                            marginLeft: 10,
-                        }}
-                    />
-                    <View style={{ width: '65%' }}>
-                        <Text style={{ padding: 10, backgroundColor: "transparent" }} adjustsFontSizeToFit numberOfLines={4}>{item.name}</Text>
-                        <Text style={{ padding: 10, backgroundColor: "transparent", color: stockStatusColor[item.status] }} adjustsFontSizeToFit numberOfLines={4}>{stockStatus[item.status]}</Text>
-                        <View style={{ flexDirection: 'row', paddingLeft: 10, alignItems: 'center' }}>
-                            <Text style={{ marginRight: 10, fontSize: 13, color: '#f78e3d', backgroundColor: "transparent" }}>{Price}</Text>
-                            <Stepper tintColor="#f46e65" value={item.qty} onChange={(value) => this.modifyItem(value, item.id)} />
-                        </View>
-                    </View>
-                </View>
-                <TouchableOpacity
-                    style={{ height: rowHeight, width: 100, backgroundColor: '#f04134', justifyContent: 'center', alignItems: 'center' }}
-                    onPress={() => {
-                        this.props.deleteItem({
-                            qty: item.qty,
-                            id: item.id
-                        })
-                    }}
-                >
-                    <Text
-                        style={{
-                            fontSize: 18,
-                            color: '#fff3cf',
-                            backgroundColor: "transparent"
-                        }}
-                    >
-                        删除
-                    </Text>
-                </TouchableOpacity>
-            </ScrollView>
+            <CartItem item={item} modifyItem={this.modifyItem} deleteItem={this.props.deleteItem} />
         )
     }
 

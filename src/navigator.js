@@ -20,7 +20,7 @@ const RootTabs = TabNavigator({
     EventPage: {
         screen: EventPage,
         navigationOptions: {
-            tabBarLabel: '最新活动',
+            tabBarLabel: '最新',
             tabBarIcon: ({ tintColor, focused }) => (
                 <FontAwesome
                     name='volume-up'

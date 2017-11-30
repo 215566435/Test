@@ -1,5 +1,6 @@
 import { call, put, take, select } from 'redux-saga/effects';
 import { Url, header } from '../../util';
+import { ToastAndroid } from 'react-native'
 
 
 function* fetchSelect({ url, body }) {
@@ -45,6 +46,10 @@ const actionStategy = {
             type: 'Manifest_SET_STATE',
             data: { ...state, spin: true }
         })
+        if (ToastAndroid.showWithGravity) {
+            ToastAndroid.showWithGravity('加载中...', ToastAndroid.SHORT, ToastAndroid.CENTER);
+        }
+
 
         if (getState().lastSelect !== others.select) {
             dispath('select', others.select)
@@ -92,6 +97,9 @@ const actionStategy = {
                 pagesize: 15
             }
         })
+        if (ToastAndroid.showWithGravity) {
+            ToastAndroid.showWithGravity('加载中...', ToastAndroid.SHORT, ToastAndroid.CENTER);
+        }
         dispath('page', getState().currentpage + 1)
 
         const list = [...state.list, ...json.data.items]

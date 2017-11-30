@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.kmlidc.RNShareLocal.RNShareLocal;
-import org.devio.rn.splashscreen.SplashScreenReactPackage;
+// import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.microsoft.codepush.react.CodePush;
 import com.theweflex.react.WeChatPackage;
 import com.facebook.react.ReactNativeHost;
@@ -35,8 +35,8 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new RNShareLocal(),
-            new SplashScreenReactPackage(),
-            new CodePush(null, getApplicationContext(), BuildConfig.DEBUG), 
+            // new SplashScreenReactPackage(),
+            new CodePush("IO-yMj-XqW6ZFzNDlNW7xuQpVOSb9753d84a-48fc-4420-83eb-7d61a334bad6", getApplicationContext(), BuildConfig.DEBUG), 
             new VectorIconsPackage(),
             new WeChatPackage()  // Add this line
       );

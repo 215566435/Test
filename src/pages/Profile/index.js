@@ -17,10 +17,12 @@ import Cart from '../Cart';
 import Settle from '../Settle';
 import Deposite from '../DepositeLog';
 import Password from '../Password';
+import Login from '../Login';
 
 
 
 const ProfileInstace = null;
+let _profile = null;
 
 const ProfileHOC = () => {
     return class Wrapper extends React.Component {
@@ -36,6 +38,9 @@ const ProfileHOC = () => {
             this.refs.Profile.checkLogin()
             this.refs.Profile.fetchBalance()
             jump(index)
+        }
+        componentDidMount() {
+            _profile = this.refs.Profile;
         }
         render() {
 
@@ -64,7 +69,7 @@ const mapDispatch = (dispatch) => {
 
 const connected = connect(null, mapDispatch)(ProfileHOC())
 
-const ProfileNavigator = StackNavigator({
+export default StackNavigator({
     Profile: {
         screen: connected,
         navigationOptions: {
@@ -136,28 +141,19 @@ const ProfileNavigator = StackNavigator({
             tabBarVisible: false,
             gesturesEnabled: true
         }
-    }
+    },
+    Login: {
+        screen: (props) => <Login {...props} Profile={_profile} />,
+        navigationOptions: {
+            header: null,
+            tabBarVisible: false,
+            gesturesEnabled: true
+        }
+    },
 }, {
-        initialRouteName: 'Manifest',
+        initialRouteName: 'Profile',
         mode: 'card',
         headerMode: 'screen'
     }
 )
 
-
-export default StackNavigator(
-    {
-        Profile: {
-            screen: ProfileNavigator,
-            navigationOptions: {
-                header: null
-            }
-        }
-    },
-    {
-        mode: 'modal',
-        navigationOptions: {
-            gesturesEnabled: false
-        }
-    }
-);

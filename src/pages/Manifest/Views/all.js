@@ -3,7 +3,7 @@
  * 我的订单
  */
 import React, { Component } from 'react';
-import { View, Text, FlatList, Image, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Image, Dimensions, TouchableOpacity, Platform } from 'react-native';
 
 const { height, width } = Dimensions.get('window')
 
@@ -70,7 +70,7 @@ export class All extends Component {
         }
         return (
             <FlatList
-                style={{ height: height - 104, backgroundColor: 'white' }}
+                style={{ height: height - 104 - (Platform.OS === 'ios' ? 0 : 24), backgroundColor: 'white' }}
                 data={this.props.list}
                 renderItem={this.renderItem}
                 onEndReached={() => this.props.append()}

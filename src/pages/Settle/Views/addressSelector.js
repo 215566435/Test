@@ -90,19 +90,23 @@ export class AddressSelector extends Component {
         const typeString = type === 'Receiver' ? '收件人' : '发件人';
         const containerHeight = propsHeight;
         return (
-            <ScrollView pagingEnabled horizontal showsHorizontalScrollIndicator={false} bounces={false}>
+            <View style={{
+                borderBottomWidth: 0.5,
+                borderColor: 'rgba(120,120,120,0.2)',
+            }}>
                 <ContentText value={value} type={type} containerHeight={containerHeight} />
-                <TouchableOpacity onPress={this.onPress} style={{ width: 70, height: containerHeight, backgroundColor: '#948aec' }} >
-                    <View style={{ alignItems: "center", justifyContent: 'center', flex: 1 }}><Text style={{ fontSize: 15, color: 'white', backgroundColor: "transparent" }}>选取</Text></View>
-                </TouchableOpacity>
-                {value.n ?
-                    <TouchableOpacity onPress={this.onEdit} style={{ width: 70, height: containerHeight, backgroundColor: '#f78e3d' }} >
-                        <View style={{ alignItems: "center", justifyContent: 'center', flex: 1 }}><Text style={{ fontSize: 15, color: 'white', backgroundColor: "transparent" }}>编辑</Text></View>
+                <View style={{ flexDirection: 'row', justifyContent: "center" }}>
+                    <TouchableOpacity onPress={this.onPress} style={{ backgroundColor: '#948aec', borderRadius: 5 }} >
+                        <View style={{ alignItems: "center", justifyContent: 'center', flex: 1 }}><Text style={{ fontSize: 15, color: 'white', backgroundColor: "transparent" }}>选取</Text></View>
                     </TouchableOpacity>
-                    :
-                    null
-                }
-
+                    {value.n ?
+                        <TouchableOpacity onPress={this.onEdit} style={{ marginLeft: 10, backgroundColor: '#f78e3d', borderRadius: 5  }} >
+                            <View style={{ alignItems: "center", justifyContent: 'center', flex: 1 }}><Text style={{ fontSize: 15, color: 'white', backgroundColor: "transparent" }}>编辑</Text></View>
+                        </TouchableOpacity>
+                        :
+                        null
+                    }
+                </View>
                 <Modal
                     animationType='slide'
                     visible={isChosenVisiable}
@@ -115,7 +119,7 @@ export class AddressSelector extends Component {
                 >
                     <Modyfiy addr={value} done={this.onEditDone} />
                 </Modal>
-            </ScrollView >
+            </View >
         )
     }
 }
@@ -128,8 +132,6 @@ class ContentText extends Component {
         return (
             <View
                 style={{
-                    borderBottomWidth: 0.5,
-                    borderColor: 'rgba(120,120,120,0.2)',
                     height: containerHeight,
                     paddingLeft: 14,
                     alignItems: "center",
@@ -139,7 +141,7 @@ class ContentText extends Component {
             >
                 <Text style={{ backgroundColor: "transparent" }}>{typeString}</Text>
                 <View style={{ marginLeft: 20 }}>
-                    <Text numberOfLines={4} style={{ color: '#bfbfbf', backgroundColor: "transparent" }}>{value.n ? null : `向左滑动选取或编辑${typeString}`}</Text>
+                    <Text numberOfLines={4} style={{ color: '#bfbfbf', backgroundColor: "transparent" }}>{value.n ? null : `请选择${typeString}`}</Text>
                     <Text numberOfLines={4} style={{ backgroundColor: "transparent" }} >{value.n ? '名字：' + value.n : null}</Text>
                     <Text numberOfLines={4} style={{ backgroundColor: "transparent" }} >{value.p ? '电话：' + value.p : null}</Text>
                     <Text numberOfLines={4} style={{ backgroundColor: "transparent" }} >{value.i ? '身份证：' + value.i : null}</Text>

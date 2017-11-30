@@ -1,5 +1,5 @@
 import { call, put, take, select } from 'redux-saga/effects';
-import { Alert, AsyncStorage } from 'react-native'
+import { Alert, AsyncStorage, ToastAndroid } from 'react-native'
 import { Url, header } from '../../util';
 
 
@@ -12,6 +12,18 @@ function* modifyItems({ url, body }) {
     return yield res.json();
 }
 
+const alert = (msg) => {
+    Alert.alert(
+        '访问出错',
+        msg,
+        [
+            { text: '返回' },
+        ],
+        { cancelable: false }
+    )
+}
+
+
 const actionStategy = {
     fetchCart: function* (state) {
         const PriceState = yield select(state => state.PriceList);
@@ -22,7 +34,12 @@ const actionStategy = {
             body: { currency: currency }
         })
 
+        console.log(json)
 
+        if (!json.success) {
+            alert(json.message)
+            return
+        }
         yield put({
             type: 'Cart_SET_STATE',
             data: {
@@ -91,7 +108,8 @@ const actionStategy = {
     checkOut: function* (state, others) {
         const res = yield AsyncStorage.multiGet(['Receiver', 'Sender'])
         const returnWithAddress = res[0][1] ? false : true;
-        console.log(returnWithAddress)
+
+        if (ToastAndroid.showWithGravity) ToastAndroid.showWithGravity('结算中...', ToastAndroid.SHORT, ToastAndroid.CENTER);
 
         const json = yield modifyItems({
             url: Url + 'cart/ListSummary',

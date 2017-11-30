@@ -1,5 +1,6 @@
 import { call, put, take, select } from 'redux-saga/effects';
 import { fetchApi, Url } from '../../util';
+import { ToastAndroid } from 'react-native'
 
 
 var posing = false;
@@ -12,6 +13,9 @@ const actionStategy = {
             url: Url + 'event/Get?id=' + others.id,
             body: {}
         })
+        if (ToastAndroid.showWithGravity) {
+            ToastAndroid.showWithGravity('加载中...', ToastAndroid.SHORT, ToastAndroid.CENTER);
+        }
 
         posing = true;
         const json2 = yield fetchApi({
@@ -48,6 +52,9 @@ const actionStategy = {
                 currentpage: currentpage
             }
         })
+        if (ToastAndroid.showWithGravity) {
+            ToastAndroid.showWithGravity('加载中...', ToastAndroid.SHORT, ToastAndroid.CENTER);
+        }
         currentpage++;
         total = json.data.totalItems
         yield put({

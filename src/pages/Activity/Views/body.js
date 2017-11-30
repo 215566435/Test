@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ImageBackground, Dimensions, ScrollView, FlatList, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, ImageBackground, Dimensions, ScrollView, FlatList, Text, TouchableOpacity, Platform } from 'react-native';
 
 import { Spin } from '../../../components/Spin'
 import { CustomTabBar } from '../../../components/CustomTabBar'
@@ -45,7 +45,7 @@ export class Body extends Component {
         return (
             <View>
                 <FlatList
-                    style={{ zIndex: 10, height: height - 44 - 24 }}
+                    style={{ zIndex: 10, height: height - 44 - (Platform.OS === 'ios' ? 0 : 24) }}
                     data={item}
                     renderItem={this.renderItem}
                     numColumns={2}

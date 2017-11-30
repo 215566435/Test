@@ -1,8 +1,8 @@
 rootProject.name = 'austgo-app'
 include ':react-native-share-local'
 project(':react-native-share-local').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-share-local/android')
-include ':react-native-splash-screen'
-project(':react-native-splash-screen').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-splash-screen/android')
+// include ':react-native-splash-screen'
+// project(':react-native-splash-screen').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-splash-screen/android')
 include ':react-native-code-push'
 project(':react-native-code-push').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-code-push/android/app')
 

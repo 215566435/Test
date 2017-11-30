@@ -6,6 +6,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, ImageBackground, Platform } from 'react-native';
 import { Spin } from '../../../components/Spin'
+import { header } from '../../../util';
 
 export class PriceItem extends React.Component {
     state = {
@@ -41,7 +42,8 @@ export class PriceItem extends React.Component {
                         height: 60,
                         constrain: true,
                         bgcolor: 'white'
-                    })
+                    }),
+                    headers: header.get()
                 }}
             >
                 {this.state.onLoad ? <Spin /> : null}
