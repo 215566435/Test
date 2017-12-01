@@ -115,8 +115,8 @@ export class Body extends Component {
     render() {
 
         const loaded = () => {
-            if (!this.props.goodNews) return <View style={{ height: '80%', justifyContent: "center", alignItems: "center" }}><Spin /></View>
-            if (!this.props.event) return <View style={{ height: '80%', justifyContent: "center", alignItems: "center" }}><Spin /></View>
+            if (!this.props.goodNews) return <View style={{ height: Platform.OS === 'ios' ? '80%' : '100%', justifyContent: "center", alignItems: "center" }}><Spin /></View>
+            if (!this.props.event) return <View style={{ height: Platform.OS === 'ios' ? '80%' : '100%', justifyContent: "center", alignItems: "center" }}><Spin /></View>
 
             return (
                 <ScrollView style={{ height: height - 44 - 45 - (Platform.OS === 'ios' ? 23 : 24) }} >

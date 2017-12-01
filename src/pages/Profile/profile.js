@@ -3,10 +3,10 @@
  * 本页面是用于个人登陆
  */
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, ScrollView, TouchableOpacity, Button, Modal, AsyncStorage, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, ScrollView, TouchableOpacity, Button, Modal, AsyncStorage, Alert, Platform } from 'react-native';
 import { StackNavigator } from 'react-navigation'; // 1.0.0-beta.14
 
-
+import { CustomTabBar } from '../../components/CustomTabBar'
 import { Grid } from '../../components/Grid';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'; // 4.4.2
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -55,6 +55,7 @@ export default class Profile extends React.Component {
 
     componentDidMount() {
         this.fetchBalance()
+        this.checkLogin()
     }
 
     /**
@@ -147,14 +148,20 @@ export default class Profile extends React.Component {
             isLogined: true
         })
     }
+    navigationTabBarPress = () => {
+        this.props.navigation.goBack(null)
+    }
     render() {
         return (
-            <ScrollView style={headStyle.container}>
-                <View style={{ height: height - 44 }}>
+            <View style={headStyle.container}>
+                <View style={{ height: height - 44 - (Platform.OS === 'ios' ? 0 : 24) }}>
                     <Head userName={this.state.userName} userBalence={this.state.userBalence} />
                     <GridBody GridItemClick={this.onGridItemClick} />
                 </View>
-            </ScrollView>
+                <CustomTabBar onPress={this.navigationTabBarPress}>
+                    <Text>返回</Text>
+                </CustomTabBar>
+            </View>
         )
     }
 }
@@ -188,6 +195,7 @@ class GridBody extends Component {
                 <ToolItem text='个人信息' name='Person' Image={<MaterialCommunityIcons color={ToolItemColor} name="account-card-details" size={ToolItemSize} style={{ backgroundColor: 'transparent' }} />} />
                 <ToolItem text='修改密码' name='Password' Image={<MaterialCommunityIcons color={ToolItemColor} name="lock" size={ToolItemSize} style={{ backgroundColor: 'transparent' }} />} />
                 <ToolItem text='退出登陆' name='logout' Image={<Entypo name="log-out" color={ToolItemColor} size={ToolItemSize} style={{ backgroundColor: 'transparent' }} />} />
+
             </Grid>
         )
     }

@@ -6,7 +6,7 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Text, Platform } from 'react-native';
 import { connect } from 'react-redux';
-
+import { CustomTabBar } from '../../components/CustomTabBar'
 
 import { Body } from './Views/body'
 
@@ -20,6 +20,9 @@ class Category extends Component {
 
     onheadPress = (e, child, index) => {
     }
+    navigationTabBarPress = () => {
+        this.props.navigation.goBack(null)
+    }
 
     render() {
         return (
@@ -30,6 +33,9 @@ class Category extends Component {
                     onHeadPress={this.props.onHeadPress}
                     headerCateID={this.props.headerCateID}
                 />
+                <CustomTabBar onPress={this.navigationTabBarPress}>
+                    <Text>返回</Text>
+                </CustomTabBar>
             </View>
         )
     }

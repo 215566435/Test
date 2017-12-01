@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Platform } from 'react-native';
-import { TabNavigator } from 'react-navigation'; // 1.0.0-beta.14
+import { TabNavigator, StackNavigator } from 'react-navigation'; // 1.0.0-beta.14
 import Ionicons from 'react-native-vector-icons/Ionicons'; // 4.4.2
 import FontAwesome from 'react-native-vector-icons/FontAwesome'; // 4.4.2
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -12,14 +12,26 @@ import PriceList from './pages/PriceList/router'
 import Category from './pages/Category/router'
 import Home from './pages/Home/router'
 import EventPage from './pages/EventPage/router'
-
+import ManifestPage from './pages/Manifest'
+import Person from './pages/Person'
+import Address from './pages/Address'
+import DetailPage from './pages/Detail';
+import GoodState from './pages/GoodState';
+import Cart from './pages/Cart';
+import Settle from './pages/Settle';
+import Deposite from './pages/DepositeLog';
+import Password from './pages/Password';
+import Login from './pages/Login';
+import Search from './pages/SearchPage';
+import Activity from './pages/Activity'
 
 const iconsSize = Platform.OS === 'ios' ? 26 : 15;
 
-const RootTabs = TabNavigator({
+const RootTabs = StackNavigator({
     EventPage: {
         screen: EventPage,
         navigationOptions: {
+            header: null,
             tabBarLabel: '最新',
             tabBarIcon: ({ tintColor, focused }) => (
                 <FontAwesome
@@ -82,34 +94,84 @@ const RootTabs = TabNavigator({
             ),
         },
     },
+    Manifest: {
+        screen: ManifestPage,
+        navigationOptions: {
+            tabBarVisible: false
+        }
+    },
+    Person: {
+        screen: Person,
+        navigationOptions: {
+            tabBarVisible: false
+        }
+    },
+    Address: {
+        screen: Address,
+        navigationOptions: {
+            tabBarVisible: false
+        }
+    },
+    GoodState: {
+        screen: (props) => <GoodState {...props} />,
+        navigationOptions: {
+            header: null,
+            tabBarVisible: false,
+            gesturesEnabled: true
+        }
+    },
+    ManifestDetail: {
+        screen: DetailPage,
+        navigationOptions: {
+            header: null,
+            tabBarVisible: false,
+            gesturesEnabled: true
+        }
+    },
+    Cart: {
+        screen: (props) => <Cart {...props} />,
+        navigationOptions: {
+            header: null,
+            tabBarVisible: false,
+            gesturesEnabled: true
+        }
+    },
+    Settle: {
+        screen: (props) => <Settle {...props} />,
+        navigationOptions: {
+            header: null,
+            tabBarVisible: false,
+            gesturesEnabled: true
+        }
+    },
+    Password: {
+        screen: (props) => <Password {...props} />,
+        navigationOptions: {
+            title: '修改密码',
+            tabBarVisible: false,
+            gesturesEnabled: true
+        }
+    },
+    Deposite: {
+        screen: (props) => <Deposite {...props} />,
+        navigationOptions: {
+            title: '预存款记录',
+            tabBarVisible: false,
+            gesturesEnabled: true
+        }
+    },
+    Login: {
+        screen: (props) => <Login {...props} Profile={_profile} />,
+        navigationOptions: {
+            header: null,
+            tabBarVisible: false,
+            gesturesEnabled: true
+        }
+    },
 }, {
         initialRouteName: 'Home',
-        tabBarPosition: 'bottom',
-        swipeEnabled: false,
-        animationEnabled: false,
-        tabBarOptions: {
-            style: {
-                height: 44,
-                backgroundColor: "#f5f5f5",
-            },
-            labelStyle: {
-                fontSize: 8,
-            },
-            iconStyle: {
-                width: 15,
-                height: 15
-            },
-            indicatorStyle: {
-                top: 0,
-                backgroundColor: "#f04134"
-            },
-            showIcon: true,
-            activeBackgroundColor: 'white',
-            activeTintColor: '#f04134',
-            inactiveBackgroundColor: 'white',
-            inactiveTintColor: '#aaa',
-            showLabel: true
-        }
+        mode: 'card',
+        headerMode: 'screen'
     });
 
 export default RootTabs;

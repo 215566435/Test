@@ -67,79 +67,13 @@ const mapDispatch = (dispatch) => {
     }
 }
 
-const connected = connect(null, mapDispatch)(ProfileHOC())
+connected = connect(null, mapDispatch)(ProfileHOC())
 
 export default StackNavigator({
     Profile: {
         screen: connected,
         navigationOptions: {
             header: null
-        }
-    },
-    Manifest: {
-        screen: ManifestPage,
-        navigationOptions: {
-            tabBarVisible: false
-        }
-    },
-    Person: {
-        screen: Person,
-        navigationOptions: {
-            tabBarVisible: false
-        }
-    },
-    Address: {
-        screen: Address,
-        navigationOptions: {
-            tabBarVisible: false
-        }
-    },
-    GoodState: {
-        screen: (props) => <GoodState {...props} />,
-        navigationOptions: {
-            title: '订单详情',
-            tabBarVisible: false,
-            gesturesEnabled: true
-        }
-    },
-    ManifestDetail: {
-        screen: DetailPage,
-        navigationOptions: {
-            header: null,
-            tabBarVisible: false,
-            gesturesEnabled: true
-        }
-    },
-    Cart: {
-        screen: (props) => <Cart {...props} />,
-        navigationOptions: {
-            header: null,
-            tabBarVisible: false,
-            gesturesEnabled: true
-        }
-    },
-    Settle: {
-        screen: (props) => <Settle {...props} />,
-        navigationOptions: {
-            header: null,
-            tabBarVisible: false,
-            gesturesEnabled: true
-        }
-    },
-    Password: {
-        screen: (props) => <Password {...props} />,
-        navigationOptions: {
-            title: '修改密码',
-            tabBarVisible: false,
-            gesturesEnabled: true
-        }
-    },
-    Deposite: {
-        screen: (props) => <Deposite {...props} />,
-        navigationOptions: {
-            title: '预存款记录',
-            tabBarVisible: false,
-            gesturesEnabled: true
         }
     },
     Login: {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, Modal } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, Modal, Dimensions } from 'react-native';
 
 
 import { Cells } from './Cells'
@@ -9,6 +9,8 @@ import { Model, itemState, itemStateColor, stockState, DeliveryColor, DeliverySt
 
 
 import { Spin } from '../../../components/Spin';
+
+const { height } = Dimensions.get("window")
 
 export class Content extends Component {
     static defaultProps = {
@@ -84,7 +86,7 @@ export class Content extends Component {
 
         const time = model.CreateTime.split('T');
         return (
-            <ScrollView style={{ height: '100%', backgroundColor: '#e9e9e9' }}>
+            <ScrollView style={{ height: height - 44, backgroundColor: '#e9e9e9' }}>
                 <Cells style={{ padding: 20, flexDirection: 'row', justifyContent: "space-between", backgroundColor: PackStatusColor[model.PackStatus] }}>
                     <View>
                         <Text style={{ fontSize: 18, color: 'white', backgroundColor: "transparent" }}>

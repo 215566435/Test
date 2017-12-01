@@ -22,8 +22,6 @@ export class Body extends Component {
         this.props.navigate('Cart')
     }
 
-    componentWillReceiveProps(e) {
-    }
     renderEvent = (child) => {
         const item = child.item;
         const { onActivityPress } = this.props;
@@ -83,7 +81,7 @@ export class Body extends Component {
         if (!this.props.event) return <View style={{ height: '100%', justifyContent: "center", alignItems: "center" }}><Spin /></View>
         const { event, search, isAud, EventOnValueChange } = this.props;
         return (
-            <View>
+            <View >
                 <PriceListHeader search={search} isShowAud={isAud} onValueChange={EventOnValueChange} onCartPress={this.onCartPress} />
                 <View style={{ backgroundColor: "#e9e9e9", height: height - 43 - 44 - 25 }}>
                     <FlatList

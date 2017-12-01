@@ -55,7 +55,7 @@ const actionStategy = {
         const fix = !state.isAud ? 'true' : 'false'
         AsyncStorage.setItem('isAud', fix)
         yield put({
-            type: 'SET_STATE',
+            type: 'SET_STATE_Currency',
             data: { ...state, isAud: state.isAud !== void 666 ? !state.isAud : true }
         })
     },

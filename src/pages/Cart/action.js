@@ -57,7 +57,7 @@ const actionStategy = {
 
         const audState = !PriceState.isAud;
         yield put({
-            type: 'SET_STATE',
+            type: 'SET_STATE_Currency',
             data: { ...PriceState, isAud: audState }
         })
 

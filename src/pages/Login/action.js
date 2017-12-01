@@ -1,20 +1,87 @@
 import { call, put, take, select } from 'redux-saga/effects';
 import { Url, header } from '../../util';
-import { Alert } from 'react-native';
+import { Alert, Platform, ToastAndroid } from 'react-native';
+import * as WeChat from 'react-native-wechat';
+/**
+ * 服务器返回的错误代码，用map来对应
+ */
+const ERR_MSG = {
+    'UserName Required': '用户名必须填写',
+    'Password Required': '密码必须填写',
+    "Verify Required": '验证码必须填写'
+}
 
-function* fetchSelect({ url, body }) {
+/**
+ * 封装的alert方法
+ * @param {string} msg 
+ */
+function alert(msg) {
+    Alert.alert(
+        '登陆失败',
+        ERR_MSG[msg] ? ERR_MSG[msg] : msg,
+        [
+            { text: 'Cancel', style: 'cancel' },
+            { text: 'OK' },
+        ],
+        { cancelable: false }
+    )
+}
+
+function* showLoading(bool) {
+    yield put({
+        type: 'Login_SET_STATE',
+        data: {
+            loading: bool
+        }
+    })
+}
+
+function* fetchWrap({ url, body }) {
+    if (Platform.OS !== 'ios') {
+        ToastAndroid.showWithGravity('登陆中...', ToastAndroid.SHORT, ToastAndroid.CENTER);
+    } else {
+        yield showLoading(true)
+    }
     const res = yield call(fetch, url, {
         method: 'POST',
         headers: header.get(),
         body: JSON.stringify(body),
     })
+    yield showLoading(false)
     return yield res.json();
 }
 
 
 const actionStategy = {
-    fetchPerson: function* () {
-
+    onWechatLogin: function* (state, others) {
+        try {
+            const wxRes = yield WeChat.sendAuthRequest('snsapi_userinfo');
+            const json = yield fetchWrap({
+                url: Url + 'user/LoginByWechat',
+                body: {
+                    WechatCode: wxRes.code
+                }
+            })
+            others.ins.onLoginFinished(json)
+        } catch (e) {
+            alert(e)
+        }
+    },
+    onNormalLogin: function* (state, others) {
+        try {
+            const body = {
+                username: others.form.name,
+                password: others.form.psw,
+                verify: others.form.code
+            }
+            const json = yield fetchWrap({
+                url: Url + 'user/Login',
+                body: body
+            })
+            others.ins.onLoginFinished(json)
+        } catch (e) {
+            alert(e)
+        }
     }
 }
 
@@ -38,3 +105,4 @@ export const watch = function* () {
         }
     }
 }
+

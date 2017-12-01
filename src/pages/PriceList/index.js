@@ -12,6 +12,7 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import { Spin } from '../../components/Spin'
 import { PageHeader } from '../../components/PageHeader'
 import { SearchBar } from '../../components/SearchBar'
+import { CustomTabBar } from '../../components/CustomTabBar'
 import { stateBarMargin } from '../../util'
 import { PriceItem } from './Views/PriceItem'
 
@@ -46,6 +47,9 @@ class PriceList extends React.Component {
     }
     componentDidMount() {
         this.props.FetchList();
+    }
+    componentWillUnmount() {
+        this.props.clearPricelist()
     }
 
     itemClick = (item, index) => {
@@ -102,6 +106,9 @@ class PriceList extends React.Component {
         onEndReachedThreshold={0.1}
     />
 
+    navigationTabBarPress = () => {
+        this.props.navigation.goBack(null)
+    }
     render() {
         return (
             <View style={{ height: '100%' }} >
@@ -135,6 +142,9 @@ class PriceList extends React.Component {
                 />
                 {this.renderFlatList()}
                 {this.props.onPost ? this.renderSpin() : null}
+                <CustomTabBar onPress={this.navigationTabBarPress}>
+                    <Text>返回</Text>
+                </CustomTabBar>
             </View>
         )
     }
@@ -278,7 +288,8 @@ const mapDispatch = (dispatch) => {
         clearList: () => dispatch({ type: 'clearList' }),
         currentID: (id) => dispatch({ type: 'setID', id: id }),
         changeCurrency: () => dispatch({ type: 'changeCurrency' }),
-        onDeliveryFree: () => dispatch({ type: 'DeliveryFree' })
+        onDeliveryFree: () => dispatch({ type: 'DeliveryFree' }),
+        clearPricelist: () => dispatch({ type: 'clearPricelist' })
     }
 }
 

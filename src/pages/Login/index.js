@@ -112,70 +112,6 @@ export default class LoginPage extends React.Component {
             }
         }
     }
-
-    wxChat = () => {//微信
-        (
-            async (that) => {
-                try {
-                    if (Platform.OS === 'ios') {
-                        that.setState({
-                            loading: true
-                        })
-                    } else {
-                        ToastAndroid.showWithGravity('登陆中...', ToastAndroid.SHORT, ToastAndroid.CENTER);
-                    }
-                    const wxRes = await WeChat.sendAuthRequest('snsapi_userinfo');
-                    const code = wxRes.code;
-
-                    const res = await fetch(Url + 'user/LoginByWechat', {
-                        method: "POST",
-                        headers: header.get(),
-                        body: JSON.stringify({
-                            WechatCode: code
-                        })
-                    })
-                    const json = await res.json();
-                    that.loginFinish(json);
-                } catch (e) {
-                    alert('微信登陆出错', e)
-                }
-            }
-        )(this)
-    }
-    normal = () => {
-        (
-            async (that) => {
-                that.setState({
-                    loading: true
-                })
-
-                const body = that.state.old ? {
-                    username: that.state.name,
-                    password: that.state.psw,
-                    verify: that.state.code,
-                    unionId: that.state.unionId,
-                    hash: that.state.hash
-                } : {
-                        username: that.state.name,
-                        password: that.state.psw,
-                        verify: that.state.code
-                    }
-                console.log(body);
-
-                const res = await fetch(Url + 'user/Login', {
-                    method: "POST",
-                    headers: header.get(),
-                    body: JSON.stringify(body)
-                })
-
-                const json = await res.json()
-
-                console.log(json);
-
-                that.loginFinish(json);
-            }
-        )(this)
-    }
     Old = () => {
         this.setState({
             register: false,
@@ -271,28 +207,6 @@ export default class LoginPage extends React.Component {
             })
         }
     }
-
-    /**
-     * 正常登陆页面
-     */
-    renderNormalLogin = () => (
-        <View style={{
-            height: '100%', justifyContent: 'center'
-        }} >
-            <Input addonBefore='登陆名' name='name' onChangeText={this.onChange} />
-            <Input addonBefore='密码' password={true} name='psw' onChangeText={this.onChange} />
-            <Input addonBefore='验证码' name='code' onChangeText={this.onChange} value={this.state.code} />
-
-            <Code ref={(ins) => this.ins = ins} />
-            <Button title='登陆' onPress={this.normal} />
-            <Button title='没有账户，转到新用户注册' onPress={this.newRegister} style={{ backgroundColor: "#f56a00" }} />
-            <Button title='取消' onPress={this.cancel} style={{ backgroundColor: '#919191' }} />
-            {this.state.old ? null : <WechatButton onPress={this.wxChat} />}
-
-            {this.state.loading ? <SpinScreen text={'登陆中...'} /> : null}
-
-        </View>
-    )
     /**
      * 用户微信登陆的绑定界面
      */
@@ -360,7 +274,11 @@ export default class LoginPage extends React.Component {
     render() {
 
         if (this.state.register === 0) {
-            return this.renderNormalLogin()
+            return <NormalLogin
+                {...this.props}
+                loadingFinished={this.loginFinish}
+                onNewRegister={this.newRegister}
+            />
         }
         if (this.state.register === 1) {
             return this.renderRegister()

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Alert } from 'react-native';
+import { View, Alert, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import { Content } from './Views/Content'
 import { Model } from './model'
+import { CustomTabBar } from '../../components/CustomTabBar'
 
 class GoodState extends Component {
 
@@ -25,6 +26,9 @@ class GoodState extends Component {
             { cancelable: false }
         )
     }
+    navigationTabBarPress = () => {
+        this.props.navigation.goBack(null)
+    }
 
     render() {
         return (
@@ -45,6 +49,9 @@ class GoodState extends Component {
                     Payment={this.props.Payment}
                     MarkAsSentToBuyer={this.props.MarkAsSentToBuyer}
                 />
+                <CustomTabBar onPress={this.navigationTabBarPress}>
+                    <Text>返回</Text>
+                </CustomTabBar>
             </View>
         )
     }

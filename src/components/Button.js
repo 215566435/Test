@@ -4,6 +4,8 @@
  */
 import React from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'; // 4.4.2
+
 
 export const Button = ({ onPress = () => void 666, disabled = false, title = '按钮', style = {}, image }) => {
     const mergeStyle = { ...style }
@@ -39,3 +41,19 @@ const ButtonStyle = StyleSheet.create({
         backgroundColor: "transparent"
     }
 })
+
+export const WechatButton = ({ onPress }) => {
+    return (
+        <TouchableOpacity onPress={onPress} activeOpacity={0.4}>
+            <View style={{ justifyContent: "center", alignItems: 'center' }}>
+                <FontAwesome
+                    name='wechat'
+                    size={44}
+                    color='#62b900'
+                    style={{ backgroundColor: "transparent" }}
+                />
+                <Text style={{ backgroundColor: "transparent" }}>微信登陆</Text>
+            </View>
+        </TouchableOpacity>
+    )
+}

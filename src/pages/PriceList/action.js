@@ -68,7 +68,7 @@ const actionStategy = {
         AsyncStorage.setItem('isAud', fix)
 
         yield put({
-            type: 'SET_STATE',
+            type: 'SET_STATE_Currency',
             data: { ...state, isAud: state.isAud !== void 666 ? !state.isAud : true }
         })
     },
@@ -76,6 +76,15 @@ const actionStategy = {
         yield put({
             type: 'SET_STATE',
             data: { ...state, isDeliveryFree: state.isDeliveryFree !== void 666 ? !state.isDeliveryFree : true }
+        })
+    },
+    clearPricelist: function* (state) {
+        posing = false
+        currentPage = 1
+        currentKeyWord = ''
+        yield put({
+            type: 'SET_STATE',
+            data: { ...state, FlatList: [] }
         })
     }
 }

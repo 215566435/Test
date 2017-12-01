@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ScrollView, View, Text, Image, Dimensions, TouchableOpacity, Platform } from 'react-native';
 
 import { Stepper } from '../../../components/Stepper'
+import { header } from '../../../util';
 const { height, width } = Dimensions.get('window')
 
 const stockStatus = {
@@ -55,7 +56,10 @@ class CartItemCore extends Component {
                         flexDirection: 'row'
                     }}>
                     <Image
-                        source={{ uri: url }}
+                        source={{
+                            uri: url,
+                            headers: header.get()
+                        }}
                         style={{
                             width: 100,
                             height: 100,

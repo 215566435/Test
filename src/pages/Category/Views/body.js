@@ -43,8 +43,9 @@ export class Body extends Component {
     }
 
     render() {
+        const pheight = Platform.OS === 'ios' ? height - 66 : height - 66
         return (
-            <View style={{ backgroundColor: "white" }}>
+            <View style={{ backgroundColor: "white", height: pheight }}>
                 <TabHead
                     ActivateIndex={this.props.headerCateID}
                     tabItem={['澳购网', 'UGG']}

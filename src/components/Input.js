@@ -44,6 +44,7 @@ export class Input extends Component {
                         paddingBottom: size[this.props.size],
                         fontSize: 14
                     }}
+
                     secureTextEntry={password}
                     value={this.props.value}
                     onChangeText={(text) => { onChangeText(text, this.props.name) }}

@@ -18,7 +18,7 @@ export default StackNavigator(
             }
         },
         EventDetailPage: {
-            screen: DetailPage,
+            screen: (props) => <DetailPage {...props} />,
             navigationOptions: {
                 header: null,
                 tabBarVisible: false,
