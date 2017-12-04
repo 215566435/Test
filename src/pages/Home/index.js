@@ -38,7 +38,6 @@ class Home extends Component {
         this.props.fetchHome();
     }
     onLayoutPress = (e, child, index) => {
-        console.log(child.key)
         this.props.checkDetail(child.key, this)
     }
     navigationTabBarPress = (e, child, index) => {

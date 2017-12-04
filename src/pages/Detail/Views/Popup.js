@@ -213,7 +213,7 @@ class Spes extends Component {
             const stock = item.st;
             const state = item.s;
             const name = item.n;
-            if (!item.st) return null;
+            if (item.st === void 666) return null;
             return (
                 <View key={item.n} style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Text
@@ -258,6 +258,7 @@ class Spes extends Component {
     }
     render() {
         const { property, pt } = this.props;
+
         if (!property) return <Spin />;
         return property.length === 1 ? this.renderOne() : this.renderTwo();
     }

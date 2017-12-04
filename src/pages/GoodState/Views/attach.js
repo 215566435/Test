@@ -10,15 +10,18 @@ import { Spin } from '../../../components/Spin';
 import { Url, header } from '../../../util';
 
 const { height, width } = Dimensions.get('window')
-// export interface ShareActionSheetIOSOptions {
-//     message?: string
-//     url?: string
-//     subject?: string
-//     /** The activities to exclude from the ActionSheet.
-//      * For example: ['com.apple.UIKit.activity.PostToTwitter']
-//      */
-//     excludedActivityTypes?: string[]
-// }
+
+
+const alert = (msg) => {
+    Alert.alert(
+        '分享失败',
+        msg,
+        [
+            { text: '返回', style: 'cancel' },
+        ],
+        { cancelable: false }
+    )
+}
 
 
 export class Attach extends Component {
@@ -46,23 +49,21 @@ export class Attach extends Component {
             images: newImages
         })
     }
-    onShare(url) {
+    onShare = (url) => {
         let urlArray = []
-        for (let i in this.state.images) {
-            if (this.state.images[i].choose) {
-                console.log(this.state.images[i])
-                urlArray.push('http://cdn2u.com' + this.state.images[i].file + '?width=500&height=500&constrain=true&bgcolor=white')
+        try {
+            for (let i in this.state.images) {
+                if (this.state.images[i].choose) {
+
+                    urlArray.push('http://cdn2u.com' + this.state.images[i].file + '?width=500&height=500&constrain=true&bgcolor=white')
+                }
             }
+        } catch (e) {
+
         }
+
         if (urlArray.length === 0) {
-            Alert.alert(
-                '分享失败',
-                '请选择至少一张图片进行分享',
-                [
-                    { text: '返回', style: 'cancel' },
-                ],
-                { cancelable: false }
-            )
+            alert('请选择至少一张图片进行分享')
             return;
         }
         this.setState({
@@ -89,7 +90,7 @@ export class Attach extends Component {
                     imagesUrl: urlArray,
                     text: "测试一下朋友圈分享",
                     //component:["com.tencent.mobileqq","com.tencent.mobileqq.activity.JumpActivity"],
-                    component: ["com.tencent.mm", "com.tencent.mm.ui.tools.ShareToTimeLineUI","com.tencent.mm.ui.tools.ShareUI"],
+                    component: ["com.tencent.mm", "com.tencent.mm.ui.tools.ShareToTimeLineUI", "com.tencent.mm.ui.tools.ShareUI"],
                     callback: (error) => {
                         alert("success")
                     }
@@ -107,6 +108,10 @@ export class Attach extends Component {
         if (index === 0) {
             this.props.ReturnAttach()
         } else {
+            if (image[0] === void 666) {
+                alert('目前还没有订单')
+                return
+            }
             this.onShare('http://cdn2u.com' + image[0].file)
         }
     }

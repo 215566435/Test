@@ -32,7 +32,7 @@ const RootTabs = StackNavigator({
         screen: EventPage,
         navigationOptions: {
             header: null,
-            tabBarLabel: '最新',
+            tabBarLabel: '最新活动',
             tabBarIcon: ({ tintColor, focused }) => (
                 <FontAwesome
                     name='volume-up'

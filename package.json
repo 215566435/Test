@@ -18,6 +18,7 @@
     "link": "react-native link react-native-share-local",
     "upgrade": "react-native upgrade",
     "build": "./publish.sh",
+    "build-test": "./publish-test.sh",
     "look": "code-push deployment ls aust-go -k",
     "looka": "code-push deployment ls austgo-android -k",
     "builda": "./publisha.sh",

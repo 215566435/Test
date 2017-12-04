@@ -5,6 +5,7 @@ export const reducer = (state = {}, action) => {
         case 'SET_STATE_Currency':
             const fix = action.data.isAud ? 'true' : 'false'
             AsyncStorage.setItem('isAud', fix)
+
             const newState_Currency = { ...state, ...action.data }
             return newState_Currency
             break;
