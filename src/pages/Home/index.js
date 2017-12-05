@@ -25,7 +25,7 @@ class Icon extends Component {
                     color={color}
                     style={{ backgroundColor: "transparent" }}
                 />
-                <Text style={{ backgroundColor: "transparent", fontSize: 12, color: color }}>{title}</Text>
+                <Text style={{ backgroundColor: "transparent", fontSize: 10, color: color }}>{title}</Text>
             </View>
         )
     }

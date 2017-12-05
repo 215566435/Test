@@ -232,14 +232,14 @@ export default class Settle extends Component {
                         </PickerView>
                         {this.state.deliveryFee === 0 ? null :
                             (<View style={{ paddingLeft: 15, height: 40, flexDirection: "row", alignItems: "center", borderBottomWidth: 0.5, borderBottomColor: "#e9e9e9" }}>
-                                <Text style={{ backgroundColor: "transparent" }}>快递费</Text>
-                                <Text style={{ marginLeft: 30, backgroundColor: "transparent" }}>{(this.state.currency === 'RMB' ? '¥' : '$') + this.state.deliveryFee}</Text>
+                                <Text style={{ backgroundColor: "transparent", fontSize: 12 }}>快递费</Text>
+                                <Text style={{ marginLeft: 30, backgroundColor: "transparent", fontSize: 12 }}>{(this.state.currency === 'RMB' ? '¥' : '$') + this.state.deliveryFee}</Text>
                             </View>)
                         }
                         {this.state.otherFee === 0 ? null :
                             (<View style={{ paddingLeft: 15, height: 40, flexDirection: "row", alignItems: "center", borderBottomWidth: 0.5, borderBottomColor: "#e9e9e9" }}>
-                                <Text style={{ backgroundColor: "transparent" }}>代发税费</Text>
-                                <Text style={{ marginLeft: 30, backgroundColor: "transparent" }}>{(this.state.currency === 'RMB' ? '¥' : '$') + this.state.otherFee}</Text>
+                                <Text style={{ backgroundColor: "transparent", fontSize: 12 }}>代发税费</Text>
+                                <Text style={{ marginLeft: 30, backgroundColor: "transparent", fontSize: 12 }}>{(this.state.currency === 'RMB' ? '¥' : '$') + this.state.otherFee}</Text>
                             </View>)
                         }
                         {this.state.insuranceRate === 0 ? null : (

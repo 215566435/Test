@@ -89,7 +89,7 @@ class OrderItem extends Component {
         const goods = this.props.child.item.go.map((item) => {
             const url = 'http://cdn2u.com' + item.im + `?width=${250}` + `&height=${250}` + `&constrain=${true}` + `&bgcolor=white`;
             return (
-                <View key={item.i} style={{ flexDirection: 'row', width: '100%', marginTop: 5, alignItems: 'center', paddingHorizontal: 5 }}>
+                <View key={item.i} style={{ flexDirection: 'row', width: '100%', marginTop: 5, alignItems: 'center', padding: 5 }}>
                     <View style={{ height: 100, width: 100, borderWidth: 0.5, alignItems: "center", justifyContent: "center", borderColor: "#bfbfbf", backgroundColor: "transparent" }}>
                         <Image
                             source={{ uri: url }}
@@ -97,14 +97,14 @@ class OrderItem extends Component {
                         />
                     </View>
                     <View style={{ width: '70%', padding: 10 }}>
-                        <Text style={{ backgroundColor: "transparent" }} >{item.sn}</Text>
+                        <Text style={{ backgroundColor: "transparent", fontSize: 12 }} >{item.sn}</Text>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
                             <Text style={{ color: '#f56a00', fontSize: 18, backgroundColor: "transparent" }}>{item.c === 'RMB' ? "¥" : "$"}{item.i}</Text>
-                            <Text style={{ color: '#bfbfbf', backgroundColor: "transparent" }}>{stockState[item.ss]}</Text>
+                            <Text style={{ color: '#bfbfbf', backgroundColor: "transparent", fontSize: 12 }}>{stockState[item.ss]}</Text>
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={{ color: itemStateColor[item.s], backgroundColor: "transparent" }}>{itemState[item.s]}</Text>
-                            <Text style={{ backgroundColor: "transparent" }}>数量:{item.q}</Text>
+                            <Text style={{ color: itemStateColor[item.s], backgroundColor: "transparent", fontSize: 12 }}>{itemState[item.s]}</Text>
+                            <Text style={{ backgroundColor: "transparent", fontSize: 12 }}>数量:{item.q}</Text>
                         </View>
                     </View>
                 </View>
@@ -121,7 +121,7 @@ class OrderItem extends Component {
         const item = child.item;
         const time = item.t.split('T')
         return (
-            <View style={{ borderBottomWidth: 5, borderBottomColor: '#f7f7f7' }}>
+            <View style={{ borderBottomWidth: 5, borderBottomColor: '#e8e8e8' }}>
                 <TouchableOpacity onPress={onPress}>
                     <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#d9d9d9' }}>
                         <View style={{ padding: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>

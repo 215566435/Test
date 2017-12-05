@@ -106,7 +106,6 @@ export class Content extends Component {
                             </Text>
                         </TouchableOpacity>)
                     }
-
                 </Cells>
                 <Cells>
                     <Text style={{ color: '#f56a00', backgroundColor: "transparent" }}>总价格：{CurrencySwitcher + model.Price}</Text>

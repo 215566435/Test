@@ -35,14 +35,14 @@ export class Input extends Component {
                     alignItems: 'center'
                 }}
             >
-                {addonBefore ? <Text style={{ backgroundColor: "transparent", width: 80, paddingLeft: 14, fontSize: 14, paddingTop: size[this.props.size], paddingBottom: size[this.props.size] }}>{addonBefore}</Text> : null}
+                {addonBefore ? <Text style={{ backgroundColor: "transparent", width: 80, paddingLeft: 14, fontSize: 12, paddingTop: size[this.props.size], paddingBottom: size[this.props.size] }}>{addonBefore}</Text> : null}
                 <TextInput
                     style={{
                         width: "70%",
                         paddingLeft: 10,
                         paddingTop: size[this.props.size],
                         paddingBottom: size[this.props.size],
-                        fontSize: 14
+                        fontSize: 12
                     }}
 
                     secureTextEntry={password}

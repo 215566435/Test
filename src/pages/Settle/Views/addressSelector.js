@@ -97,11 +97,15 @@ export class AddressSelector extends Component {
                 <ContentText value={value} type={type} containerHeight={containerHeight} />
                 <View style={{ flexDirection: 'row', justifyContent: "center" }}>
                     <TouchableOpacity onPress={this.onPress} style={{ backgroundColor: '#948aec', borderRadius: 5 }} >
-                        <View style={{ alignItems: "center", justifyContent: 'center', flex: 1 }}><Text style={{ fontSize: 15, color: 'white', backgroundColor: "transparent" }}>选取</Text></View>
+                        <View style={{ alignItems: "center", justifyContent: 'center', flex: 1 }}>
+                            <Text style={{ fontSize: 15, padding: 2, color: 'white', backgroundColor: "transparent" }}>选取</Text>
+                        </View>
                     </TouchableOpacity>
                     {value.n ?
-                        <TouchableOpacity onPress={this.onEdit} style={{ marginLeft: 10, backgroundColor: '#f78e3d', borderRadius: 5  }} >
-                            <View style={{ alignItems: "center", justifyContent: 'center', flex: 1 }}><Text style={{ fontSize: 15, color: 'white', backgroundColor: "transparent" }}>编辑</Text></View>
+                        <TouchableOpacity onPress={this.onEdit} style={{ marginLeft: 10, backgroundColor: '#f78e3d', borderRadius: 5 }} >
+                            <View style={{ alignItems: "center", justifyContent: 'center', flex: 1 }}>
+                                <Text style={{ fontSize: 15, padding: 2, color: 'white', backgroundColor: "transparent" }}>编辑</Text>
+                            </View>
                         </TouchableOpacity>
                         :
                         null
@@ -139,13 +143,13 @@ class ContentText extends Component {
                     width: width
                 }}
             >
-                <Text style={{ backgroundColor: "transparent" }}>{typeString}</Text>
+                <Text style={{ backgroundColor: "transparent", fontSize: 12 }}>{typeString}</Text>
                 <View style={{ marginLeft: 20 }}>
-                    <Text numberOfLines={4} style={{ color: '#bfbfbf', backgroundColor: "transparent" }}>{value.n ? null : `请选择${typeString}`}</Text>
-                    <Text numberOfLines={4} style={{ backgroundColor: "transparent" }} >{value.n ? '名字：' + value.n : null}</Text>
-                    <Text numberOfLines={4} style={{ backgroundColor: "transparent" }} >{value.p ? '电话：' + value.p : null}</Text>
-                    <Text numberOfLines={4} style={{ backgroundColor: "transparent" }} >{value.i ? '身份证：' + value.i : null}</Text>
-                    <Text numberOfLines={4} style={{ width: 230, backgroundColor: "transparent" }}>{value ? value.a : null}</Text>
+                    <Text numberOfLines={4} style={{ color: '#bfbfbf', backgroundColor: "transparent", fontSize: 12 }}>{value.n ? null : `请选择${typeString}`}</Text>
+                    <Text numberOfLines={4} style={{ backgroundColor: "transparent", fontSize: 12 }} >{value.n ? '名字：' + value.n : null}</Text>
+                    <Text numberOfLines={4} style={{ backgroundColor: "transparent", fontSize: 12 }} >{value.p ? '电话：' + value.p : null}</Text>
+                    <Text numberOfLines={4} style={{ backgroundColor: "transparent", fontSize: 12 }} >{value.i ? '身份证：' + value.i : null}</Text>
+                    <Text numberOfLines={4} style={{ width: 230, backgroundColor: "transparent", fontSize: 12 }}>{value ? value.a : null}</Text>
                 </View>
             </View>
         )
