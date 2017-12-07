@@ -4,14 +4,11 @@ import { View, ScrollView, Image, Dimensions, Text, TouchableOpacity, Platform, 
 import Ionicons from 'react-native-vector-icons/Ionicons'; // 4.4.2
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
-import { Carousel } from '../../../components/Carousel';
-import { Grid } from '../../../components/Grid'
-import { Spin } from '../../../components/Spin'
-import { PageHeader } from '../../../components/PageHeader'
-
-
-
-const { width, height } = Dimensions.get('window')
+import { Carousel } from 'component/Carousel';
+import { Grid } from 'component/Grid';
+import { Spin } from 'component/Spin';
+import { PageHeader } from 'component/PageHeader';
+import { width, height } from 'utils';
 
 export class Body extends Component {
     static defaultProps = {
@@ -82,7 +79,12 @@ export class Body extends Component {
         const { event, search, isAud, EventOnValueChange } = this.props;
         return (
             <View >
-                <PriceListHeader search={search} isShowAud={isAud} onValueChange={EventOnValueChange} onCartPress={this.onCartPress} />
+                <PriceListHeader
+                    search={search}
+                    isShowAud={isAud}
+                    onValueChange={EventOnValueChange}
+                    onCartPress={this.onCartPress}
+                />
                 <View style={{ backgroundColor: "#e9e9e9", height: height - 43 - 44 - 25 }}>
                     <FlatList
                         data={event}

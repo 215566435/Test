@@ -1,6 +1,6 @@
 import { call, put, take, select } from 'redux-saga/effects';
 import { AsyncStorage } from 'react-native';
-import { Url, header } from '../../util';
+import { Url, header } from 'utils';
 
 function* fetchFunc({ url, body }) {
     const res = yield call(fetch, url, {

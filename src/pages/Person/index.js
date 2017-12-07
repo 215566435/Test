@@ -6,11 +6,11 @@ import React, { Component } from 'react';
 import { View, ScrollView, Text, Platform, Picker } from 'react-native';
 import { connect } from 'react-redux';
 
-import { Form, FormItem } from '../../components/Form'
-import { Input } from '../../components/Input'
-import { Button } from '../../components/Button'
-import { Spin } from '../../components/Spin'
-import { PickerView } from '../../components/Picker'
+import { Form, FormItem } from 'component/Form'
+import { Input } from 'component/Input'
+import { Button } from 'component/Button'
+import { Spin } from 'component/Spin'
+import { PickerView } from 'component/Picker'
 
 class Person extends Component {
     static navigationOptions = {

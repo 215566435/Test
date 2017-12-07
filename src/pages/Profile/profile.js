@@ -6,8 +6,8 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, ScrollView, TouchableOpacity, Button, Modal, AsyncStorage, Alert, Platform } from 'react-native';
 import { StackNavigator } from 'react-navigation'; // 1.0.0-beta.14
 
-import { CustomTabBar } from '../../components/CustomTabBar'
-import { Grid } from '../../components/Grid';
+import { CustomTabBar } from 'component/CustomTabBar'
+import { Grid } from 'component/Grid';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'; // 4.4.2
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -17,15 +17,9 @@ import Entypo from 'react-native-vector-icons/Entypo';
 
 import codePush from "react-native-code-push";
 
-import LoginPage from '../Login'
+import Login from '../Login';
 
-import { header, Url } from '../../util'
-import { ModalWrapper } from '../../HOC/ModalWrapper'
-
-const { width, height } = Dimensions.get('window')
-
-const Login = ModalWrapper(LoginPage);
-
+import { header, Url, height, width } from 'utils';
 
 
 export default class Profile extends React.Component {

@@ -5,8 +5,8 @@
 import React, { Component } from 'react'
 import { View, Text, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
-import { TabHead } from '../../components/Tab'
-import { Spin } from '../../components/Spin'
+import { TabHead } from 'component/Tab'
+import { Spin } from 'component/Spin'
 
 import { All } from './Views/all'
 

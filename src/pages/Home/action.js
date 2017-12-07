@@ -1,5 +1,5 @@
 import { call, put, take, select } from 'redux-saga/effects';
-import { Url, header, setLogin } from '../../util';
+import { Url, header, setLogin } from 'utils';
 import { AsyncStorage } from 'react-native';
 import { combineReducers } from 'redux';
 
@@ -20,6 +20,12 @@ const actionStategy = {
         yield put({
             type: 'Home_SET_STATE',
             data: { ...state, Carousel: json.data.s, goodNews: json.data.g, event: json.data.e, hotKey: json.data.h }
+        })
+        const info = yield fetchFunc({ url: Url + 'user/GetCurrentUserinfo', body: '' });
+        console.log(info)
+        yield put({
+            type: 'Home_SET_STATE',
+            data: { noteCount: info.data.messageCount }
         })
 
         const Aud = yield AsyncStorage.getItem('isAud')

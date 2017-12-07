@@ -1,5 +1,5 @@
 import { call, put, take, select } from 'redux-saga/effects';
-import { Url, header } from '../../util';
+import { Url, header } from 'utils';
 import { Alert, Platform, ToastAndroid } from 'react-native';
 import * as WeChat from 'react-native-wechat';
 /**

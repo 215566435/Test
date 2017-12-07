@@ -9,14 +9,13 @@ import { View, Text, TextInput, ScrollView, FlatList, Dimensions, Image, Button,
 import Ionicons from 'react-native-vector-icons/Ionicons'; // 4.4.2
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
-import { Spin } from '../../components/Spin'
-import { PageHeader } from '../../components/PageHeader'
-import { SearchBar } from '../../components/SearchBar'
-import { CustomTabBar } from '../../components/CustomTabBar'
-import { stateBarMargin } from '../../util'
+import { Spin } from 'component/Spin'
+import { PageHeader } from 'component/PageHeader'
+import { SearchBar } from 'component/SearchBar'
+import { CustomTabBar } from 'component/CustomTabBar'
+import { stateBarMargin, width } from 'utils'
 import { PriceItem } from './Views/PriceItem'
 
-const { width } = Dimensions.get('window')
 
 class PriceList extends React.Component {
     static defaultProps = {

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { Content } from './Views/Content'
 import { Model } from './model'
-import { CustomTabBar } from '../../components/CustomTabBar'
+import { CustomTabBar } from 'component/CustomTabBar'
 
 class GoodState extends Component {
 

@@ -6,15 +6,15 @@ import React, { Component } from 'react';
 import { View, ScrollView, Text, Platform, Picker, TouchableOpacity, Image } from 'react-native';
 import { connect } from 'react-redux';
 
-import { Form, FormItem } from '../../components/Form'
-import { Input } from '../../components/Input'
-import { Button } from '../../components/Button'
-import { Spin } from '../../components/Spin'
-import { PickerView } from '../../components/Picker'
-import { Code } from '../../components/Code'
+import { Form, FormItem } from 'component/Form'
+import { Input } from 'component/Input'
+import { Button } from 'component/Button'
+import { Spin } from 'component/Spin'
+import { PickerView } from 'component/Picker'
+import { Code } from 'component/Code'
 
 
-import { hostName } from '../../util';
+import { hostName } from 'utils';
 
 class Password extends Component {
     static navigationOptions = {

@@ -1,36 +1,12 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
-import Ionicons from 'react-native-vector-icons/Ionicons'; // 4.4.2
-import FontAwesome from 'react-native-vector-icons/FontAwesome'; // 4.4.2
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
-import { CustomTabBar } from '../../components/CustomTabBar'
+import { CustomTabBar } from 'component/CustomTabBar'
 
 
 import { Body } from './Views/body'
-
-
-class Icon extends Component {
-    static defaultProps = {
-        color: "#5a5a5a"
-    }
-    render() {
-        const { name, color, title } = this.props;
-        return (
-            <View style={{ justifyContent: "center", alignItems: 'center' }}>
-                <Ionicons
-                    name={name}
-                    size={24}
-                    color={color}
-                    style={{ backgroundColor: "transparent" }}
-                />
-                <Text style={{ backgroundColor: "transparent", fontSize: 10, color: color }}>{title}</Text>
-            </View>
-        )
-    }
-}
-
+import { Icon } from './Views/Icon'
 
 class Home extends Component {
 
@@ -68,12 +44,12 @@ class Home extends Component {
                     EventImagePress={(id) => this.props.EventImagePress(id, this)}
                     onValueChange={this.props.onValueChange}
                 />
-                <CustomTabBar onPress={this.navigationTabBarPress}>
+                <CustomTabBar onPress={this.navigationTabBarPress} shouldUpdate={true}>
                     <Icon name='md-bonfire' title='最新活动' />
                     <Icon name='ios-paper' title='报价表' />
                     <Icon name='ios-home' title='澳购商城' color='#f46e65' />
                     <Icon name='md-list-box' title='分类' />
-                    <Icon name='ios-person' title='个人中心' />
+                    <Icon name='ios-person' title='个人中心' note={true} noteCount={this.props.noteCount} />
                 </CustomTabBar>
             </View>
         )
@@ -86,6 +62,7 @@ function mapState(state) {
         goodNews: state.Home.goodNews,
         event: state.Home.event,
         isAud: state.PriceList.isAud,
+        noteCount: state.Home.noteCount
     }
 }
 

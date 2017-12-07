@@ -1,6 +1,8 @@
-import { Platform, AsyncStorage } from 'react-native';
+import { Platform, AsyncStorage, Dimensions } from 'react-native';
 import React from 'react';
 import { call, put, take, select } from 'redux-saga/effects';
+
+export const { width, height } = Dimensions.get('window')
 
 export const stateBarMargin = (number) => {
     if (Platform.OS === 'ios') {

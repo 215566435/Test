@@ -1,5 +1,5 @@
 import { call, put, take, select } from 'redux-saga/effects';
-import { Url, header } from '../../util';
+import { Url, header } from 'utils';
 import { Alert } from 'react-native';
 
 

@@ -4,8 +4,7 @@
  */
 import React, { Component } from 'react';
 import { View, Text, FlatList, Image, Dimensions, TouchableOpacity, Platform } from 'react-native';
-
-const { height, width } = Dimensions.get('window')
+import { height, width } from 'utils';
 
 const stockState = {
     NotForSale: '已下架',
@@ -128,7 +127,7 @@ class OrderItem extends Component {
                             <View>
                                 <View style={{ flexDirection: 'row' }}>
                                     <Text style={{ backgroundColor: "transparent" }}>{item.i}</Text>
-                                    <Text style={{ marginLeft: 10, fontSize: 13, backgroundColor: "transparent" }}>{item.pc > 1 ? `子订单:${item.si + 1}/${item.pc}` : null}</Text>
+                                    <Text style={{ marginLeft: 10, fontSize: 12, backgroundColor: "transparent" }}>{item.pc > 1 ? `子订单:${item.si + 1}/${item.pc}` : null}</Text>
                                 </View>
                                 <Text style={{ fontSize: 10, color: '#bfbfbf', backgroundColor: "transparent" }}>{time[0]}  {time[1].substring(0, 5)}</Text>
                             </View>

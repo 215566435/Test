@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView, StyleSheet, Dimensions, TouchableOpacity, Image, Platform, Share, ActionSheetIOS, Alert } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons'; // 4.4.2
-import { Cells } from './Cells'
+
 import * as WeChat from 'react-native-wechat';
 import { sharePictures } from 'react-native-share-local'
 
-import { CustomTabBar } from '../../../components/CustomTabBar'
-import { Spin } from '../../../components/Spin';
-import { Url, header } from '../../../util';
+import { CustomTabBar } from 'component/CustomTabBar'
+import { Spin } from 'component/Spin';
+import { Url, header, height, width } from 'utils';
 
-const { height, width } = Dimensions.get('window')
+import { Cells } from './Cells'
 
 
 const alert = (msg) => {

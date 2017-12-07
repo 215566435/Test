@@ -7,16 +7,16 @@ import { View, Text, TextInput, TouchableOpacity, Image, Alert, Keyboard, Modal,
 import * as WeChat from 'react-native-wechat';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'; // 4.4.2
 
-import { Button } from '../../components/Button';
-import { Input } from '../../components/Input';
-import { Spin } from '../../components/Spin';
-import { SpinScreen } from '../../components/Spin'
-import { PickerView } from '../../components/Picker'
+import { Button } from 'component/Button';
+import { Input } from 'component/Input';
+import { Spin } from 'component/Spin';
+import { SpinScreen } from 'component/Spin'
+import { PickerView } from 'component/Picker'
 
 
 import NormalLogin from './Views/NormalLogin'
 
-import { Url, hostName, header } from '../../util';
+import { Url, hostName, header } from 'utils';
 
 
 

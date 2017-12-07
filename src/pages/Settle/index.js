@@ -6,19 +6,16 @@ import React, { Component } from 'react';
 import { View, ScrollView, Dimensions, Text, TouchableOpacity, FlatList, Image, Animated, Modal, Button, Picker, Alert, AsyncStorage, Platform } from 'react-native'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
-import { PageHeader } from '../../components/PageHeader'
-import { CustomTabBar } from '../../components/CustomTabBar'
-import { Input } from '../../components/Input'
-import { stateBarMargin } from '../../util'
-import { Popup } from '../../components/Popup'
-import { PickerView } from '../../components/Picker'
-import { Spin } from '../../components/Spin'
+import { PageHeader } from 'component/PageHeader'
+import { CustomTabBar } from 'component/CustomTabBar'
+import { Input } from 'component/Input'
+import { Popup } from 'component/Popup'
+import { PickerView } from 'component/Picker'
+import { Spin } from 'component/Spin'
 
 import { AddressSelector } from './Views/addressSelector'
 
-import { header, Url } from '../../util';
-
-const { height, width } = Dimensions.get('window')
+import { header, Url, stateBarMargin, height, width } from 'utils';
 
 const tabColor = ['white', 'white', '#f04134']
 export default class Settle extends Component {

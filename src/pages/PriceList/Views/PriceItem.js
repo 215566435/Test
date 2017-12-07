@@ -5,8 +5,8 @@
  */
 import React from 'react';
 import { View, Text, TouchableOpacity, ImageBackground, Platform } from 'react-native';
-import { Spin } from '../../../components/Spin'
-import { header } from '../../../util';
+import { Spin } from 'component/Spin'
+import { header } from 'utils';
 
 export class PriceItem extends React.Component {
     state = {
