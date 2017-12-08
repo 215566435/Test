@@ -63,7 +63,8 @@ const mapDispatch = (dispatch) => {
         refreshAll: () => {
             dispatch({ type: 'fetchHome' })
             dispatch({ type: 'FetchList' })
-        }
+        },
+        dispatch: dispatch
     }
 }
 

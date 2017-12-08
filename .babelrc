@@ -11,6 +11,10 @@
           "expose": "component"
         },
         {
+          "src": "./src/HOC",
+          "expose": "HOC"
+        },
+        {
           "src": "./src/util",
           "expose": "utils"
         }

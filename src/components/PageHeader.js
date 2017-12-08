@@ -4,11 +4,13 @@
 * @param {*} leftBtnPress:左边按钮点击
 * @param title:标题
 */
-import { stateBarMargin } from 'utils'
 import React, { Component } from 'react'
 import { View, StyleSheet, Platform, TouchableOpacity, Modal, Text, Switch } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons'; // 4.4.2
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import { stateBarMargin } from 'utils'
+
+// import { } from 'HOC/ModalWrapper'
 
 export class PageHeader extends React.Component {
 
@@ -24,7 +26,7 @@ export class PageHeader extends React.Component {
     }
 }
 
-export class PriceListHeader extends React.Component {
+export class CustomHeader extends React.Component {
     state = {
         show: false
     }

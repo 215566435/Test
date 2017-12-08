@@ -53,6 +53,7 @@ export default class Profile extends React.Component {
     componentDidMount() {
         this.fetchBalance()
         this.checkLogin()
+        this.props.dispatch({ type: 'fetchMessage' })
     }
 
     /**
@@ -251,6 +252,7 @@ class Head extends React.Component {
                 height: 250,
                 backgroundColor: '#f46e65',
             }}>
+                <Message />
                 <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                     <Image
                         style={{ width: 60, height: 60, borderRadius: 60 / 2 }}
@@ -264,6 +266,41 @@ class Head extends React.Component {
         )
     }
 }
+
+class Message extends Component {
+
+    render() {
+        return (
+            <TouchableOpacity style={{
+                position: "absolute",
+                right: 20,
+                top: 40,
+                height: 25,
+                width: 25,
+                alignItems: "center",
+                justifyContent: "center",
+                // backgroundColor: 'black'
+            }}>
+                <View style={{
+                    backgroundColor: '#f5222d',
+                    height: 15,
+                    width: 15,
+                    borderRadius: 7.5,
+                    alignItems: 'center',
+                    justifyContent: "center",
+                    position: 'absolute',
+                    zIndex: 10,
+                    right: -5,
+                    top: -2
+                }}>
+                    <Text style={{ textAlign: 'center', color: "white", fontSize: 8, height: 10, width: 10 }} >{1}</Text>
+                </View>
+                <FontAwesome name='envelope-o' color='#fff7e6' size={24} />
+            </TouchableOpacity>
+        )
+    }
+}
+
 
 /**
  * 个人工具

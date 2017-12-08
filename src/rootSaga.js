@@ -12,10 +12,45 @@ import { watch as Person } from './pages/Person/action';
 import { watch as Deposite } from './pages/DepositeLog/action';
 import { watch as Password } from './pages/Password/action';
 import { watch as Login } from './pages/Login/action';
+import { actionStategy as Profile } from './pages/Profile/action';
+import { fork, take, select, call } from 'redux-saga/effects';
 
-import { fork, take } from 'redux-saga/effects';
+
+function convert(actionStategy) {
+    return Object.keys(actionStategy)
+}
+
+const watchCreator = (actionStategy) => {
+    console.log(actionStategy)
+    const actionList = convert(actionStategy)
+
+    return function* () {
+        while (true) {
+            const { type, ...others } = yield take(actionList);
+            try {
+                const state = yield select(state => state)
+                const actionFn = actionStategy[type]
+                if (!actionFn) continue
+                yield call(actionFn, state, others)
+            } catch (e) {
+                console.log(e)
+            }
+        }
+    }
+}
+
+const rootWatch = (actionStategys) => {
+    return actionStategys.map((actionStategy) => {
+
+        return fork(watchCreator(actionStategy))
+    })
+}
 
 export default function* rootSaga() {
+    const watchList = rootWatch([
+        Profile
+    ])
+
     yield [
         fork(PriceList),
         fork(Detail),
@@ -30,6 +65,7 @@ export default function* rootSaga() {
         fork(Person),
         fork(Deposite),
         fork(Password),
-        fork(Login)
+        fork(Login),
+        ...watchList
     ]
 }

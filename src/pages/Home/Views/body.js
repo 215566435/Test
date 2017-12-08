@@ -4,7 +4,7 @@ import { View, ScrollView, Image, Dimensions, Text, TouchableOpacity, Platform, 
 import { Carousel } from 'component/Carousel';
 import { Grid } from 'component/Grid'
 import { Spin } from 'component/Spin'
-import { PriceListHeader } from 'component/PageHeader'
+import { CustomHeader } from 'component/PageHeader'
 
 import Ionicons from 'react-native-vector-icons/Ionicons'; // 4.4.2
 // import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
@@ -136,7 +136,7 @@ export class Body extends Component {
 
         return (
             <View>
-                <PriceListHeader
+                <CustomHeader
                     search={this.props.search}
                     onCartPress={this.onCartPress}
                     onValueChange={this.props.onValueChange}
