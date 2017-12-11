@@ -16,9 +16,7 @@ export const ModalWrapper = (Component) => {
                     visible={visible}
                     onRequestClose={() => { }}
                 >
-
                     <Component {...others} />
-
                 </Modal>
             )
         }

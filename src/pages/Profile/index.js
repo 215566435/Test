@@ -18,6 +18,7 @@ import Settle from '../Settle';
 import Deposite from '../DepositeLog';
 import Password from '../Password';
 import Login from '../Login';
+import Message from '../Message';
 
 
 
@@ -57,6 +58,12 @@ const ProfileHOC = () => {
     }
 }
 
+const mapState = (state) => {
+    return {
+        messageCount: state.Home.noteCount
+    }
+}
+
 const mapDispatch = (dispatch) => {
 
     return {
@@ -68,7 +75,7 @@ const mapDispatch = (dispatch) => {
     }
 }
 
-connected = connect(null, mapDispatch)(ProfileHOC())
+connected = connect(mapState, mapDispatch)(ProfileHOC())
 
 export default StackNavigator({
     Profile: {
@@ -85,6 +92,14 @@ export default StackNavigator({
             gesturesEnabled: true
         }
     },
+    Message: {
+        screen: (props) => <Message {...props} />,
+        navigationOptions: {
+            header: null,
+            tabBarVisible: false,
+            gesturesEnabled: true
+        }
+    }
 }, {
         initialRouteName: 'Profile',
         mode: 'card',

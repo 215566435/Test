@@ -17,9 +17,16 @@ function* fetchSelect({ url, body }) {
 const actionStategy = {
     fetchGoodState: function* (state, others) {
         const id = others.id;
+        const messageId = others.messageId;
+        const memberId = others.memberId;
+        console.log({memberId,messageId,id})
         const json = yield fetchSelect({
-            url: Url + 'order/get?orderId=' + id,
-            body: {}
+            url: Url + 'order/get',
+            body: {
+                messageId: messageId,
+                orderId: id,
+                memberId: memberId
+            }
         })
         console.log(json)
         yield put({

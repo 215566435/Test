@@ -1,29 +1,20 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ImageBackground, Dimensions, ScrollView, FlatList, Text, TouchableOpacity, Platform } from 'react-native';
-
-import { Spin } from '../../../components/Spin'
-import { CustomTabBar } from '../../../components/CustomTabBar'
-
-const { height, width } = Dimensions.get("window")
-
+import { View, StyleSheet, ImageBackground, Dimensions, ScrollView, FlatList, Text, TouchableOpacity, Platform, Image } from 'react-native';
+import { Spin } from 'component/Spin';
+import { CustomTabBar } from 'component/CustomTabBar';
+import { height, width } from 'utils';
+import { ProductBox } from 'component/ProductBox'
 
 export class Body extends Component {
 
     renderItem = (child, index) => {
         const item = child.item;
-        return (
-            <View style={{ width: width / 2, padding: 10, borderWidth: 0.5, borderColor: '#f7f7f7' }}>
-                <TouchableOpacity onPress={() => this.props.onItemPress(item.id, this.props.navigation)}>
-                    <AnimatedImage
-                        url={'http://cdn2u.com' + item.i + `?width=${180}` + `&height=${180}` + `&bgcolor=white `}
-                        resizeMode="contain"
-                        Pheight={120}
-                        Pwidth={120}
-                    />
-                    <Text style={{ backgroundColor: "transparent" }}>{item.n}</Text>
-                </TouchableOpacity>
-            </View>
-        )
+        console.log(item);
+        return <ProductBox
+            Product={item}
+            isAud={this.props.isAud}
+            onPress={() => this.props.onItemPress(item.id, this.props.navigation)}
+        />
     }
     _keyExtractor = (child) => child.id
 

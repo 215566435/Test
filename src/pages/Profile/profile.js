@@ -53,7 +53,6 @@ export default class Profile extends React.Component {
     componentDidMount() {
         this.fetchBalance()
         this.checkLogin()
-        this.props.dispatch({ type: 'fetchMessage' })
     }
 
     /**
@@ -172,10 +171,14 @@ export default class Profile extends React.Component {
         return (
             <View style={headStyle.container}>
                 <View style={{ height: height - 44 - (Platform.OS === 'ios' ? 0 : 24) }}>
-                    <Head userName={this.state.userName} userBalence={this.state.userBalence} />
+                    <Head
+                        userName={this.state.userName}
+                        userBalence={this.state.userBalence}
+                        navigation={this.props.navigation}
+                        {...this.props}
+                    />
                     <GridBody GridItemClick={this.onGridItemClick} />
                 </View>
-                {/* <Button onPress={this.test} title={'codepush'}></Button> */}
                 <CustomTabBar onPress={this.navigationTabBarPress}>
                     <Text>返回</Text>
                 </CustomTabBar>
@@ -213,7 +216,6 @@ class GridBody extends Component {
                 <ToolItem text='个人信息' name='Person' Image={<MaterialCommunityIcons color={ToolItemColor} name="account-card-details" size={ToolItemSize} style={{ backgroundColor: 'transparent' }} />} />
                 <ToolItem text='修改密码' name='Password' Image={<MaterialCommunityIcons color={ToolItemColor} name="lock" size={ToolItemSize} style={{ backgroundColor: 'transparent' }} />} />
                 <ToolItem text='退出登陆' name='logout' Image={<Entypo name="log-out" color={ToolItemColor} size={ToolItemSize} style={{ backgroundColor: 'transparent' }} />} />
-
             </Grid>
         )
     }
@@ -252,7 +254,7 @@ class Head extends React.Component {
                 height: 250,
                 backgroundColor: '#f46e65',
             }}>
-                <Message />
+                <Message {...this.props} />
                 <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                     <Image
                         style={{ width: 60, height: 60, borderRadius: 60 / 2 }}
@@ -271,16 +273,19 @@ class Message extends Component {
 
     render() {
         return (
-            <TouchableOpacity style={{
-                position: "absolute",
-                right: 20,
-                top: 40,
-                height: 25,
-                width: 25,
-                alignItems: "center",
-                justifyContent: "center",
-                // backgroundColor: 'black'
-            }}>
+            <TouchableOpacity
+                onPress={() => this.props.navigation.navigate('Message')}
+                style={{
+                    position: "absolute",
+                    right: 20,
+                    top: 40,
+                    height: 35,
+                    width: 35,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    // backgroundColor: 'black',
+                    zIndex: 100
+                }}>
                 <View style={{
                     backgroundColor: '#f5222d',
                     height: 15,
@@ -293,7 +298,7 @@ class Message extends Component {
                     right: -5,
                     top: -2
                 }}>
-                    <Text style={{ textAlign: 'center', color: "white", fontSize: 8, height: 10, width: 10 }} >{1}</Text>
+                    <Text style={{ textAlign: 'center', color: "white", fontSize: 8, height: 10, width: 10 }} >{this.props.messageCount}</Text>
                 </View>
                 <FontAwesome name='envelope-o' color='#fff7e6' size={24} />
             </TouchableOpacity>

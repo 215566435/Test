@@ -10,7 +10,9 @@ class GoodState extends Component {
 
     componentDidMount() {
         const id = this.props.navigation.state.params.id
-        this.props.fetchGoodState(id)
+        const messageId = this.props.navigation.state.params.messageId
+        const memberId = this.props.navigation.state.params.memberId
+        this.props.fetchGoodState(id, messageId, memberId)
     }
     componentWillUnmount() {
         this.props.clearGoodState()
@@ -71,7 +73,7 @@ function mapState(state) {
 
 function mapDispatch(dispatch) {
     return {
-        fetchGoodState: (id) => dispatch({ type: "fetchGoodState", id: id }),
+        fetchGoodState: (id, messageId, memberId) => dispatch({ type: "fetchGoodState", id: id, messageId: messageId, memberId }),
         onGetLog: () => dispatch({ type: "GetLog" }),
         GetAttach: () => dispatch({ type: "GetAttach" }),
         Return: () => dispatch({ type: 'LogReturn' }),

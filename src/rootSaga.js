@@ -13,6 +13,8 @@ import { watch as Deposite } from './pages/DepositeLog/action';
 import { watch as Password } from './pages/Password/action';
 import { watch as Login } from './pages/Login/action';
 import { actionStategy as Profile } from './pages/Profile/action';
+import { actionStategy as Message } from './pages/Message/action';
+
 import { fork, take, select, call } from 'redux-saga/effects';
 
 
@@ -21,9 +23,7 @@ function convert(actionStategy) {
 }
 
 const watchCreator = (actionStategy) => {
-    console.log(actionStategy)
     const actionList = convert(actionStategy)
-
     return function* () {
         while (true) {
             const { type, ...others } = yield take(actionList);
@@ -48,7 +48,8 @@ const rootWatch = (actionStategys) => {
 
 export default function* rootSaga() {
     const watchList = rootWatch([
-        Profile
+        Profile,
+        Message
     ])
 
     yield [

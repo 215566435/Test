@@ -51,7 +51,8 @@ function mapState(state) {
         title: state.Activity.title,
         item: state.Activity.item,
         bref: state.Activity.bref,
-        url: state.Activity.url
+        url: state.Activity.url,
+        isAud: state.PriceList.isAud,
     }
 }
 

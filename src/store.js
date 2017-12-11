@@ -19,7 +19,7 @@ import { reducer as Deposite } from './pages/DepositeLog/reducer';
 import { reducer as Password } from './pages/Password/reducer';
 import { reducer as Login } from './pages/Login/reducer';
 import { reducer as Profile } from './pages/Profile/reducer';
-
+import { reducer as Message } from './pages/Message/reducer';
 
 const tmpReducer = (state = {}, action) => {
     const type = action.type
@@ -41,7 +41,8 @@ const appReducer = combineReducers({
     Deposite: Deposite,
     Password: Password,
     Login: Login,
-    Profile: Profile
+    Profile: Profile,
+    Message: Message
 })
 
 const sagaMiddleware = createSagaMiddleware(rootSaga)

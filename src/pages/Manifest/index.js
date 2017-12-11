@@ -42,7 +42,7 @@ class ManifestPage extends Component {
         })
     }
     onItemPress = (item) => {
-        this.props.navigation.navigate('GoodState', { id: item.i })
+        this.props.navigation.navigate('GoodState', { id: item.i, messageId: -1 })
     }
 
     render() {
