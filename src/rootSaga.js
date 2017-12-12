@@ -14,6 +14,8 @@ import { watch as Password } from './pages/Password/action';
 import { watch as Login } from './pages/Login/action';
 import { actionStategy as Profile } from './pages/Profile/action';
 import { actionStategy as Message } from './pages/Message/action';
+import { actionStategy as Feedback } from './pages/Feedback/action';
+import { actionStategy as FeedbackForm } from './pages/FeedbackForm/action';
 
 import { fork, take, select, call } from 'redux-saga/effects';
 
@@ -49,7 +51,9 @@ const rootWatch = (actionStategys) => {
 export default function* rootSaga() {
     const watchList = rootWatch([
         Profile,
-        Message
+        Message,
+        Feedback,
+        FeedbackForm
     ])
 
     yield [

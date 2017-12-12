@@ -20,6 +20,8 @@ import { reducer as Password } from './pages/Password/reducer';
 import { reducer as Login } from './pages/Login/reducer';
 import { reducer as Profile } from './pages/Profile/reducer';
 import { reducer as Message } from './pages/Message/reducer';
+import { reducer as Feedback } from './pages/Feedback/reducer';
+import { reducer as FeedbackForm } from './pages/FeedbackForm/reducer';
 
 const tmpReducer = (state = {}, action) => {
     const type = action.type
@@ -42,7 +44,9 @@ const appReducer = combineReducers({
     Password: Password,
     Login: Login,
     Profile: Profile,
-    Message: Message
+    Message: Message,
+    Feedback: Feedback,
+    FeedbackForm
 })
 
 const sagaMiddleware = createSagaMiddleware(rootSaga)

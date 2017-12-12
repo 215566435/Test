@@ -8,8 +8,8 @@ export class ProductBox extends Component {
     render() {
         const { isAud, Product } = this.props;
         const price = {
-            p: isAud ? '$' + Product.ap.p.a : '¥' + Product.ap.p.r,
-            pi: isAud ? '$' + Product.ap.p.ai : '¥' + Product.ap.p.ri
+            p: isAud ? convertAud(Product) : '¥' + Product.ap.p.r,
+            pi: isAud ? convertAud(Product) : '¥' + Product.ap.p.ri
         }
 
         return (
@@ -27,5 +27,13 @@ export class ProductBox extends Component {
                 </View>
             </TouchableOpacity>
         )
+    }
+}
+
+const convertAud = (Product) => {
+    if (Product.ap.p.a) {
+        return '$' + Product.ap.p.a
+    } else {
+        return '¥' + Product.ap.p.r
     }
 }

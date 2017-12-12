@@ -23,7 +23,9 @@ export class Input extends Component {
             returnKeyType,
             password,
             onBlur,
-            onChangeText
+            onChangeText,
+            multiline,
+            numberOfLines
         } = this.props
         return (
             <View
@@ -44,7 +46,8 @@ export class Input extends Component {
                         paddingBottom: size[this.props.size],
                         fontSize: 12
                     }}
-
+                    multiline={multiline}
+                    numberOfLines={numberOfLines}
                     secureTextEntry={password}
                     value={this.props.value}
                     onChangeText={(text) => { onChangeText(text, this.props.name) }}
@@ -52,6 +55,7 @@ export class Input extends Component {
                     onFocus={onFocus}
                     returnKeyType={returnKeyType || 'done'}
                     onBlur={onBlur}
+                    blurOnSubmit={true}
                 />
             </View>
         )

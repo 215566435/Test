@@ -19,6 +19,8 @@ import Deposite from '../DepositeLog';
 import Password from '../Password';
 import Login from '../Login';
 import Message from '../Message';
+import Feedback from '../Feedback';
+import FeedbackForm from '../FeedbackForm'
 
 
 
@@ -77,6 +79,8 @@ const mapDispatch = (dispatch) => {
 
 connected = connect(mapState, mapDispatch)(ProfileHOC())
 
+
+
 export default StackNavigator({
     Profile: {
         screen: connected,
@@ -94,6 +98,22 @@ export default StackNavigator({
     },
     Message: {
         screen: (props) => <Message {...props} />,
+        navigationOptions: {
+            header: null,
+            tabBarVisible: false,
+            gesturesEnabled: true
+        }
+    },
+    Feedback: {
+        screen: (props) => <Feedback {...props} />,
+        navigationOptions: {
+            header: null,
+            tabBarVisible: false,
+            gesturesEnabled: true
+        }
+    },
+    FeedbackForm: {
+        screen: (props) => <FeedbackForm {...props} />,
         navigationOptions: {
             header: null,
             tabBarVisible: false,

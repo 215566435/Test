@@ -1,16 +1,10 @@
 import { call, put, take, select } from 'redux-saga/effects';
-import { Url, header, fetchApi } from 'utils';
+import { Url, header, fetchApi, fetchList, getCurrent, mergeList } from 'utils';
 import { Alert } from 'react-native';
 
 export const actionStategy = {
     fetchMessage: function* () {
-        const json = yield fetchApi({
-            url: Url + 'user/GetCurrentMessage',
-            body: {
-                currentpage: 1,
-                pagesize: 15
-            }
-        })
+        const json = yield fetchList(Url + 'user/GetCurrentMessage', 1);
         yield put({
             type: 'SET_STATE_Message',
             data: {
@@ -28,21 +22,14 @@ export const actionStategy = {
         })
     },
     appendMessage: function* (state) {
-        const currentPage = state.Message.currentPage;
-        const messages = state.Message.messages;
-        const totalPages = state.Message.totalPages;
+        const { currentPage, totalPages } = getCurrent(state.Message);
         if (currentPage >= totalPages) return;
-        const json = yield fetchApi({
-            url: Url + 'user/GetCurrentMessage',
-            body: {
-                currentpage: currentPage + 1,
-                pagesize: 15
-            }
-        })
+        const json = yield fetchList(Url + 'user/GetCurrentMessage', currentPage + 1);
+        const messages = state.Message.messages;
         yield put({
             type: 'SET_STATE_Message',
             data: {
-                messages: [...messages, ...json.data.message.items],
+                messages: mergeList(messages, json.data.message.items),
                 currentPage: json.data.message.currentPage
             }
         })

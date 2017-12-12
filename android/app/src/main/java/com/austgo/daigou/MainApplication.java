@@ -3,6 +3,11 @@ package com.austgo.daigou;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.theweflex.react.WeChatPackage;
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
+import com.rnfs.RNFSPackage;
+import com.psykar.cookiemanager.CookieManagerPackage;
+import cn.jiguang.share.JSharePackage;
 import com.kmlidc.RNShareLocal.RNShareLocal;
 // import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.microsoft.codepush.react.CodePush;
@@ -34,6 +39,11 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new WeChatPackage(),
+            new SplashScreenReactPackage(),
+            new RNFSPackage(),
+            new CookieManagerPackage(),
+            new JSharePackage(),
             new RNShareLocal(),
             // new SplashScreenReactPackage(),
             new CodePush("IO-yMj-XqW6ZFzNDlNW7xuQpVOSb9753d84a-48fc-4420-83eb-7d61a334bad6", getApplicationContext(), BuildConfig.DEBUG), 

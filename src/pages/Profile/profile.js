@@ -213,7 +213,7 @@ class GridBody extends Component {
                 <ToolItem text='我的订单' name='Manifest' Image={<FontAwesome name="file-text-o" color={ToolItemColor} size={ToolItemSize} style={{ backgroundColor: 'transparent' }} />} />
                 <ToolItem text='地址管理' name='Address' Image={<MaterialCommunityIcons color={ToolItemColor} name="map-marker-radius" size={ToolItemSize} style={{ backgroundColor: 'transparent' }} />} />
                 <ToolItem text='预存款' name="Deposite" Image={<Ionicons name="logo-yen" color={ToolItemColor} size={ToolItemSize} style={{ backgroundColor: 'transparent' }} />} />
-                <ToolItem text='个人信息' name='Person' Image={<MaterialCommunityIcons color={ToolItemColor} name="account-card-details" size={ToolItemSize} style={{ backgroundColor: 'transparent' }} />} />
+                <ToolItem text='意见反馈' name='Feedback' Image={<MaterialCommunityIcons color={ToolItemColor} name="border-color" size={ToolItemSize} style={{ backgroundColor: 'transparent' }} />} />
                 <ToolItem text='修改密码' name='Password' Image={<MaterialCommunityIcons color={ToolItemColor} name="lock" size={ToolItemSize} style={{ backgroundColor: 'transparent' }} />} />
                 <ToolItem text='退出登陆' name='logout' Image={<Entypo name="log-out" color={ToolItemColor} size={ToolItemSize} style={{ backgroundColor: 'transparent' }} />} />
             </Grid>
@@ -256,10 +256,12 @@ class Head extends React.Component {
             }}>
                 <Message {...this.props} />
                 <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                    <Image
-                        style={{ width: 60, height: 60, borderRadius: 60 / 2 }}
-                        source={{ uri: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509577007&di=91baca655f3d432af3a0586dbfc5e834&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01e50a55bee3b66ac7253f361e874b.jpg' }}
-                    />
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate("Person")}>
+                        <Image
+                            style={{ width: 60, height: 60, borderRadius: 60 / 2 }}
+                            source={{ uri: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509577007&di=91baca655f3d432af3a0586dbfc5e834&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01e50a55bee3b66ac7253f361e874b.jpg' }}
+                        />
+                    </TouchableOpacity>
                     <Text style={{ margin: 8, color: '#fff3cf', backgroundColor: 'transparent' }}>欢迎您，{userName}</Text>
                     <Text style={{ margin: 8, color: '#fff3cf', backgroundColor: 'transparent' }}>{this.renderBalance()}</Text>
                     <Text style={{ margin: 8, color: '#fff3cf', backgroundColor: 'transparent' }}></Text>

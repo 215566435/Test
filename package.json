@@ -15,7 +15,7 @@
     "test": "node node_modules/jest/bin/jest.js --watch",
     "pack": "react-native bundle --platform ios --entry-file index.ios.js --bundle-output /Users/zf/Desktop/austgo-app/ios/main.jsbundle --dev false",
     "packa": "react-native bundle --platform android --entry-file index.android.js --bundle-output index.android.bundle  --dev false",
-    "link": "react-native link react-native-share-local",
+    "link": "react-native link RCTCameraRoll",
     "upgrade": "react-native upgrade",
     "build": "./publish.sh",
     "build-test": "./publish-test.sh",
