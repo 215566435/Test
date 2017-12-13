@@ -10,6 +10,7 @@ import { Spin } from 'component/Spin';
 import { Url, header, height, width } from 'utils';
 
 import { Cells } from './Cells'
+import { PageWithTab } from 'HOC/PageWithTab';
 
 
 const alert = (msg) => {
@@ -24,7 +25,7 @@ const alert = (msg) => {
 }
 
 
-export class Attach extends Component {
+class Attachment extends Component {
     state = {
         images: [],
         loading: false
@@ -103,7 +104,7 @@ export class Attach extends Component {
         }
 
     }
-    onTabBarPress = (e, child, index) => {
+    CustomTabBarPress = (e, child, index) => {
         const { image } = this.props;
         if (index === 0) {
             this.props.ReturnAttach()
@@ -131,7 +132,6 @@ export class Attach extends Component {
         const { ReturnAttach, image } = this.props;
         const margin = Platform.OS === 'ios' ? 25 : 0;
         if (!image) return <Spin />
-        console.log('草泥马')
         return (
             <View style={{ height: '100%' }}>
                 <View style={{ height: height - 44 - margin - (Platform.OS === 'ios' ? 0 : 24), marginTop: margin, backgroundColor: '#f5f5f5' }}>
@@ -171,11 +171,9 @@ export class Attach extends Component {
                         <Text style={{ color: '#404040', backgroundColor: "transparent" }}>{'图片准备中...'}</Text>
                     </View>
                 </View> : null}
-                <CustomTabBar onPress={this.onTabBarPress}>
-                    <Text style={{ backgroundColor: "transparent" }}>返回</Text>
-                    <Text style={{ backgroundColor: "transparent" }}>发给客户</Text>
-                </CustomTabBar>
             </View>
         )
     }
 }
+
+export const Attach = PageWithTab(Attachment, ['返回', '发给客户']);  

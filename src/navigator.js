@@ -23,7 +23,8 @@ import Deposite from './pages/DepositeLog';
 import Password from './pages/Password';
 import Login from './pages/Login';
 import Search from './pages/SearchPage';
-import Activity from './pages/Activity'
+import Activity from './pages/Activity';
+import Feedback from './pages/Feedback';
 
 const iconsSize = Platform.OS === 'ios' ? 26 : 15;
 
@@ -114,6 +115,14 @@ const RootTabs = StackNavigator({
     },
     GoodState: {
         screen: (props) => <GoodState {...props} />,
+        navigationOptions: {
+            header: null,
+            tabBarVisible: false,
+            gesturesEnabled: true
+        }
+    },
+    Feedback: {
+        screen: (props) => <Feedback {...props} />,
         navigationOptions: {
             header: null,
             tabBarVisible: false,

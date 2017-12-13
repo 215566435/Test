@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Content } from './Views/Content'
 import { Model } from './model'
 import { CustomTabBar } from 'component/CustomTabBar'
+import { PageWithTab } from 'HOC/PageWithTab';
 
 class GoodState extends Component {
 
@@ -28,13 +29,13 @@ class GoodState extends Component {
             { cancelable: false }
         )
     }
-    navigationTabBarPress = () => {
+    CustomTabBarPress = () => {
         this.props.navigation.goBack(null)
     }
 
     render() {
         return (
-            <View>
+            <View style={{ height: '100%' }}>
                 <Content
                     model={this.props.model}
                     onGetLog={this.props.onGetLog}
@@ -50,10 +51,8 @@ class GoodState extends Component {
                     Pay={this.Pay}
                     Payment={this.props.Payment}
                     MarkAsSentToBuyer={this.props.MarkAsSentToBuyer}
+                    {...this.props}
                 />
-                <CustomTabBar onPress={this.navigationTabBarPress}>
-                    <Text>返回</Text>
-                </CustomTabBar>
             </View>
         )
     }
@@ -81,9 +80,11 @@ function mapDispatch(dispatch) {
         onGoodPress: (id, that) => dispatch({ type: 'onGoodPress', id: id, instance: that }),
         Pay: (OrderId, Id) => dispatch({ type: "Pay", OrderId: OrderId, Id: Id }),
         clearGoodState: () => dispatch({ type: 'clearGoodState' }),
-        MarkAsSentToBuyer: () => dispatch({ type: "MarkAsSentToBuyer" })
+        MarkAsSentToBuyer: () => dispatch({ type: "MarkAsSentToBuyer" }),
+        dispatch
     }
 }
 
+const wrapper = PageWithTab(GoodState, '返回');
 
-export default connect(mapState, mapDispatch)(GoodState)
+export default connect(mapState, mapDispatch)(wrapper)

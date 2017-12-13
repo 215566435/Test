@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, Modal, Dimensions, Platform } from 'react-native';
-
-
-import { Cells } from './Cells'
+import { Cells, NewCell } from './Cells'
 import { Log } from './log'
 import { Attach } from './attach'
-import { Model, itemState, itemStateColor, stockState, DeliveryColor, DeliveryStatus, PackStatus, PackStatusColor } from '../model'
-
+import { Model, itemState, itemStateColor, stockState, DeliveryColor, DeliveryStatus, PackStatus, PackStatusColor } from '../model';
 import { Spin } from 'component/Spin';
-import { height } from 'utils';
+import { height, timeSplit } from 'utils';
+import { ModalWrapper } from 'HOC/ModalWrapper';
+
+const LogHistory = ModalWrapper(Log);
+const Attachment = ModalWrapper(Attach);
 
 export class Content extends Component {
     static defaultProps = {
@@ -62,6 +63,10 @@ export class Content extends Component {
         )
     }
 
+    onSupportTicketPress = () => {
+        this.props.navigation.navigate('Feedback')
+    }
+
     render() {
         const {
             model,
@@ -81,8 +86,7 @@ export class Content extends Component {
 
 
         const CurrencySwitcher = model.Currency === 'RMB' ? '¥' : "$";
-
-        const time = model.CreateTime.split('T');
+        const { date, time } = timeSplit(model.CreateTime);
         return (
             <ScrollView style={{ height: height - 44 - (Platform.OS === 'ios' ? 0 : 24), backgroundColor: '#e9e9e9' }}>
                 <Cells style={{ padding: 20, flexDirection: 'row', justifyContent: "space-between", backgroundColor: PackStatusColor[model.PackStatus] }}>
@@ -91,7 +95,7 @@ export class Content extends Component {
                             {model.OrderStatus === 'Paid' ? PackStatus[model.PackStatus] : model.OrderStatus === 'Cancelled' ? PackStatus[model.PackStatus] : '待支付'}
                         </Text>
                         <Text style={{ color: 'white', backgroundColor: "transparent" }}>{model.Id}</Text>
-                        <Text style={{ color: 'white', backgroundColor: "transparent" }}>{time[0] + '  ' + time[1].substring(0, 5)}</Text>
+                        <Text style={{ color: 'white', backgroundColor: "transparent" }}>{date + '  ' + time}</Text>
                     </View>
                     {model.OrderStatus === 'Paid' ? <Text style={{ color: "white", backgroundColor: "transparent" }}>已支付</Text> : (
                         <TouchableOpacity
@@ -105,16 +109,23 @@ export class Content extends Component {
                         </TouchableOpacity>)
                     }
                 </Cells>
-                <Cells>
-                    <Text style={{ color: '#f56a00', backgroundColor: "transparent" }}>总价格：{CurrencySwitcher + model.Price}</Text>
-                    <Text style={{ color: '#919191', backgroundColor: "transparent" }}>商品价格：{CurrencySwitcher + model.OriginalPrice}</Text>
-                    {model.Delivery !== 0 ? <Text style={{ color: '#919191', backgroundColor: "transparent" }}>快递费：{CurrencySwitcher + model.Delivery}</Text> : null}
-                    {model.Insurance !== 0 ? <Text style={{ color: '#919191', backgroundColor: "transparent" }}>保险：{CurrencySwitcher + model.Insurance}</Text> : null}
-                    {model.OtherPrice !== 0 ? <Text style={{ color: '#919191', backgroundColor: "transparent" }}>代发税费：{CurrencySwitcher + model.OtherPrice}</Text> : null}
-                </Cells>
-                <Cells>
-                    <Text style={{ backgroundColor: "transparent" }}>物流方式：{model.IsPickup ? '现场提货' : '仓库代发'}</Text>
-                </Cells>
+                <NewCell
+                    renderProps={[
+                        `总价格：${CurrencySwitcher + model.Price}`,
+                        `商品价格：${CurrencySwitcher + model.OriginalPrice}`,
+                        model.Delivery !== 0 ? `快递费：${CurrencySwitcher + model.Delivery}` : null,
+                        model.Insurance !== 0 ? `保险：${CurrencySwitcher + model.Insurance}` : null,
+                        model.OtherPrice !== 0 ? `代发税费：${CurrencySwitcher + model.OtherPrice}` : null
+                    ]}
+                    TextColors={[
+                        '#fa8c16',
+                        'rgba(0, 0, 0, 0.45)',
+                        'rgba(0, 0, 0, 0.45)',
+                        'rgba(0, 0, 0, 0.45)',
+                        'rgba(0, 0, 0, 0.45)'
+                    ]}
+                />
+                <NewCell renderProps={`物流方式：${model.IsPickup ? '现场提货' : '仓库代发'}`} />
                 {model.Receiver ? (
                     <Cells>
                         <View style={{ flexDirection: 'row', justifyContent: "space-between", marginBottom: 10 }}>
@@ -126,23 +137,12 @@ export class Content extends Component {
                 }
 
                 {model.Packs ? this.Packs(model) : null}
-                <TouchableOpacity onPress={onGetLog}>
-                    <Cells>
-                        <Text style={{ backgroundColor: "transparent" }}>{'订单历史记录'}</Text>
-                    </Cells>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={onGetAttach}>
-                    <Cells>
-                        <Text style={{ backgroundColor: "transparent" }}>{`订单附件(${model.AttachNumber})`}</Text>
-                    </Cells>
-                </TouchableOpacity>
+                <NewCell onPress={onGetLog} renderProps='订单历史记录' />
+                <NewCell onPress={onGetAttach} renderProps={`订单附件(${model.AttachNumber})`} />
+                {/* <NewCell onPress={this.onSupportTicketPress} renderProps={'信息反馈'} /> */}
                 {this.getGoods()}
-                <Modal
-                    animationType='slide'
-                    visible={log}
-                >
-                    <Log Return={Return} LogData={LogData} clearLog={Return} />
-                </Modal>
+                <LogHistory visible={log} Return={Return} LogData={LogData} clearLog={Return} />
+                <Attachment visible={attach} ReturnAttach={ReturnAttach} image={image} clearAttach={ReturnAttach} MarkAsSentToBuyer={this.props.MarkAsSentToBuyer} />
                 {Payment ? (<View style={{ height: '100%', width: '100%', position: 'absolute', alignItems: "center", justifyContent: "center" }}>
                     <View style={{
                         height: 150,
@@ -158,14 +158,6 @@ export class Content extends Component {
                         <Text style={{ color: '#404040', backgroundColor: "transparent" }}>{'支付中...'}</Text>
                     </View>
                 </View>) : null}
-
-                <Modal
-                    animationType='slide'
-                    visible={attach}
-                >
-                    <Attach ReturnAttach={ReturnAttach} image={image} clearAttach={ReturnAttach} MarkAsSentToBuyer={this.props.MarkAsSentToBuyer} />
-                </Modal>
-
             </ScrollView>
         )
     }

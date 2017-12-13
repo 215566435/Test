@@ -17,20 +17,20 @@ export const actionStategy = {
         })
     },
     appendFeedback: function* (state) {
-        const { totalPages, currentPage } = getCurrent(state.Feedback);
-        if (totalPages <= currentPage) {
-            return;
+        try {
+            const { totalPages, currentPage } = getCurrent(state.Feedback);
+            const json = yield fetchList(Url + 'user/GetSupportTicket', currentPage + 1);
+            const oldItems = state.Feedback.feedbacks;
+            const newItems = mergeList(oldItems, json.data.supportTicket.items);
+            yield put({
+                type: 'SET_STATE_Feedback',
+                data: {
+                    feedbacks: newItems,
+                    currentPage: json.data.supportTicket.currentPage
+                }
+            })
+        } catch (e) {
+            console.log(e)
         }
-        const json = yield fetchList(Url + 'user/GetSupportTicket', currentPage + 1);
-        const oldItems = state.Feedback.feedbacks;
-        const newItems = mergeList(oldItems, json.data.supportTicket.items);
-        yield put({
-            type: 'SET_STATE_Feedback',
-            data: {
-                feedbacks: newItems,
-                currentPage: json.data.supportTicket.currentPage
-            }
-        })
-
     }
 }

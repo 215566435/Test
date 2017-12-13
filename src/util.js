@@ -116,11 +116,22 @@ export function* setLogin() {
     }
 }
 
+/**
+ * 将特定的时间格式化成特定的格式
+ * @param {*} time 
+ */
 export function timeSplit(time) {
-    const splitTime = time.split('T');
-    return {
-        date: splitTime[0],
-        time: splitTime[1].substr(0, 8)
+    if (typeof time === 'string') {
+        const splitTime = time.split('T');
+        return {
+            date: splitTime[0],
+            time: splitTime[1].substr(0, 8)
+        }
+    } else {
+        return {
+            date: '无',
+            time: ''
+        }
     }
 }
 
@@ -152,6 +163,9 @@ export function getCurrent(state) {
     }
     if (currentPage === void 666 || currentPage === null) {
         throw Error(`${state}:这个属性中没有currentPage`)
+    }
+    if (currentPage >= totalPages) {
+        throw Error('MAX')
     }
     return {
         currentPage, totalPages

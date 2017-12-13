@@ -8,7 +8,8 @@ import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-nativ
 export class Input extends Component {
     static defaultProps = {
         size: 'default',
-        password: false
+        password: false,
+        autoFocus: false
     }
     render() {
         const size = {
@@ -25,7 +26,8 @@ export class Input extends Component {
             onBlur,
             onChangeText,
             multiline,
-            numberOfLines
+            numberOfLines,
+            autoFocus
         } = this.props
         return (
             <View
@@ -56,6 +58,7 @@ export class Input extends Component {
                     returnKeyType={returnKeyType || 'done'}
                     onBlur={onBlur}
                     blurOnSubmit={true}
+                    autoFocus={autoFocus}
                 />
             </View>
         )

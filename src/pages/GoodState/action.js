@@ -19,7 +19,6 @@ const actionStategy = {
         const id = others.id;
         const messageId = others.messageId;
         const memberId = others.memberId;
-        console.log({memberId,messageId,id})
         const json = yield fetchSelect({
             url: Url + 'order/get',
             body: {
@@ -28,7 +27,6 @@ const actionStategy = {
                 memberId: memberId
             }
         })
-        console.log(json)
         yield put({
             type: "GoodState_SET_STATE",
             data: { ...state, model: json.data }

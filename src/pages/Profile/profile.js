@@ -20,9 +20,9 @@ import codePush from "react-native-code-push";
 import Login from '../Login';
 
 import { header, Url, height, width } from 'utils';
+import { PageWithTab } from 'HOC/PageWithTab';
 
-
-export default class Profile extends React.Component {
+class Profile extends React.Component {
     state = {
         userName: '',
         userBalence: {
@@ -145,28 +145,9 @@ export default class Profile extends React.Component {
             isLogined: true
         })
     }
-    navigationTabBarPress = () => {
+    CustomTabBarPress = () => {
         this.props.navigation.goBack(null)
     }
-
-    test = () => {
-        const key = '2OJd9iGeljuPPSgE4o-M12_DvF9s9753d84a-48fc-4420-83eb-7d61a334bad6'
-        // CodePush.notifyApplicationReady()
-        codePush.sync({
-            deploymentKey: key,
-        }, (status) => {
-            if (status === codePush.SyncStatus.UPDATE_INSTALLED) {
-                // SplashScreen.hide();
-            }
-            if (status === codePush.SyncStatus.UP_TO_DATE) {
-                // SplashScreen.hide();
-            }
-            if (status === codePush.SyncStatus.UNKNOWN_ERROR) {
-                // SplashScreen.hide();
-            }
-        })
-    }
-
     render() {
         return (
             <View style={headStyle.container}>
@@ -179,15 +160,12 @@ export default class Profile extends React.Component {
                     />
                     <GridBody GridItemClick={this.onGridItemClick} />
                 </View>
-                <CustomTabBar onPress={this.navigationTabBarPress}>
-                    <Text>返回</Text>
-                </CustomTabBar>
             </View>
         )
     }
 }
 
-
+export default PageWithTab(Profile, '返回');
 
 /**
  * 工具栏

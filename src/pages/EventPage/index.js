@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { Body } from './Views/body'
 import { CustomTabBar } from 'component/CustomTabBar'
+import { PageWithTab } from 'HOC/PageWithTab';
 
 class EventPage extends Component {
 
@@ -14,7 +15,7 @@ class EventPage extends Component {
     componentWillUnmount() {
         this.props.clearEventPage()
     }
-    navigationTabBarPress = () => {
+    CustomTabBarPress = () => {
         this.props.navigation.goBack(null)
     }
     render() {
@@ -30,9 +31,6 @@ class EventPage extends Component {
                     onActivityPress={(id) => this.props.onActivityPress(id, this)}
                     EventOnValueChange={this.props.EventOnValueChange}
                 />
-                <CustomTabBar onPress={this.navigationTabBarPress}>
-                    <Text>返回</Text>
-                </CustomTabBar>
             </View>
         )
     }
@@ -56,4 +54,7 @@ function mapDispatch(dispatch) {
         clearEventPage: () => dispatch({ type: 'clearEventPage' })
     }
 }
-export default connect(mapState, mapDispatch)(EventPage)
+
+const wrapper = PageWithTab(EventPage, '返回')
+
+export default connect(mapState, mapDispatch)(wrapper)

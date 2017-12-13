@@ -22,6 +22,7 @@ import { reducer as Profile } from './pages/Profile/reducer';
 import { reducer as Message } from './pages/Message/reducer';
 import { reducer as Feedback } from './pages/Feedback/reducer';
 import { reducer as FeedbackForm } from './pages/FeedbackForm/reducer';
+import { reducer as FeedbackReply } from './pages/FeedbackReply/reducer';
 
 const tmpReducer = (state = {}, action) => {
     const type = action.type
@@ -46,7 +47,8 @@ const appReducer = combineReducers({
     Profile: Profile,
     Message: Message,
     Feedback: Feedback,
-    FeedbackForm
+    FeedbackForm,
+    FeedbackReply
 })
 
 const sagaMiddleware = createSagaMiddleware(rootSaga)

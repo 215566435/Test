@@ -4,12 +4,16 @@ import { View, StyleSheet, Dimensions, Platform, FlatList, Text, TouchableOpacit
 
 
 export class ListItem extends Component {
+    static defaultProps = {
+        backgroundColor: 'white',
+        ArrowColor: '#d9d9d9'
+    }
 
     render() {
-        const { title, extra, content, onPress } = this.props;
+        const { title, extra, content, onPress, backgroundColor, ArrowColor } = this.props;
         return (
             <TouchableOpacity
-                style={{ marginVertical: 1, backgroundColor: 'white' }}
+                style={{ marginVertical: 1, backgroundColor: backgroundColor, justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}
                 onPress={onPress}
             >
                 <View style={{ padding: 5 }}>
@@ -17,6 +21,20 @@ export class ListItem extends Component {
                     <Text>{extra}</Text>
                     {content}
                 </View>
+                <View
+                    style={{
+                        borderLeftWidth: 2,
+                        borderBottomWidth: 2,
+                        marginRight: 10,
+                        height: 10,
+                        width: 10,
+                        borderColor: ArrowColor,
+                        transform: [
+                            { rotateZ: '225deg' },
+                            { perspective: 1000 }
+                        ]
+                    }}
+                />
             </TouchableOpacity>
         )
     }

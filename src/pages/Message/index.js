@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { PageWithTab } from 'HOC/PageWithTab';
 import { FlatListComponent } from 'HOC/FlatListWithSpecs';
 import { ListItem } from 'component/ListItem';
+import { TimeLine } from 'component/TimeLine';
 
 import { MessageState } from './constant';
-
-
+import { timeSplit } from 'utils';
 
 class MessagePage extends FlatListComponent {
     componentDidMount() {
@@ -22,14 +22,18 @@ class MessagePage extends FlatListComponent {
         this.props.navigation.navigate('GoodState', { id, messageId, memberId })
     }
     renderItem = ({ item, index }) => {
-        const splitTime = item.createTime.split('T');
+        const { date, time } = timeSplit(item.createTime);
         const content = (
             <View style={{ flexDirection: 'row', justifyContent: "space-between" }}>
-                <Text style={{ color: 'rgba(0, 0, 0, 0.45)' }}>{`${splitTime[0]}  ${splitTime[1].substr(0, 8)}`}</Text>
-                <Text style={{ color: '#ff4d4f' }}>{item.isRead ? '' : '未读'}</Text>
+                <TimeLine
+                    date={date}
+                    time={time}
+                    SupportTicketType={''}
+                    priority={''}
+                />
+                <Text style={{ color: '#ff4d4f', fontSize: 10 }}>{item.isRead ? '' : '未读'}</Text>
             </View>
         )
-
         return <ListItem
             title={item.title}
             extra={MessageState[item.messageType]}

@@ -9,7 +9,6 @@ export class Body extends Component {
 
     renderItem = (child, index) => {
         const item = child.item;
-        console.log(item);
         return <ProductBox
             Product={item}
             isAud={this.props.isAud}

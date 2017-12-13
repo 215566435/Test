@@ -4,32 +4,43 @@ import { connect } from 'react-redux';
 import { PageWithTab } from 'HOC/PageWithTab';
 import { FlatListComponent } from 'HOC/FlatListWithSpecs';
 import { ListItem } from 'component/ListItem';
+import { SupportTicketType, TicketColor, TicketPriority } from './constant';
+import { timeSplit, height } from 'utils';
+import { Input } from 'component/Input';
 import { TimeLine } from 'component/TimeLine';
-import { timeSplit } from 'utils';
 
-
+/**
+ * 一个方法，用于去除[A8001]xxxx，中的[去除内容]
+ */
+const removeSeverString = (string) => {
+    const splite = string.split(']');
+    if (splite[1]) {
+        return splite[1];
+    }
+    return string;
+}
 
 class Feedback extends FlatListComponent {
     CustomTabBarPress = (e, child, index) => {
         if (index === 0) {
             this.props.navigation.goBack();
         } else if (index === 1) {
-            this.props.navigation.navigate('FeedbackForm');
+            const id = this.props.navigation.state.params.id;
+            this.props.navigation.navigate('FeedbackReplyForm', { id: id });
         }
     }
-    dataSource = () => this.props.feedbacks;
+
+    dataSource = () => this.props.FeedbackReply;
 
     onEndReached = () => {
-        this.props.dispatch({ type: 'appendFeedback' })
+        const id = this.props.navigation.state.params.id;
+        this.props.dispatch({ type: 'appendFeedbackReply', id: id })
     }
+
     keyExtractor = (item, index) => index;
 
-    onItemPress = (item) => {
-        this.props.navigation.navigate('FeedbackReply', { id: item.id })
-    }
     renderItem = ({ item, index }) => {
         const { date, time } = timeSplit(item.createTime);
-        const lastReplyTime = timeSplit(item.lastReplyTime);
         const content = (
             <View>
                 <Text style={{ color: "#1890ff", marginBottom: 10 }}>{item.context}</Text>
@@ -39,28 +50,27 @@ class Feedback extends FlatListComponent {
                     SupportTicketType={item.supportTicketType}
                     priority={item.priority}
                 />
-                <Text style={{ color: "#fa8c16", fontSize: 10, marginTop: 10 }}>
-                    {`${lastReplyTime.date === '无' ? '' : "上次回复时间：" + lastReplyTime.date}      ${lastReplyTime.time}`}
-                </Text>
             </View>
         )
         return <ListItem
-            title={`${item.title}`}
+            title={`${removeSeverString(item.createdByUser)}`}
             content={content}
-            onPress={() => this.onItemPress(item)}
+            backgroundColor={item.tragetGroup === "CustomerService" ? '#fff7e6' : 'white'}
+            ArrowColor={'transparent'}
         />
     }
 
     componentDidMount() {
-        this.props.dispatch({ type: 'fetchFeedback' })
+        const id = this.props.navigation.state.params.id;
+        this.props.dispatch({ type: 'fetchReply', id: id })
     }
 }
 
-const wrapper = PageWithTab(Feedback, ['返回', '我要反馈']);
+const wrapper = PageWithTab(Feedback, ['返回', '继续反馈'], ['white', '#ff7875']);
 
 const mapState = (state) => {
     return {
-        ...state.Feedback
+        ...state.FeedbackReply
     }
 }
 

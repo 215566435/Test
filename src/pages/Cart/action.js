@@ -132,7 +132,7 @@ const actionStategy = {
             return;
         }
 
-        console.log(json.data)
+        console.log(json)
         if (json.data.isValid) {
             others.instance.props.navigation.navigate('Settle', {
                 deliveryInfo: json.data.couriers,

@@ -14,7 +14,9 @@ import { PageHeader } from 'component/PageHeader'
 import { SearchBar } from 'component/SearchBar'
 import { CustomTabBar } from 'component/CustomTabBar'
 import { stateBarMargin, width } from 'utils'
-import { PriceItem } from './Views/PriceItem'
+import { PriceItem } from './Views/PriceItem';
+import { PageWithTab } from 'HOC/PageWithTab';
+
 
 
 class PriceList extends React.Component {
@@ -105,7 +107,7 @@ class PriceList extends React.Component {
         onEndReachedThreshold={0.1}
     />
 
-    navigationTabBarPress = () => {
+    CustomTabBarPress = (e, child, index) => {
         this.props.navigation.goBack(null)
     }
     render() {
@@ -141,13 +143,13 @@ class PriceList extends React.Component {
                 />
                 {this.renderFlatList()}
                 {this.props.onPost ? this.renderSpin() : null}
-                <CustomTabBar onPress={this.navigationTabBarPress}>
-                    <Text>返回</Text>
-                </CustomTabBar>
             </View>
         )
     }
 }
+
+const wrapper = PageWithTab(PriceList, '返回')
+
 
 /**
  * 
@@ -293,4 +295,4 @@ const mapDispatch = (dispatch) => {
 }
 
 
-export default connect(mapProps, mapDispatch)(PriceList)
+export default connect(mapProps, mapDispatch)(wrapper)

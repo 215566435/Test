@@ -39,8 +39,10 @@ export class FlatListComponent extends Component {
             }
 
         }
+        const { height } = this.props;
+
         return (
-            <View style={{ height: '100%' }}>
+            <View style={{ height: height === void 666 ? '100%' : height }}>
                 <FlatList
                     style={{ marginTop: 24 }}
                     data={source}

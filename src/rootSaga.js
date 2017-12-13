@@ -16,6 +16,8 @@ import { actionStategy as Profile } from './pages/Profile/action';
 import { actionStategy as Message } from './pages/Message/action';
 import { actionStategy as Feedback } from './pages/Feedback/action';
 import { actionStategy as FeedbackForm } from './pages/FeedbackForm/action';
+import { actionStategy as FeedbackReply } from './pages/FeedbackReply/action';
+import { actionStategy as FeedbackReplyForm } from './pages/FeedbackReplyForm/action';
 
 import { fork, take, select, call } from 'redux-saga/effects';
 
@@ -53,7 +55,9 @@ export default function* rootSaga() {
         Profile,
         Message,
         Feedback,
-        FeedbackForm
+        FeedbackForm,
+        FeedbackReply,
+        FeedbackReplyForm
     ])
 
     yield [

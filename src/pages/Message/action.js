@@ -22,17 +22,23 @@ export const actionStategy = {
         })
     },
     appendMessage: function* (state) {
-        const { currentPage, totalPages } = getCurrent(state.Message);
-        if (currentPage >= totalPages) return;
-        const json = yield fetchList(Url + 'user/GetCurrentMessage', currentPage + 1);
-        const messages = state.Message.messages;
-        yield put({
-            type: 'SET_STATE_Message',
-            data: {
-                messages: mergeList(messages, json.data.message.items),
-                currentPage: json.data.message.currentPage
+        try {
+            const { currentPage, totalPages } = getCurrent(state.Message);
+            const json = yield fetchList(Url + 'user/GetCurrentMessage', currentPage + 1);
+            const messages = state.Message.messages;
+            yield put({
+                type: 'SET_STATE_Message',
+                data: {
+                    messages: mergeList(messages, json.data.message.items),
+                    currentPage: json.data.message.currentPage
+                }
+            })
+        } catch (e) {
+            if (e.message !== 'MAX') {
+                throw Error(e)
             }
-        })
+        }
+
     },
     MarkAsRead: function* (state, others) {
         const messages = state.Message.messages;

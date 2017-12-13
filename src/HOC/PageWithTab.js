@@ -4,6 +4,13 @@ import { CustomTabBar } from 'component/CustomTabBar';
 import { width, height } from 'utils';
 
 
+
+/**
+ * 高阶组件，输入一个component会自动的给这个component加上一个tabbar
+ * @param {*} Cpn:react 的component 
+ * @param {array} TabItem:Tabbar上的按钮
+ * @param {array} TabColor:每个按钮的颜色
+ */
 export const PageWithTab = (Cpn, TabItem, TabColor) => {
 
     return class Wrapper extends Component {
@@ -29,7 +36,7 @@ export const PageWithTab = (Cpn, TabItem, TabColor) => {
                         return 'white'
                     }}>
                         {React.Children.map(TabItem, (item) => {
-                            return <Text>{item}</Text>
+                            return <Text style={{ backgroundColor: 'transparent' }}>{item}</Text>
                         })}
                     </CustomTabBar>
                 </View>

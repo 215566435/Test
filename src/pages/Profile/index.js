@@ -20,8 +20,9 @@ import Password from '../Password';
 import Login from '../Login';
 import Message from '../Message';
 import Feedback from '../Feedback';
-import FeedbackForm from '../FeedbackForm'
-
+import FeedbackForm from '../FeedbackForm';
+import FeedbackReply from '../FeedbackReply';
+import FeedbackReplyForm from '../FeedbackReplyForm';
 
 
 const ProfileInstace = null;
@@ -114,6 +115,22 @@ export default StackNavigator({
     },
     FeedbackForm: {
         screen: (props) => <FeedbackForm {...props} />,
+        navigationOptions: {
+            header: null,
+            tabBarVisible: false,
+            gesturesEnabled: true
+        }
+    },
+    FeedbackReply: {
+        screen: (props) => <FeedbackReply {...props} />,
+        navigationOptions: {
+            header: null,
+            tabBarVisible: false,
+            gesturesEnabled: true
+        }
+    },
+    FeedbackReplyForm: {
+        screen: (props) => <FeedbackReplyForm {...props} />,
         navigationOptions: {
             header: null,
             tabBarVisible: false,
