@@ -23,6 +23,7 @@ import { reducer as Message } from './pages/Message/reducer';
 import { reducer as Feedback } from './pages/Feedback/reducer';
 import { reducer as FeedbackForm } from './pages/FeedbackForm/reducer';
 import { reducer as FeedbackReply } from './pages/FeedbackReply/reducer';
+import { reducer as Settle } from './pages/Settle/reducer';
 
 const tmpReducer = (state = {}, action) => {
     const type = action.type
