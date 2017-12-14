@@ -7,6 +7,8 @@ import { header, Url } from '../../../util';
 import { Spin } from '../../../components/Spin';
 import { Modyfiy } from '../../Address/Views/modal';
 import { SearchBar } from '../../../components/SearchBar';
+import { ModalWrapper } from 'HOC/ModalWrapper';
+import { PageWithTab } from 'HOC/PageWithTab';
 
 
 const { height, width } = Dimensions.get('window')
@@ -111,12 +113,7 @@ export class AddressSelector extends Component {
                         null
                     }
                 </View>
-                <Modal
-                    animationType='slide'
-                    visible={isChosenVisiable}
-                >
-                    <AddressPicker goBack={this.onGoBack} type={type} />
-                </Modal>
+                <AddressList visible={isChosenVisiable} goBack={this.onGoBack} type={type} />
                 <Modal
                     animationType='slide'
                     visible={isEditVisiable}
@@ -251,7 +248,7 @@ class AddressPicker extends Component {
         })(this)
     }
 
-    goBack = () => {
+    CustomTabBarPress = () => {
         setDefault();
         this.props.goBack('goback');
     }
@@ -286,15 +283,14 @@ class AddressPicker extends Component {
                     keyExtractor={this._keyExtractor}
                     onEndReachedThreshold={0.1}
                 />
-                <CustomTabBar childColor={() => '#f7f7f7'} onPress={this.goBack}>
-                    <View>
-                        <Text style={{ backgroundColor: "transparent" }}>返回</Text>
-                    </View>
-                </CustomTabBar>
             </View>
         )
     }
 }
+
+const AddressList = ModalWrapper(PageWithTab(AddressPicker, '返回'));
+
+
 
 class AddrItem extends React.Component {
 

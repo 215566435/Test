@@ -44,10 +44,9 @@ const ProfileHOC = () => {
             jump(index)
         }
         componentDidMount() {
-            _profile = this.refs.Profile;
+            _profile = this.refs.Profile.page;
         }
         render() {
-
             return (
                 <View>
                     <Profile
@@ -86,7 +85,8 @@ export default StackNavigator({
     Profile: {
         screen: connected,
         navigationOptions: {
-            header: null
+            header: null,
+            title: '<'
         }
     },
     Login: {
