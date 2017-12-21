@@ -3,8 +3,8 @@ import { View, Text, TouchableOpacity, FlatList, Dimensions, Platform, Image, Sc
 import { PageHeader } from '../../../components/PageHeader';
 import { SearchBar } from '../../../components/SearchBar'
 import { Spin } from '../../../components/Spin';
-
-const { height, width } = Dimensions.get('window')
+import { ProductBox } from 'component/ProductBox';
+import { height, width, priceHelper } from 'utils';
 
 export class Body extends Component {
     static defaultProps = {
@@ -13,9 +13,6 @@ export class Body extends Component {
     }
     state = {
         key: null
-    }
-
-    componentDidMount() {
     }
     componentWillUnmount() {
         this.props.clearSearch()
@@ -29,26 +26,16 @@ export class Body extends Component {
     renderGoods = (child) => {
         const item = child.item;
         const { isAud } = this.props;
-        const price = {
-            p: isAud ? '$' + item.p.a : '¥' + item.p.r,
-            pi: isAud ? '$' + item.p.ai : '¥' + item.p.ri
-        }
-        return (
-            <TouchableOpacity style={{ height: 210, width: width / 2, margin: 0.5, padding: 10, backgroundColor: "white" }} onPress={() => this.props.GoodItem(item.id)}>
-                <View >
-                    <Image
-                        key={item.i}
-                        source={{ uri: 'http://cdn2u.com' + item.i + '?width=200&height=200&constrain=true&bgcolor=white' }}
-                        style={{ height: 120, width: 150 }}
-                        resizeMode="contain"
-                    />
-                    <Text numberOfLines={2} style={{ fontSize: 12, backgroundColor: "transparent" }}>{item.n}</Text>
-                    <Text style={{ color: '#f56a00', backgroundColor: "transparent" }}>{price.p ? price.p : '¥' + itm.ap.p.r}</Text>
-                    <Text style={{ fontSize: 10, color: '#919191', backgroundColor: "transparent" }}>包邮价:{price.pi ? price.pi : '¥' + itm.ap.p.ri}</Text>
-                </View>
-            </TouchableOpacity>
+        const { price, price2 } = priceHelper(isAud, item);
 
-        )
+        return <ProductBox
+            onPress={() => this.props.GoodItem(item.id)}
+            isAud={isAud}
+            price={price}
+            price2={price2}
+            name={item.n}
+            uri={item.i}
+        />
     }
     _keyExtractor = (child) => child.id
 

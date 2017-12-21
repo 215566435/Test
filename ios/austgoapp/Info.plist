@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>澳洲助手</string>
+	<string>澳购助手</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.1.1</string>
+	<string>1.1.2</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -34,7 +34,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>3</string>
+	<string>6</string>
 	<key>CodePushDeploymentKey</key>
 	<string>KpO0hcjaOTrc4XwWYqOfE9yk560m9753d84a-48fc-4420-83eb-7d61a334bad6</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -58,9 +58,9 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>允许澳购助手访问您的本地存储吗？</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string></string>
+	<string>允许澳购助手访问您的相册吗？</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FontAwesome.ttf</string>

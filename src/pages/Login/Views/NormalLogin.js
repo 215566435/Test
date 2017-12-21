@@ -6,7 +6,7 @@ import { SpinScreen } from '../../../components/Spin';
 import { Input } from '../../../components/Input';
 import { Code } from '../../../components/Code';
 import { Button, WechatButton } from '../../../components/Button';
-
+import * as WeChat from 'react-native-wechat';
 
 
 
@@ -18,10 +18,16 @@ class NormalLogin extends Component {
             name: '',
             psw: '',
             code: '',
+            isWXAppInstalled: false
         }
     }
     componentDidMount() {
         thisComponent = this;
+        WeChat.isWXAppInstalled().then((t) => {
+            this.setState({
+                isWXAppInstalled: t
+            })
+        })
     }
     onChangeText = (text, name) => {
         this.setState({
@@ -55,6 +61,7 @@ class NormalLogin extends Component {
             loading
         } = this.props;
 
+
         const { code } = this.state;
         return (
             <View style={{
@@ -70,7 +77,7 @@ class NormalLogin extends Component {
                 <Button title='登陆' onPress={this.onNormalLogin} />
                 <Button title='没有账户，转到新用户注册' onPress={onNewRegister} style={{ backgroundColor: "#f56a00" }} />
                 <Button title='取消' onPress={this.onNormalLoginCancel} style={{ backgroundColor: '#919191' }} />
-                <WechatButton onPress={() => onWechatLogin(this)} />
+                {this.state.isWXAppInstalled ? <WechatButton onPress={() => onWechatLogin(this)} /> : null}
                 {loading ? <SpinScreen text={'登陆中...'} /> : null}
             </View>
         )

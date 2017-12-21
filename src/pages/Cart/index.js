@@ -72,8 +72,8 @@ class Cart extends Component {
     onPress = (e, child, index) => {
         console.log(index)
         if (index === 1) {//结算
-            // this.props.navigation.navigate('Settle')
-            this.props.checkOut(this);
+            this.props.navigation.navigate('Settle')
+            // this.props.checkOut(this);
         }
     }
     renderTabBar = () => {
@@ -125,6 +125,7 @@ class Cart extends Component {
             <View>
                 <Header {...props} />
                 <View style={{ height: height - (43/* 头的宽度*/ + stateBarMargin(0)/* 状态栏高度*/ + 44/* 底部状态栏*/) - (Platform.OS === 'ios' ? 0 : 24) }} >
+                    {this.props.message ? <Text style={{ textAlign: "center", color: 'white', backgroundColor: '#ff4d4f' }}>{this.props.message}</Text> : null}
                     {this.renderFlatList()}
                 </View>
                 {this.renderTabBar()}
@@ -137,7 +138,8 @@ const mapState = (state) => {
     return {
         items: state.Cart.items,
         total: state.Cart.total,
-        isAud: state.PriceList.isAud
+        isAud: state.PriceList.isAud,
+        ...state.Cart
     }
 }
 

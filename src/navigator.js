@@ -25,6 +25,7 @@ import Login from './pages/Login';
 import Search from './pages/SearchPage';
 import Activity from './pages/Activity';
 import Feedback from './pages/Feedback';
+import AddressEditPage from './pages/AddressEditPage';
 
 const iconsSize = Platform.OS === 'ios' ? 26 : 15;
 
@@ -147,6 +148,14 @@ const RootTabs = StackNavigator({
     },
     Settle: {
         screen: (props) => <Settle {...props} />,
+        navigationOptions: {
+            header: null,
+            tabBarVisible: false,
+            gesturesEnabled: true
+        }
+    },
+    AddressEditPage: {
+        screen: (props) => <AddressEditPage {...props} />,
         navigationOptions: {
             header: null,
             tabBarVisible: false,

@@ -54,8 +54,6 @@ const actionStategy = {
             url: Url + 'goods/AllCates?id=' + (others.id + 1),
             body: {}
         })
-        console.log(json)
-
         yield put({
             type: "Cate_SET_STATE",
             data: { ...state, headerCateID: others.id, tabList: json.data }

@@ -206,10 +206,12 @@ class GridBody extends Component {
  */
 class Head extends React.Component {
 
-    shouldComponentUpdate(nextProps) {
-
-        return nextProps.userName !== this.props.userName ||
-            nextProps.userBalence !== this.props.userBalence
+    undefineToZero = (money) => {
+        if (money !== void 666) {
+            return money
+        } else {
+            return ' '
+        }
     }
 
     renderBalance = () => {
@@ -217,11 +219,7 @@ class Head extends React.Component {
         if (userBalence.rmb === '' && userBalence.aud === '') {
             return '预存款：0'
         } else {
-            if (userBalence.rmb && userBalence.aud) {
-                return `预存款：${userBalence.rmb}，${userBalence.aud}`
-            } else {
-                return '预存款：0'
-            }
+            return `预存款：${this.undefineToZero(userBalence.rmb)}  ${this.undefineToZero(userBalence.aud)}`
         }
     }
 

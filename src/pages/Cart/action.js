@@ -43,7 +43,7 @@ const actionStategy = {
         yield put({
             type: 'Cart_SET_STATE',
             data: {
-                ...state,
+                message: json.data.message,
                 items: json.data.items,
                 total: json.data.o
             }
@@ -78,7 +78,7 @@ const actionStategy = {
         yield put({
             type: 'Cart_SET_STATE',
             data: {
-                ...state,
+                message: json.data.message,
                 items: json.data.items,
                 total: json.data.o
             }
@@ -99,67 +99,13 @@ const actionStategy = {
         yield put({
             type: 'Cart_SET_STATE',
             data: {
-                ...state,
+                message: json.data.message,
                 items: json.data.items,
                 total: json.data.o
             }
         })
     },
     checkOut: function* (state, others) {
-        const res = yield AsyncStorage.multiGet(['Receiver', 'Sender'])
-        const returnWithAddress = res[0][1] ? false : true;
-
-        if (ToastAndroid.showWithGravity) ToastAndroid.showWithGravity('结算中...', ToastAndroid.SHORT, ToastAndroid.CENTER);
-
-        const json = yield modifyItems({
-            url: Url + 'cart/ListSummary',
-            body: {
-                returnWithAddress: returnWithAddress
-            }
-        })
-
-
-        if (!json.success) {
-            Alert.alert(
-                '操作失败',
-                json.message,
-                [
-                    { text: 'Cancel' },
-                    { text: 'OK' },
-                ],
-                { cancelable: false }
-            )
-            return;
-        }
-
-        console.log(json)
-        if (json.data.isValid) {
-            others.instance.props.navigation.navigate('Settle', {
-                deliveryInfo: json.data.couriers,
-                total: json.data.t,
-                Cartinstance: others.instance,
-                currency: json.data.cr,
-                origin: json.data.o,
-                Couriers: json.data.u,
-                Receiver: returnWithAddress ? json.data.receiver : JSON.parse(res[0][1]),
-                Sender: returnWithAddress ? json.data.sender : JSON.parse(res[1][1]),
-                insuranceRate: json.data.s,
-                otherFee: json.data.e,
-                buyInsurance: json.data.l,
-                insuranceFee: json.data.r,
-                deliveryFee: json.data.dd
-            });
-        } else {
-            Alert.alert(
-                '操作失败',
-                json.data.message,
-                [
-                    { text: 'Cancel' },
-                    { text: 'OK' },
-                ],
-                { cancelable: false }
-            )
-        }
     }
 }
 

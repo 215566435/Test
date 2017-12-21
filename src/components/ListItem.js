@@ -14,11 +14,12 @@ export class ListItem extends Component {
         return (
             <TouchableOpacity
                 style={{ marginVertical: 1, backgroundColor: backgroundColor, justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}
+                disabled={onPress ? false : true}
                 onPress={onPress}
             >
                 <View style={{ padding: 5 }}>
-                    <Text style={{ fontSize: 18 }}>{title}</Text>
-                    <Text>{extra}</Text>
+                    {title ? <Text style={{ fontSize: 18 }}>{title}</Text> : null}
+                    {extra ? <Text>{extra}</Text> : null}
                     {content}
                 </View>
                 <View

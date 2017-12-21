@@ -3,7 +3,6 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './rootSaga'
 
-
 import { reducer as PriceList } from './pages/PriceList/reducer';
 import { reducer as Detail } from './pages/Detail/reducer';
 import { reducer as Cart } from './pages/Cart/reducer';
@@ -49,7 +48,8 @@ const appReducer = combineReducers({
     Message: Message,
     Feedback: Feedback,
     FeedbackForm,
-    FeedbackReply
+    FeedbackReply,
+    Settle
 })
 
 const sagaMiddleware = createSagaMiddleware(rootSaga)

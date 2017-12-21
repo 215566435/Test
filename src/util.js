@@ -95,6 +95,52 @@ class Header {
         }
     }
 }
+/**
+ * 将乱七八糟的价格转换成需要的价格 
+ * @param {*} isAud 
+ * @param {*} Price 
+ */
+export const priceHelper = (isAud, Price) => {
+    const { a, ai, r, ri } = Price.p;
+    const price = isAud ? a : r;
+    const price2 = isAud ? ai : ri;
+    return {
+        price: price ? (isAud ? '$' : '¥') + price : '¥' + r,
+        price2: price2 ? (isAud ? '$' : '¥') + price2 : '¥' + ri
+    }
+}
+
+
+
+/**
+ * 这个函数的作用就是提取props里面的navigation传递过来的参数
+ * @param {*} props 
+ */
+export const getNavigationParam = (props) => {
+    try {
+        return props.navigation.state.params;
+    } catch (e) {
+        throw new TypeError('props中没有navigation.state参数，请不要传递奇怪的参数')
+    }
+}
+/**
+ * 这个函数的作用是提取props中的goback函数.
+ * @param {*} props 
+ */
+
+export const goBack = (props) => {
+    try {
+        return props.navigation.goBack
+    } catch (e) {
+        throw new TypeError('props中没有navigation.state参数，请不要传递奇怪的参数')
+    }
+}
+export const undefinedConvert = (string) => {
+    if (string === void 666) {
+        return ''
+    }
+    return string
+}
 
 export var header = new Header()
 
@@ -159,7 +205,7 @@ export function getCurrent(state) {
     const totalPages = state.totalPages;
     const currentPage = state.currentPage;
     if (totalPages === void 666 || totalPages === null) {
-        throw Error(`${state}:这个属性中没有totalItems`)
+        throw Error(`${state}:这个属性中没有totalPages`)
     }
     if (currentPage === void 666 || currentPage === null) {
         throw Error(`${state}:这个属性中没有currentPage`)

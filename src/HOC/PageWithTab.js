@@ -10,8 +10,9 @@ import { width, height } from 'utils';
  * @param {*} Cpn:react 的component 
  * @param {array} TabItem:Tabbar上的按钮
  * @param {array} TabColor:每个按钮的颜色
+ * @param {bool} update:tabbar是否拥有更新能力
  */
-export const PageWithTab = (Cpn, TabItem, TabColor) => {
+export const PageWithTab = (Cpn, TabItem, TabColor, update = false) => {
 
     return class Wrapper extends Component {
 
@@ -26,7 +27,7 @@ export const PageWithTab = (Cpn, TabItem, TabColor) => {
             return (
                 <View style={{ height: height - 44 - (Platform.OS === 'ios' ? 0 : 24) }}>
                     <Cpn {...this.props} ref={(node) => this.page = node} />
-                    <CustomTabBar onPress={this.CustomTabBarPress} childColor={(child, index) => {
+                    <CustomTabBar shouldUpdate={update} onPress={this.CustomTabBarPress} childColor={(child, index) => {
                         if (TabColor && TabColor[index] === void 666) {
                             return 'white'
                         }

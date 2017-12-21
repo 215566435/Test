@@ -4,29 +4,37 @@
  */
 import React, { Component } from 'react';
 import { View, ScrollView, Text, Platform, Picker } from 'react-native';
-import { Input } from '../../../components/Input'
-import { Button } from '../../../components/Button'
-import { PickerView } from '../../../components/Picker';
+import { Input } from 'component/Input'
+import { Button } from 'component/Button'
+import { PickerView } from 'component/Picker';
+import { connect } from 'react-redux';
 
+import { Url, header, getNavigationParam, goBack } from 'utils';
 
-import { Url, header } from '../../../util';
-
-
-export class Modyfiy extends Component {
-    static navigationOptions = {
-        title: '个人信息'
+const AddressEditPageHelper = {
+    checkParma: function (key, param) {
+        if (param[key] !== void 666) {
+            return param[key];
+        }
+        throw new Error(`传递进来的param不含有${key}属性`);
     }
-    static defalutProps = {
-        isAdd: false
-    }
-    state = {
-        type: 'Receiver',
-        name: '',
-        phone: '',
-        id: '',
-        address: '',
-        defalut: false,
-        serverID: ''
+}
+
+class Modyfiy extends Component {
+    constructor(props) {
+        super(props);
+        const Param = getNavigationParam(this.props);
+        const { checkParma } = AddressEditPageHelper;
+        console.log(Param)
+        this.state = {
+            isAdd: checkParma('isAdd', Param),
+            type: checkParma('type', Param),
+            name: '',
+            id: '',
+            address: '',
+            defalut: false,
+            serverID: ''
+        }
     }
     onChangeText = (text, name) => {
         this.setState({
@@ -41,14 +49,10 @@ export class Modyfiy extends Component {
     }
     componentDidMount() {
         const { addr } = this.props;
+        const Param = getNavigationParam(this.props);
+
         this.setState({
-            type: addr.t,
-            name: addr.n,
-            phone: addr.p,
-            address: addr.a,
-            serverID: addr.id,
-            defalut: addr.d,
-            id: addr.i
+            ...Param
         })
     }
     defalutChange = (v) => {
@@ -61,7 +65,7 @@ export class Modyfiy extends Component {
     onSubmit = (e) => {
 
         (async function fetchAddress(that, e) {
-            const fixUrl = that.props.isAdd ? Url + 'user/CreateAddress' : Url + 'user/ModifyAddress';
+            const fixUrl = Url + 'user/CreateAddress';
             try {
                 const state = that.state
                 const res = await fetch(fixUrl, {
@@ -80,21 +84,32 @@ export class Modyfiy extends Component {
                 })
 
                 const json = await res.json();
-                console.log(that.state)
-                if (json.success) {
-                    that.props.done(json.data)
-                } else {
-                    that.props.fail()
-                }
-
+                console.log(state)
+                that.props.dispatch({ type: 'mapAddress', [state.type]: json.data });
+                goBack(that.props)(null);
             } catch (e) {
                 console.log(e);
             }
         })(this, e)
-
+    }
+    onEdit = () => {
+        const state = this.state;
+        this.props.dispatch({
+            type: 'mapAddress', [state.type]: {
+                i: state.id,
+                p: state.phone,
+                n: state.name,
+                a: state.address,
+                t: state.type,
+                d: state.defalut,
+                se: false,
+                id: state.serverID
+            }
+        });
+        goBack(this.props)(null);
     }
     onGoBack = () => {
-        this.props.done()
+        goBack(this.props)(null);
     }
     render() {
         const { addr } = this.props;
@@ -112,9 +127,12 @@ export class Modyfiy extends Component {
                     <Picker.Item label="否" value="否" />
                     <Picker.Item label="是" value="是" />
                 </PickerView>
-                <Button title='保存' onPress={this.onSubmit} />
+                {this.state.isAdd ? null : <Button title='编辑' onPress={this.onEdit} />}
+                <Button title='保存到地址本' onPress={this.onSubmit} style={{ backgroundColor: "#fa8c16" }} />
                 <Button title='返回' style={{ backgroundColor: '#919191' }} onPress={this.onGoBack} />
             </ScrollView>
         )
     }
 }
+
+export default connect()(Modyfiy);

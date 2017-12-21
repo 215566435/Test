@@ -1,44 +1,18 @@
 import { View, Text, TouchableOpacity, Modal, FlatList, Dimensions, ScrollView, Platform } from 'react-native'
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'; // 4.4.2
 
 import { CustomTabBar } from '../../../components/CustomTabBar'
 import { header, Url } from '../../../util';
 import { Spin } from '../../../components/Spin';
-import { Modyfiy } from '../../Address/Views/modal';
 import { SearchBar } from '../../../components/SearchBar';
 import { ModalWrapper } from 'HOC/ModalWrapper';
 import { PageWithTab } from 'HOC/PageWithTab';
+import { FlatListComponent } from 'HOC/FlatListWithSpecs';
 
 
 const { height, width } = Dimensions.get('window')
-
-var CurrentPage = 1;
-var posting = false;
-var total = -1;
-
-const dispatch = (type, value) => {
-    if (type === 'pose') {
-        posting = value;
-    } else if (type === 'page') {
-        CurrentPage = value >= total ? total : value;
-    } else if (type === 'total') {
-        total = value;
-    }
-}
-const getState = () => {
-    return {
-        posting,
-        CurrentPage,
-        total
-    }
-}
-
-const setDefault = () => {
-    dispatch('pose', false);
-    dispatch('page', 1);
-    dispatch('total', -1)
-}
 
 export class AddressSelector extends Component {
     static defaultProps = {
@@ -56,22 +30,24 @@ export class AddressSelector extends Component {
         })
     }
     onEdit = () => {
-        this.setState({
-            isEditVisiable: !this.state.isEditVisiable
-        })
+        this.props.navigation.navigate('AddressEditPage', {
+            isAdd: false,
+            type: this.props.type,
+            address: this.props.value.a,
+            default: this.props.value.d,
+            name: this.props.value.n,
+            id: this.props.value.i,
+            select: this.props.value.se,
+            serverID: this.props.value.id,
+            phone: this.props.value.p
+        });
     }
-    onEditDone = (item) => {
-        this.setState({
-            isEditVisiable: !this.state.isEditVisiable
-        })
-        if (item) {
-            this.props.onFinish({
-                item: item,
-                type: this.props.type
-            });
-        }
+    onAdd = () => {
+        this.props.navigation.navigate('AddressEditPage', {
+            isAdd: true,
+            type: this.props.type
+        });
     }
-
     onGoBack = (item) => {
         if (item === 'goback') {
             this.setState({
@@ -79,7 +55,6 @@ export class AddressSelector extends Component {
             })
             return;
         }
-
         this.props.onFinish(item);
         this.setState({
             isChosenVisiable: !this.state.isChosenVisiable
@@ -91,10 +66,12 @@ export class AddressSelector extends Component {
         let { value, type, propsHeight } = this.props;
         const typeString = type === 'Receiver' ? '收件人' : '发件人';
         const containerHeight = propsHeight;
+
         return (
             <View style={{
                 borderBottomWidth: 0.5,
                 borderColor: 'rgba(120,120,120,0.2)',
+                backgroundColor: "white"
             }}>
                 <ContentText value={value} type={type} containerHeight={containerHeight} />
                 <View style={{ flexDirection: 'row', justifyContent: "center" }}>
@@ -103,29 +80,21 @@ export class AddressSelector extends Component {
                             <Text style={{ fontSize: 15, padding: 2, color: 'white', backgroundColor: "transparent" }}>选取</Text>
                         </View>
                     </TouchableOpacity>
-                    {value.n ?
-                        <TouchableOpacity onPress={this.onEdit} style={{ marginLeft: 10, backgroundColor: '#f78e3d', borderRadius: 5 }} >
-                            <View style={{ alignItems: "center", justifyContent: 'center', flex: 1 }}>
-                                <Text style={{ fontSize: 15, padding: 2, color: 'white', backgroundColor: "transparent" }}>编辑</Text>
-                            </View>
-                        </TouchableOpacity>
-                        :
-                        null
-                    }
+                    <TouchableOpacity onPress={this.onEdit} style={{ marginLeft: 10, backgroundColor: '#f78e3d', borderRadius: 5 }} >
+                        <View style={{ alignItems: "center", justifyContent: 'center', flex: 1 }}>
+                            <Text style={{ fontSize: 15, padding: 2, color: 'white', backgroundColor: "transparent" }}>编辑</Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
                 <AddressList visible={isChosenVisiable} goBack={this.onGoBack} type={type} />
-                <Modal
-                    animationType='slide'
-                    visible={isEditVisiable}
-                >
-                    <Modyfiy addr={value} done={this.onEditDone} />
-                </Modal>
             </View >
         )
     }
 }
 
 class ContentText extends Component {
+
+
 
     render() {
         const { value, type, containerHeight } = this.props;
@@ -154,141 +123,63 @@ class ContentText extends Component {
 }
 
 
-class AddressPicker extends Component {
-    state = {
-        address: null,
-        keyword: ''
-    }
+class AddressPicker extends FlatListComponent {
     componentDidMount() {
-        this._load();
-        this._isMounted = true;
+        this.props.dispatch({
+            type: "fetchSettleAddress",
+            PersonType: this.props.type
+        })
     }
-    componenWillUnmount() {
-
-        this._isMounted = false;
-    }
-    renderAddressItem = (child) => {
-        const item = child.item;
+    renderItem = ({ item, index }) => {
         return <AddrItem item={item} onItemPress={this.onItemPress} />
     }
-
-    _load = () => {
-        (async function fetchAddress(that) {
-            try {
-                if (posting) return;
-                if (getState().CurrentPage === getState().total) return;
-                dispatch('pose', true);
-                const res = await fetch(Url + 'user/ListAddress2', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        type: 0,
-                        keyword: that.keyword,
-                        CurrentPage: CurrentPage,
-                        pageSize: 15,
-                        addressType: that.props.type === 'Receiver' ? 0 : 1
-                    }),
-                    headers: header.get()
-                })
-                dispatch('pose', false);
-
-                const json = await res.json();
-                console.log(json)
-                const newAddress = that.state.address ?
-                    [...that.state.address, ...json.data.items] : json.data.items;
-
-                dispatch('total', json.data.totalPages);
-
-                if (that._isMounted) {
-                    that.setState({
-                        address: newAddress
-                    }, (() => {
-                        dispatch('pose', false);
-                        const page = getState().CurrentPage + 1;
-                        dispatch('page', page);
-                    }))
-                }
-            } catch (e) {
-                console.log(e);
-            }
-        })(this)
+    onEndReached = () => {
+        this.props.dispatch({
+            type: "appendSettleAddress",
+            PersonType: this.props.type
+        })
     }
-    _search = () => {
-        (async function fetchAddress(that) {
-            try {
-
-                const res = await fetch(Url + 'user/ListAddress2', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        type: 0,
-                        keyword: that.keyword,
-                        CurrentPage: 1,
-                        pageSize: 15,
-                        addressType: that.props.type === 'Receiver' ? 0 : 1
-                    }),
-                    headers: header.get()
-                })
-                dispatch('pose', false);
-
-                const json = await res.json();
-                console.log(that.keyword)
-                dispatch('total', json.data.totalPages);
-
-                if (that._isMounted) {
-                    that.setState({
-                        address: json.data.items
-                    }, (() => {
-                        dispatch('pose', false);
-                        const page = getState().CurrentPage + 1;
-                        dispatch('page', page);
-                    }))
-                }
-            } catch (e) {
-                console.log(e);
-            }
-        })(this)
-    }
-
-    CustomTabBarPress = () => {
-        setDefault();
-        this.props.goBack('goback');
-    }
-
-    _keyExtractor = (child) => child.id
-
+    keyExtractor = (item) => item.id
+    dataSource = () => this.props.address;
     onItemPress = (item) => {
-        setDefault();
         this.props.goBack({
             item: { ...item },
             type: this.props.type
         });
     }
+}
+
+class CompositeAddressPicker extends Component {
+    CustomTabBarPress = () => {
+        this.props.goBack('goback');
+    }
     onEndEditing = (text) => {
-        this.keyword = text
-        this._search()
+        this.props.dispatch({
+            type: "addressSettleSearch",
+            keyword: text,
+            PersonType: this.props.type
+        })
     }
-    onChangeInput = (text) => {
-
-    }
-
     render() {
         return (
-            <View style={{ backgroundColor: 'white', justifyContent: "center", marginTop: Platform.OS === 'ios' ? 25 : 0 }}>
-                <SearchBar backgroundColor="#bfbfbf" onEndEditing={this.onEndEditing} searchColor="white" onChangeInput={this.onChangeInput} />
-                <FlatList
-                    style={{ zIndex: -10, height: height - 44 - 44 - 10 }}
-                    data={this.state.address}
-                    renderItem={this.renderAddressItem}
-                    onEndReached={() => this._load()}
-                    initialNumToRender={6}
-                    keyExtractor={this._keyExtractor}
-                    onEndReachedThreshold={0.1}
-                />
+            <View style={{ backgroundColor: 'white', justifyContent: "center", height: '100%' }}>
+                <View style={{ marginTop: 10, height: height - 25 - 44 - 44 }}>
+                    <SearchBar backgroundColor="#bfbfbf" onEndEditing={this.onEndEditing} searchColor="white" />
+                    <AddressPicker {...this.props} />
+                </View>
             </View>
         )
     }
 }
 
-const AddressList = ModalWrapper(PageWithTab(AddressPicker, '返回'));
+const mapState = (state) => {
+    return {
+        ...state.Settle
+    }
+}
+
+const wrapper = ModalWrapper(PageWithTab(CompositeAddressPicker, '返回'));
+const AddressList = connect(mapState)(wrapper)
 
 
 

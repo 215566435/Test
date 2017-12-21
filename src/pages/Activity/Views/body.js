@@ -2,16 +2,21 @@ import React, { Component } from 'react';
 import { View, StyleSheet, ImageBackground, Dimensions, ScrollView, FlatList, Text, TouchableOpacity, Platform, Image } from 'react-native';
 import { Spin } from 'component/Spin';
 import { CustomTabBar } from 'component/CustomTabBar';
-import { height, width } from 'utils';
+import { height, width, priceHelper } from 'utils';
 import { ProductBox } from 'component/ProductBox'
+
 
 export class Body extends Component {
 
     renderItem = (child, index) => {
         const item = child.item;
+        const { price, price2 } = priceHelper(this.props.isAud, item.ap);
+
         return <ProductBox
-            Product={item}
-            isAud={this.props.isAud}
+            uri={item.i}
+            name={item.n}
+            price={price}
+            price2={price2}
             onPress={() => this.props.onItemPress(item.id, this.props.navigation)}
         />
     }
