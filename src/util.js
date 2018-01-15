@@ -25,7 +25,7 @@ if (__DEV__) {
     hostName = 'www.austgo.com'
 }
 
-export const Url = `http://${hostName}/api/app/1.2/`;
+export const Url = `http://${hostName}/api/app/1.2.1/`;
 
 
 /**

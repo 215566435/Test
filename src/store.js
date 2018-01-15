@@ -23,13 +23,14 @@ import { reducer as Feedback } from './pages/Feedback/reducer';
 import { reducer as FeedbackForm } from './pages/FeedbackForm/reducer';
 import { reducer as FeedbackReply } from './pages/FeedbackReply/reducer';
 import { reducer as Settle } from './pages/Settle/reducer';
+import { App } from './rootSaga'
 
 const tmpReducer = (state = {}, action) => {
     const type = action.type
     return { type: type }
 }
 
-const appReducer = combineReducers({
+export const reducers = {
     PriceList: PriceList,
     Detail: Detail,
     Cart: Cart,
@@ -49,8 +50,11 @@ const appReducer = combineReducers({
     Feedback: Feedback,
     FeedbackForm,
     FeedbackReply,
-    Settle
-})
+    Settle,
+}
+
+
+const appReducer = combineReducers({ ...reducers, ...App.appReducers });
 
 const sagaMiddleware = createSagaMiddleware(rootSaga)
 export const store = createStore(appReducer, applyMiddleware(sagaMiddleware))

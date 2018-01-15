@@ -4,6 +4,7 @@
  */
 import React, { Component } from 'react';
 import { View, ScrollView, Text, Platform, Picker, Modal, FlatList, Dimensions } from 'react-native';
+import { connect } from 'react-redux';
 import { Input } from '../../components/Input'
 import { Button } from '../../components/Button'
 import { PickerView } from '../../components/Picker';
@@ -14,6 +15,9 @@ import { MyAddress } from './Views/address'
 import { Modyfiy } from './Views/modal'
 
 import { Url, header } from '../../util';
+import { FlatListComponent } from 'HOC/FlatListWithSpecs';
+import { PageWithTab } from 'HOC/PageWithTab';
+
 
 const { height } = Dimensions.get('window')
 
@@ -38,7 +42,35 @@ const getState = () => {
     }
 }
 
-export default class Address extends Component {
+
+class List extends FlatListComponent {
+
+    dataSource = addresses => addresses;
+}
+
+
+const ListWtihTab = PageWithTab(List, ['新增地址'], ['#f46e65']);
+
+class Address extends Component {
+    static navigationOptions = {
+        title: '我的地址',
+    }
+    componentDidMount() {
+        this.props.dispatch({ type: 'fetchAddress2' })
+    }
+
+    render() {
+        return <ListWtihTab {...this.props} />
+    }
+}
+
+const mapState = (state) => {
+    return state
+}
+
+export default connect(mapState)(Address);
+
+class address extends Component {
     static navigationOptions = {
         title: '我的地址',
     }

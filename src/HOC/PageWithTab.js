@@ -3,8 +3,6 @@ import { View, Platform, Text } from 'react-native';
 import { CustomTabBar } from 'component/CustomTabBar';
 import { width, height } from 'utils';
 
-
-
 /**
  * 高阶组件，输入一个component会自动的给这个component加上一个tabbar
  * @param {*} Cpn:react 的component 

@@ -353,7 +353,7 @@ const mapState = (state) => {
         content: contentSelector(detail.page.c),
         price: detail.page.ap.p,
         price2: detail.page.ap.p2,
-        shareText: detail.page.st
+        shareText: detail.page.shareTexts
     }
 }
 

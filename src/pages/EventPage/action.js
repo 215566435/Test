@@ -69,7 +69,7 @@ const actionStategy = {
             data: { ...state, isAud: state.isAud !== void 666 ? !state.isAud : true }
         })
     },
-    clearEventPage: function* () {
+    clearEventPage: function* (state) {
         CurrentPage = 1;
         post = false;
         yield put({

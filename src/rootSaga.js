@@ -20,7 +20,7 @@ import { actionStategy as FeedbackReply } from './pages/FeedbackReply/action';
 import { actionStategy as FeedbackReplyForm } from './pages/FeedbackReplyForm/action';
 import { actionStategy as Settle } from './pages/Settle/action';
 
-import { fork, take, select, call } from 'redux-saga/effects';
+import { fork, take, select, call, put } from 'redux-saga/effects';
 
 
 function convert(actionStategy) {
@@ -51,6 +51,63 @@ const rootWatch = (actionStategys) => {
     })
 }
 
+
+class Rluy {
+    constructor() {
+        this.sagaMiddleware = {};
+        this.appReducers = {};
+        this.actionStategy = [];
+        this.effects = {};
+    }
+    *rootWatcher() {
+        while (1) {
+            const { type, ...others } = yield take(this.actionStategy);
+            const fn = this.effects[type];
+            if (fn !== void 666) {
+                yield call(fn, { fork, take, select, call, put }, others);
+            }
+        }
+    }
+    *rootSaga() {
+        yield all([
+            fork(this.rootWatcher.bind(this))
+        ])
+    }
+
+    model(Module) {
+        const model = Module.default;
+
+        const namespace = model.namespace;
+        if (namespace === void 666) {
+            throw new SyntaxError('模块缺少命名空间');
+        }
+        if (this.appReducers[namespace]) {
+            throw new SyntaxError(`模块${namespace}已经存在`);
+        }
+
+        Object.keys(model.effects).forEach((key) => {
+            console.log(model.effects);
+            this.actionStategy.push(key);
+            this.effects[key] = model.effects[key];
+        })
+
+        const modelState = model.state || {};
+        const reducer = (state = modelState, { type, payload }) => {
+
+            const func = model.reducers[type];
+            if (func) {
+                return func(state, { type, payload });
+            }
+            return state;
+        }
+        this.appReducers[namespace] = reducer;
+    }
+}
+
+const app = new Rluy();
+app.model(require('./pages/Address/Address'))
+export const App = app;
+
 export default function* rootSaga() {
     const watchList = rootWatch([
         Profile,
@@ -77,6 +134,7 @@ export default function* rootSaga() {
         fork(Deposite),
         fork(Password),
         fork(Login),
+        fork(app.rootWatcher.bind(app)),
         ...watchList
     ]
 }

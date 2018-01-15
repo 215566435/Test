@@ -3,7 +3,7 @@ import * as WeChat from 'react-native-wechat';
 import RootTabs from './navigator';
 import { Provider } from 'react-redux';
 import { store } from './store';
-import { setLogin } from './util'
+import { setLogin } from './util';
 
 export default class AustGoApp extends React.Component {
 

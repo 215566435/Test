@@ -1,6 +1,8 @@
 import { call, put, take, select } from 'redux-saga/effects';
 import { Url, header, fetchApi, fetchList, getCurrent, mergeList } from 'utils';
 import { Alert, ToastAndroid } from 'react-native';
+import { CartManager } from '../../NetworkManager/CartManager';
+import UserManager from '../../NetworkManager/UserManager';
 
 function* putResult(address, json, keyword) {
     yield put({
@@ -13,10 +15,7 @@ function* putResult(address, json, keyword) {
         }
     })
 }
-const TypeConvertor = (type) => {
-    if (type === 'Receiver') return 0
-    return 1
-}
+
 const getPersonType = (others) => {
     if (others.Receiver) {
         return 'Receiver'
@@ -36,7 +35,6 @@ const checkValue = (value) => {
  * @param {*} model 
  */
 const modelConvet = (model) => {
-    console.log(model)
     if (model) {
         return {
             n: model.name,
@@ -51,57 +49,25 @@ const modelConvet = (model) => {
     return model
 }
 
-export const actionStategy = {
-    fetchSettleAddress: function* (state, others) {
-        const json = yield fetchApi({
-            url: Url + 'user/ListAddress2',
-            body: {
-                type: 0,
-                keyword: '',
-                currentPage: 1,
-                pageSize: 15,
-                addressType: TypeConvertor(others.PersonType)
-            }
-        })
+const userManager = new UserManager();
 
+export const actionStategy = {
+    fetchSettleAddress: function* (state, { PersonType }) {
+        const json = yield userManager.fetchListAddress(PersonType);
         yield putResult(json.data.items, json);
     },
-    addressSettleSearch: function* (state, others) {
-        const json = yield fetchApi({
-            url: Url + 'user/ListAddress2',
-            body: {
-                type: 0,
-                keyword: others.keyword,
-                currentPage: 1,
-                pageSize: 15,
-                addressType: TypeConvertor(others.PersonType)
-            }
-        })
-        yield putResult(json.data.items, json, others.keyword);
+    addressSettleSearch: function* (state, { keyword, PersonType }) {
+        const json = yield userManager.SearchListAddress(keyword, PersonType);
+        yield putResult(json.data.items, json, keyword);
     },
-    appendSettleAddress: function* (state, others) {
+    appendSettleAddress: function* (state, { PersonType }) {
         const { keyword, address } = state.Settle;
-        console.log(state.Settle)
-        const { currentPage, totalPages } = getCurrent(state.Settle);
-        if (currentPage > totalPages) {
-            return
-        }
-        const json = yield fetchApi({
-            url: Url + 'user/ListAddress2',
-            body: {
-                type: 0,
-                keyword: keyword,
-                currentPage: currentPage + 1,
-                pageSize: 15,
-                addressType: TypeConvertor(others.PersonType)
-            }
-        })
+        const json = yield userManager.appendListAddress(PersonType);
         const newItem = [...address, ...json.data.items];
         yield putResult(newItem, json, keyword);
     },
     mapAddress: function* (state, others) {
         //记录address
-        console.log(others)
         const type = getPersonType(others);
         yield put({
             type: "SET_STATE_Settle",
@@ -112,13 +78,8 @@ export const actionStategy = {
     },
     fetchSumition: function* (state, others) {
         if (ToastAndroid.showWithGravity) ToastAndroid.showWithGravity('结算中...', ToastAndroid.SHORT, ToastAndroid.CENTER);
-        const json = yield fetchApi({
-            url: Url + 'cart/ListSummary',
-            body: {
-                returnWithAddress: true
-            }
-        })
-        const approach = json.data.isValid ? '仓库代发' : '现场打包';
+        const json = yield CartManager.ListSummary();
+        const approach = json.data.p ? '现场打包' : '仓库代发';
         console.log(json);
 
         yield put({
@@ -132,12 +93,7 @@ export const actionStategy = {
         })
     },
     SwitchCourier: function* (state, others) {
-        const json = yield fetchApi({
-            url: Url + 'cart/SwitchCourier',
-            body: {
-                ...others.courier
-            }
-        });
+        const json = yield CartManager.SwitchCourier(others.courier);
         yield put({
             type: "SET_STATE_Settle",
             data: {
@@ -146,12 +102,7 @@ export const actionStategy = {
         })
     },
     buyInsurance: function* (state) {
-        const json = yield fetchApi({
-            url: Url + 'cart/SetInsurance',
-            body: {
-                i: !state.Settle.l
-            }
-        });
+        const json = yield CartManager.SetInsurance(state.Settle.l);
         yield put({
             type: "SET_STATE_Settle",
             data: {
@@ -161,12 +112,7 @@ export const actionStategy = {
     },
     approach: function* (state, others) {
         const isPickup = others.approach === '仓库代发' ? false : true;
-        const json = yield fetchApi({
-            url: Url + 'cart/SwitchDelivery',
-            body: {
-                i: isPickup
-            }
-        })
+        const json = yield CartManager.SwitchDelivery(isPickup);
         yield put({
             type: "SET_STATE_Settle",
             data: {
