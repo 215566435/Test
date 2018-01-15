@@ -111,7 +111,8 @@ const RootTabs = StackNavigator({
     Address: {
         screen: Address,
         navigationOptions: {
-            tabBarVisible: false
+            tabBarVisible: false,
+            header: null
         }
     },
     GoodState: {

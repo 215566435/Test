@@ -44,31 +44,59 @@ const getState = () => {
 
 
 class List extends FlatListComponent {
-
-    dataSource = addresses => addresses;
+    renderItem = (child, index) => {
+        const addr = child.item;
+        if (!addr) return null;
+        return <MyAddress
+            type={addr.t}
+            name={addr.n}
+            phone={addr.p}
+            key={addr.id}
+            address={addr.a}
+            onEdit={() => this.onEdit(addr)}
+            onDelete={() => this.onDelete(addr)}
+            default={addr.d}
+        />
+    }
+    onEndReached = () => {
+        this.props.dispatch({ type: 'appendAddress' });
+    }
+    dataSource = () => this.props.addresses;
+    keyExtractor = (addr) => addr.id;
 }
 
 
-const ListWtihTab = PageWithTab(List, ['新增地址'], ['#f46e65']);
-
 class Address extends Component {
-    static navigationOptions = {
-        title: '我的地址',
-    }
     componentDidMount() {
         this.props.dispatch({ type: 'fetchAddress2' })
     }
-
+    CustomTabBarPress(e, child, index) {
+        if (index === 0) {
+            this.props.navigation.goBack();
+        }
+    }
     render() {
-        return <ListWtihTab {...this.props} />
+        return (
+            <View style={{ height: height - 44, backgroundColor: 'white' }}>
+                <View style={{ marginTop: 24, backgroundColor: 'white' }}>
+                    <SearchBar backgroundColor="#bfbfbf" onEndEditing={this.onEndEditing} searchColor="white" onChangeInput={this.onChangeInput} />
+                </View>
+                <View style={{ height: height - 44 - 44 - 10 }} >
+                    <List {...this.props} />
+                </View>
+            </View>
+        )
     }
 }
 
+const ListWtihTab = PageWithTab(Address, ['返回', '新增地址'], ['white', '#f46e65']);
 const mapState = (state) => {
-    return state
+    return {
+        addresses: state.address.addresses
+    }
 }
 
-export default connect(mapState)(Address);
+export default connect(mapState)(ListWtihTab);
 
 class address extends Component {
     static navigationOptions = {

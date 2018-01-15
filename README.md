@@ -15,3 +15,5 @@
 
 
 keystore密码：metal_gear2
+
+https://chadzhao.visualstudio.com/DefaultCollection/_git/AustgoAPP
