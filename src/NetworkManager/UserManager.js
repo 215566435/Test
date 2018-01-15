@@ -46,13 +46,12 @@ export default class UserManager extends BaseManager {
 
         this.currentPage = json.data.currentPage;
         this.totalPages = json.data.totalPages;
-        console.log(json);
         return json;
     }
 
     *fetchListAddress(PersonType) {
         this.currentPage = 1;
-
+        this.keyword = '';
         return yield this.fetchList(PersonType);
     }
     *SearchListAddress(keyword, PersonType) {
@@ -69,5 +68,15 @@ export default class UserManager extends BaseManager {
         }
         this.currentPage = this.currentPage + 1;
         return yield this.fetchList(PersonType);
+    }
+
+    *DeleteAddress({ id, address }) {
+        return yield this.fetchApi({
+            url: this.Url + 'user/DeleteAddress',
+            body: {
+                id: id,
+                a: address
+            }
+        })
     }
 }

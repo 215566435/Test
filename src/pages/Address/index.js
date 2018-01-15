@@ -21,29 +21,33 @@ import { PageWithTab } from 'HOC/PageWithTab';
 
 const { height } = Dimensions.get('window')
 
-var CurrentPage = 1;
-var posting = false;
-var total = -1;
-
-const dispatch = (type, value) => {
-    if (type === 'pose') {
-        posting = value;
-    } else if (type === 'page') {
-        CurrentPage = value >= total ? total : value;
-    } else if (type === 'total') {
-        total = value;
-    }
-}
-const getState = () => {
-    return {
-        posting,
-        CurrentPage,
-        total
-    }
-}
-
 
 class List extends FlatListComponent {
+    onEdit = (addr) => {
+        this.props.navigation.navigate(
+            'AddressEditPage',
+            {
+                isAdd: true,
+                type: addr.t,
+                name: addr.n,
+                id: addr.i,
+                address: addr.a,
+                defalut: addr.d,
+                serverID: addr.id,
+                phone: addr.p
+            }
+        )
+    }
+    onDelete = (addr) => {
+        this.props.dispatch({
+            type: "deleteAddress",
+            payload: {
+                address: addr,
+                instance: this
+            }
+        });
+    }
+
     renderItem = (child, index) => {
         const addr = child.item;
         if (!addr) return null;
@@ -68,12 +72,17 @@ class List extends FlatListComponent {
 
 class Address extends Component {
     componentDidMount() {
-        this.props.dispatch({ type: 'fetchAddress2' })
+        this.props.dispatch({ type: 'fetchAddress' })
     }
     CustomTabBarPress(e, child, index) {
         if (index === 0) {
             this.props.navigation.goBack();
+        } else {
+            this.props.navigation.navigate('AddressEditPage', { isAdd: true, type: 'Receiver' });
         }
+    }
+    onEndEditing = (text) => {
+        this.props.dispatch({ type: 'searchAddress', payload: text });
     }
     render() {
         return (
@@ -95,7 +104,6 @@ const mapState = (state) => {
         addresses: state.address.addresses
     }
 }
-
 export default connect(mapState)(ListWtihTab);
 
 class address extends Component {

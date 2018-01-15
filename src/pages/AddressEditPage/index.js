@@ -25,7 +25,7 @@ class Modyfiy extends Component {
         super(props);
         const Param = getNavigationParam(this.props);
         const { checkParma } = AddressEditPageHelper;
-        console.log(Param)
+        // console.log(Param)
         this.state = {
             isAdd: checkParma('isAdd', Param),
             type: checkParma('type', Param),
@@ -33,7 +33,8 @@ class Modyfiy extends Component {
             id: '',
             address: '',
             defalut: false,
-            serverID: ''
+            serverID: '',
+            phone: ''
         }
     }
     onChangeText = (text, name) => {
@@ -86,6 +87,7 @@ class Modyfiy extends Component {
                 const json = await res.json();
                 console.log(state)
                 that.props.dispatch({ type: 'mapAddress', [state.type]: json.data });
+                that.props.dispatch({ type: 'fetchAddress' })
                 goBack(that.props)(null);
             } catch (e) {
                 console.log(e);

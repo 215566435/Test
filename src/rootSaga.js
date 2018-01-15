@@ -21,6 +21,7 @@ import { actionStategy as FeedbackReplyForm } from './pages/FeedbackReplyForm/ac
 import { actionStategy as Settle } from './pages/Settle/action';
 
 import { fork, take, select, call, put } from 'redux-saga/effects';
+import { takeEvery } from 'redux-saga';
 
 
 function convert(actionStategy) {
@@ -59,12 +60,20 @@ class Rluy {
         this.actionStategy = [];
         this.effects = {};
     }
+    onError(e) {
+        console.log(e);
+    }
     *rootWatcher() {
         while (1) {
+
             const { type, ...others } = yield take(this.actionStategy);
             const fn = this.effects[type];
-            if (fn !== void 666) {
-                yield call(fn, { fork, take, select, call, put }, others);
+            try {
+                if (fn !== void 666) {
+                    yield call(fn, { fork, take, select, call, put }, others);
+                }
+            } catch (e) {
+                this.onError(e);
             }
         }
     }
@@ -86,7 +95,6 @@ class Rluy {
         }
 
         Object.keys(model.effects).forEach((key) => {
-            console.log(model.effects);
             this.actionStategy.push(key);
             this.effects[key] = model.effects[key];
         })
