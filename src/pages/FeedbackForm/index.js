@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, ScrollView, Picker } from 'react-native';
+import { View, Text, TextInput, ScrollView, Picker, CameraRoll } from 'react-native';
 import { connect } from 'react-redux';
 import { PageWithTab } from 'HOC/PageWithTab';
 import { Input } from 'component/Input';
@@ -38,6 +38,14 @@ class FeedbackForm extends Component {
     }
     componentDidMount() {
         this.changeText = {};
+        var fetchParams = {
+            first: 20,
+            groupTypes: 'All',
+            assetType: 'Photos'
+        }
+        CameraRoll.getPhotos(fetchParams).then((res) => {
+            console.log(res);
+        })
     }
 
     render() {

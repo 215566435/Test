@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { PageWithTab } from 'HOC/PageWithTab';
 import { FlatListComponent } from 'HOC/FlatListWithSpecs';
 import { ListItem } from 'component/ListItem';
 import { SupportTicketType, TicketColor, TicketPriority } from './constant';
-import { timeSplit, height } from 'utils';
+import { timeSplit, height, width } from 'utils';
 import { Input } from 'component/Input';
 import { TimeLine } from 'component/TimeLine';
+import { CDN_URL } from '../../NetworkManager/CdnManager';
+import { ClickableImage } from 'component/ClickableImage';
+import { ModalWrapper } from 'HOC/ModalWrapper';
+import { Carousel } from 'component/Carousel';
 
 /**
  * 一个方法，用于去除[A8001]xxxx，中的[去除内容]
@@ -29,7 +33,6 @@ class Feedback extends FlatListComponent {
             this.props.navigation.navigate('FeedbackReplyForm', { id: id });
         }
     }
-
     dataSource = () => this.props.FeedbackReply;
 
     onEndReached = () => {
@@ -38,6 +41,11 @@ class Feedback extends FlatListComponent {
     }
 
     keyExtractor = (item, index) => index;
+
+    onPress = (url, index) => {
+        this.props.navigation.navigate('ImageViewer');
+        this.props.dispatch({ type: 'mapFeedbackImage', url, index })
+    }
 
     renderItem = ({ item, index }) => {
         const { date, time } = timeSplit(item.createTime);
@@ -50,10 +58,15 @@ class Feedback extends FlatListComponent {
                     SupportTicketType={item.supportTicketType}
                     priority={item.priority}
                 />
+                <View style={{ flexDirection: 'row' }}>
+                    {React.Children.map(item.attachment, (attach, idx) => {
+                        return <ClickableImage uri={CDN_URL + attach} onPress={() => { this.onPress(item.attachment, idx) }} />
+                    })}
+                </View>
             </View>
         )
         return <ListItem
-            title={`${removeSeverString(item.createdByUser)}`}
+            title={`回复人：${removeSeverString(item.createdByUser)}`}
             content={content}
             backgroundColor={item.tragetGroup === "CustomerService" ? '#fff7e6' : 'white'}
             ArrowColor={'transparent'}

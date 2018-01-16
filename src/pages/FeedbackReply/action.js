@@ -18,9 +18,18 @@ export const actionStategy = {
         yield put({
             type: "SET_STATE_FeedbackReply",
             data: {
-                FeedbackReply: json.data.supportTicketReply.items,
-                currentPage: json.data.supportTicketReply.currentPage,
-                totalPages: json.data.supportTicketReply.totalPages
+                FeedbackReply: json.data.items,
+                currentPage: json.data.currentPage,
+                totalPages: json.data.totalPages
+            }
+        })
+    },
+    mapFeedbackImage: function* (state, others) {
+        yield put({
+            type: "mapAttachment",
+            payload: {
+                url: others.url,
+                index: others.index
             }
         })
     },
@@ -38,8 +47,8 @@ export const actionStategy = {
             yield put({
                 type: "SET_STATE_FeedbackReply",
                 data: {
-                    FeedbackReply: json.data.supportTicketReply.items,
-                    totalPages: json.data.supportTicketReply.totalPages
+                    FeedbackReply: json.data.items,
+                    totalPages: json.data.totalPages
                 }
             })
         } catch (e) {

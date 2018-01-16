@@ -26,6 +26,7 @@ import Search from './pages/SearchPage';
 import Activity from './pages/Activity';
 import Feedback from './pages/Feedback';
 import AddressEditPage from './pages/AddressEditPage';
+import ImageViewer from './pages/ImageViewer';
 
 const iconsSize = Platform.OS === 'ios' ? 26 : 15;
 
@@ -176,6 +177,13 @@ const RootTabs = StackNavigator({
         navigationOptions: {
             title: '预存款记录',
             tabBarVisible: false,
+            gesturesEnabled: true
+        }
+    },
+    ImageViewer: {
+        screen: (props) => <ImageViewer {...props} />,
+        navigationOptions: {
+            header: null,
             gesturesEnabled: true
         }
     },

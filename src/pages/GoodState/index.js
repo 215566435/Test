@@ -87,4 +87,4 @@ function mapDispatch(dispatch) {
 
 const wrapper = PageWithTab(GoodState, '返回');
 
-export default connect(mapState, mapDispatch)(wrapper)
+export default connect(mapState, mapDispatch)(wrapper);

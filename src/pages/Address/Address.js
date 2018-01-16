@@ -10,7 +10,6 @@ export default {
     effects: {
         *searchAddress({ put }, { payload: keyword }) {
             const json = yield userManager.SearchListAddress(keyword, -1);
-            console.log(json);
             yield put({
                 type: 'mapList',
                 payload: json.data.items
@@ -32,14 +31,11 @@ export default {
             })
         },
         *deleteAddress({ put }, { payload }) {
-
             const { address, instance } = payload;
-
             yield userManager.DeleteAddress({
                 id: address.id,
                 address: address.a
             });
-
             const json = yield userManager.fetchListAddress(-1);
             yield put({
                 type: 'mapList',
