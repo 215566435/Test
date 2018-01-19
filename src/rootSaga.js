@@ -115,6 +115,7 @@ class Rluy {
 const app = new Rluy();
 app.model(require('./pages/Address/Address'))
 app.model(require('./pages/ImageViewer/ImageViewer'))
+app.model(require('./pages/FeedbackForm/FeedbackForm'))
 export const App = app;
 
 export default function* rootSaga() {

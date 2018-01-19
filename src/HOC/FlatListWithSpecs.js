@@ -41,6 +41,8 @@ export class FlatListComponent extends Component {
         }
         const { height } = this.props;
 
+        const numberOfColumn = this.numberOfColumn ? this.numberOfColumn() : 1;
+
         return (
             <View style={{ height: height === void 666 ? '100%' : height }}>
                 <FlatList
@@ -53,6 +55,7 @@ export class FlatListComponent extends Component {
                         }
                         return Item;
                     }}
+                    numColumns={numberOfColumn}
                     onEndReached={this.onEndReached}
                     initialNumToRender={6}
                     keyExtractor={(item, index) => {

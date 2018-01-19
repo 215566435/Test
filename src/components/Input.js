@@ -27,7 +27,7 @@ export class Input extends Component {
             onChangeText,
             multiline,
             numberOfLines,
-            autoFocus
+            autoFocus,
         } = this.props
         return (
             <View

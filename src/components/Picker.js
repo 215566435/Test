@@ -116,3 +116,14 @@ export class PickerView extends Component {
         )
     }
 }
+
+export const PickerCreator = ({ addonBefore = '', defaultValue, onValueChange, dataSet }) => {
+
+    return (
+        <PickerView addonBefore={addonBefore} value={defaultValue} onValueChange={onValueChange}>
+            {dataSet.map((data, index) => {
+                return <Picker.Item key={index} label={data} value={data} />
+            })}
+        </PickerView>
+    )
+}

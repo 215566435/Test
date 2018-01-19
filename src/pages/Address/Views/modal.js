@@ -7,7 +7,7 @@ import { View, ScrollView, Text, Platform, Picker } from 'react-native';
 import { Input } from '../../../components/Input'
 import { Button } from '../../../components/Button'
 import { PickerView } from '../../../components/Picker';
-
+// import Parse from 'china-parser';
 
 import { Url, header } from '../../../util';
 
@@ -96,6 +96,12 @@ export class Modyfiy extends Component {
     onGoBack = () => {
         this.props.done()
     }
+
+    onBlur = () => {
+        console.log('br')
+
+    }
+
     render() {
         const { addr } = this.props;
         return (
@@ -107,7 +113,7 @@ export class Modyfiy extends Component {
                 <Input addonBefore='姓名' name='name' onChangeText={this.onChangeText} value={this.state.name} />
                 <Input addonBefore='手机号码' name='phone' onChangeText={this.onChangeText} value={this.state.phone} />
                 {this.state.type === 'Sender' ? null : <Input addonBefore='身份证' name='id' onChangeText={this.onChangeText} value={this.state.id} />}
-                {this.state.type === 'Sender' ? null : <Input addonBefore='地址' name='address' onChangeText={this.onChangeText} value={this.state.address} />}
+                {this.state.type === 'Sender' ? null : <Input addonBefore='地址' name='address' onChangeText={this.onChangeText} value={this.state.address} onBlur={this.onBlur} />}
                 <PickerView addonBefore='是否设为默认地址' value={this.state.defalut ? '是' : '否'} onValueChange={this.defalutChange}>
                     <Picker.Item label="否" value="否" />
                     <Picker.Item label="是" value="是" />

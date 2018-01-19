@@ -1,14 +1,34 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, ScrollView, Picker, CameraRoll } from 'react-native';
+import { View, Text, TextInput, ScrollView, Picker, CameraRoll, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { PageWithTab } from 'HOC/PageWithTab';
 import { Input } from 'component/Input';
 import { Button } from 'component/Button';
-import { height } from 'utils';
+import { height, width } from 'utils';
 import { PickerView } from 'component/Picker';
+import { ModalWrapper } from 'HOC/ModalWrapper';
+import { FlatListComponent } from 'HOC/FlatListWithSpecs';
+
+
+class PhotoPicker extends FlatListComponent {
+
+    CustomTabBarPress() {
+        this.props.dispatch({ type: 'cancelAttach' })
+    }
+    dataSource = () => this.props.photos;
+    keyExtractor = (item, index) => index;
+    numberOfColumn = () => 4;
+    renderItem = ({ item }) => {
+        return (
+            <Image style={{ height: width / this.numberOfColumn(), width: width / this.numberOfColumn() }} source={{ uri: item.node.image.uri }} />
+        )
+    }
+}
+const tabWrapper = PageWithTab(PhotoPicker, '返回');
+const PhotoPickerWrapper = ModalWrapper(tabWrapper);
+
 
 class FeedbackForm extends Component {
-
     CustomTabBarPress = (e, child, index) => {
         if (index === 0) {
             this.props.navigation.goBack();
@@ -38,14 +58,10 @@ class FeedbackForm extends Component {
     }
     componentDidMount() {
         this.changeText = {};
-        var fetchParams = {
-            first: 20,
-            groupTypes: 'All',
-            assetType: 'Photos'
-        }
-        CameraRoll.getPhotos(fetchParams).then((res) => {
-            console.log(res);
-        })
+
+    }
+    addAttachment = () => {
+        this.props.dispatch({ type: 'addAttachment' });
     }
 
     render() {
@@ -59,6 +75,8 @@ class FeedbackForm extends Component {
                         <Picker.Item label="高" value="高" />
                     </PickerView>
                     <Input size='large' name='content' addonBefore='反馈内容' multiline={true} numberOfLines={4} onChangeText={this.onChangeText} />
+                    <Button style={{ backgroundColor: "#1890ff" }} title={'添加附件'} onPress={this.addAttachment} />
+                    <PhotoPickerWrapper visible={this.props.isAddAttach} {...this.props} />
                 </ScrollView>
             </View>
         )
@@ -66,4 +84,11 @@ class FeedbackForm extends Component {
 }
 
 const wrapper = PageWithTab(FeedbackForm, ['返回', '提交反馈'], ['white', '#ff7875']);
-export default connect()(wrapper);
+
+const mapState = (state) => {
+    return {
+        ...state.feedbackform
+    }
+}
+
+export default connect(mapState)(wrapper);
