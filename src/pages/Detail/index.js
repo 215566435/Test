@@ -95,7 +95,16 @@ class DetailPage extends Component {
                 return;
             }
 
-            Clipboard.setString(this.props.shareText)
+            if (typeof this.props.shareText === 'string') {
+                Clipboard.setString(this.props.shareText)
+            } else {
+                var combindText = '';
+                for (const text in this.props.shareText) {
+                    combindText = combindText + text;
+                }
+                Clipboard.setString(combindText);
+            }
+
             if (Platform.OS === 'ios') {
                 this.setState({
                     loading: true

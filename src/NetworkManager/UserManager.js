@@ -8,13 +8,49 @@ const TypeConvertor = (type) => {
     return 1
 }
 
-export default class UserManager extends BaseManager {
+
+
+class ListManager extends BaseManager {
     constructor() {
         super();
         this.keyword = '';
         this.currentPage = 1;
         this.pageSize = 15;
         this.totalPages = 0;
+    }
+
+    *getList(url, body) {
+        const json = yield this.fetchApi({
+            url, body
+        })
+        this.currentPage = json.data.currentPage;
+        this.totalPages = json.data.totalPages;
+        return json;
+    }
+
+    *appendList(url, body) {
+        const { currentPage, totalPages } = getCurrent(this);
+        if (currentPage > totalPages) {
+            return
+        }
+        this.currentPage = this.currentPage + 1;
+        const _body = {
+            currentPage: this.currentPage,
+            pageSize: this.pageSize
+        }
+
+        return yield this.fetchApi({
+            url: url,
+            body: { ...body, ..._body }
+        })
+    }
+
+}
+
+
+export default class UserManager extends ListManager {
+    constructor() {
+        super();
     }
     *fetchList(PersonType) {
         if (PersonType === void 666) {

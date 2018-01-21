@@ -158,13 +158,13 @@ class Modyfiy extends Component {
     }
 
     onBlur = () => {
-        const addr = parseAddress(this.state.address);
-        this.setState({
-            privince: addr.pro,
-            city: addr.city,
-            area: addr.area
-        })
-        console.log(addr);
+        // const addr = parseAddress(this.state.address);
+        // this.setState({
+        //     privince: addr.pro,
+        //     city: addr.city,
+        //     area: addr.area
+        // })
+        // console.log(addr);
     }
     render() {
         const { addr } = this.props;
@@ -180,9 +180,9 @@ class Modyfiy extends Component {
                 <Input addonBefore='手机号码' name='phone' onChangeText={this.onChangeText} value={this.state.phone} />
                 {this.state.type === 'Sender' ? null : <Input addonBefore='身份证' name='id' onChangeText={this.onChangeText} value={this.state.id} />}
                 {this.state.type === 'Sender' ? null : <Input addonBefore='地址' name='address' onChangeText={this.onChangeText} value={this.state.address} onBlur={this.onBlur} />}
-                {this.renderProvince()}
+                {/* {this.renderProvince()}
                 {this.renderCity()}
-                {this.renderArea()}
+                {this.renderArea()} */}
                 {PickerCreator({
                     addonBefore: '是否设为默认地址',
                     defaultValue: this.state.defalut ? '是' : '否',

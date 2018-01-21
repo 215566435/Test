@@ -74,8 +74,6 @@ export class Body extends Component {
             }
             return this.renderSearchList()
         }
-
-
         return <View style={{ flexDirection: "row", marginTop: 10, flexWrap: 'wrap', flex: 3 }}>
             {hotKey.map((item) => {
                 return (

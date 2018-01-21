@@ -86,9 +86,10 @@ const actionStategy = {
             }
         })
 
-        console.log(state.currentCateId, state.currentKey, currentpage)
+
         const newItem = [...state.item, ...json.data.items]
-        if (json.data.totalItems <= newItem.length) return
+        console.log(newItem)
+        if (json.data.totalItems < newItem.length) return
         yield put({
             type: "Search_SET_STATE",
             data: { ...state, item: newItem }
