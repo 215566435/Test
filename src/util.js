@@ -145,6 +145,7 @@ export const undefinedConvert = (string) => {
 export var header = new Header()
 
 export function* fetchApi({ url, body }) {
+
     const res = yield call(fetch, url, {
         method: 'POST',
         headers: header.get(),

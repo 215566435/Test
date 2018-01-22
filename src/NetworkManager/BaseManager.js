@@ -1,4 +1,4 @@
-import { fetchApi } from "utils";
+import { fetchApi, getCurrent } from "utils";
 
 var hostName = 'test.austgo.com'
 
@@ -18,4 +18,34 @@ export default class BaseManager {
     }
 }
 
+export class ListManager extends BaseManager {
+    constructor() {
+        super();
+        this.keyword = '';
+        this.currentPage = 1;
+        this.pageSize = 15;
+        this.totalPages = 0;
+    }
+
+    *getList(url, body) {
+        const json = yield this.fetchApi({
+            url, body
+        })
+
+        this.currentPage = json.data.currentPage;
+        this.totalPages = json.data.totalPages;
+        return json;
+    }
+
+    append(url, body) {
+        const { currentPage, totalPages } = getCurrent(this);
+
+        if (currentPage > totalPages) {
+            return
+        }
+        this.currentPage = this.currentPage + 1;
+        return true;
+    }
+
+}
 

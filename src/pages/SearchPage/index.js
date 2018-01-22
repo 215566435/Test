@@ -16,7 +16,6 @@ class Search extends Component {
     }
 
     render() {
-        console.log(this.props.hotKey)
         return (
             <View style={{ backgroundColor: "white" }}>
                 <Body

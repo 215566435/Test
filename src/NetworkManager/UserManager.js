@@ -1,6 +1,6 @@
 
 
-import BaseManager from "./BaseManager";
+import BaseManager, { ListManager } from "./BaseManager";
 import { getCurrent } from "utils";
 
 const TypeConvertor = (type) => {
@@ -9,79 +9,31 @@ const TypeConvertor = (type) => {
 }
 
 
-
-class ListManager extends BaseManager {
-    constructor() {
-        super();
-        this.keyword = '';
-        this.currentPage = 1;
-        this.pageSize = 15;
-        this.totalPages = 0;
-    }
-
-    *getList(url, body) {
-        const json = yield this.fetchApi({
-            url, body
-        })
-        this.currentPage = json.data.currentPage;
-        this.totalPages = json.data.totalPages;
-        return json;
-    }
-
-    *appendList(url, body) {
-        const { currentPage, totalPages } = getCurrent(this);
-        if (currentPage > totalPages) {
-            return
-        }
-        this.currentPage = this.currentPage + 1;
-        const _body = {
-            currentPage: this.currentPage,
-            pageSize: this.pageSize
-        }
-
-        return yield this.fetchApi({
-            url: url,
-            body: { ...body, ..._body }
-        })
-    }
-
-}
-
-
 export default class UserManager extends ListManager {
     constructor() {
         super();
     }
     *fetchList(PersonType) {
+        
         if (PersonType === void 666) {
             throw new Error('UserManager中fetchList必须要填写PersonType，Receiver = 0/Sender = 1');
         }
         var json;
         if (PersonType === -1) {
-            json = yield this.fetchApi({
-                url: this.Url + 'user/ListAddress2',
-                body: {
-                    type: 0,
-                    keyword: this.keyword,
-                    currentPage: this.currentPage,
-                    pageSize: this.pageSize
-                }
+            json = yield this.getList(this.Url + 'user/ListAddress2', {
+                type: 0,
+                keyword: this.keyword,
+                currentPage: this.currentPage,
+                pageSize: this.pageSize
             })
         } else {
-            json = yield this.fetchApi({
-                url: this.Url + 'user/ListAddress2',
-                body: {
-                    type: 0,
-                    keyword: this.keyword,
-                    currentPage: this.currentPage,
-                    pageSize: this.pageSize,
-                    addressType: TypeConvertor(PersonType)
-                }
+            json = yield this.getList(this.Url + 'user/ListAddress2', {
+                type: 0,
+                keyword: this.keyword,
+                currentPage: this.currentPage,
+                pageSize: this.pageSize
             })
         }
-
-        this.currentPage = json.data.currentPage;
-        this.totalPages = json.data.totalPages;
         return json;
     }
 
@@ -98,12 +50,9 @@ export default class UserManager extends ListManager {
     }
 
     *appendListAddress(PersonType) {
-        const { currentPage, totalPages } = getCurrent(this);
-        if (currentPage > totalPages) {
-            return
+        if (this.append()) {
+            return yield this.fetchList(PersonType);
         }
-        this.currentPage = this.currentPage + 1;
-        return yield this.fetchList(PersonType);
     }
 
     *DeleteAddress({ id, address }) {

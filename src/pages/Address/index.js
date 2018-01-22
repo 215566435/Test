@@ -87,7 +87,7 @@ class Address extends Component {
                 <View style={{ marginTop: 24, backgroundColor: 'white' }}>
                     <SearchBar backgroundColor="#bfbfbf" onEndEditing={this.onEndEditing} searchColor="white" onChangeInput={this.onChangeInput} />
                 </View>
-                <View style={{ height: height - 44 - 44 - 10 }} >
+                <View style={{ height: height - 44 - 44 - 10 - (Platform.OS === 'ios' ? 0 : 24) }} >
                     <List {...this.props} />
                 </View>
             </View>
