@@ -4,9 +4,12 @@
  */
 import React, { Component } from 'react';
 import { View, ScrollView, Text, Platform, Picker } from 'react-native';
+
+
 import { Input } from '../../../components/Input'
 import { Button } from '../../../components/Button'
 import { PickerView } from '../../../components/Picker';
+
 // import Parse from 'china-parser';
 
 import { Url, header } from '../../../util';
@@ -50,6 +53,7 @@ export class Modyfiy extends Component {
             defalut: addr.d,
             id: addr.i
         })
+        this.MulPicker.show();
     }
     defalutChange = (v) => {
         const defalut = v == '是' ? true : false;
@@ -114,6 +118,29 @@ export class Modyfiy extends Component {
                 <Input addonBefore='手机号码' name='phone' onChangeText={this.onChangeText} value={this.state.phone} />
                 {this.state.type === 'Sender' ? null : <Input addonBefore='身份证' name='id' onChangeText={this.onChangeText} value={this.state.id} />}
                 {this.state.type === 'Sender' ? null : <Input addonBefore='地址' name='address' onChangeText={this.onChangeText} value={this.state.address} onBlur={this.onBlur} />}
+                <MulPicker
+                    ref={node => this.MulPicker = node}
+                    style={{
+                        height: 300
+                    }}
+                    showDuration={300}
+                    showMask={true}
+                    pickerData={{
+                        a: {
+                            a1: [1, 2, 3, 4],
+                            a2: [5, 6, 7, 8],
+                            a3: [9, 10, 11, 12]
+                        },
+                        b: {
+                            b1: [1, 2, 3, 4],
+                            b2: [5, 6, 7, 8],
+                            b3: [9, 10, 12, 12]
+                        }
+                    }}//picker`s value List
+
+
+                />
+
                 <PickerView addonBefore='是否设为默认地址' value={this.state.defalut ? '是' : '否'} onValueChange={this.defalutChange}>
                     <Picker.Item label="否" value="否" />
                     <Picker.Item label="是" value="是" />

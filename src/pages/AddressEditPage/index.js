@@ -3,10 +3,11 @@
  * 
  */
 import React, { Component } from 'react';
-import { View, ScrollView, Text, Platform, Picker } from 'react-native';
+import { View, ScrollView, Text, Platform } from 'react-native';
 import { Input } from 'component/Input'
 import { Button } from 'component/Button'
 import { PickerView, PickerCreator } from 'component/Picker';
+import WheelPicker, { ChinaArea } from 'component/WheelPicker';
 import { connect } from 'react-redux';
 
 
@@ -165,6 +166,7 @@ class Modyfiy extends Component {
         //     area: addr.area
         // })
         // console.log(addr);
+
     }
     render() {
         const { addr } = this.props;
@@ -180,9 +182,7 @@ class Modyfiy extends Component {
                 <Input addonBefore='手机号码' name='phone' onChangeText={this.onChangeText} value={this.state.phone} />
                 {this.state.type === 'Sender' ? null : <Input addonBefore='身份证' name='id' onChangeText={this.onChangeText} value={this.state.id} />}
                 {this.state.type === 'Sender' ? null : <Input addonBefore='地址' name='address' onChangeText={this.onChangeText} value={this.state.address} onBlur={this.onBlur} />}
-                {/* {this.renderProvince()}
-                {this.renderCity()}
-                {this.renderArea()} */}
+                <ChinaArea />
                 {PickerCreator({
                     addonBefore: '是否设为默认地址',
                     defaultValue: this.state.defalut ? '是' : '否',
@@ -192,6 +192,7 @@ class Modyfiy extends Component {
                 {this.state.isAdd ? null : <Button title='编辑' onPress={this.onEdit} />}
                 <Button title='保存到地址本' onPress={this.onSubmit} style={{ backgroundColor: "#fa8c16" }} />
                 <Button title='返回' style={{ backgroundColor: '#919191' }} onPress={this.onGoBack} />
+
             </ScrollView>
         )
     }
