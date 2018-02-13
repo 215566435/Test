@@ -52,6 +52,18 @@ const modelConvet = (model) => {
 const userManager = new UserManager();
 
 export const actionStategy = {
+    handleVoucher: function* (state, { payload }) {
+        const json = yield CartManager.setVoucher(payload);
+        console.log(json)
+        if (json.success) {
+            yield put({
+                type: "SET_STATE_Settle",
+                data: { ...json.data }
+            })
+        } else {
+            Alert.alert('出错', json.message);
+        }
+    },
     fetchSettleAddress: function* (state, { PersonType }) {
         const json = yield userManager.fetchListAddress(PersonType);
         yield putResult(json.data.items, json);

@@ -59,6 +59,7 @@ export class Input extends Component {
                     onBlur={onBlur}
                     blurOnSubmit={true}
                     autoFocus={autoFocus}
+                    defaultValue={this.props.defaultValue}
                 />
             </View>
         )

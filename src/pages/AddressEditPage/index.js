@@ -40,7 +40,8 @@ class Modyfiy extends Component {
             phone: '',
             privince: '',
             city: '',
-            area: ''
+            area: '',
+            autoAnalysis: null
         }
     }
     onChangeText = (text, name) => {
@@ -158,15 +159,16 @@ class Modyfiy extends Component {
         goBack(this.props)(null);
     }
 
+    onAutoAnalysisFinished = (left) => {
+        this.setState({
+            address: left,
+            autoAnalysis: '已自动填充地址，如有地址有误，请手动填写'
+        })
+    }
     onBlur = () => {
-        // const addr = parseAddress(this.state.address);
         // this.setState({
-        //     privince: addr.pro,
-        //     city: addr.city,
-        //     area: addr.area
+        //     autoAnalysis: null
         // })
-        // console.log(addr);
-
     }
     render() {
         const { addr } = this.props;
@@ -181,8 +183,9 @@ class Modyfiy extends Component {
                 <Input addonBefore='姓名' name='name' onChangeText={this.onChangeText} value={this.state.name} />
                 <Input addonBefore='手机号码' name='phone' onChangeText={this.onChangeText} value={this.state.phone} />
                 {this.state.type === 'Sender' ? null : <Input addonBefore='身份证' name='id' onChangeText={this.onChangeText} value={this.state.id} />}
+                {/* <ChinaArea ref={node => this.ChinaArea = node} onAutoAnalysisFinished={this.onAutoAnalysisFinished} /> */}
                 {this.state.type === 'Sender' ? null : <Input addonBefore='地址' name='address' onChangeText={this.onChangeText} value={this.state.address} onBlur={this.onBlur} />}
-                <ChinaArea />
+                {/* {this.state.autoAnalysis ? <Text style={{ backgroundColor: '#ffc069', color: '#fafafa', textAlign: 'center' }}>{this.state.autoAnalysis}</Text> : null} */}
                 {PickerCreator({
                     addonBefore: '是否设为默认地址',
                     defaultValue: this.state.defalut ? '是' : '否',
@@ -192,7 +195,6 @@ class Modyfiy extends Component {
                 {this.state.isAdd ? null : <Button title='编辑' onPress={this.onEdit} />}
                 <Button title='保存到地址本' onPress={this.onSubmit} style={{ backgroundColor: "#fa8c16" }} />
                 <Button title='返回' style={{ backgroundColor: '#919191' }} onPress={this.onGoBack} />
-
             </ScrollView>
         )
     }

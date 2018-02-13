@@ -3,7 +3,7 @@
  * 订单结算页面
  */
 import React, { Component } from 'react';
-import { View, ScrollView, Dimensions, Text, TouchableOpacity, FlatList, Image, Animated, Modal, Button, Picker, Alert, AsyncStorage, Platform } from 'react-native'
+import { View, ScrollView, Dimensions, Text, TouchableOpacity, FlatList, Image, Animated, Modal, Picker, Alert, AsyncStorage, Platform } from 'react-native'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 import { PageHeader } from 'component/PageHeader'
@@ -12,6 +12,7 @@ import { Input } from 'component/Input'
 import { Popup } from 'component/Popup'
 import { PickerView } from 'component/Picker'
 import { Spin } from 'component/Spin'
+import { Button } from 'component/Button'
 
 import { AddressSelector } from './Views/addressSelector'
 
@@ -142,7 +143,65 @@ class Settle extends Component {
             this[name] = text;
         } else {
             this[name] = '';
+            this[name] = text;
         }
+    }
+    handleVoucher = () => {
+        this.props.dispatch({
+            type: 'handleVoucher',
+            payload: this.voucher
+        })
+    }
+    handleClearVoucher = () => {
+        this.props.dispatch({
+            type: 'handleVoucher',
+            payload: ''
+        })
+    }
+
+    renderVoucher = () => {
+        const { voucher } = this.props;
+        console.log(this.props)
+        const renderAmount = () => {
+            return voucher ? (
+                <ListItem
+                    content={
+                        <View>
+                            <Text style={{ paddingLeft: 10 }}>{`输入的代金券:${voucher.vouchersCode}     减免金额:${voucher.amount}`}</Text>
+                        </View>
+                    }
+                    ArrowColor={'transparent'}
+                />
+            ) : null;
+        }
+        return (
+            <View>
+                <View style={{ flexDirection: 'row' }}>
+                    <View style={{ width: width - 120 }}>
+                        <Input addonBefore='代金券' placeholder='请输入代金券'
+                            defaultValue={voucher ? voucher.vouchersCode : ''}
+                            onFocus={this.onFocus} onBlur={this.onBlur} onChangeText={this.onChangeText} name='voucher' />
+                    </View>
+                    <TouchableOpacity
+                        onPress={this.handleVoucher}
+                        style={{ width: 60, justifyContent: "center", alignItems: "center", backgroundColor: '#ff7a45' }}
+                    >
+                        <View>
+                            <Text style={{ color: 'white', fontSize: 10 }}>使用代金券</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={this.handleClearVoucher}
+                        style={{ width: 60, justifyContent: "center", alignItems: "center", backgroundColor: '#40a9ff' }}
+                    >
+                        <View>
+                            <Text style={{ color: 'white', fontSize: 10 }}>清除代金券</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+                {renderAmount()}
+            </View>
+        )
     }
 
     renderApproach = () => {
@@ -164,6 +223,7 @@ class Settle extends Component {
                 <AddressSelector type='Sender' value={this.props.Sender || ''} propsHeight={80} onFinish={this.onSelectAddress} {...this.props} />
                 <Input addonBefore='订单留言' placeholder='后台及打包人员可见信息' onFocus={this.onFocus} onBlur={this.onBlur} name='their_commits' onChangeText={this.onChangeText} />
                 <Input addonBefore='我的备注' placeholder='留备信息，仅自己可见' onFocus={this.onFocus} onBlur={this.onBlur} name='mycommits' onChangeText={this.onChangeText} />
+                {this.renderVoucher()}
                 <ListItem title={`  总价格：${convertCurrency(cr, this.props.t)}`} extra={`   商品价格：${convertCurrency(cr, this.props.o)}`} ArrowColor={'transparent'} />
             </View>
         )

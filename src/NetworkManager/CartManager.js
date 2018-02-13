@@ -10,7 +10,14 @@ class Cart extends BaseManager {
                 returnWithAddress: true
             }
         })
-
+    }
+    *setVoucher(code) {
+        return yield this.fetchApi({
+            url: this.Url + 'cart/SetVoucher',
+            body: {
+                code: code
+            }
+        })
     }
     *SwitchCourier(courier) {
         return yield this.fetchApi({

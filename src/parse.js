@@ -61,7 +61,8 @@ const str = {
             var index = string.indexOf(key);
             if (index >= 0) {
                 const len = key.length + index;
-                return res(key, string.substring(len));
+
+                return res(key, string.substring(len + 1));
             }
         }
         if (province === '重庆') {
@@ -118,6 +119,7 @@ exports.parseAddress = function parseAddress(string) {
 
         const area = str.direct(addr.pro, city.pro, leftString);
         addr.area = area.pro;
+        addr.leftString = area.string;
         if (area.city) {
             addr.city = area.city;
         }

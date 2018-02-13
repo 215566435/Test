@@ -83,6 +83,7 @@ class DetailPage extends Component {
                 return item.url
             })
 
+            console.log(urlMap)
             if (urlMap.length === 0) {
                 Alert.alert(
                     '分享失败',
@@ -98,11 +99,7 @@ class DetailPage extends Component {
             if (typeof this.props.shareText === 'string') {
                 Clipboard.setString(this.props.shareText)
             } else {
-                var combindText = '';
-                for (const text in this.props.shareText) {
-                    combindText = combindText + text;
-                }
-                Clipboard.setString(combindText);
+                Clipboard.setString(this.props.shareText[0]);
             }
 
             if (Platform.OS === 'ios') {
