@@ -56,7 +56,7 @@ export class All extends Component {
     componentWillReceiveProps(next) {
     }
 
-    _keyExtractor = (child, index) => child.i
+    _keyExtractor = (child, index) => index
     renderItem = (child, index) => (<OrderItem child={child} onPress={() => this.props.onPress(child.item)} />)
     render() {
 
@@ -85,10 +85,10 @@ export class All extends Component {
 class OrderItem extends Component {
 
     getGoods = () => {
-        const goods = this.props.child.item.go.map((item) => {
+        const goods = this.props.child.item.go.map((item, index) => {
             const url = 'http://cdn2u.com' + item.im + `?width=${250}` + `&height=${250}` + `&constrain=${true}` + `&bgcolor=white`;
             return (
-                <View key={item.i} style={{ flexDirection: 'row', width: '100%', marginTop: 5, alignItems: 'center', padding: 5 }}>
+                <View key={index} style={{ flexDirection: 'row', width: '100%', marginTop: 5, alignItems: 'center', padding: 5 }}>
                     <View style={{ height: 100, width: 100, borderWidth: 0.5, alignItems: "center", justifyContent: "center", borderColor: "#bfbfbf", backgroundColor: "transparent" }}>
                         <Image
                             source={{ uri: url }}

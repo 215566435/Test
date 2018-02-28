@@ -23,6 +23,25 @@ export const ModalWrapper = (Component) => {
     }
 }
 
+export const ModalWithScrollWrapper = (Component) => {
+    return class Wrapper extends Component {
+        render() {
+            const { visible, ...others } = this.props;
+            return (
+                <Modal
+                    animationType='slide'
+                    visible={visible}
+                    onRequestClose={() => { }}
+                >
+                    <ScrollView>
+                        <Component {...others} />
+                    </ScrollView>
+                </Modal>
+            )
+        }
+    }
+}
+
 const FiltersStyles = StyleSheet.create({
     container: {
         position: 'absolute',

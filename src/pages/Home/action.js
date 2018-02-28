@@ -2,6 +2,7 @@ import { call, put, take, select } from 'redux-saga/effects';
 import { Url, header, setLogin } from 'utils';
 import { AsyncStorage } from 'react-native';
 import { combineReducers } from 'redux';
+import BaseManager from '../../NetworkManager/BaseManager';
 
 function* fetchFunc({ url, body }) {
     yield setLogin()
@@ -13,14 +14,45 @@ function* fetchFunc({ url, body }) {
     return yield res.json();
 }
 
+class HomeManager extends BaseManager {
+    *getHomeData() {
+        const homeJsonData = yield AsyncStorage.getItem('homeData');
+        if (homeJsonData === null) {
+            const json = yield this.getHomeDataRefresh();
+            yield AsyncStorage.setItem('homeData', JSON.stringify(json));
+            return json;
+        } else {
+            return JSON.parse(homeJsonData);
+        }
+    }
+    *getHomeDataRefresh() {
+        return yield this.fetchApi({
+            url: this.Url + 'home/index',
+            body: ''
+        })
+    }
+
+    *mapHomeDataToProps(json, put, state) {
+        yield put({
+            type: 'Home_SET_STATE',
+            data: {
+                ...state,
+                Carousel: json.data.s,
+                goodNews: json.data.g,
+                event: json.data.e,
+                hotKey: json.data.h
+            }
+        })
+    }
+}
+
 
 const actionStategy = {
     fetchHome: function* (state) {
-        const json = yield fetchFunc({ url: Url + 'home/index', body: '' });
-        yield put({
-            type: 'Home_SET_STATE',
-            data: { ...state, Carousel: json.data.s, goodNews: json.data.g, event: json.data.e, hotKey: json.data.h }
-        })
+        const hmanager = new HomeManager;
+        yield hmanager.mapHomeDataToProps(yield hmanager.getHomeData(), put, state);
+        yield hmanager.mapHomeDataToProps(yield hmanager.getHomeDataRefresh(), put, state);
+
         const info = yield fetchFunc({ url: Url + 'user/GetCurrentUserinfo', body: '' });
         console.log(info)
         yield put({
@@ -40,7 +72,6 @@ const actionStategy = {
             type: 'SET_STATE',
             data: { ...PriceList, isAud: fix }
         })
-
     },
     checkDetail: function* (state, others) {
         const PriceListState = yield select(allState => allState.PriceList)

@@ -34,7 +34,7 @@ const actionStategy = {
             body: { currency: currency }
         })
 
-        console.log(json)
+        console.log(json)  
 
         if (!json.success) {
             alert(json.message)

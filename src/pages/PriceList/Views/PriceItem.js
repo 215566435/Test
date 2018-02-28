@@ -108,6 +108,6 @@ const priceEditor = (item) => {
 }
 
 
-const ImageHelper = ({ Url, width, height, constrain, bgcolor }) => {
+export const ImageHelper = ({ Url, width, height, constrain, bgcolor }) => {
     return 'http://cdn2u.com' + Url + `?width=${width}` + `&height=${height}` + `&constrain=${constrain ? 'true' : 'false'}` + `bgcolor=${bgcolor}`
 }

@@ -8,7 +8,7 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 import { PageHeader } from 'component/PageHeader'
 import { CustomTabBar } from 'component/CustomTabBar'
-import { Input } from 'component/Input'
+import { Input, InputSelfControl } from 'component/Input'
 import { Popup } from 'component/Popup'
 import { PickerView } from 'component/Picker'
 import { Spin } from 'component/Spin'
@@ -20,6 +20,7 @@ import { header, Url, stateBarMargin, height, width, undefinedConvert } from 'ut
 import { PageWithTab } from 'HOC/PageWithTab';
 import { connect } from 'react-redux';
 import { ListItem } from 'component/ListItem';
+import { ImageHelper } from '../PriceList/Views/PriceItem';
 
 /**
  * 给进来一个快递数组，选择与id对应的快递
@@ -64,6 +65,12 @@ class Settle extends Component {
     componentDidMount() {
         this.props.dispatch({ type: "fetchSumition" })
     }
+    componentWillReceiveProps(nextprops) {
+        if (nextprops.voucher) {
+            this.handleChangeText(nextprops.voucher.vouchersCode)
+        }
+    }
+
     onCourierChange = (name) => {
         const { couriers } = this.props;
         let courier;
@@ -146,65 +153,132 @@ class Settle extends Component {
             this[name] = text;
         }
     }
-    handleVoucher = () => {
+    onVoucherBlur = () => {
         this.props.dispatch({
             type: 'handleVoucher',
-            payload: this.voucher
+            payload: this.voucherComponent.getText()
+        })
+        this.setState({
+            isKeyboardShow: false
         })
     }
     handleClearVoucher = () => {
+        this.voucherComponent.clear();
         this.props.dispatch({
             type: 'handleVoucher',
             payload: ''
         })
     }
+    handleChangeText = (text) => {
+        this.voucherComponent.setText(text);
+    }
 
     renderVoucher = () => {
         const { voucher } = this.props;
-        console.log(this.props)
         const renderAmount = () => {
             return voucher ? (
                 <ListItem
                     content={
-                        <View>
-                            <Text style={{ paddingLeft: 10 }}>{`输入的代金券:${voucher.vouchersCode}     减免金额:${voucher.amount}`}</Text>
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={{ width: width - 150 }} />
+                            <Text style={{ width: 150, fontSize: 12, color: '#ff7875', paddingLeft: 10, fontWeight: 'bold' }}>{`代金券减免金额:-${voucher.amount}元`}</Text>
                         </View>
                     }
                     ArrowColor={'transparent'}
                 />
             ) : null;
         }
+        const button = ({ onPress, color, title }) => (
+            <TouchableOpacity
+                onPress={onPress}
+                style={{ width: 60, justifyContent: "center", alignItems: "center", backgroundColor: color }}
+            >
+                <View>
+                    <Text style={{ color: 'white', fontSize: 10 }}>{title}</Text>
+                </View>
+            </TouchableOpacity>
+        )
+
         return (
             <View>
                 <View style={{ flexDirection: 'row' }}>
-                    <View style={{ width: width - 120 }}>
-                        <Input addonBefore='代金券' placeholder='请输入代金券'
+                    <View style={{ width: width - 60 }}>
+                        <InputSelfControl addonBefore='代金券' placeholder='请输入代金券'
+                            ref={node => this.voucherComponent = node}
                             defaultValue={voucher ? voucher.vouchersCode : ''}
-                            onFocus={this.onFocus} onBlur={this.onBlur} onChangeText={this.onChangeText} name='voucher' />
+                            onFocus={this.onFocus} onBlur={this.onVoucherBlur} onChangeText={this.handleChangeText} name='voucher' />
                     </View>
-                    <TouchableOpacity
-                        onPress={this.handleVoucher}
-                        style={{ width: 60, justifyContent: "center", alignItems: "center", backgroundColor: '#ff7a45' }}
-                    >
-                        <View>
-                            <Text style={{ color: 'white', fontSize: 10 }}>使用代金券</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={this.handleClearVoucher}
-                        style={{ width: 60, justifyContent: "center", alignItems: "center", backgroundColor: '#40a9ff' }}
-                    >
-                        <View>
-                            <Text style={{ color: 'white', fontSize: 10 }}>清除代金券</Text>
-                        </View>
-                    </TouchableOpacity>
+                    {button({
+                        onPress: this.handleClearVoucher,
+                        color: '#40a9ff',
+                        title: '清除代金券'
+                    })}
                 </View>
                 {renderAmount()}
             </View>
         )
     }
 
-    renderApproach = () => {
+    handleGetFreeItem = (key) => {
+        this.props.navigation.navigate('FreeItem', { key });
+    }
+
+    renderFreeItems = () => {
+        const { freeItems } = this.props;
+        var item = {};
+        var button = [];
+        for (const key in freeItems) {
+            item = freeItems[key];
+            button.push(freeItems[key]);
+        }
+
+        console.log(this.props)
+        return button.map((i, index) => {
+            return (
+                <ListItem
+                    key={i.key}
+                    content={
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Text style={{ width: 60, fontSize: 12, color: '#ff7875', paddingLeft: 10 }}>赠品{index + 1}</Text>
+                            <Text style={{ width: width - 160, fontSize: 12 }}>{i.name}</Text>
+                            <TouchableOpacity
+                                onPress={() => this.handleGetFreeItem(i.key)}
+                                style={{ width: 100, justifyContent: "center", alignItems: "center", backgroundColor: '#ff7a45', minHeight: 30 }}
+                            >
+                                <View>
+                                    <Text style={{ color: 'white', fontSize: 10 }}>选择赠品</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    }
+                    ArrowColor={'transparent'}
+                />
+            )
+        })
+    }
+
+    renderPromotionsSum = () => {
+        if (this.props.promotionsSum === void 666) return;
+
+        return <ListItem
+            content={
+                <View style={{ alignItems: 'center' }}>
+                    {this.props.promotionsSum.map((item, index) => {
+                        return (
+                            <View style={{ flexDirection: 'row' }} key={index}>
+                                <View style={{ width: width - 150 }} />
+                                <Text style={{ fontSize: 12, color: '#ff7875', paddingLeft: 10, fontWeight: 'bold' }}>{item.promotionsName}: -{item.price}</Text>
+                            </View>
+
+                        )
+                    })}
+                </View>
+            }
+            ArrowColor={'transparent'}
+        />
+    }
+
+    renderSheet = () => {
         const { e, dd, cr, approach } = this.props;
 
         if (approach === '现场打包')
@@ -223,8 +297,21 @@ class Settle extends Component {
                 <AddressSelector type='Sender' value={this.props.Sender || ''} propsHeight={80} onFinish={this.onSelectAddress} {...this.props} />
                 <Input addonBefore='订单留言' placeholder='后台及打包人员可见信息' onFocus={this.onFocus} onBlur={this.onBlur} name='their_commits' onChangeText={this.onChangeText} />
                 <Input addonBefore='我的备注' placeholder='留备信息，仅自己可见' onFocus={this.onFocus} onBlur={this.onBlur} name='mycommits' onChangeText={this.onChangeText} />
+                {this.renderFreeItems()}
                 {this.renderVoucher()}
-                <ListItem title={`  总价格：${convertCurrency(cr, this.props.t)}`} extra={`   商品价格：${convertCurrency(cr, this.props.o)}`} ArrowColor={'transparent'} />
+                {this.renderPromotionsSum()}
+                <ListItem content={
+                    <View>
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={{ width: width - 150 }} />
+                            <Text style={{ fontSize: 12, paddingLeft: 10 }}>商品价格：{convertCurrency(cr, this.props.o)}</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={{ width: width - 150 }} />
+                            <Text style={{ fontSize: 13, paddingLeft: 10 }}>总价格：{convertCurrency(cr, this.props.t)}</Text>
+                        </View>
+                    </View>
+                } ArrowColor={'transparent'} />
             </View>
         )
     }
@@ -244,7 +331,7 @@ class Settle extends Component {
                         <Picker.Item label="仓库代发" value="仓库代发" />
                         <Picker.Item label="现场打包" value="现场打包" />
                     </PickerView>
-                    {this.renderApproach()}
+                    {this.renderSheet()}
                 </ScrollView>
             </View>
         )
@@ -253,6 +340,7 @@ class Settle extends Component {
 
 
 const mapState = (state) => {
+
     return {
         ...state.Settle
     }

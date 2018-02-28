@@ -23,7 +23,7 @@ export class Icon extends Component {
                 justifyContent: "center"
             }}
             >
-                <Text style={{ textAlign: 'center', color: "white", fontSize: 8, height: 10, width: 10, }} >{noteCount}</Text>
+                <Text style={{ textAlign: 'center', color: "white", fontSize: 8, height: 10, width: 12, }} >{noteCount > 99 ? 99 : noteCount}</Text>
             </View>
         )
     }

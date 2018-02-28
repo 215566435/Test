@@ -7,6 +7,11 @@ export class GoodsManager extends ListManager {
         super();
         this.currentCateId = 0;
     }
+    *fetchCurrentGoods(currentID) {
+
+        return yield this.fetchApi({ url: this.Url + 'goods/Get?id=' + currentID, body: {} });
+    }
+
     *SearchGoodsList(keyword, currentCateId) {
         this.currentPage = 1;
         this.keyword = keyword;

@@ -26,6 +26,8 @@ export class PageHeader extends React.Component {
     }
 }
 
+
+
 export class CustomHeader extends React.Component {
     state = {
         show: false
@@ -59,7 +61,7 @@ export class CustomHeader extends React.Component {
             onPress,
             onValueChange,
             isShowAud
-            } = this.props
+        } = this.props
 
         return (
             <View >

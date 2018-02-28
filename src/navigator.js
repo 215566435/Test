@@ -27,6 +27,7 @@ import Activity from './pages/Activity';
 import Feedback from './pages/Feedback';
 import AddressEditPage from './pages/AddressEditPage';
 import ImageViewer from './pages/ImageViewer';
+import FreeItem from './pages/FreeItem';
 
 const iconsSize = Platform.OS === 'ios' ? 26 : 15;
 
@@ -100,6 +101,7 @@ const RootTabs = StackNavigator({
     Manifest: {
         screen: ManifestPage,
         navigationOptions: {
+            header: null,
             tabBarVisible: false
         }
     },
@@ -164,10 +166,18 @@ const RootTabs = StackNavigator({
             gesturesEnabled: true
         }
     },
+    FreeItem: {
+        screen: (props) => <FreeItem {...props} />,
+        navigationOptions: {
+            header: null,
+            tabBarVisible: false,
+            gesturesEnabled: true
+        }
+    },
     Password: {
         screen: (props) => <Password {...props} />,
         navigationOptions: {
-            title: '修改密码',
+            header: null,
             tabBarVisible: false,
             gesturesEnabled: true
         }
@@ -175,7 +185,7 @@ const RootTabs = StackNavigator({
     Deposite: {
         screen: (props) => <Deposite {...props} />,
         navigationOptions: {
-            title: '预存款记录',
+            header: null,
             tabBarVisible: false,
             gesturesEnabled: true
         }

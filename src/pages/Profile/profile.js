@@ -276,7 +276,7 @@ class Message extends Component {
                     right: -5,
                     top: -2
                 }}>
-                    <Text style={{ textAlign: 'center', color: "white", fontSize: 8, height: 10, width: 10 }} >{this.props.messageCount}</Text>
+                    <Text style={{ textAlign: 'center', color: "white", fontSize: 8, height: 10, width: 13 }} >{this.props.messageCount}</Text>
                 </View>
                 <FontAwesome name='envelope-o' color='#fff7e6' size={24} />
             </TouchableOpacity>

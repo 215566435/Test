@@ -20,10 +20,10 @@ export class Content extends Component {
     }
     getGoods = () => {
         const { model } = this.props;
-        const goods = model.OrderGoodsItems.map((item) => {
+        const goods = model.OrderGoodsItems.map((item,index) => {
             const url = 'http://cdn2u.com' + item.im + `?width=${250}` + `&height=${250}` + `&constrain=${true}` + `&bgcolor=white`;
             return (
-                <TouchableOpacity key={item.i} onPress={() => this.props.onGoodPress(item.gi)}>
+                <TouchableOpacity key={index} onPress={() => this.props.onGoodPress(item.gi)}>
                     <View style={{ flexDirection: 'row', width: '100%', marginTop: 5, alignItems: 'center', paddingHorizontal: 5, backgroundColor: 'white', padding: 5 }}>
                         <View style={{ height: 100, width: 100, borderWidth: 0.5, alignItems: "center", justifyContent: "center", borderColor: "#bfbfbf" }}>
                             <Image

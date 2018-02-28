@@ -3,19 +3,26 @@ import { View } from 'react-native';
 import { connect } from 'react-redux';
 
 import { Body } from './Views/body'
+import { HeaderWithLeftArrow } from '../Manifest';
+
+
+
+
 
 class Deposite extends Component {
-    static navigationOptions = {
-        title: '预存款记录',
-    }
 
     componentDidMount() {
         this.props.fetchDeposite()
 
     }
+    goBack = () => {
+        this.props.navigation.goBack(null);
+    }
+
     render() {
         return (
             <View style={{ backgroundColor: "white" }}>
+                <HeaderWithLeftArrow title='预存款记录' onPress={this.goBack} />
                 <Body
                     Deposite={this.props.Deposite}
                     appendDeposite={this.props.appendDeposite}

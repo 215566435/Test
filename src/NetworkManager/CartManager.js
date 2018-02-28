@@ -43,6 +43,24 @@ class Cart extends BaseManager {
             }
         })
     }
+    *PromotionFreeItem(key) {
+        return yield this.fetchApi({
+            url: this.Url + 'cart/getFreeProducts',
+            body: {
+                PromotionsFreeItemKey: key
+            }
+        })
+    }
+    *addFreeItem(skuid, key) {
+        return yield this.fetchApi({
+            url: this.Url + 'cart/addFreeItem',
+            body: {
+                ConditionKey: key,
+                qty: 1,
+                skuid: skuid
+            }
+        })
+    }
 }
 
 export const CartManager = new Cart();

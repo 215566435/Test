@@ -15,11 +15,10 @@ import { Code } from 'component/Code'
 
 
 import { hostName } from 'utils';
+import { HeaderWithLeftArrow } from '../Manifest';
 
 class Password extends Component {
-    static navigationOptions = {
-        title: '修改密码'
-    }
+
 
     static defaultProps = {
         info: ''
@@ -47,6 +46,7 @@ class Password extends Component {
 
         return (
             <ScrollView style={{ height: '100%' }}>
+                <HeaderWithLeftArrow title='修改密码' onPress={this.onGoBack} />
                 <Input addonBefore='旧密码' name='oldpsw' password={true} onChangeText={this.onChangeText} value={info.oldpsw} />
                 <Input addonBefore='新密码' name='newpsw' onChangeText={this.onChangeText} value={info.newpsw} />
                 <Input addonBefore='确认新密码' name='newpsw2' onChangeText={this.onChangeText} value={info.newpsw2} />

@@ -54,7 +54,7 @@ const userManager = new UserManager();
 export const actionStategy = {
     handleVoucher: function* (state, { payload }) {
         const json = yield CartManager.setVoucher(payload);
-        console.log(json)
+
         if (json.success) {
             yield put({
                 type: "SET_STATE_Settle",
@@ -92,7 +92,6 @@ export const actionStategy = {
         if (ToastAndroid.showWithGravity) ToastAndroid.showWithGravity('结算中...', ToastAndroid.SHORT, ToastAndroid.CENTER);
         const json = yield CartManager.ListSummary();
         const approach = json.data.p ? '现场打包' : '仓库代发';
-        console.log(json);
 
         yield put({
             type: "SET_STATE_Settle",
