@@ -134,6 +134,7 @@ export const actionStategy = {
     },
     createOrder: function* (state, others) {
         const { instance } = others;
+        console.log(state.Settle)
         const json = yield fetchApi({
             url: Url + 'order/create',
             body: {

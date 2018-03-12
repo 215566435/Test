@@ -295,6 +295,7 @@ class DetailPage extends Component {
                         contentImg={this.props.contentImg}
                         content={this.props.content}
                         shareText={this.props.shareText}
+                        property={this.props.property}
                     />
                 </View>
                 <CustomTabBar

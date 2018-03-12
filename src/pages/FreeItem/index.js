@@ -11,11 +11,11 @@ import { PickerView } from '../../components/Picker';
 import { CustomTabBar } from '../../components/CustomTabBar';
 import { SearchBar } from '../../components/SearchBar';
 
-import { FlatListComponent } from 'HOC/FlatListWithSpecs';
-import { PageWithTab } from 'HOC/PageWithTab';
-import { BoxCore } from 'component/ProductBox';
+import { FlatListComponent } from '../../HOC/FlatListWithSpecs';
+import { PageWithTab } from '../../HOC/PageWithTab';
+import { BoxCore } from '../../components/ProductBox';
 import { Pop } from '../Detail/Views/Popup';
-import { ModalWrapper, ModalWithScrollWrapper } from 'HOC/ModalWrapper';
+import { ModalWrapper, ModalWithScrollWrapper } from '../../HOC/ModalWrapper';
 import { ImageHelper } from '../PriceList/Views/PriceItem';
 
 const { height } = Dimensions.get('window')

@@ -15,8 +15,8 @@ import { MyAddress } from './Views/address'
 import { Modyfiy } from './Views/modal'
 
 import { Url, header } from '../../util';
-import { FlatListComponent } from 'HOC/FlatListWithSpecs';
-import { PageWithTab } from 'HOC/PageWithTab';
+import { FlatListComponent } from '../../HOC/FlatListWithSpecs';
+import { PageWithTab } from '../../HOC/PageWithTab';
 
 const { height } = Dimensions.get('window')
 class List extends FlatListComponent {

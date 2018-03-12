@@ -5,12 +5,12 @@
 import React, { Component } from 'react'
 import { View, Text, Dimensions, TouchableOpacity, Platform } from 'react-native'
 import { connect } from 'react-redux'
-import { TabHead } from 'component/Tab'
-import { Spin } from 'component/Spin'
+import { TabHead } from '../../components/Tab'
+import { Spin } from '../../components/Spin'
 
 import { All } from './Views/all'
-import { PageHeader } from 'component/PageHeader';
-import { width } from 'utils';
+import { PageHeader } from '../../components/PageHeader';
+import { width } from '../../util';
 
 
 export const HeaderWithLeftArrow = ({ onPress, title }) => {

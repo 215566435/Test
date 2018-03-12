@@ -3,7 +3,7 @@ import { fetchApi, getCurrent } from "utils";
 var hostName = 'test.austgo.com'
 
 if (__DEV__) {
-    hostName = 'www.austgo.com'
+    hostName = 'test.austgo.com'
 } else {
     hostName = 'www.austgo.com'
 }

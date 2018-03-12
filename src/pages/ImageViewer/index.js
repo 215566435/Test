@@ -1,16 +1,15 @@
-import React from 'react';
-import { View, Image } from 'react-native';
-import { connect } from 'react-redux';
-import { PageWithTab } from 'HOC/PageWithTab';
-import { CDN_URL } from '../../NetworkManager/CdnManager';
-import { width, height } from 'utils';
-import { Carousel } from 'component/Carousel';
-
+import React from 'react'
+import { View, Image } from 'react-native'
+import { connect } from 'react-redux'
+import { PageWithTab } from '../../HOC/PageWithTab'
+import { CDN_URL } from '../../NetworkManager/CdnManager'
+import { width, height } from '../../util'
+import { Carousel } from '../../components/Carousel'
 
 class ImageViewer extends React.Component {
     CustomTabBarPress(e, child, index) {
         if (index === 0) {
-            this.props.navigation.goBack();
+            this.props.navigation.goBack()
         }
     }
 
@@ -21,7 +20,7 @@ class ImageViewer extends React.Component {
                     source={{
                         uri: CDN_URL + this.props.attachment[this.props.index]
                     }}
-                    resizeMode='contain'
+                    resizeMode="contain"
                     style={{
                         width: width,
                         height: height
@@ -32,13 +31,13 @@ class ImageViewer extends React.Component {
     }
 }
 
-const wrapper = PageWithTab(ImageViewer, ['返回']);
+const wrapper = PageWithTab(ImageViewer, ['返回'])
 
-const mapState = (state) => {
+const mapState = state => {
     return {
         attachment: state.imageviewer.attachment,
         index: state.imageviewer.index
     }
 }
 
-export default connect(mapState)(wrapper);
+export default connect(mapState)(wrapper)

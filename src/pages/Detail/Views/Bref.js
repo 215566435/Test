@@ -33,7 +33,7 @@ export class Bref extends Component {
                 <View>
                     {shareText.map((text, index) => {
                         return (
-                            <View style={{ backgroundColor: 'white', padding: 10, marginTop: 2 }} >
+                            <View key={index} style={{ backgroundColor: 'white', padding: 10, marginTop: 2 }} >
                                 {text !== '' ? <TouchableOpacity onPress={() => this.copy(index)}>
                                     <Text style={{ color: "#108ee9", backgroundColor: "transparent", fontSize: fontSize }}>分享文案{`${index + 1}`}(点击复制到剪切板)：</Text>
                                     <Text style={{ marginBottom: 15, backgroundColor: "transparent", fontSize: fontSize }}>{text}</Text>

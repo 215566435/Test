@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
-import { View, Alert, Text } from 'react-native';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { View, Alert, Text } from 'react-native'
+import { connect } from 'react-redux'
 
 import { Content } from './Views/Content'
 import { Model } from './model'
-import { CustomTabBar } from 'component/CustomTabBar'
-import { PageWithTab } from 'HOC/PageWithTab';
+import { CustomTabBar } from '../../components/CustomTabBar'
+import { PageWithTab } from '../../HOC/PageWithTab'
 
 class GoodState extends Component {
-
     componentDidMount() {
         const id = this.props.navigation.state.params.id
         const messageId = this.props.navigation.state.params.messageId
@@ -24,7 +23,7 @@ class GoodState extends Component {
             '点击确定，确认支付',
             [
                 { text: '取消', style: 'cancel' },
-                { text: '确定', onPress: () => this.props.Pay(OrderId, Id) },
+                { text: '确定', onPress: () => this.props.Pay(OrderId, Id) }
             ],
             { cancelable: false }
         )
@@ -47,7 +46,7 @@ class GoodState extends Component {
                     image={this.props.image}
                     ReturnAttach={this.props.ReturnAttach}
                     onChildPress={this.props.fetchGoodState}
-                    onGoodPress={(id) => this.props.onGoodPress(id, this)}
+                    onGoodPress={id => this.props.onGoodPress(id, this)}
                     Pay={this.Pay}
                     Payment={this.props.Payment}
                     MarkAsSentToBuyer={this.props.MarkAsSentToBuyer}
@@ -59,7 +58,7 @@ class GoodState extends Component {
 }
 
 function mapState(state) {
-    const model = state.GoodState.model ? new Model(state.GoodState.model) : {};
+    const model = state.GoodState.model ? new Model(state.GoodState.model) : {}
     return {
         model: model,
         log: state.GoodState.log,
@@ -72,19 +71,27 @@ function mapState(state) {
 
 function mapDispatch(dispatch) {
     return {
-        fetchGoodState: (id, messageId, memberId) => dispatch({ type: "fetchGoodState", id: id, messageId: messageId, memberId }),
-        onGetLog: () => dispatch({ type: "GetLog" }),
-        GetAttach: () => dispatch({ type: "GetAttach" }),
+        fetchGoodState: (id, messageId, memberId) =>
+            dispatch({
+                type: 'fetchGoodState',
+                id: id,
+                messageId: messageId,
+                memberId
+            }),
+        onGetLog: () => dispatch({ type: 'GetLog' }),
+        GetAttach: () => dispatch({ type: 'GetAttach' }),
         Return: () => dispatch({ type: 'LogReturn' }),
         ReturnAttach: () => dispatch({ type: 'ReturnAttach' }),
-        onGoodPress: (id, that) => dispatch({ type: 'onGoodPress', id: id, instance: that }),
-        Pay: (OrderId, Id) => dispatch({ type: "Pay", OrderId: OrderId, Id: Id }),
+        onGoodPress: (id, that) =>
+            dispatch({ type: 'onGoodPress', id: id, instance: that }),
+        Pay: (OrderId, Id) =>
+            dispatch({ type: 'Pay', OrderId: OrderId, Id: Id }),
         clearGoodState: () => dispatch({ type: 'clearGoodState' }),
-        MarkAsSentToBuyer: () => dispatch({ type: "MarkAsSentToBuyer" }),
+        MarkAsSentToBuyer: () => dispatch({ type: 'MarkAsSentToBuyer' }),
         dispatch
     }
 }
 
-const wrapper = PageWithTab(GoodState, '返回');
+const wrapper = PageWithTab(GoodState, '返回')
 
-export default connect(mapState, mapDispatch)(wrapper);
+export default connect(mapState, mapDispatch)(wrapper)

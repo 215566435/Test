@@ -30,10 +30,12 @@ export class Pop extends Component {
                 }
             }
         }
-        const name = fixProperty ? (fixProperty.n === '' ? '默认型号' : fixProperty.n) : '默认型号';
+       
+        var name = fixProperty ? (fixProperty.n === '' ? '默认型号' : fixProperty.n) : '默认型号';
         if (onChange && fixProperty) onChange(fixProperty);
 
         if (!fixProperty) return null;
+     
         return (
             <View style={{ padding: 10 }}>
                 <View style={{ flexDirection: 'row' }}>
@@ -48,6 +50,7 @@ export class Pop extends Component {
                     <Text style={{ backgroundColor: "transparent" }}>所选型号:</Text>
                     <Text style={{ color: '#f46e65', backgroundColor: "transparent" }}>{name}</Text>
                 </View>
+                <Text style={{ color: '#f46e65', backgroundColor: "transparent" }}>{(fixProperty.expiry? '保质期：'+fixProperty.expiry:'')}</Text>
                 <Spes property={property} pt={this.props.pt} choose={this.choose} />
                 <PriceQuntity au={fixProperty.ap.a} rmb={fixProperty.ap.r} quntity={fixProperty.st} />
                 {this.props.children}

@@ -58,7 +58,8 @@ export class PriceItem extends React.Component {
             itemClick,
             isShowPicture,
             isAud,
-            isDeliveryFree
+            isDeliveryFree,
+            expiryInfo
         } = this.props
 
         let a = isAud ? 'isAud' : 'isNotAud';
@@ -81,8 +82,12 @@ export class PriceItem extends React.Component {
                     <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'center', alignItems: "center" }} >
                         {isShowPicture ? this.renderImage(item) : null}
                         <View style={{ flex: 1, flexDirection: 'row', marginLeft: 8, justifyContent: 'center', alignItems: "center" }}>
-                            <Text style={{ width: '80%', backgroundColor: "transparent", fontSize: 12 }}>{item.n}</Text>
+                            <View style={{ width: '80%'}}>
+                                <Text style={{  backgroundColor: "transparent", fontSize: 12 }}>{item.n}</Text>
+                                <Text style={{  backgroundColor: "transparent",color:'grey', fontSize: 12 }}>{expiryInfo?`保质期:${expiryInfo}`:''}</Text>
+                                </View>
                             <Text style={{ color: "#f56a00", backgroundColor: "transparent" }}>{price}</Text>
+                            
                         </View>
                     </View>
                 </View>

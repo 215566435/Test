@@ -3,7 +3,7 @@ import { View, Text, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { PageWithTab } from 'HOC/PageWithTab';
 import { FlatListComponent } from 'HOC/FlatListWithSpecs';
-import { ListItem } from 'component/ListItem';
+import { ListItem, ListItemRenderProps } from 'component/ListItem';
 import { SupportTicketType, TicketColor, TicketPriority } from './constant';
 import { timeSplit, height, width } from 'utils';
 import { Input } from 'component/Input';
@@ -51,13 +51,7 @@ class Feedback extends FlatListComponent {
         const { date, time } = timeSplit(item.createTime);
         const content = (
             <View>
-                <Text style={{ color: "#1890ff", marginBottom: 10 }}>{item.context}</Text>
-                <TimeLine
-                    date={date}
-                    time={time}
-                    SupportTicketType={item.supportTicketType}
-                    priority={item.priority}
-                />
+                <Text style={{ color: "#1890ff", marginBottom: 10, marginTop: 10 }}>{item.context}</Text>
                 <View style={{ flexDirection: 'row' }}>
                     {React.Children.map(item.attachment, (attach, idx) => {
                         return <ClickableImage uri={CDN_URL + attach} onPress={() => { this.onPress(item.attachment, idx) }} />
@@ -65,12 +59,25 @@ class Feedback extends FlatListComponent {
                 </View>
             </View>
         )
-        return <ListItem
-            title={`回复人：${removeSeverString(item.createdByUser)}`}
-            content={content}
-            backgroundColor={item.tragetGroup === "CustomerService" ? '#fff7e6' : 'white'}
-            ArrowColor={'transparent'}
-        />
+        return (
+            <ListItemRenderProps>
+                {(arrowProps) => (
+                    <View style={{ padding: 10 }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Text style={{ width: width - 160 }} >{`${removeSeverString(item.createdByUser)}`}</Text>
+                            <TimeLine
+                                date={date}
+                                time={time}
+                                SupportTicketType={item.supportTicketType}
+                                priority={item.priority}
+                                style={{ width: 160 }}
+                            />
+                        </View>
+                        {content}
+                    </View>
+                )}
+            </ListItemRenderProps>
+        )
     }
 
     componentDidMount() {

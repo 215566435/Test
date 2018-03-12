@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 
-import { CustomTabBar } from 'component/CustomTabBar'
+import { CustomTabBar } from '../../components/CustomTabBar'
 
 
 import { Body } from './Views/body'

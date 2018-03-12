@@ -20,10 +20,12 @@ export const TimeLine = ({ date, time, SupportTicketType, priority }) => {
         High: '高'
     }
     return (
-        <View style={{ justifyContent: 'space-between', flexDirection: "row" }}>
+        <View >
             <Text style={{ color: "rgba(0, 0, 0, 0.45)", fontSize: 10 }}>{`${date}   ${time}`}</Text>
-            <Text style={{ fontSize: 10, marginLeft: 10 }}>{SupportTicketTypeMap[SupportTicketType]}</Text>
-            <Text style={{ color: TicketColor[priority], fontSize: 10, marginLeft: 10 }}>{TicketPriority[priority]}</Text>
-        </View>
+            <View style={{ flexDirection: 'row' }}>
+                <Text style={{ fontSize: 10 }}>{SupportTicketTypeMap[SupportTicketType]}</Text>
+                <Text style={{ color: TicketColor[priority], fontSize: 10, marginLeft: 10 }}>{TicketPriority[priority]}</Text>
+            </View>
+        </View >
     )
 }

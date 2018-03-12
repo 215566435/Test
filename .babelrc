@@ -1,31 +1,4 @@
 {
-  "presets": [
-    "react-native"
-  ],
-  "plugins": [
-    [
-      "module-alias",
-      [
-        {
-          "src": "./src/components",
-          "expose": "component"
-        },
-        {
-          "src": "./src/HOC",
-          "expose": "HOC"
-        },
-        {
-          "src": "./src/util",
-          "expose": "utils"
-        }
-      ]
-    ]
-  ]
+    "presets": ["react-native"],
+    "plugins": []
 }
-// "env": {
-//   "production": {
-//     "plugins": [
-//       "transform-remove-console"
-//     ]
-//   }
-// }

@@ -15,14 +15,21 @@ export const actionStategy = {
                 SupportTicketId: id
             }
         })
+        const filterNullItems = json.data.items.filter((item) => {
+            if (item) {
+                return item;
+            }
+        })
+
         yield put({
             type: "SET_STATE_FeedbackReply",
             data: {
-                FeedbackReply: json.data.items,
+                FeedbackReply: filterNullItems,
                 currentPage: json.data.currentPage,
                 totalPages: json.data.totalPages
             }
         })
+
     },
     mapFeedbackImage: function* (state, others) {
         yield put({
