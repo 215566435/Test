@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { View, Text, ScrollView, StyleSheet, Dimensions, TouchableOpacity, Image, Platform } from 'react-native';
 import { Cells } from './Cells'
 
-import { CustomTabBar } from 'component/CustomTabBar'
-import { Spin } from 'component/Spin';
+import { CustomTabBar } from '../../../components/CustomTabBar'
+import { Spin } from '../../../components/Spin';
 
 const { height } = Dimensions.get('window')
 export class Log extends Component {

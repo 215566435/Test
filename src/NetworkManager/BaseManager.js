@@ -1,4 +1,4 @@
-import { fetchApi, getCurrent } from "utils";
+import { fetchApi, getCurrent } from "../util";
 
 var hostName = 'test.austgo.com'
 

@@ -3,8 +3,8 @@ import { View, Text, TouchableOpacity, FlatList, Dimensions, Platform, Image, Sc
 import { PageHeader } from '../../../components/PageHeader';
 import { SearchBar } from '../../../components/SearchBar'
 import { Spin } from '../../../components/Spin';
-import { ProductBox } from 'component/ProductBox';
-import { height, width, priceHelper } from 'utils';
+import { ProductBox } from '../../../components/ProductBox';
+import { height, width, priceHelper } from '../../../util';
 
 export class Body extends Component {
     static defaultProps = {

@@ -4,7 +4,7 @@
  */
 import React, { Component } from 'react';
 import { View, Text, FlatList, Image, Dimensions, TouchableOpacity, Platform } from 'react-native';
-import { height, width } from 'utils';
+import { height, width } from '../../../util';
 
 const stockState = {
     NotForSale: '已下架',

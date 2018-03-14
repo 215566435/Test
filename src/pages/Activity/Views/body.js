@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, ImageBackground, Dimensions, ScrollView, FlatList, Text, TouchableOpacity, Platform, Image } from 'react-native';
-import { Spin } from 'component/Spin';
-import { CustomTabBar } from 'component/CustomTabBar';
-import { height, width, priceHelper } from 'utils';
-import { ProductBox } from 'component/ProductBox'
+import { Spin } from '../../../components/Spin';
+import { CustomTabBar } from '../../../components/CustomTabBar';
+import { height, width, priceHelper } from '../../../util';
+import { ProductBox } from '../../../components/ProductBox'
 
 
 export class Body extends Component {

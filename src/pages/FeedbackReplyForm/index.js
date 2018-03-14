@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, ScrollView, Picker, CameraRoll } from 'react-native';
 import { connect } from 'react-redux';
-import { PageWithTab } from 'HOC/PageWithTab';
-import { Input } from 'component/Input';
-import { Button } from 'component/Button';
-import { height } from 'utils';
-import { PickerView } from 'component/Picker';
+import { PageWithTab } from '../../HOC/PageWithTab';
+import { Input } from '../../components/Input';
+import { Button } from '../../components/Button';
+import { height } from '../../util';
+import { PickerView } from '../../components/Picker';
 
 class FeedbackReplyForm extends Component {
 

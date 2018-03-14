@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, ImageBackground, Dimensions, ScrollView, FlatList, Text, TouchableOpacity, Platform, Image } from 'react-native';
-import { height, width, header } from 'utils';
+import { height, width, header } from '../util';
 
 
 export const BoxCore = (props) => {

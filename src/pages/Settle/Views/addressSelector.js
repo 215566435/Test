@@ -7,9 +7,9 @@ import { CustomTabBar } from '../../../components/CustomTabBar'
 import { header, Url } from '../../../util';
 import { Spin } from '../../../components/Spin';
 import { SearchBar } from '../../../components/SearchBar';
-import { ModalWrapper } from 'HOC/ModalWrapper';
-import { PageWithTab } from 'HOC/PageWithTab';
-import { FlatListComponent } from 'HOC/FlatListWithSpecs';
+import { ModalWrapper } from '../../../HOC/ModalWrapper';
+import { PageWithTab } from '../../../HOC/PageWithTab';
+import { FlatListComponent } from '../../../HOC/FlatListWithSpecs';
 
 
 const { height, width } = Dimensions.get('window')

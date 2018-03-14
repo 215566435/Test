@@ -3,8 +3,8 @@ import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import { Body } from './Views/body'
-import { CustomTabBar } from 'component/CustomTabBar'
-import { PageWithTab } from 'HOC/PageWithTab';
+import { CustomTabBar } from '../../components/CustomTabBar'
+import { PageWithTab } from '../../HOC/PageWithTab';
 
 class EventPage extends Component {
 

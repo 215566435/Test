@@ -1,5 +1,5 @@
 import { call, put, take, select } from 'redux-saga/effects';
-import { Url, header, fetchApi } from 'utils';
+import { Url, header, fetchApi } from '../../util';
 import { Alert } from 'react-native';
 
 export const actionStategy = {

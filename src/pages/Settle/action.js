@@ -1,5 +1,5 @@
 import { call, put, take, select } from 'redux-saga/effects';
-import { Url, header, fetchApi, fetchList, getCurrent, mergeList } from 'utils';
+import { Url, header, fetchApi, fetchList, getCurrent, mergeList } from '../../util';
 import { Alert, ToastAndroid } from 'react-native';
 import { CartManager } from '../../NetworkManager/CartManager';
 import UserManager from '../../NetworkManager/UserManager';

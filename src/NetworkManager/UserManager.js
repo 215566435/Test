@@ -1,7 +1,7 @@
 
 
 import BaseManager, { ListManager } from "./BaseManager";
-import { getCurrent } from "utils";
+import { getCurrent } from "../util";
 
 const TypeConvertor = (type) => {
     if (type === 'Receiver') return 0

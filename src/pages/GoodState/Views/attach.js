@@ -5,12 +5,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons'; // 4.4.2
 import * as WeChat from 'react-native-wechat';
 import { sharePictures } from 'react-native-share-local'
 
-import { CustomTabBar } from 'component/CustomTabBar'
-import { Spin } from 'component/Spin';
-import { Url, header, height, width } from 'utils';
+import { CustomTabBar } from '../../../components/CustomTabBar'
+import { Spin } from '../../../components/Spin';
+import { Url, header, height, width } from '../../../util';
 
 import { Cells } from './Cells'
-import { PageWithTab } from 'HOC/PageWithTab';
+import { PageWithTab } from '../../../HOC/PageWithTab';
 
 
 const alert = (msg) => {

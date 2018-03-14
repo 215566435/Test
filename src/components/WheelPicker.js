@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Picker, Modal, TouchableOpacity, Text, Clipboard } from 'react-native';
-import { Button } from 'component/Button';
-import { width, height } from 'utils';
+import { Button } from './Button';
+import { width, height } from '../util';
 import { parseAddress, data } from '../parse';
 
 const Item = Picker.Item;

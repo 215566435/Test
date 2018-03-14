@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Image, Dimensions, Text, TouchableOpacity, Platform, Modal, Switch } from 'react-native';
 
-import { Carousel } from 'component/Carousel';
-import { Grid } from 'component/Grid'
-import { Spin } from 'component/Spin'
-import { CustomHeader } from 'component/PageHeader'
+import { Carousel } from '../../../components/Carousel';
+import { Grid } from '../../../components/Grid'
+import { Spin } from '../../../components/Spin'
+import { CustomHeader } from '../../../components/PageHeader'
 
 import Ionicons from 'react-native-vector-icons/Ionicons'; // 4.4.2
 // import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import { header, width, height } from 'utils';
+import { header, width, height } from '../../../util';
 
 export class Body extends Component {
     static defaultProps = {

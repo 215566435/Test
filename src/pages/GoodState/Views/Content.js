@@ -4,9 +4,9 @@ import { Cells, NewCell } from './Cells'
 import { Log } from './log'
 import { Attach } from './attach'
 import { Model, itemState, itemStateColor, stockState, DeliveryColor, DeliveryStatus, PackStatus, PackStatusColor } from '../model';
-import { Spin } from 'component/Spin';
-import { height, timeSplit } from 'utils';
-import { ModalWrapper } from 'HOC/ModalWrapper';
+import { Spin } from '../../../components/Spin';
+import { height, timeSplit } from '../../../util';
+import { ModalWrapper } from '../../../HOC/ModalWrapper';
 
 const LogHistory = ModalWrapper(Log);
 const Attachment = ModalWrapper(Attach);

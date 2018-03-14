@@ -85,6 +85,7 @@ class PriceList extends React.Component {
                 isShowPicture={this.state.isShowPicture}
                 isAud={this.props.isAud}
                 isDeliveryFree={this.props.isDeliveryFree}
+                expiryInfo={item.expiryInfo}
             />
         )
     }

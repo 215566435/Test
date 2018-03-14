@@ -8,7 +8,7 @@ import React, { Component } from 'react'
 import { View, StyleSheet, Platform, TouchableOpacity, Modal, Text, Switch } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons'; // 4.4.2
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import { stateBarMargin } from 'utils'
+import { stateBarMargin } from '../util'
 
 // import { } from 'HOC/ModalWrapper'
 
