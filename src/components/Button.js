@@ -7,18 +7,16 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'; // 4.4.2
 
 
-export const Button = ({ onPress = () => void 666, disabled = false, title = '按钮', style = {}, image }) => {
-    const mergeStyle = { ...style }
-
+export const Button = ({ onPress = () => void 666, disabled = false, title = '按钮', style = {}, image,backgroundColor='#f04134' }) => {
     return (
         <TouchableOpacity onPress={onPress} activeOpacity={0.5} disabled={disabled} >
             <View style={{
                 alignItems: 'center',
                 padding: 16,
                 margin: 8,
-                backgroundColor: "#f04134",
+                backgroundColor:backgroundColor,
                 borderRadius: 4,
-                ...mergeStyle
+                ...style
             }}>
                 {image}
                 <Text style={ButtonStyle.title}>{title}</Text>

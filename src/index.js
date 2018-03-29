@@ -1,15 +1,14 @@
-import React from 'react';
-import * as WeChat from 'react-native-wechat';
-import RootTabs from './navigator';
-import { Provider } from 'react-redux';
-import { store } from './store';
-import { setLogin } from './util';
+import React from 'react'
+import * as WeChat from 'react-native-wechat'
+import RootTabs from './navigator'
+import { Provider } from 'react-redux'
+import { store } from './store'
+import { setLogin } from './util'
 
 export default class AustGoApp extends React.Component {
-
     componentDidMount() {
-        WeChat.registerApp('wx558e460ec290964b');
-        console.disableYellowBox = true;
+        WeChat.registerApp('wx558e460ec290964b')
+        console.disableYellowBox = true
         console.log(__DEV__)
     }
     render() {
@@ -17,6 +16,6 @@ export default class AustGoApp extends React.Component {
             <Provider store={store}>
                 <RootTabs />
             </Provider>
-        );
+        )
     }
 }

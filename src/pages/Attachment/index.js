@@ -16,13 +16,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons' // 4.4.2
 
 import * as WeChat from 'react-native-wechat'
 import { sharePictures } from 'react-native-share-local'
+import { Spin } from '../../components/Spin'
+import { Url, header, height, width, MarginTopIfNeeded } from '../../util'
 
-import { CustomTabBar } from '../../../components/CustomTabBar'
-import { Spin } from '../../../components/Spin'
-import { Url, header, height, width } from '../../../util'
-
-import { Cells } from './Cells'
-import { PageWithTab } from '../../../HOC/PageWithTab'
+import { connect } from 'react-redux'
+import { PageWithTab } from '../../HOC/PageWithTab'
+import { Cells } from '../GoodState/Views/Cells'
 
 const alert = msg => {
     Alert.alert('分享失败', msg, [{ text: '返回', style: 'cancel' }], {
@@ -36,8 +35,15 @@ class Attachment extends Component {
         loading: false
     }
     componentWillUnmount() {
-        this.props.clearAttach()
+        // this.props.clearAttach()
     }
+
+    componentDidMount() {
+        this.props.dispatch({
+            type: 'fetchAttachment'
+        })
+    }
+
     componentWillReceiveProps(nextProps) {
         if (!nextProps.image) return
 
@@ -56,6 +62,7 @@ class Attachment extends Component {
     }
     onShare = url => {
         let urlArray = []
+
         try {
             for (let i in this.state.images) {
                 if (this.state.images[i].choose) {
@@ -76,7 +83,9 @@ class Attachment extends Component {
             loading: true
         })
 
-        this.props.MarkAsSentToBuyer()
+        this.props.dispatch({
+            type: 'MarkAsSentToBuyer'
+        })
 
         try {
             if (Platform.OS === 'ios') {
@@ -115,7 +124,7 @@ class Attachment extends Component {
     CustomTabBarPress = (e, child, index) => {
         const { image } = this.props
         if (index === 0) {
-            this.props.ReturnAttach()
+            this.props.navigation.goBack()
         } else {
             if (image[0] === void 666) {
                 alert('目前还没有订单')
@@ -145,11 +154,7 @@ class Attachment extends Component {
             <View style={{ height: '100%' }}>
                 <View
                     style={{
-                        height:
-                            height -
-                            44 -
-                            margin -
-                            (Platform.OS === 'ios' ? 0 : 24),
+                        height: MarginTopIfNeeded(),
                         marginTop: margin,
                         backgroundColor: '#f5f5f5'
                     }}
@@ -232,4 +237,12 @@ class Attachment extends Component {
     }
 }
 
-export const Attach = PageWithTab(Attachment, ['返回', '发给客户'])
+const Attach = PageWithTab(Attachment, ['返回', '发给客户'])
+
+const mapState = state => {
+    return {
+        ...state.attachment
+    }
+}
+
+export default connect(mapState)(Attach)

@@ -3,21 +3,32 @@
  * 我的订单
  */
 import React, { Component } from 'react'
-import { View, Text, Dimensions, TouchableOpacity, Platform } from 'react-native'
+import {
+    View,
+    Text,
+    Dimensions,
+    TouchableOpacity,
+    Platform,
+    WebView
+} from 'react-native'
 import { connect } from 'react-redux'
 import { TabHead } from '../../components/Tab'
 import { Spin } from '../../components/Spin'
 
 import { All } from './Views/all'
-import { PageHeader } from '../../components/PageHeader';
-import { width } from '../../util';
-
+import { PageHeader } from '../../components/PageHeader'
+import { width } from '../../util'
 
 export const HeaderWithLeftArrow = ({ onPress, title }) => {
-
     return (
         <PageHeader>
-            <View style={{ alignItems: 'center', flexDirection: 'row', top: Platform.OS === 'ios' ? 10 : 0 }}>
+            <View
+                style={{
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    top: Platform.OS === 'ios' ? 10 : 0
+                }}
+            >
                 <TouchableOpacity onPress={onPress} style={{ width: 40 }}>
                     <View
                         style={{
@@ -37,8 +48,8 @@ export const HeaderWithLeftArrow = ({ onPress, title }) => {
                     style={{
                         fontSize: 18,
                         textAlign: 'center',
-                        backgroundColor: "transparent",
-                        width: width - 80,
+                        backgroundColor: 'transparent',
+                        width: width - 80
                     }}
                 >
                     {title}
@@ -49,7 +60,6 @@ export const HeaderWithLeftArrow = ({ onPress, title }) => {
 }
 
 class ManifestPage extends Component {
-
     static defaultProps = {
         orderList: [],
         spin: false
@@ -62,7 +72,7 @@ class ManifestPage extends Component {
     }
 
     componentWillUnmount() {
-        this.props.clear();
+        this.props.clear()
     }
     onTabChange = (e, child, index) => {
         this.props.fetch(index)
@@ -70,43 +80,61 @@ class ManifestPage extends Component {
             ActivateIndex: index
         })
     }
-    onItemPress = (item) => {
-        this.props.navigation.navigate('GoodState', { id: item.i, messageId: -1 })
+    onItemPress = item => {
+        this.props.navigation.navigate('GoodState', {
+            id: item.i,
+            messageId: -1
+        })
     }
 
-    goBack = () => this.props.navigation.goBack(null);
+    goBack = () => this.props.navigation.goBack(null)
 
     render() {
         return (
-            <View style={{ height: '100%', backgroundColor: "white" }}>
+            <View style={{ height: '100%', backgroundColor: 'white' }}>
                 <HeaderWithLeftArrow title={'订单详情'} onPress={this.goBack} />
                 <TabHead
                     tabItem={['全部', '待付款', '待发货', '待收货', '已收货']}
                     onPress={this.onTabChange}
                     ActivateIndex={this.state.ActivateIndex}
                 />
-                <View style={{ justifyContent: "center", alignItems: this.props.spin ? 'center' : null }}>
-                    {this.props.spin ? <Spin /> : <All list={this.props.orderList} append={() => { this.props.appendData(this.state.ActivateIndex) }} onPress={this.onItemPress} />}
+
+                <View
+                    style={{
+                        justifyContent: 'center',
+                        alignItems: this.props.spin ? 'center' : null
+                    }}
+                >
+                    {this.props.spin ? (
+                        <Spin />
+                    ) : (
+                        <All
+                            list={this.props.orderList}
+                            append={() => {
+                                this.props.appendData(this.state.ActivateIndex)
+                            }}
+                            onPress={this.onItemPress}
+                        />
+                    )}
                 </View>
             </View>
         )
     }
 }
 
-const mapState = (state) => {
+const mapState = state => {
     return {
         orderList: state.Manifest.list,
         spin: state.Manifest.spin
     }
 }
 
-const mapDispatch = (dispatch) => {
-
+const mapDispatch = dispatch => {
     return {
-        fetch: (select) => dispatch({ type: 'fetchData', select: select }),
-        clear: () => dispatch({ type: "clearManifest" }),
-        appendData: (select) => dispatch({ type: 'appendData', select: select }),
-        onPress: (item) => dispatch({ type: 'itemPress', item: item })
+        fetch: select => dispatch({ type: 'fetchData', select: select }),
+        clear: () => dispatch({ type: 'clearManifest' }),
+        appendData: select => dispatch({ type: 'appendData', select: select }),
+        onPress: item => dispatch({ type: 'itemPress', item: item })
     }
 }
 

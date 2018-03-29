@@ -1,38 +1,37 @@
-import { watch as PriceList } from './pages/PriceList/action';
-import { watch as Detail } from './pages/Detail/action';
-import { watch as Cart } from './pages/Cart/action';
-import { watch as Manifest } from './pages/Manifest/action';
-import { watch as GoodState } from './pages/GoodState/action';
-import { watch as Home } from './pages/Home/action';
-import { watch as EventPage } from './pages/EventPage/action';
-import { watch as SearchPage } from './pages/SearchPage/action';
-import { watch as Category } from './pages/Category/action';
-import { watch as Activity } from './pages/Activity/action';
-import { watch as Person } from './pages/Person/action';
-import { watch as Deposite } from './pages/DepositeLog/action';
-import { watch as Password } from './pages/Password/action';
-import { watch as Login } from './pages/Login/action';
-import { actionStategy as Profile } from './pages/Profile/action';
-import { actionStategy as Message } from './pages/Message/action';
-import { actionStategy as Feedback } from './pages/Feedback/action';
-import { actionStategy as FeedbackForm } from './pages/FeedbackForm/action';
-import { actionStategy as FeedbackReply } from './pages/FeedbackReply/action';
-import { actionStategy as FeedbackReplyForm } from './pages/FeedbackReplyForm/action';
-import { actionStategy as Settle } from './pages/Settle/action';
+import { watch as PriceList } from './pages/PriceList/action'
+import { watch as Detail } from './pages/Detail/action'
+import { watch as Cart } from './pages/Cart/action'
+import { watch as Manifest } from './pages/Manifest/action'
+import { watch as GoodState } from './pages/GoodState/action'
+import { watch as Home } from './pages/Home/action'
+import { watch as EventPage } from './pages/EventPage/action'
+import { watch as SearchPage } from './pages/SearchPage/action'
+import { watch as Category } from './pages/Category/action'
+import { watch as Activity } from './pages/Activity/action'
+import { watch as Person } from './pages/Person/action'
+import { watch as Deposite } from './pages/DepositeLog/action'
+import { watch as Password } from './pages/Password/action'
+import { watch as Login } from './pages/Login/action'
+import { actionStategy as Profile } from './pages/Profile/action'
+import { actionStategy as Message } from './pages/Message/action'
+import { actionStategy as Feedback } from './pages/Feedback/action'
+import { actionStategy as FeedbackForm } from './pages/FeedbackForm/action'
+import { actionStategy as FeedbackReply } from './pages/FeedbackReply/action'
+import { actionStategy as FeedbackReplyForm } from './pages/FeedbackReplyForm/action'
+import { actionStategy as Settle } from './pages/Settle/action'
 
-import { fork, take, select, call, put } from 'redux-saga/effects';
-import { takeEvery } from 'redux-saga';
-
+import { fork, take, select, call, put } from 'redux-saga/effects'
+import { takeEvery } from 'redux-saga'
 
 function convert(actionStategy) {
     return Object.keys(actionStategy)
 }
 
-const watchCreator = (actionStategy) => {
+const watchCreator = actionStategy => {
     const actionList = convert(actionStategy)
-    return function* () {
+    return function*() {
         while (true) {
-            const { type, ...others } = yield take(actionList);
+            const { type, ...others } = yield take(actionList)
             try {
                 const state = yield select(state => state)
                 const actionFn = actionStategy[type]
@@ -45,79 +44,78 @@ const watchCreator = (actionStategy) => {
     }
 }
 
-const rootWatch = (actionStategys) => {
-    return actionStategys.map((actionStategy) => {
-
+const rootWatch = actionStategys => {
+    return actionStategys.map(actionStategy => {
         return fork(watchCreator(actionStategy))
     })
 }
 
-
 class Rluy {
     constructor() {
-        this.sagaMiddleware = {};
-        this.appReducers = {};
-        this.actionStategy = [];
-        this.effects = {};
+        this.sagaMiddleware = {}
+        this.appReducers = {}
+        this.actionStategy = []
+        this.effects = {}
     }
     onError(e) {
-        console.log(e);
+        console.log(e)
     }
     *rootWatcher() {
         while (1) {
-
-            const { type, ...others } = yield take(this.actionStategy);
-            const fn = this.effects[type];
+            const { type, ...others } = yield take(this.actionStategy)
+            const fn = this.effects[type]
             try {
                 if (fn !== void 666) {
-                    yield call(fn, { fork, take, select, call, put }, others);
+                    yield call(fn, { fork, take, select, call, put }, others)
                 }
             } catch (e) {
-                this.onError(e);
+                this.onError(e)
             }
         }
     }
     *rootSaga() {
-        yield all([
-            fork(this.rootWatcher.bind(this))
-        ])
+        yield all([fork(this.rootWatcher.bind(this))])
     }
 
     model(Module) {
-        const model = Module.default;
+        const model = Module.default
 
-        const namespace = model.namespace;
+        const namespace = model.namespace
         if (namespace === void 666) {
-            throw new SyntaxError('模块缺少命名空间');
+            throw new SyntaxError('模块缺少命名空间')
         }
         if (this.appReducers[namespace]) {
-            throw new SyntaxError(`模块${namespace}已经存在`);
+            throw new SyntaxError(`模块${namespace}已经存在`)
         }
 
-        Object.keys(model.effects).forEach((key) => {
-            this.actionStategy.push(key);
-            this.effects[key] = model.effects[key];
+        Object.keys(model.effects).forEach(key => {
+            this.actionStategy.push(key)
+            this.effects[key] = model.effects[key]
         })
 
-        const modelState = model.state || {};
+        const modelState = model.state || {}
         const reducer = (state = modelState, { type, payload }) => {
-
-            const func = model.reducers[type];
+            const func = model.reducers[type]
             if (func) {
-                return func(state, { type, payload });
+                return func(state, { type, payload })
             }
-            return state;
+            return state
         }
-        this.appReducers[namespace] = reducer;
+        this.appReducers[namespace] = reducer
     }
 }
 
-const app = new Rluy();
+const app = new Rluy()
 app.model(require('./pages/Address/Address'))
 app.model(require('./pages/ImageViewer/ImageViewer'))
 app.model(require('./pages/FeedbackForm/FeedbackForm'))
 app.model(require('./pages/FreeItem/FreeItemModel'))
-export const App = app;
+app.model(require('./pages/payment/payment'))
+app.model(require('./pages/GoodState/product-detail'))
+app.model(require('./pages/ProductHistory/product-history'))
+app.model(require('./pages/Attachment/attachment'))
+app.model(require('./pages/Loading/index'))
+export const App = app
 
 export default function* rootSaga() {
     const watchList = rootWatch([

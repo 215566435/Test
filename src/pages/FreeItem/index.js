@@ -54,7 +54,6 @@ class FreeItem extends Component {
         }
     }
     handleOnChange = (choosenGood) => {
-        console.log(choosenGood)
         this.choosenGood = choosenGood;
     }
     handleCancelPress = () => {
@@ -77,6 +76,7 @@ class FreeItem extends Component {
 
     render() {
         const { currentGood, modal } = this.props;
+       console.log(currentGood)
         return (
             <View style={{ height: height - 44, backgroundColor: 'white' }}>
                 <View style={{ backgroundColor: 'white', flexDirection: 'row', flexWrap: 'wrap' }}>
@@ -89,6 +89,7 @@ class FreeItem extends Component {
                     property={currentGood.ss}
                     pt={currentGood.pt}
                     onChange={this.handleOnChange}
+                    goodsImage={currentGood.ci}
                 >
                     <Button title={'确定'} onPress={this.handleConfirm} />
                     <Button title={'返回'} onPress={this.handleCancelPress} />

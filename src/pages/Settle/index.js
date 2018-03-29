@@ -74,13 +74,16 @@ class Settle extends Component {
         if (index === 0) {
             this.props.navigation.goBack(null)
         }
+
         if (index === 1) {
             const { promotionsSum, freeItems } = this.props
+            console.log(promotionsSum.length)
             if (promotionsSum.length === 0) {
                 var hasOpptunity = false
                 Object.keys(freeItems).forEach(() => {
                     hasOpptunity = true
                 })
+
                 if (hasOpptunity) {
                     Alert.alert(
                         '赠品提示',
@@ -109,6 +112,13 @@ class Settle extends Component {
                         instance: this
                     })
                 }
+            } else {
+                this.props.dispatch({
+                    type: 'createOrder',
+                    their_commits: this.their_commits,
+                    mycommits: this.mycommits,
+                    instance: this
+                })
             }
         }
     }

@@ -3,23 +3,31 @@ import { View, Text, TouchableOpacity, Image, Platform, ScrollView } from 'react
 
 import { Spin } from '../../../components/Spin';
 import { Stepper } from '../../../components/Stepper';
+import { CDN_URL } from '../../../NetworkManager/CdnManager';
+
+
 
 export class Pop extends Component {
     state = {
         x: 0,
         y: 0,
+        imageIndex:0
     }
+
     choose = (x, y) => {
         const { property, onChange } = this.props;
         if (onChange) onChange(property[x][y]);
+        
+        const index = property[x][y].i
         this.setState({
             x: x,
-            y: y
+            y: y,
+            imageIndex:index?index:0
         })
     }
 
     render() {
-        const { title, uri, property, onChange } = this.props;
+        const { title, uri, property, onChange,goodsImage } = this.props;
         const { x, y } = this.state;
         var fixProperty = property !== void 666 ? property[x][y] : null;
         if (!fixProperty) {
@@ -35,12 +43,11 @@ export class Pop extends Component {
         if (onChange && fixProperty) onChange(fixProperty);
 
         if (!fixProperty) return null;
-     
         return (
             <View style={{ padding: 10 }}>
                 <View style={{ flexDirection: 'row' }}>
                     <View >
-                        <Image resizeMode='contain' style={{ height: 100, width: 100 }} source={{ uri: uri }} />
+                        <Image resizeMode='contain' style={{ height: 100, width: 100 }} source={{ uri:CDN_URL+ goodsImage[this.state.imageIndex]+`?width=${300}` + `&height=${300}` }} />
                     </View>
                     <View style={{ marginLeft: 10, width: 200, padding: 5, justifyContent: 'center' }}>
                         <Text style={{ backgroundColor: "transparent" }}>{title}</Text>
@@ -161,7 +168,6 @@ class Spes extends Component {
         x: 0,
         y: 0
     }
-
     renderTwo = () => {
         const { property, pt } = this.props;
 

@@ -17,6 +17,9 @@ export class Cells extends Component {
     }
 }
 
+
+
+
 export class NewCell extends Component {
     static defaultProps = {
         TextColors: []
@@ -28,7 +31,7 @@ export class NewCell extends Component {
             if (typeof prop === 'string') {
                 return <Text style={{ backgroundColor: "transparent", color: TextColors[index] === void 666 ? 'black' : TextColors[index] }}>{prop}</Text>
             }
-            return prop;
+            return null
         })
 
     }

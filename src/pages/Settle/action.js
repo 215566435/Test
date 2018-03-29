@@ -134,7 +134,7 @@ export const actionStategy = {
     },
     createOrder: function* (state, others) {
         const { instance } = others;
-        console.log(state.Settle)
+        console.log('来到这里')
         const json = yield fetchApi({
             url: Url + 'order/create',
             body: {
@@ -145,6 +145,7 @@ export const actionStategy = {
                 t: state.Settle.t
             }
         })
+        
         if (json.success !== true) {
             Alert.alert('下单失败', json.message)
             return

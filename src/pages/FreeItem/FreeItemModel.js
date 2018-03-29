@@ -31,8 +31,6 @@ export default {
         },
         handleConfirm: function* ({ put }, { payload: { choosenGood, instance, key } }) {
             const json = yield CartManager.addFreeItem(choosenGood.id, key);
-
-            console.log(json.data.freeItems)
             if (json.data.freeItems[key].errorMsg !== null) {
 
                 Alert.alert(

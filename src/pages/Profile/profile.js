@@ -60,12 +60,10 @@ class Profile extends React.Component {
             })
         })(this)
     }
-
     componentDidMount() {
         this.fetchBalance()
         this.checkLogin()
     }
-
     /**
      * 处理用户6个方块的选择
      */

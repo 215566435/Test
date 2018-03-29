@@ -207,6 +207,7 @@ class DetailPage extends Component {
                     property={this.props.property}
                     pt={this.props.pt}
                     onChange={this.onPopChange}
+                    goodsImage={this.props.goodsImage}
                 />
             </Popup>
         )
@@ -351,6 +352,7 @@ const mapState = (state) => {
             height: item.height
         }
     })
+    console.log('state.Detail',state.Detail)
     return {
         title: detail.page.n,
         CarouselImage: ImgList,
@@ -360,7 +362,8 @@ const mapState = (state) => {
         content: contentSelector(detail.page.c),
         price: detail.page.ap.p,
         price2: detail.page.ap.p2,
-        shareText: detail.page.shareTexts
+        shareText: detail.page.shareTexts,
+        goodsImage:detail.page.is
     }
 }
 

@@ -1,24 +1,21 @@
-import { call, put, take, select } from 'redux-saga/effects';
-import { Url, header } from '../../util';
-import { Alert } from 'react-native';
-
+import { call, put, take, select } from 'redux-saga/effects'
+import { Url, header } from '../../util'
+import { Alert } from 'react-native'
 
 function* fetchSelect({ url, body }) {
     const res = yield call(fetch, url, {
         method: 'POST',
         headers: header.get(),
-        body: JSON.stringify(body),
+        body: JSON.stringify(body)
     })
-    return yield res.json();
+    return yield res.json()
 }
 
-
-
 const actionStategy = {
-    fetchGoodState: function* (state, others) {
-        const id = others.id;
-        const messageId = others.messageId;
-        const memberId = others.memberId;
+    fetchGoodState: function*(state, others) {
+        const id = others.id
+        const messageId = others.messageId
+        const memberId = others.memberId
         const json = yield fetchSelect({
             url: Url + 'order/get',
             body: {
@@ -27,15 +24,24 @@ const actionStategy = {
                 memberId: memberId
             }
         })
+
+        const c = yield fetchSelect({
+            url: Url + 'payment/PayOrderBySupay',
+            body: {
+                orderId: json.data.oi,
+                PaymentMethodId: 58
+            }
+        })
+        console.log(c)
         yield put({
-            type: "GoodState_SET_STATE",
+            type: 'GoodState_SET_STATE',
             data: { ...state, model: json.data }
         })
     },
-    GetLog: function* (state) {
-        const id = state.model.i;
+    GetLog: function*(state) {
+        const id = state.model.i
         yield put({
-            type: "GoodState_SET_STATE",
+            type: 'GoodState_SET_STATE',
             data: { ...state, log: true }
         })
         const json = yield fetchSelect({
@@ -43,14 +49,14 @@ const actionStategy = {
             body: {}
         })
         yield put({
-            type: "GoodState_SET_STATE",
+            type: 'GoodState_SET_STATE',
             data: { ...state, LogData: json.data, log: true }
         })
     },
-    GetAttach: function* (state) {
-        const id = state.model.i;
+    GetAttach: function*(state) {
+        const id = state.model.i
         yield put({
-            type: "GoodState_SET_STATE",
+            type: 'GoodState_SET_STATE',
             data: { ...state, attach: true }
         })
         const json = yield fetchSelect({
@@ -59,24 +65,23 @@ const actionStategy = {
         })
 
         yield put({
-            type: "GoodState_SET_STATE",
+            type: 'GoodState_SET_STATE',
             data: { ...state, image: json.data, attach: true }
         })
     },
-    ReturnAttach: function* (state) {
-
+    ReturnAttach: function*(state) {
         yield put({
-            type: "GoodState_SET_STATE",
+            type: 'GoodState_SET_STATE',
             data: { ...state, image: null, attach: false }
         })
     },
-    LogReturn: function* (state) {
+    LogReturn: function*(state) {
         yield put({
-            type: "GoodState_SET_STATE",
+            type: 'GoodState_SET_STATE',
             data: { ...state, log: false, LogData: null }
         })
     },
-    onGoodPress: function* (state, others) {
+    onGoodPress: function*(state, others) {
         const PriceListState = yield select(allState => allState.PriceList)
         yield put({
             type: 'SET_STATE',
@@ -84,8 +89,7 @@ const actionStategy = {
         })
         others.instance.props.navigation.navigate('ManifestDetail')
     },
-    Pay: function* (state, others) {
-
+    Pay: function*(state, others) {
         console.log(others)
         yield put({
             type: 'GoodState_SET_STATE',
@@ -101,20 +105,15 @@ const actionStategy = {
 
         if (json.success) {
             yield put({
-                type: "GoodState_SET_STATE",
+                type: 'GoodState_SET_STATE',
                 data: { ...state, model: json.data, Payment: false }
             })
         } else {
-            Alert.alert(
-                '支付失败',
-                json.message,
-                [
-                    { text: '确定' },
-                ],
-                { cancelable: false }
-            )
+            Alert.alert('支付失败', json.message, [{ text: '确定' }], {
+                cancelable: false
+            })
             yield put({
-                type: "GoodState_SET_STATE",
+                type: 'GoodState_SET_STATE',
                 data: { ...state, Payment: false }
             })
         }
@@ -123,32 +122,23 @@ const actionStategy = {
             type: 'fetchData'
         })
     },
-    MarkAsSentToBuyer: function* (state) {
-        const json = yield fetchSelect({
-            url: Url + 'order/MarkAsSentToBuyer',
-            body: {
-                id: state.model.i
-            }
-        })
-    },
-    clearGoodState: function* (state) {
+    clearGoodState: function*(state) {
         yield put({
-            type: "GoodState_SET_STATE",
+            type: 'GoodState_SET_STATE',
             data: { ...state, model: {} }
         })
     }
 }
 
-
 function convert() {
     return Object.keys(actionStategy)
 }
 
-export const watch = function* () {
+export const watch = function*() {
     const actionList = convert()
 
     while (true) {
-        const { type, ...others } = yield take(actionList);
+        const { type, ...others } = yield take(actionList)
         try {
             const state = yield select(state => state.GoodState)
             const actionFn = actionStategy[type]
