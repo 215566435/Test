@@ -9,6 +9,7 @@
     "react-test-renderer": "16.0.0-alpha.12"
   },
   "scripts": {
+    "log": "react-native log-ios",
     "start": "react-native start",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -23,12 +24,14 @@
     "looka": "code-push deployment ls austgo-android -k",
     "builda": "./publisha.sh",
     "flow": "flow",
-    "install": "./android/install-android.sh"
+    "install": "./android/install-android.sh",
+    "buildall": "npm run build && npm run builda"
   },
   "jest": {
     "preset": "jest-expo"
   },
   "dependencies": {
+    "antd-mobile": "^2.1.8",
     "babel": "^6.23.0",
     "babel-plugin-transform-remove-console": "^6.8.5",
     "babel-plugin-transform-runtime": "^6.23.0",

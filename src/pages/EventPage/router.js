@@ -5,7 +5,7 @@ import { StackNavigator } from 'react-navigation'; // 1.0.0-beta.14
 import EventPage from './index';
 import DetailPage from '../Detail';
 import Cart from '../Cart';
-import Settle from '../Settle';
+// import Settle from '../Settle';
 import Search from '../SearchPage';
 import Activity from '../Activity'
 
@@ -41,14 +41,14 @@ export default StackNavigator(
                 gesturesEnabled: true
             }
         },
-        Settle: {
-            screen: (props) => <Settle {...props} />,
-            navigationOptions: {
-                header: null,
-                tabBarVisible: false,
-                gesturesEnabled: true
-            }
-        },
+        // Settle: {
+        //     screen: (props) => <Settle {...props} />,
+        //     navigationOptions: {
+        //         header: null,
+        //         tabBarVisible: false,
+        //         gesturesEnabled: true
+        //     }
+        // },
         Activity: {
             screen: Activity,
             navigationOptions: {

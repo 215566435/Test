@@ -12,7 +12,6 @@ import { Tips } from '../../components/Tips';
 import { Stepper } from '../../components/Stepper';
 import { stateBarMargin } from '../../util';
 
-import SettlePage from '../Settle'
 
 import { Header } from './Views/Header';
 import { CheckBox } from './Views/CheckBox';
@@ -72,7 +71,7 @@ class Cart extends Component {
     onPress = (e, child, index) => {
         console.log(index)
         if (index === 1) {//结算
-            this.props.navigation.navigate('Settle')
+            this.props.navigation.navigate('Settle_remake')
             // this.props.checkOut(this);
         }
     }
@@ -125,7 +124,7 @@ class Cart extends Component {
             <View>
                 <Header {...props} />
                 <View style={{ height: height - (43/* 头的宽度*/ + stateBarMargin(0)/* 状态栏高度*/ + 44/* 底部状态栏*/) - (Platform.OS === 'ios' ? 0 : 24) }} >
-                    {this.props.message ? <Text style={{ textAlign: "center", color: 'white', backgroundColor: '#ff4d4f' }}>{this.props.message}</Text> : null}
+                    {/* {this.props.message ? <Text style={{ textAlign: "center", color: 'white', backgroundColor: '#ff4d4f' }}>{this.props.message}</Text> : null} */}
                     {this.renderFlatList()}
                 </View>
                 {this.renderTabBar()}
