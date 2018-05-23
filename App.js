@@ -1,3 +1,9 @@
+/**
+ * 方正
+ * 这个文件是 app 顶部的 container
+ * 这个文件控制着线上环境的 code-push 
+ * 具体教程，可以看：https://github.com/zhangyu921/blog/issues/5
+ */
 import React from 'react';
 import { Platform } from 'react-native';
 import codePush from "react-native-code-push";

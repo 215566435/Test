@@ -1,6 +1,7 @@
 /**
- *  2017/10/31 方正 创建
- * 商品分类
+ * 方正
+ * 地址选择页面
+ * 个人中心里的页面
  */
 import React, { Component } from 'react'
 import { View, ScrollView, Text, Platform, Picker, Modal, FlatList, Dimensions } from 'react-native'

@@ -1,3 +1,6 @@
+/**
+ * 订单附件的文件
+ */
 import React, { Component } from 'react'
 import {
     View,
