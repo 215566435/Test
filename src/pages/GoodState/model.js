@@ -1,3 +1,9 @@
+/**
+ * 方正
+ * 久的逻辑
+ * 重构以后，这里大部分没用了
+ */
+
 export class Model {
     constructor(props) {
         this.Id = props.i;
