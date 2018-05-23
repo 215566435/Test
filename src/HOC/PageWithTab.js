@@ -41,17 +41,7 @@ export const PageWithTab = (Cpn, TabItem, TabColor = ['white'], update = false) 
             }}
           >
             {React.Children.map(TabItem, (item, index) => {
-<<<<<<< HEAD
-              return (
-                <Text
-                  style={{ backgroundColor: 'transparent', color: 'black' }}
-                >
-                  {item}
-                </Text>
-              )
-=======
               return <Text style={{ backgroundColor: 'transparent', color: 'black' }}>{item}</Text>
->>>>>>> master
             })}
           </CustomTabBar>
         </View>

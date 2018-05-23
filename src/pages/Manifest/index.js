@@ -94,7 +94,6 @@ class ManifestPage extends Component {
             <Text>{this.props.count}</Text>
           </View>
           <View>
-            <Text>{this.props.count}</Text>
             <FlatList
               data={this.props.orderList || []}
               renderItem={row}
