@@ -1,6 +1,8 @@
 /**
- *  2017/10/31 方正 创建
+ * 方正
  * 商品分类
+ * 建议使用 dva 模式进行重写
+ * 
  */
 
 import React, { Component } from 'react';

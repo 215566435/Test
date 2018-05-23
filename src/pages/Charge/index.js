@@ -1,6 +1,6 @@
 /**
- *  2017/10/31 方正 创建
- * 商品分类
+ *  支付宝充值页面
+ * 使用上了 webview
  */
 import React, { Component } from 'react'
 import { View, Text, AppState } from 'react-native'
