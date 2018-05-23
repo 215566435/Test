@@ -1,3 +1,7 @@
+/**
+ * 没什么用的
+ */
+
 const data = require('./message.json');
 
 const res = (pro = null, string = null) => {

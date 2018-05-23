@@ -1,3 +1,9 @@
+/**
+ * 方正
+ * 这是一个老的文件，现在有了 dva 封装，这个文件就不需要修改了
+ * 使用类 dva 重构完毕后，可以删除这里的代码
+ */
+
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 
 import createSagaMiddleware from 'redux-saga'

@@ -1,3 +1,8 @@
+/**
+ * 方正
+ * 这是老代码，建议使用 dva 模式进行重构
+ * 这个文件是活动页，就是 tab 按钮的最左边的页面
+ */
 import React, { Component } from 'react';
 import { View, StyleSheet, Dimensions, Platform } from 'react-native';
 import { connect } from 'react-redux';

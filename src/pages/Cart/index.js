@@ -1,5 +1,6 @@
 /**
- * 2017/11/02 方正创建
+ * 购物车的逻辑
+ * 建议使用 dva 模式封装
  */
 import React, { Component } from 'react';
 import { View, ScrollView, Dimensions, Text, TouchableOpacity, FlatList, Image, Animated, Modal, Platform } from 'react-native'

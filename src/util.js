@@ -1,3 +1,8 @@
+/**
+ * 方正
+ * 这个文件是一些工具类，并不是很重要，看不懂可以不理
+ */
+
 import { Platform, AsyncStorage, Dimensions } from 'react-native'
 import React from 'react'
 import { call, put, take, select } from 'redux-saga/effects'

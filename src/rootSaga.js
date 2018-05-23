@@ -1,3 +1,11 @@
+/**
+ * 方正
+ * 有了类 dva 的封装
+ * 不需要再使用其他的代码，唯一有用的代码是
+ * class Rluy 以及
+ * app.model
+ */
+
 import { watch as PriceList } from './pages/PriceList/action'
 import { watch as Detail } from './pages/Detail/action'
 import { watch as Cart } from './pages/Cart/action'

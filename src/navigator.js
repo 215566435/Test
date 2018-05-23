@@ -1,3 +1,8 @@
+/**
+ * 路由router文件
+ * 如果你想要引入页面，就在这里定义
+ */
+
 import React from 'react'
 import { View, Text, Platform } from 'react-native'
 import { TabNavigator, StackNavigator } from 'react-navigation' // 1.0.0-beta.14

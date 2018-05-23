@@ -1,3 +1,10 @@
+/**
+ * 方正
+ * 这是老代码，建议使用 dva 模式进行重构
+ * 这个是活动页的 action 文件
+ */
+
+
 import { call, put, take, select } from 'redux-saga/effects';
 import { fetchApi, Url } from '../../util';
 import { ToastAndroid } from 'react-native'

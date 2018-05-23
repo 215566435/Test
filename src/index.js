@@ -1,3 +1,9 @@
+/**
+ * 方正
+ * App 的入口文件，一般来说不用修改
+ * 如果要修改，请联系我
+ */
+
 import React from 'react'
 import * as WeChat from 'react-native-wechat'
 import RootTabs from './navigator'
