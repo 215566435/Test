@@ -31,19 +31,21 @@ class SettleEditAddress extends React.Component {
     if (!receiver) return
 
     if (this.isSender()) {
-      this.setState({
-        billName: sender.billName,
-        billPhone: sender.billPhone,
-        idNumber: sender.idNumber,
-        billAddress: sender.billAddress
-      })
+      if (sender)
+        this.setState({
+          billName: sender.billName,
+          billPhone: sender.billPhone,
+          idNumber: sender.idNumber,
+          billAddress: sender.billAddress
+        })
     } else {
-      this.setState({
-        billName: receiver.billName,
-        billPhone: receiver.billPhone,
-        idNumber: receiver.idNumber,
-        billAddress: receiver.billAddress
-      })
+      if (receiver)
+        this.setState({
+          billName: receiver.billName,
+          billPhone: receiver.billPhone,
+          idNumber: receiver.idNumber,
+          billAddress: receiver.billAddress
+        })
     }
   }
 

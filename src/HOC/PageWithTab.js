@@ -43,7 +43,7 @@ export const PageWithTab = (Cpn, TabItem, TabColor=['white'], update = false) =>
             {React.Children.map(TabItem, (item, index) => {
               return (
                 <Text
-                  style={{ backgroundColor: 'transparent', color: TabColor[index] !== 'white' ? 'white' : 'black' }}
+                  style={{ backgroundColor: 'transparent', color: 'black' }}
                 >
                   {item}
                 </Text>
