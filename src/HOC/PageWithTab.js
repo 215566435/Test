@@ -10,7 +10,7 @@ import { width, height } from '../util'
  * @param {array} TabColor:每个按钮的颜色
  * @param {bool} update:tabbar是否拥有更新能力
  */
-export const PageWithTab = (Cpn, TabItem, TabColor=['white'], update = false) => {
+export const PageWithTab = (Cpn, TabItem, TabColor = ['white'], update = false) => {
   return class Wrapper extends Component {
     CustomTabBarPress = (e, child, index) => {
       if (this.page.CustomTabBarPress === void 666) {
@@ -41,6 +41,7 @@ export const PageWithTab = (Cpn, TabItem, TabColor=['white'], update = false) =>
             }}
           >
             {React.Children.map(TabItem, (item, index) => {
+<<<<<<< HEAD
               return (
                 <Text
                   style={{ backgroundColor: 'transparent', color: 'black' }}
@@ -48,6 +49,9 @@ export const PageWithTab = (Cpn, TabItem, TabColor=['white'], update = false) =>
                   {item}
                 </Text>
               )
+=======
+              return <Text style={{ backgroundColor: 'transparent', color: 'black' }}>{item}</Text>
+>>>>>>> master
             })}
           </CustomTabBar>
         </View>
