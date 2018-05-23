@@ -114,6 +114,9 @@ app.model(require('./pages/Attachment/attachment'))
 app.model(require('./pages/Loading/index'))
 app.model(require('./pages/Charge/charge'))
 app.model(require('./pages/Settle/remake_settle'))
+app.model(require('./pages/Manifest/model'))
+// https://github.com/Foveluy/Rluy#model
+
 
 export const App = app
 

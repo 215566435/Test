@@ -3,14 +3,7 @@
  * 我的订单
  */
 import React, { Component } from 'react'
-import {
-    View,
-    Text,
-    Dimensions,
-    TouchableOpacity,
-    Platform,
-    WebView
-} from 'react-native'
+import { View, Text, FlatList, Image } from 'react-native'
 import { connect } from 'react-redux'
 import { TabHead } from '../../components/Tab'
 import { Spin } from '../../components/Spin'
@@ -19,123 +12,108 @@ import { All } from './Views/all'
 import { PageHeader } from '../../components/PageHeader'
 import { width } from '../../util'
 
-export const HeaderWithLeftArrow = ({ onPress, title }) => {
-    return (
-        <PageHeader>
-            <View
-                style={{
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                    top: Platform.OS === 'ios' ? 10 : 0
-                }}
-            >
-                <TouchableOpacity onPress={onPress} style={{ width: 40 }}>
-                    <View
-                        style={{
-                            borderLeftWidth: 2,
-                            borderBottomWidth: 2,
-                            marginLeft: 10,
-                            height: 15,
-                            width: 15,
-                            transform: [
-                                { rotateZ: '45deg' },
-                                { perspective: 1000 }
-                            ]
-                        }}
-                    />
-                </TouchableOpacity>
-                <Text
-                    style={{
-                        fontSize: 18,
-                        textAlign: 'center',
-                        backgroundColor: 'transparent',
-                        width: width - 80
-                    }}
-                >
-                    {title}
-                </Text>
-            </View>
-        </PageHeader>
-    )
-}
+import { Tabs, WhiteSpace, Badge, Button } from 'antd-mobile'
+import Row from './row'
+
+const data = [
+  {
+    img: 'https://zos.alipayobjects.com/rmsportal/dKbkpPXKfvZzWCM.png',
+    title: 'Meet hotel',
+    des: '不是所有的兼职汪都需要风吹日晒'
+  },
+  {
+    img: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
+    title: "McDonald's invites you",
+    des: '不是所有的兼职汪都需要风吹日晒'
+  },
+  {
+    img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+    title: 'Eat the week',
+    des: '不是所有的兼职汪都需要风吹日晒'
+  }
+]
+const NUM_ROWS = 20
+let pageIndex = 0
+
+const tabs = [{ title: '全部' }, { title: '待付款' }, { title: '待发货' }, { title: '待收货' }, { title: '已收货' }]
 
 class ManifestPage extends Component {
-    static defaultProps = {
-        orderList: [],
-        spin: false
-    }
-    state = {
-        ActivateIndex: 0
-    }
-    componentDidMount() {
-        this.props.fetch(0)
-    }
+  constructor(props) {
+    super(props)
 
-    componentWillUnmount() {
-        this.props.clear()
-    }
-    onTabChange = (e, child, index) => {
-        this.props.fetch(index)
-        this.setState({
-            ActivateIndex: index
-        })
-    }
-    onItemPress = item => {
-        this.props.navigation.navigate('GoodState', {
-            id: item.i,
-            messageId: -1
-        })
-    }
+    const dataSource = data
 
-    goBack = () => this.props.navigation.goBack(null)
-
-    render() {
-        return (
-            <View style={{ height: '100%', backgroundColor: 'white' }}>
-                <HeaderWithLeftArrow title={'订单详情'} onPress={this.goBack} />
-                <TabHead
-                    tabItem={['全部', '待付款', '待发货', '待收货', '已收货']}
-                    onPress={this.onTabChange}
-                    ActivateIndex={this.state.ActivateIndex}
-                />
-
-                <View
-                    style={{
-                        justifyContent: 'center',
-                        alignItems: this.props.spin ? 'center' : null
-                    }}
-                >
-                    {this.props.spin ? (
-                        <Spin />
-                    ) : (
-                        <All
-                            list={this.props.orderList}
-                            append={() => {
-                                this.props.appendData(this.state.ActivateIndex)
-                            }}
-                            onPress={this.onItemPress}
-                        />
-                    )}
-                </View>
-            </View>
-        )
+    this.state = {
+      dataSource,
+      isLoading: true
     }
+  }
+  static defaultProps = {
+    orderList: [],
+    spin: false
+  }
+
+  goBack = () => this.props.navigation.goBack(null)
+
+  handleChange = (tab, index) => {
+    console.log(tab)
+  }
+
+  handleOnPress = () => {
+    this.props.dispatch({
+      type: 'increase',
+      payload: Date.now()
+    })
+  }
+
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'fetchOrderList'
+    })
+  }
+
+  render() {
+    let index = data.length - 1
+    const row = ({ item, index }) => {
+      console.log(item)
+      return <Row item={item} onPress={this.handleOnPress} />
+    }
+    return (
+      <View style={{ height: '100%', backgroundColor: 'white', marginTop: 24 }}>
+        <Tabs
+          onChange={this.handleChange}
+          tabs={tabs}
+          initialPage={1}
+          animated={true}
+          useOnPan={false}
+          swipeable={true}
+        >
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', height: 40, padding: 5 }}
+          >
+            <Text>{this.props.count}</Text>
+          </View>
+          <View>
+            <Text>{this.props.count}</Text>
+            <FlatList
+              data={this.props.orderList || []}
+              renderItem={row}
+              keyExtractor={i => {
+                return i.i
+              }}
+              pageSize={4}
+            />
+          </View>
+        </Tabs>
+      </View>
+    )
+  }
 }
 
-const mapState = state => {
-    return {
-        orderList: state.Manifest.list,
-        spin: state.Manifest.spin
-    }
+const mapState = wholeState => {
+  return {
+    ...wholeState.manifest
+  }
 }
 
-const mapDispatch = dispatch => {
-    return {
-        fetch: select => dispatch({ type: 'fetchData', select: select }),
-        clear: () => dispatch({ type: 'clearManifest' }),
-        appendData: select => dispatch({ type: 'appendData', select: select }),
-        onPress: item => dispatch({ type: 'itemPress', item: item })
-    }
-}
-
-export default connect(mapState, mapDispatch)(ManifestPage)
+export default connect(mapState)(ManifestPage)
