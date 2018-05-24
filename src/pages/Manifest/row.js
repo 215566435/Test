@@ -13,11 +13,11 @@ const Block = ({ itemTop, itemBottom, color = ['black', 'black'] }) => (
   </View>
 )
 
-const Orderstate = {
+const PaymentStatus = {
   Cancelled: '已取消',
   NotConfirmed: '待确认',
-  Nopaid: '待支付',
-  Paid: '已支付',
+  NotPaid: '待付款',
+  Paid: '待发货',
   Finished: '已完成'
 }
 
@@ -41,7 +41,7 @@ function getTime(timeString) {
   return date + ' ' + time;
 }
 
-const HeadList = ({ orderId, dateTime, childOrder, orderShipment, orderShipmentCn, payment }) => (
+const HeadList = ({ orderId, dateTime, childOrder, customerName, isPickup, payment }) => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', height: 40, padding: 5,borderBottomWidth: 1, borderBottomColor: '#d9d9d9' }}>
     <View>
       <Text>{orderId}</Text>
@@ -50,12 +50,12 @@ const HeadList = ({ orderId, dateTime, childOrder, orderShipment, orderShipmentC
     <View>
       <Text style={{ marginLeft: -15 }}>{childOrder}</Text>
     </View>
+      <View>
+        <Text >{customerName}</Text>
+        <Text style={{ fontSize: 9 }}>{isPickup}</Text>
+      </View>
     <View>
-      <Text>{orderShipment}</Text>
-      <Text style={{ fontSize: 9 }}>{orderShipmentCn}</Text>
-    </View>
-    <View>
-      <Text>{payment}</Text>
+      <Text style={{color:'#fa541c'}}>{payment}</Text>
     </View>
   </View>
 )
@@ -65,18 +65,20 @@ const HeadList = ({ orderId, dateTime, childOrder, orderShipment, orderShipmentC
  * onPress是点击回调
  */
 export default ({ item, onPress }) => {
-  // console.log('go',item.go) 
+  // console.log('go',item.go)
   // console.log('img',item.go[0].im) //商品图片
   // console.log('name',item.go[0].sn) //商品名
+  console.log('paymentstatus', item.o);//通过枚举显示中文
+  // console.log('paymentstatus', PaymentStatus[item.o]);
   return (
     <TouchableOpacity style={{ padding: 10, borderBottomWidth: 1, borderBottomColor: '#d9d9d9' }} onPress={onPress}>
       <HeadList
         orderId={item.i}
         dateTime={getTime(item.t)}
-        childOrder={item.si}
-        orderShipment={item.u}
-        orderShipmentCn={item.io}
-        payment={Orderstate[item.o]}
+        // childOrder={item.si}
+        customerName={item.r}
+        // isPickup={item.u}
+        payment={PaymentStatus[item.u]}
       />
       <View style={{ flexDirection: 'row', paddingTop:10}}>
         <View>

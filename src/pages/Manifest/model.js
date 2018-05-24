@@ -18,7 +18,7 @@ export default {
       const res = yield manager.fetchApi({
         url: manager.Url + 'order/list',
         body: {
-          type: 0,
+          type: payload,
           keyword: '',
           currentpage: 1,
           pagesize: 15
