@@ -30,7 +30,6 @@ import Login from './pages/Login'
 import Search from './pages/SearchPage'
 import Activity from './pages/Activity'
 import Feedback from './pages/Feedback'
-import AddressEditPage from './pages/AddressEditPage'
 import ImageViewer from './pages/ImageViewer'
 import FreeItem from './pages/FreeItem'
 import Payment from './pages/payment'
@@ -179,14 +178,6 @@ const RootTabs = StackNavigator(
     },
     Settle_remake: {
       screen: props => <Settle {...props} />,
-      navigationOptions: {
-        header: null,
-        tabBarVisible: false,
-        gesturesEnabled: true
-      }
-    },
-    AddressEditPage: {
-      screen: props => <AddressEditPage {...props} />,
       navigationOptions: {
         header: null,
         tabBarVisible: false,

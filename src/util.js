@@ -7,7 +7,7 @@ import { Platform, AsyncStorage, Dimensions } from 'react-native'
 import React from 'react'
 import { call, put, take, select } from 'redux-saga/effects'
 
-export const { width, height } = Dimensions.get('window')
+export const { width, height } = Dimensions.get('window') //屏幕的高度和宽度
 
 export const stateBarMargin = number => {
   if (Platform.OS === 'ios') {

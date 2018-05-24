@@ -10,7 +10,7 @@ import { Spin } from '../../components/Spin'
 
 import { All } from './Views/all'
 import { PageHeader } from '../../components/PageHeader'
-import { width } from '../../util'
+import { width, height } from '../../util'
 
 import { Tabs, WhiteSpace, Badge, Button } from 'antd-mobile'
 import Row from './row'
@@ -79,7 +79,7 @@ class ManifestPage extends Component {
       return <Row item={item} onPress={this.handleOnPress} />
     }
     return (
-      <View style={{ height: '100%', backgroundColor: 'white', marginTop: 24 }}>
+      <View style={{ height: height-24,  backgroundColor: 'white', marginTop: 24 }}>
         <Tabs
           onChange={this.handleChange}
           tabs={tabs}
