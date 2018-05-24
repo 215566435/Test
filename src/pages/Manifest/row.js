@@ -68,7 +68,7 @@ export default ({ item, onPress }) => {
   // console.log('go',item.go)
   // console.log('img',item.go[0].im) //商品图片
   // console.log('name',item.go[0].sn) //商品名
-  console.log('paymentstatus', item.o);//通过枚举显示中文
+  // console.log('paymentstatus', item.o);//通过枚举显示中文
   // console.log('paymentstatus', PaymentStatus[item.o]);
   return (
     <TouchableOpacity style={{ padding: 10, borderBottomWidth: 1, borderBottomColor: '#d9d9d9' }} onPress={onPress}>
@@ -76,7 +76,7 @@ export default ({ item, onPress }) => {
         orderId={item.i}
         dateTime={getTime(item.t)}
         // childOrder={item.si}
-        customerName={item.r}
+        // customerName={item.r} //用户名
         // isPickup={item.u}
         payment={PaymentStatus[item.u]}
       />

@@ -13,9 +13,8 @@ import { setLogin } from './util'
 
 export default class AustGoApp extends React.Component {
     componentDidMount() {
-        WeChat.registerApp('wx558e460ec290964b')
+        WeChat.registerApp('wx33af9e573209c0e7')
         console.disableYellowBox = true
-        console.log(__DEV__)
     }
     render() {
         return (
