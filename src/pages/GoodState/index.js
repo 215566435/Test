@@ -1,3 +1,8 @@
+/**
+ * 这个页面相对复杂
+ * 是订单状态的页面
+ */
+
 import React, { Component } from 'react'
 import { View, Alert, Text, WebView, Linking, AppState, TouchableOpacity, ScrollView, Image } from 'react-native'
 import { connect } from 'react-redux'
@@ -28,7 +33,6 @@ class ProductDetail extends Component {
     const messageId = this.props.navigation.state.params.messageId
     const memberId = this.props.navigation.state.params.memberId
 
-  
     this.props.dispatch({
       type: 'fetchProductDetail',
       payload: { id, messageId, memberId }

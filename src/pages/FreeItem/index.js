@@ -1,6 +1,7 @@
 /**
- *  2018/02/20 方正 创建
- * 商品分类
+ * 2018/02/20 方正 创建
+ * 赠品的页面
+ * 在订单交付的时候，会有要选择订单的赠品，这里处理订单赠品的逻辑
  */
 import React, { Component } from 'react'
 import { View, ScrollView, Text, Platform, Picker, Modal, FlatList, Dimensions } from 'react-native'
