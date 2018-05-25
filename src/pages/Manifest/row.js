@@ -51,8 +51,8 @@ const HeadList = ({ orderId, dateTime, childOrder, customerName, isPickup, payme
       <Text style={{ marginLeft: -15 }}>{childOrder}</Text>
     </View>
       <View>
-        <Text >{customerName}</Text>
-        <Text style={{ fontSize: 9 }}>{isPickup}</Text>
+        <Text style={{ marginLeft: -5 }} >{customerName}</Text>
+        <Text style={{ fontSize: 9 }}>{isPickup ? '自取' : '仓库代发'}</Text>
       </View>
     <View>
       <Text style={{color:'#fa541c'}}>{payment}</Text>
@@ -68,17 +68,18 @@ export default ({ item, onPress }) => {
   // console.log('go',item.go)
   // console.log('img',item.go[0].im) //商品图片
   // console.log('name',item.go[0].sn) //商品名
-  // console.log('paymentstatus', item.o);//通过枚举显示中文
-  // console.log('paymentstatus', PaymentStatus[item.o]);
+  //console.log('paymentstatus', item.o);//通过枚举显示中文
+  //console.log('paymentstatus', PaymentStatus[item.o]);
+  console.log('isPickup', item.u);
   return (
     <TouchableOpacity style={{ padding: 10, borderBottomWidth: 1, borderBottomColor: '#d9d9d9' }} onPress={onPress}>
       <HeadList
         orderId={item.i}
         dateTime={getTime(item.t)}
-        // childOrder={item.si}
-        // customerName={item.r} //用户名
-        // isPickup={item.u}
-        payment={PaymentStatus[item.u]}
+        childOrder={item.pc > 1 ? `子订单:${item.si + 1}/${item.pc}` : null}
+        customerName={item.r} //用户名
+        isPickup={item.u}
+        payment={PaymentStatus[item.o]}
       />
       <View style={{ flexDirection: 'row', paddingTop:10}}>
         <View>

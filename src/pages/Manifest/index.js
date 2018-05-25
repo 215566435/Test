@@ -1,134 +1,123 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  Dimensions,
-  TouchableOpacity,
-  Platform,
-  WebView
-} from "react-native";
+import { View, Text, FlatList, Image } from "react-native";
 import { connect } from "react-redux";
 import { TabHead } from "../../components/Tab";
 import { Spin } from "../../components/Spin";
 
 import { All } from "./Views/all";
 import { PageHeader } from "../../components/PageHeader";
-import { width } from "../../util";
+import { width, height } from "../../util";
 
-export const HeaderWithLeftArrow = ({ onPress, title }) => {
-  return (
-    <PageHeader>
-      <View
-        style={{
-          alignItems: "center",
-          flexDirection: "row",
-          top: Platform.OS === "ios" ? 10 : 0
-        }}
-      >
-        <TouchableOpacity onPress={onPress} style={{ width: 40 }}>
-          <View
-            style={{
-              borderLeftWidth: 2,
-              borderBottomWidth: 2,
-              marginLeft: 10,
-              height: 15,
-              width: 15,
-              transform: [{ rotateZ: "45deg" }, { perspective: 1000 }]
-            }}
-          />
-        </TouchableOpacity>
-        <Text
-          style={{
-            fontSize: 18,
-            textAlign: "center",
-            backgroundColor: "transparent",
-            width: width - 80
-          }}
-        >
-          {title}
-        </Text>
-      </View>
-    </PageHeader>
-  );
-};
+import { Tabs, WhiteSpace, Badge, Button } from "antd-mobile";
+import Row from "./row";
+
+const data = [];
+const NUM_ROWS = 20;
+let pageIndex = 0;
+
+//创建Tab数组
+const tabs = [
+  { title: "全部" },
+  { title: "待付款" },
+  { title: "待发货" },
+  { title: "待收货" },
+  { title: "已收货" }
+];
 
 class ManifestPage extends Component {
+  constructor(props) {
+    super(props);
+
+    // const dataSource = data
+
+    this.state = {  
+      isLoading: true
+    };
+  }
   static defaultProps = {
     orderList: [],
     spin: false
   };
-  state = {
-    ActivateIndex: 0
-  };
-  componentDidMount() {
-    this.props.fetch(0);
-  }
-
-  componentWillUnmount() {
-    this.props.clear();
-  }
-  onTabChange = (e, child, index) => {
-    this.props.fetch(index);
-    this.setState({
-      ActivateIndex: index
-    });
-  };
-  onItemPress = item => {
-    this.props.navigation.navigate("GoodState", {
-      id: item.i,
-      messageId: -1
-    });
-  };
 
   goBack = () => this.props.navigation.goBack(null);
 
+  handleChange = (item, index) => {
+    const { title } = item;
+
+    let type = 0;
+    if (title === "全部") {
+      type = 0;
+    } else if (title === "待付款") {
+      type = 1;
+    } else if (title === "待发货") {
+      type = 2;
+    } else if (title === "待收货") {
+      type = 3;
+    } else if (title === "已收货") {
+      type = 4;
+    }
+
+    this.props.dispatch({
+      type: "fetchOrderList",
+      payload: type
+    });
+  };
+
+  handleOnPress = () => {
+    this.props.dispatch({
+      type: "increase",
+      payload: Date.now()
+    });
+  };
+
+  componentDidMount() {
+    this.props.dispatch({
+      type: "fetchOrderList"
+    });
+  }
+
+  testRender = () => {
+    const row = ({ item, index }) => {
+      console.log(item);
+      return <Row item={item} onPress={this.handleOnPress} />;
+    };
+
+    return (
+      <FlatList
+        data={this.props.orderList || []}
+        renderItem={row}
+        keyExtractor={i => {
+          return i.i;
+        }}
+        pageSize={4}
+      />
+    );
+  };
+
   render() {
     return (
-      <View style={{ height: "100%", backgroundColor: "white" }}>
-        <HeaderWithLeftArrow title={"订单详情"} onPress={this.goBack} />
-        <TabHead
-          tabItem={["全部", "待付款", "待发货", "待收货", "已收货"]}
-          onPress={this.onTabChange}
-          ActivateIndex={this.state.ActivateIndex}
-        />
-
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: this.props.spin ? "center" : null
-          }}
+      <View
+        style={{ height: height - 24, backgroundColor: "white", marginTop: 24 }}
+      >
+        <Tabs
+          onChange={this.handleChange}
+          tabs={tabs}
+          initialPage={0}
+          animated={true}
+          swipeable={false}
+          useOnPan={false}
         >
-          {this.props.spin ? (
-            <Spin />
-          ) : (
-            <All
-              list={this.props.orderList}
-              append={() => {
-                this.props.appendData(this.state.ActivateIndex);
-              }}
-              onPress={this.onItemPress}
-            />
-          )}
-        </View>
+          {this.testRender()}
+        </Tabs>
       </View>
     );
   }
 }
 
-const mapState = state => {
+const mapState = wholeState => {
   return {
-    orderList: state.Manifest.list,
-    spin: state.Manifest.spin
+    ...wholeState.manifest
   };
 };
 
-const mapDispatch = dispatch => {
-  return {
-    fetch: select => dispatch({ type: "fetchData", select: select }),
-    clear: () => dispatch({ type: "clearManifest" }),
-    appendData: select => dispatch({ type: "appendData", select: select }),
-    onPress: item => dispatch({ type: "itemPress", item: item })
-  };
-};
-
-export default connect(mapState, mapDispatch)(ManifestPage);
+export default connect(mapState)(ManifestPage);
