@@ -68,11 +68,8 @@ class ManifestPage extends Component {
     });
   };
 
-  handleOnPress = () => {
-    this.props.dispatch({
-      type: "increase",
-      payload: Date.now()
-    });
+  handleOnPress = item => {
+    this.props.navigation.navigate("GoodState", { id: item.i });
   };
 
   componentDidMount() {
@@ -97,8 +94,8 @@ class ManifestPage extends Component {
 
   testRender = () => {
     const row = ({ item, index }) => {
-      console.log(item);
-      return <Row item={item} onPress={this.handleOnPress} />;
+      // console.log(item);//打印每行数据
+      return <Row item={item} onPress={() => this.handleOnPress(item)} />;
     };
 
     return (

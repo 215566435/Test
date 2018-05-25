@@ -1,7 +1,4 @@
-/**
- *  2017/10/31 方正 创建
- * 商品分类
- */
+
 import React, { Component } from 'react'
 import { View, ScrollView, Text, Platform, Picker } from 'react-native'
 import { connect } from 'react-redux'
