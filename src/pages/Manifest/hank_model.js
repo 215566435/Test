@@ -1,40 +1,44 @@
-import BaseManager from '../../NetworkManager/BaseManager'
-import { Alert } from 'react-native'
+import BaseManager from "../../NetworkManager/BaseManager";
+import { ListManager } from "../../NetworkManager/BaseManager";
+import { Alert } from "react-native";
 
 //admin.js
 export default {
-  namespace: 'manifest',
+  namespace: "manifest",
   state: {
     orderList: []
   },
   reducers: {
     mapOrderList(state, { payload }) {
-      return { ...state, orderList: payload }
+      return { ...state, orderList: payload };
     }
   },
   effects: {
     *fetchOrderList({ select, call, put }, { payload }) {
-      const manager = new BaseManager()
-      const res = yield manager.fetchApi({
-        url: manager.Url + 'order/list',
+      const orderList = yield select(state => state.manifest.orderList); //select拿到当前list数据
+      const manager = new BaseManager();
+      const res = yield manager.fetchApi({//fetch新的数据
+        url: manager.Url + "order/list",
         body: {
-          type: payload,
-          keyword: '',
-          currentpage: 1,
+          type: payload.type,
+          keyword: "",
+          currentpage: payload.page,
           pagesize: 15
         }
-      })
-
+      });
       try {
-        const items = res.data.items
-        // console.log(res)
+        let items = res.data.items;//数据格式转化
+        //  console.log(res)   
+          items = [...orderList, ...items]
         yield put({
-          type: 'mapOrderList',
+          type: "mapOrderList",
           payload: items
-        })
+        });
       } catch (e) {
-        Alert.alert('出错了', '服务请求出错')
+        
+        Alert.alert("出错了", e.message);
       }
+
     }
   }
-}
+};

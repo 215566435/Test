@@ -70,7 +70,7 @@ export default ({ item, onPress }) => {
   // console.log('name',item.go[0].sn) //商品名
   //console.log('paymentstatus', item.o);//通过枚举显示中文
   //console.log('paymentstatus', PaymentStatus[item.o]);
-  console.log('isPickup', item.u);
+  // console.log('isPickup', item.u);
   return (
     <TouchableOpacity style={{ padding: 10, borderBottomWidth: 1, borderBottomColor: '#d9d9d9' }} onPress={onPress}>
       <HeadList

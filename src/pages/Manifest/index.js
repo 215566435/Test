@@ -30,7 +30,7 @@ class ManifestPage extends Component {
 
     // const dataSource = data
 
-    this.state = {  
+    this.state = {
       isLoading: true
     };
   }
@@ -42,8 +42,10 @@ class ManifestPage extends Component {
   goBack = () => this.props.navigation.goBack(null);
 
   handleChange = (item, index) => {
-    const { title } = item;
+    console.log(this.props.navigation);
 
+    const { title } = item;
+    pageIndex = 0;
     let type = 0;
     if (title === "全部") {
       type = 0;
@@ -59,7 +61,10 @@ class ManifestPage extends Component {
 
     this.props.dispatch({
       type: "fetchOrderList",
-      payload: type
+      payload: {
+        type,
+        page: 1
+      }
     });
   };
 
@@ -72,9 +77,23 @@ class ManifestPage extends Component {
 
   componentDidMount() {
     this.props.dispatch({
-      type: "fetchOrderList"
+      type: "fetchOrderList",
+      payload: {
+        type: 0,
+        page: 1
+      }
     });
   }
+  handleOnEnd = () => {
+    pageIndex++;
+    this.props.dispatch({
+      type: "fetchOrderList",
+      payload: {
+        type: 0,
+        page: pageIndex
+      }
+    });
+  };
 
   testRender = () => {
     const row = ({ item, index }) => {
@@ -90,6 +109,7 @@ class ManifestPage extends Component {
           return i.i;
         }}
         pageSize={4}
+        onEndReached={this.handleOnEnd}
       />
     );
   };
