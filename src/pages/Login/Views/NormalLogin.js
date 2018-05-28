@@ -22,12 +22,16 @@ import * as WeChat from "react-native-wechat";
 var thisComponent = null;
 class NormalLogin extends Component {
   constructor(props) {
+    console.log('props normal', props);
     super(props);
     this.state = {
       name: "",
       psw: "",
       code: "",
-      isWXAppInstalled: false
+      isWXAppInstalled: false,
+      old : props.old,
+      hash: props.hash,
+      unionId: props.unionId
     };
   }
   componentDidMount() {
@@ -94,17 +98,17 @@ class NormalLogin extends Component {
 
         <Code ref={ins => (this.ins = ins)} />
         <Button title="登陆" onPress={this.onNormalLogin} />
-        <Button
+        {this.state.old==true ? null :         <Button
           title="没有账户，转到新用户注册"
           onPress={onNewRegister}
           style={{ backgroundColor: "#f56a00" }}
-        />
+        />}
         <Button
           title="取消"
           onPress={this.onNormalLoginCancel}
           style={{ backgroundColor: "#919191" }}
         />
-        {this.state.isWXAppInstalled ? (
+        {this.state.isWXAppInstalled && !this.state.old ? (
           <WechatButton onPress={() => onWechatLogin(this)} />
         ) : null}
         {loading ? <SpinScreen text={"登陆中..."} /> : null}

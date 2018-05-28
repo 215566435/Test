@@ -51,7 +51,7 @@ function* fetchWrap({ url, body }) {
   yield showLoading(false);
   return yield res.json();
 }
-
+//登录逻辑判断
 const actionStategy = {
   onWechatLogin: function*(state, others) {
     try {
@@ -62,18 +62,21 @@ const actionStategy = {
           WechatCode: wxRes.code
         }
       });
-      console.log(others.ins, json);
+      // console.log(others.ins, json);
       others.ins.onLoginFinished(json);
     } catch (e) {
       alert(e);
     }
   },
   onNormalLogin: function*(state, others) {
+    console.log('login', others);
     try {
       const body = {
         username: others.form.name,
         password: others.form.psw,
-        verify: others.form.code
+        verify: others.form.code,
+        hash: others.form.hash,
+        unionId: others.form.unionId
       };
       const json = yield fetchWrap({
         url: Url + "user/Login",

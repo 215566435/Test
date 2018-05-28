@@ -87,7 +87,7 @@ export default class LoginPage extends React.Component {
     old: false,
     newRegister: false
   };
-
+  //wechat login finish
   loginFinish = json => {
     this.setState({
       loading: false
@@ -100,7 +100,6 @@ export default class LoginPage extends React.Component {
       this.props.Profile.onLoginFinished(json);
       this.props.navigation.goBack();
     } else {
-      
       if (/请绑定/.test(json.message)) {
         this.setState({
           login: "我是老客户，绑定此微信号",
@@ -118,7 +117,7 @@ export default class LoginPage extends React.Component {
   };
   Old = () => {
     this.setState({
-      register: false,
+      register: 0,
       old: true
     });
   };
@@ -139,7 +138,7 @@ export default class LoginPage extends React.Component {
 
       const json = await res.json();
 
-      console.log(json);
+      console.log('json', json);
 
       that.loginFinish(json);
     })(this);
@@ -298,12 +297,18 @@ export default class LoginPage extends React.Component {
   };
 
   render() {
+    console.log('state', this.state);
     if (this.state.register === 0) {
       return (
         <NormalLogin
           {...this.props}
           loadingFinished={this.loginFinish}
           onNewRegister={() => this.newRegister()}
+          old = {this.state.old} 
+          hash = {this.state.hash}
+          unionId = {this.state.unionId}
+          // hash: props.hash,
+          // unionId: props.unionId
         />
       );
     }
