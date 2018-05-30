@@ -3,14 +3,13 @@ include ':react-native-picker'
 project(':react-native-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-picker/android')
 include ':react-native-wechat'
 project(':react-native-wechat').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-wechat/android')
-include ':react-native-splash-screen'
-project(':react-native-splash-screen').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-splash-screen/android')
 include ':react-native-fs'
 project(':react-native-fs').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fs/android')
 include ':react-native-cookies'
 project(':react-native-cookies').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-cookies/android')
-include ':jshare-react-native'
-project(':jshare-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jshare-react-native/android')
+// 极光推送旧配置
+// include ':jshare-react-native' 
+// project(':jshare-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jshare-react-native/android')
 include ':react-native-share-local'
 project(':react-native-share-local').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-share-local/android')
 // include ':react-native-splash-screen'
@@ -25,3 +24,8 @@ include ':app'
 
 include ':RCTWeChat'
 project(':RCTWeChat').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-wechat/android')
+
+// //配置激光推送，太恶心了！
+// include ':app', ':jshare-react-native', ':jcore-react-native'
+// project(':jshare-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jshare-react-native/android')
+// project(':jcore-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jcore-react-native/android')

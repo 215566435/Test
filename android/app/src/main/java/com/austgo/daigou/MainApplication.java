@@ -3,12 +3,13 @@ package com.austgo.daigou;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+// import cn.jiguang.share.reactnative.JSharePackage;
 import com.beefe.picker.PickerViewPackage;
-import com.theweflex.react.WeChatPackage;
-import org.devio.rn.splashscreen.SplashScreenReactPackage;
+//import com.theweflex.react.WeChatPackage;
+//import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.rnfs.RNFSPackage;
 import com.psykar.cookiemanager.CookieManagerPackage;
-import cn.jiguang.share.JSharePackage;
+//import cn.jiguang.share.JSharePackage; //2905, generateing apk problem 程序包cn.jiguang.share不存在
 import com.kmlidc.RNShareLocal.RNShareLocal;
 // import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.microsoft.codepush.react.CodePush;
@@ -42,12 +43,11 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new PickerViewPackage(),
             new WeChatPackage(),
-            new SplashScreenReactPackage(),
             new RNFSPackage(),
             new CookieManagerPackage(),
-            new JSharePackage(),
-            new RNShareLocal(),
-            // new SplashScreenReactPackage(),
+            //new JSharePackage(), //2905, generateing apk problem 程序包cn.jiguang.share不存在
+            new RNShareLocal(), 
+            //new SplashScreenReactPackage(),
             new CodePush("IO-yMj-XqW6ZFzNDlNW7xuQpVOSb9753d84a-48fc-4420-83eb-7d61a334bad6", getApplicationContext(), BuildConfig.DEBUG), 
             new VectorIconsPackage(),
             new WeChatPackage()  // Add this line
