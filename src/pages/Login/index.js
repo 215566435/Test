@@ -30,6 +30,10 @@ import NormalLogin from "./Views/NormalLogin";
 
 import { Url, hostName, header } from "../../util";
 
+/**
+ * wechat登录按钮
+ * @param {*} param0 
+ */
 const WechatButton = ({ onPress }) => {
   return (
     <TouchableOpacity onPress={onPress} activeOpacity={0.4}>
@@ -62,16 +66,17 @@ const ERR_MSG = {
  * @param {string} msg
  */
 function alert(msg) {
-  Alert.alert(
+  Alert.alert( //RN自己的alert方法
     "登陆失败",
-    ERR_MSG[msg] ? ERR_MSG[msg] : msg,
+    ERR_MSG[msg] ? ERR_MSG[msg] : msg,//三元表达式输出中文信息
     [{ text: "Cancel", style: "cancel" }, { text: "OK" }],
     { cancelable: false }
   );
 }
 
 export default class LoginPage extends React.Component {
-  state = {
+  //设置初始state
+  state = { 
     name: "",
     psw: "",
     code: "",
@@ -87,6 +92,7 @@ export default class LoginPage extends React.Component {
     old: false,
     newRegister: false
   };
+  
   //wechat login finish
   loginFinish = json => {
     this.setState({
@@ -143,6 +149,7 @@ export default class LoginPage extends React.Component {
       that.loginFinish(json);
     })(this);
   };
+
   New = () => {
     Alert.alert(
       "一键注册账户确认",
@@ -154,11 +161,13 @@ export default class LoginPage extends React.Component {
       { cancelable: false }
     );
   };
+  
   onChange = (text, name) => {
     this.setState({
       [name]: text
     });
   };
+
   onFocus = () => {
     if (FIRST_TIME_PRESS) {
       this.ins.setState({
@@ -173,6 +182,7 @@ export default class LoginPage extends React.Component {
     this.props.navigation.goBack();
     // this.props.loginCancel()
   };
+
   async newRegister(is_Fnished) {
     if (is_Fnished === true) {
       this.setState({
@@ -199,6 +209,7 @@ export default class LoginPage extends React.Component {
       });
     }
   }
+
   /**
    * 用户微信登陆的绑定界面
    */
@@ -224,6 +235,7 @@ export default class LoginPage extends React.Component {
       </View>
     );
   };
+
   _onfocuse = () => {
     this.setState({
       keyboardHeight: 160
@@ -235,15 +247,16 @@ export default class LoginPage extends React.Component {
       keyboardHeight: 0
     });
   };
+
   onTypeChange = value => {
     this.setState({
       country: value
     });
   };
+  
   /**
    * 这个人完全没有注册过
    */
-
   newToAustGo = () => {
     return (
       <View

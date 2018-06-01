@@ -10,6 +10,7 @@ import { ListItem } from '../../components/ListItem'
 import { convertCurrency } from './settle-util'
 import { Input, InputSelfControl } from '../../components/Input'
 
+// //不懂这是干什么的
 const AddressBlock = ({
   children,
   index,
@@ -35,16 +36,21 @@ const AddressBlock = ({
 }
 
 class Settle extends React.Component {
+  //本地component level state默认值
   state = {
     isKeyboardShow: false
   }
 
+  // 组件加载后开始加载状态
   componentDidMount() {
     this.props.dispatch({
       type: 'fetchSubmit'
-    })
+    });
+    //如果本地是空，那么发起请求，加载之前的地址。
+    this.props.dispatch({ type: 'fetchAddress' })
   }
 
+  // 不懂
   CustomTabBarPress = (e, child, index) => {
     if (index === 0) this.props.navigation.goBack()
 
@@ -90,13 +96,15 @@ class Settle extends React.Component {
       }
     }
   }
-
+  
+  // 判断是否存在voucher
   componentWillReceiveProps(nextprops) {
     if (nextprops.voucher) {
       this.handleChangeText(nextprops.voucher.vouchersCode)
     }
   }
 
+  // 修改收件人发件人，转到别的页面
   ChangePeople = type => {
     Alert.alert(
       type === 'receiver' ? '操作收件人地址' : '操作发件人地址',
@@ -120,6 +128,7 @@ class Settle extends React.Component {
     )
   }
 
+  // 渲染快递选项
   renderPackage = () => {
     // const addressPacks = mock
     const { packs } = this.props
@@ -148,6 +157,7 @@ class Settle extends React.Component {
     })
   }
 
+  // 自提包裹列表，好像没有渲染出来？？？
   renderSelfPickUp = () => {
     // const addressPacks = mock
     const { pickupPacks } = this.props
@@ -175,9 +185,12 @@ class Settle extends React.Component {
     )
   }
 
+  // 不懂
   handleGetFreeItem = key => {
     this.props.navigation.navigate('FreeItem', { key })
   }
+
+  // promotionSum列表，好像没有渲染出来？？？
   renderPromotionsSum = () => {
     if (this.props.promotionsSum === void 666 || this.props.promotionsSum.length === 0) return
 
@@ -205,6 +218,7 @@ class Settle extends React.Component {
     )
   }
 
+  // 输入代金劵后， 失去焦点
   onVoucherBlur = () => {
     this.props.dispatch({
       type: 'handleVoucher',
@@ -214,6 +228,8 @@ class Settle extends React.Component {
       isKeyboardShow: false
     })
   }
+
+  // 清空代金劵
   handleClearVoucher = () => {
     this.voucherComponent.clear()
     this.props.dispatch({
@@ -222,19 +238,22 @@ class Settle extends React.Component {
     })
   }
 
-  handleClearVoucher = () => {
-    this.voucherComponent.clear()
-    this.props.dispatch({
-      type: 'handleVoucher',
-      payload: ''
-    })
-  }
+  // handleClearVoucher = () => {
+  //   this.voucherComponent.clear()
+  //   this.props.dispatch({
+  //     type: 'handleVoucher',
+  //     payload: ''
+  //   })
+  // }
 
+
+  //直接操作DOM进行渲染修改text，不通过state
   handleChangeText = text => {
-    console.log('........', text)
+    // console.log('........', text)
     this.voucherComponent.setText(text)
   }
 
+  //使用voucher
   renderVoucher = () => {
     const { voucher } = this.props
     const renderAmount = () => {
@@ -281,7 +300,7 @@ class Settle extends React.Component {
             <InputSelfControl
               addonBefore="代金券"
               placeholder="请输入代金券"
-              ref={node => (this.voucherComponent = node)}
+              ref={node => (this.voucherComponent = node)} //
               defaultValue={voucher ? voucher.vouchersCode : ''}
               // onFocus={this.onFocus}
               onBlur={this.onVoucherBlur}
@@ -352,17 +371,20 @@ class Settle extends React.Component {
       )
     })
   }
+
   onFocus = () => {
     this.setState({
       isKeyboardShow: true
     })
   }
+
   onBlur = () => {
     this.setState({
       isKeyboardShow: false
     })
   }
 
+  // 绑定输入数据显示
   onChangeText = (text, name) => {
     if (this[name] !== void 666) {
       this[name] = text
@@ -436,8 +458,10 @@ class Settle extends React.Component {
   }
 }
 
+// 增加底部按钮
 const wapprer = PageWithTab(Settle, ['返回', '提交订单'], ['white', '#f5222d'])
 
+// 从application level state 获取状态
 const mapState = state => {
   return {
     ...state.settle.data,
@@ -445,4 +469,5 @@ const mapState = state => {
     sender: state.settle.sender
   }
 }
+
 export default connect(mapState)(wapprer)

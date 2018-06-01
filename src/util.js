@@ -75,6 +75,7 @@ if (!__DEV__) {
   })
 }
 
+//发出请求是需要填入请求报文
 class Header {
   _token = ''
 
@@ -143,9 +144,12 @@ export const undefinedConvert = string => {
   return string
 }
 
+//实例化请求报文头
 export var header = new Header()
 
+//封装请求发送方法
 export function* fetchApi({ url, body }) {
+  //redux saga或dva风格，使用call函数，实现请求api
   const res = yield call(fetch, url, {
     method: 'POST',
     headers: header.get(),

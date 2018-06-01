@@ -1,6 +1,7 @@
 import { CartManager } from '../../NetworkManager/CartManager'
 import { Alert, AsyncStorage } from 'react-native'
 
+//验证值是否为undefined, 不是就返回值
 const checkValue = value => {
   if (value === void 666) return ''
   return value
