@@ -47,11 +47,12 @@ class Settle extends React.Component {
       type: 'fetchSubmit'
     });
     //如果本地是空，那么发起请求，加载之前的地址。
-    this.props.dispatch({ type: 'fetchAddress' })
+    // this.props.dispatch({ type: 'fetchAddress' })
   }
 
-  // 不懂
+  // 返回或者提交订单处理Handler
   CustomTabBarPress = (e, child, index) => {
+    //返回按钮被点击
     if (index === 0) this.props.navigation.goBack()
 
     const dispatch = () => {
@@ -64,7 +65,7 @@ class Settle extends React.Component {
         }
       })
     }
-
+    //提交订单按钮被点击
     if (index === 1) {
       const { promotionsSum, freeItems } = this.props
       if (promotionsSum.length === 0) {
@@ -253,7 +254,7 @@ class Settle extends React.Component {
     this.voucherComponent.setText(text)
   }
 
-  //使用voucher
+  //渲染voucher
   renderVoucher = () => {
     const { voucher } = this.props
     const renderAmount = () => {
@@ -399,14 +400,24 @@ class Settle extends React.Component {
     const { pickupPacks, receiver, sender } = this.props
     const { cr } = this.props
 
+    console.log('前台receiver', receiver);
+    console.log('前台sender', sender);
+    //封装显示收件人发件人地址方法
     const mergeSource = (type, source) => {
-      if(!source) return `${type}：点击编辑`
+      // if(!source) return `${type}：点击编辑`
 
+      //传入的receiver和sender为空
+      if(!source) return `${type}：没有记录，点击编辑`
+
+      //传入的receiver和sender不为空，return前面的原来的代码都不懂
       let { billName, billPhone, billAddress, idNumber } = source
       billPhone = billPhone || ''
       billAddress = billAddress || ''
       idNumber = idNumber || ''
-      return billName ? `${type}：${billName} ${billPhone} ${idNumber} ${billAddress}` : `${type}：点击编辑`
+
+      // 原来的代码
+      // return billName ? `${type}：${billName} ${billPhone} ${idNumber} ${billAddress}` : `${type}：点击编辑`
+      return billName ? `${type}：${billName} ${billPhone} ${idNumber} ${billAddress}` : `${type}：${source}`
     }
 
     return (

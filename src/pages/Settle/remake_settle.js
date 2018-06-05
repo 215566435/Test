@@ -15,10 +15,13 @@ export default {
     sender: {}
   },
   effects: {
+    //接收订单信息，目前不懂为什么能接收到登录客户的信息？？？
     *fetchSubmit({ put }, { payload: keyword }) {
       const j = yield CartManager.SwitchDelivery(false)
 
       const json = yield CartManager.ListSummary()
+      // console.log('listSummary', json);
+
       const approach = json.data.p ? '现场打包' : '仓库代发'
       yield put({
         type: 'mapSettle',
@@ -29,10 +32,31 @@ export default {
       })
 
       try {
+        //从本地找数据
         const r = yield AsyncStorage.getItem('receiver')
         const s = yield AsyncStorage.getItem('sender')
+        //原来的代码
+        // const receiver = JSON.parse(r)
+        // const sender = JSON.parse(s)
+
+        // console.log('后台的receiver', json.data.receiver.address);
+
+        //如果本地没有数据把接来的数据赋值给receiver
+        // const receiver = JSON.parse(r) ? JSON.parse(r) : json.data.receiver.address
+        // const sender = JSON.parse(s) ? JSON.parse(s) : json.data.sender
+
         const receiver = JSON.parse(r)
         const sender = JSON.parse(s)
+
+        const receiverJSON = json.data.receiver.address ? json.data.receiver.address : '没有记录，点击编辑';
+        const senderJSON = json.data.receiver.sender ? json.data.receiver.sender : '没有记录，点击编辑';
+
+        yield AsyncStorage.setItem('receiver', JSON.stringify(receiverJSON))
+        yield AsyncStorage.setItem('sender', JSON.stringify(senderJSON))
+        
+
+        // console.log('后台的recevier', receiver);
+        
         yield put({
           type: 'receiver',
           payload: receiver
