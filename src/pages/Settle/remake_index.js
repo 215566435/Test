@@ -46,8 +46,6 @@ class Settle extends React.Component {
     this.props.dispatch({
       type: 'fetchSubmit'
     });
-    //如果本地是空，那么发起请求，加载之前的地址。
-    // this.props.dispatch({ type: 'fetchAddress' })
   }
 
   // 返回或者提交订单处理Handler
@@ -395,13 +393,31 @@ class Settle extends React.Component {
     }
   }
 
+  fetchInfoNoAsyncStorage = (billName, billPhone, billAddress) => {
+    this.props.dispatch({
+      type: 'EditAdressInfo',
+      payload: {
+        type: this.type(),
+        address: {
+          billAddress,
+          billPhone,
+          billName
+        }
+      }
+    })
+    
+  }
+
   render() {
     // console.log(this.props.addressPacks)
-    const { pickupPacks, receiver, sender } = this.props
+    const { pickupPacks, receiver, sender, receiverJSON, senderJSON } = this.props
     const { cr } = this.props
-
+    console.log('前台props', this.props);
     console.log('前台receiver', receiver);
     console.log('前台sender', sender);
+    console.log('前台receiverJSON', receiverJSON);
+    console.log('前台senderJSON', senderJSON);
+
     //封装显示收件人发件人地址方法
     const mergeSource = (type, source) => {
       // if(!source) return `${type}：点击编辑`
@@ -409,17 +425,32 @@ class Settle extends React.Component {
       //传入的receiver和sender为空
       if(!source) return `${type}：没有记录，点击编辑`
 
-      //传入的receiver和sender不为空，return前面的原来的代码都不懂
-      let { billName, billPhone, billAddress, idNumber } = source
-      billPhone = billPhone || ''
-      billAddress = billAddress || ''
+      console.log('source', source);
+
+      let { name, phone, address, idNumber} = source
+      name = name || ''
+      phone = phone || ''
+      address = address || ''
       idNumber = idNumber || ''
 
+      //传入的receiver和sender不为空，return前面的原来的代码都不懂
+      // let { billName, billPhone, billAddress, idNumber } = source
+      // billPhone = billPhone || ''
+      // billAddress = billAddress || ''
+      // idNumber = idNumber || ''
+
+      //传入的receiver和sender不为空，return前面的原来的代码都不懂
+      let { billName, billPhone, billAddress } = source
+      billName = billName || name
+      billPhone = billPhone || phone
+      billAddress = billAddress || address
+
+      console.log('idNumber', idNumber);
       // 原来的代码
       // return billName ? `${type}：${billName} ${billPhone} ${idNumber} ${billAddress}` : `${type}：点击编辑`
-      return billName ? `${type}：${billName} ${billPhone} ${idNumber} ${billAddress}` : `${type}：${source}`
+      return billName ? `${type}：${billName} ${billPhone} ${idNumber} ${billAddress}` : `${type}：没有记录 点击编辑`
     }
-
+    
     return (
       <Page
         style={{
@@ -447,8 +478,10 @@ class Settle extends React.Component {
             name="mycommits"
             onChangeText={this.onChangeText}
           />
-          <Li onPress={() => this.ChangePeople('receiver')}>{mergeSource('收件人', receiver)}</Li>
-          <Li onPress={() => this.ChangePeople('sender')}>{mergeSource('发件人', sender)}</Li>
+          {/* <Li onPress={() => this.ChangePeople('receiver')}>{mergeSource('收件人', receiver ? receiver : receiverJSON)}</Li>
+          <Li onPress={() => this.ChangePeople('sender')}>{mergeSource('发件人', sender ? sender : senderJSON)}</Li> */}
+          <Li onPress={() => this.ChangePeople('receiver')}>{mergeSource('收件人', receiver )}</Li>
+          <Li onPress={() => this.ChangePeople('sender')}>{mergeSource('发件人', sender )}</Li>
           {this.renderPackage()}
           {this.renderSelfPickUp()}
           <Li>
@@ -477,7 +510,7 @@ const mapState = state => {
   return {
     ...state.settle.data,
     receiver: state.settle.receiver,
-    sender: state.settle.sender
+    sender: state.settle.sender,
   }
 }
 

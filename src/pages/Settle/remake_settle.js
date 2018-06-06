@@ -15,12 +15,17 @@ export default {
     sender: {}
   },
   effects: {
-    //接收订单信息，目前不懂为什么能接收到登录客户的信息？？？
+    //接收订单信息
     *fetchSubmit({ put }, { payload: keyword }) {
+      // 清除本地内存数据
+      // AsyncStorage.clear();
+      // 测试用删除本地
+      // AsyncStorage.removeItem('receiver');
+      // AsyncStorage.removeItem('sender');
       const j = yield CartManager.SwitchDelivery(false)
 
       const json = yield CartManager.ListSummary()
-      // console.log('listSummary', json);
+      console.log('listSummary', json);
 
       const approach = json.data.p ? '现场打包' : '仓库代发'
       yield put({
@@ -35,36 +40,48 @@ export default {
         //从本地找数据
         const r = yield AsyncStorage.getItem('receiver')
         const s = yield AsyncStorage.getItem('sender')
-        //原来的代码
-        // const receiver = JSON.parse(r)
-        // const sender = JSON.parse(s)
-
-        // console.log('后台的receiver', json.data.receiver.address);
 
         //如果本地没有数据把接来的数据赋值给receiver
         // const receiver = JSON.parse(r) ? JSON.parse(r) : json.data.receiver.address
         // const sender = JSON.parse(s) ? JSON.parse(s) : json.data.sender
 
+        // const receiver = JSON.parse(r) ? JSON.parse(r) : json.data.receiver.address
+        // const sender = JSON.parse(s) ? JSON.parse(s) : json.data.sender.address
+        
         const receiver = JSON.parse(r)
         const sender = JSON.parse(s)
-
-        const receiverJSON = json.data.receiver.address ? json.data.receiver.address : '没有记录，点击编辑';
-        const senderJSON = json.data.receiver.sender ? json.data.receiver.sender : '没有记录，点击编辑';
+        
+        //使用直接存到本地内存的方法，有点慢
+        const receiverJSON = json.data.receiver;
+        const senderJSON = json.data.sender;
 
         yield AsyncStorage.setItem('receiver', JSON.stringify(receiverJSON))
         yield AsyncStorage.setItem('sender', JSON.stringify(senderJSON))
         
+        console.log('后台的存在手机本地的receiver', AsyncStorage.getItem('receiver'));
+        console.log('后台的receiverJSON', receiverJSON);
+ 
+        // //Login之后第一次进入，现在4次put合并成两次了
+        // yield put({
+        //   type: 'receiverJSON',
+        //   payload: receiverJSON
+        // }) 
+        // yield put({
+        //   type: 'senderJSON',
+        //   payload: senderJSON
+        // })
 
-        // console.log('后台的recevier', receiver);
-        
+        //本地和在线收集数据选择一个返回receiver或sender
         yield put({
           type: 'receiver',
-          payload: receiver
+          payload: receiver ? receiver : receiverJSON
         })
+        
         yield put({
           type: 'sender',
-          payload: sender
+          payload: sender ? sender : senderJSON
         })
+
       } catch (e) {
         console.log(e)
       }
@@ -112,21 +129,29 @@ export default {
         const state = yield select(state => state.settle.data)
         const settle = yield select(state => state.settle)
 
-        console.log('---_>>>>>', settle)
+        console.log('下单前收集用户信息', settle)
+
+        // console.log('收集到信息Name', settle.receiver.name);
+        // console.log('收集到信息Phone', settle.receiver.phone);
+        // console.log('收集到信息address', settle.receiver.address);
+        // console.log('收集到信息billName', settle.receiver.billName);
+        // console.log('收集到信息billPhone', settle.receiver.billName);
+        // console.log('收集到信息billaddress', settle.receiver.billName);
+        // console.log('收集到信息sendername', settle.sender.name);
 
         const body = {
           e: checkValue(payload.their_commits),
           m: checkValue(payload.mycommits),
           t: state.t,
           s: {
-            n: settle.sender.billName,
-            p: settle.sender.billPhone,
-            a: settle.sender.billAddress
+            n: settle.sender.billName ? settle.sender.billName : settle.sender.name,
+            p: settle.sender.billPhone ? settle.sender.billPhone : settle.sender.phone,
+            a: settle.sender.billAddress ? settle.sender.billAddress : settle.sender.address
           },
           r: {
-            n: settle.receiver.billName,
-            p: settle.receiver.billPhone,
-            a: settle.receiver.billAddress,
+            n: settle.receiver.billName ? settle.receiver.billName : settle.receiver.name,
+            p: settle.receiver.billPhone ? settle.receiver.billPhone : settle.receiver.phone,
+            a: settle.receiver.billAddress ? settle.receiver.billAddress : settle.receiver.address,
             i: settle.receiver.idNumber
           }
         }
@@ -164,6 +189,8 @@ export default {
       } else {
         Alert.alert('出错', json.message)
       }
+    },
+    *fetchToplist({ put }, { payload: keyword }) {
     }
   },
   reducers: {
@@ -175,6 +202,12 @@ export default {
     },
     sender: (state, { payload }) => {
       return { ...state, sender: payload }
+    },
+    receiverJSON: (state, { payload }) => {
+      return { ...state, receiverJSON: payload }
+    },
+    senderJSON: (state, { payload }) => {
+      return { ...state, senderJSON: payload }
     }
   }
 }
