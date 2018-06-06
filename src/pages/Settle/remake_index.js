@@ -46,6 +46,8 @@ class Settle extends React.Component {
     this.props.dispatch({
       type: 'fetchSubmit'
     });
+
+    console.log('this', this);
   }
 
   // 返回或者提交订单处理Handler

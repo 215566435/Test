@@ -21,6 +21,7 @@ export const EveryChildWidth = children => {
   return 100 / childCount + '%'
 }
 
+//切换开发服务器或者生产服务器
 export var hostName = 'test.austgo.com'
 
 if (__DEV__) {

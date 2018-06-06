@@ -138,7 +138,8 @@ export default {
         // console.log('收集到信息billPhone', settle.receiver.billName);
         // console.log('收集到信息billaddress', settle.receiver.billName);
         // console.log('收集到信息sendername', settle.sender.name);
-
+        
+        //发送请求
         const body = {
           e: checkValue(payload.their_commits),
           m: checkValue(payload.mycommits),
@@ -166,8 +167,10 @@ export default {
           return
         }
 
+        //这个能发到哪去？？？？貌似删了也没事
         instance.props.dispatch({ type: 'fetchCart' })
 
+        //一秒后没有完成，自动跳转到GoodState页面
         setTimeout(() => {
           instance.props.navigation.navigate('GoodState', { id: json.data.i })
         }, 1000)
@@ -190,8 +193,11 @@ export default {
         Alert.alert('出错', json.message)
       }
     },
-    *fetchToplist({ put }, { payload: keyword }) {
-    }
+
+    // #Hank 新加的fetchCart 测试能不能从remake_settle dispatch请求过来 但是好像没有过来
+    // *fetchCart({ put }, { payload }) {
+    //   console.log('到达fetchCart函数');
+    // }
   },
   reducers: {
     mapSettle: (state, { payload }) => {
@@ -203,11 +209,11 @@ export default {
     sender: (state, { payload }) => {
       return { ...state, sender: payload }
     },
-    receiverJSON: (state, { payload }) => {
-      return { ...state, receiverJSON: payload }
-    },
-    senderJSON: (state, { payload }) => {
-      return { ...state, senderJSON: payload }
-    }
+    // receiverJSON: (state, { payload }) => {
+    //   return { ...state, receiverJSON: payload }
+    // },
+    // senderJSON: (state, { payload }) => {
+    //   return { ...state, senderJSON: payload }
+    // }
   }
 }
