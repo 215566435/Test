@@ -6,6 +6,7 @@
  * app.model
  */
 
+ // 组件中写了watcher 引用watcher
 import { watch as PriceList } from "./pages/PriceList/action";
 import { watch as Detail } from "./pages/Detail/action";
 import { watch as Cart } from "./pages/Cart/action";
@@ -19,6 +20,7 @@ import { watch as Person } from "./pages/Person/action";
 import { watch as Deposite } from "./pages/DepositeLog/action";
 import { watch as Password } from "./pages/Password/action";
 import { watch as Login } from "./pages/Login/action";
+// 组件中没写watcher，引用worker
 import { actionStategy as Message } from "./pages/Message/action";
 import { actionStategy as Feedback } from "./pages/Feedback/action";
 import { actionStategy as FeedbackForm } from "./pages/FeedbackForm/action";
@@ -28,6 +30,7 @@ import { actionStategy as FeedbackReplyForm } from "./pages/FeedbackReplyForm/ac
 import { fork, take, select, call, put } from "redux-saga/effects";
 import { takeEvery } from "redux-saga";
 
+//redux saga 配置watcher，这样如果使用纯redux saga就不用在action（saga）文件中写下面的代码开启监听
 function convert(actionStategy) {
   return Object.keys(actionStategy);
 }
@@ -39,6 +42,7 @@ const watchCreator = actionStategy => {
       const { type, ...others } = yield take(actionList);
       try {
         const state = yield select(state => state);
+        //这个type就是actionStategy数组中函数的名字，发一个请求，开启一个worker，就启动一个watcher
         const actionFn = actionStategy[type];
         if (!actionFn) continue;
         yield call(actionFn, state, others);
@@ -55,6 +59,7 @@ const rootWatch = actionStategys => {
   });
 };
 
+// 自己封装的类Dva框架
 class Rluy {
   constructor() {
     this.sagaMiddleware = {};
@@ -111,6 +116,7 @@ class Rluy {
 }
 
 const app = new Rluy();
+//配置Rluy
 app.model(require("./pages/Address/Address"));
 app.model(require("./pages/ImageViewer/ImageViewer"));
 app.model(require("./pages/FeedbackForm/FeedbackForm"));
@@ -129,7 +135,9 @@ app.model(require("./pages/Manifest/hank_model"));
 
 export const App = app;
 
+//纯Redux saga 开启监听
 export default function* rootSaga() {
+  // 组件中的saga没写watcher，引用进来集体开启
   const watchList = rootWatch([
     Message,
     Feedback,
@@ -137,7 +145,7 @@ export default function* rootSaga() {
     FeedbackReply,
     FeedbackReplyForm
   ]);
-
+  // 组件中写了watcher，引用进来watcher，使用fork，开启监听
   yield [
     fork(PriceList),
     fork(Detail),
