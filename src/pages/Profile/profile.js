@@ -7,35 +7,35 @@ import {
   View,
   Text,
   StyleSheet,
+  TouchableOpacity,
+  AsyncStorage,
+  Alert,
+  Platform,
   Image,
   Dimensions,
   ScrollView,
-  TouchableOpacity,
   Button,
-  Modal,
-  AsyncStorage,
-  Alert,
-  Platform
+  Modal
 } from 'react-native'
-import { StackNavigator } from 'react-navigation' // 1.0.0-beta.14
-
-import { CustomTabBar } from '../../components/CustomTabBar'
 import { Grid } from '../../components/Grid'
 import FontAwesome from 'react-native-vector-icons/FontAwesome' // 4.4.2
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Entypo from 'react-native-vector-icons/Entypo'
-
-import codePush from 'react-native-code-push'
-
-import Login from '../Login'
-
 import { header, Url, height, width } from '../../util'
 import { PageWithTab } from '../../HOC/PageWithTab'
 import { ToolItem } from './profile-tools'
 import { Head } from './profile-head'
 
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import codePush from 'react-native-code-push'
+import { StackNavigator } from 'react-navigation' // 1.0.0-beta.14
+import { CustomTabBar } from '../../components/CustomTabBar'
+import Login from '../Login'
+
+/**
+ * 个人资料组件，整体，包括上下两部分，上半部分又profile-head.js引入
+ */
 class Profile extends React.Component {
   state = {
     userName: '',
@@ -45,6 +45,9 @@ class Profile extends React.Component {
     }
   }
 
+  /**
+   * 封装接收存款余额的方法
+   */
   fetchBalance = () => {
     ;(async that => {
       const res = await fetch(Url + 'user/GetDepositBalance', {
@@ -62,8 +65,34 @@ class Profile extends React.Component {
       })
     })(this)
   }
+
+  /**
+   * 封装接收佣金余额的方法
+   */
+  fetchCommission = () => {
+    ;(async that => {
+      //接口还没有写
+      const res = await fetch(Url + 'user/GetCommissionBalance', {
+        method: 'POST',
+        headers: header.get(),
+        body: '{}'
+      })
+
+      const json = await res.json()
+      that.setState({
+        userBalence: {
+          aud: json.data[1],
+          rmb: json.data[0]
+        }
+      })
+    })(this)
+  }
+
   componentDidMount() {
     this.checkLogin()
+    //发送到charge/charge.js下面的mapProfileInstance
+    //dispatch是从connect传入的
+    //就因为有这个disptch，所以需要在把profile.js在store中配置，但是好像并没有使用啊！
     this.props.dispatch({
       type: 'mapProfileInstance',
       payload: this
@@ -108,9 +137,14 @@ class Profile extends React.Component {
       this.props.navigation.navigate(child.props.name)
     }
   }
+
+  /**
+   * 查看本地内存检验login
+   */
   checkLogin = () => {
     AsyncStorage.multiGet(['token', 'name'])
       .then(res => {
+        // 如果不存在token，转到login页面，清空状态，
         if (res[0][1] === null) {
           this.props.navigation.navigate('Login')
           this.setState({
@@ -121,10 +155,12 @@ class Profile extends React.Component {
             }
           })
         } else {
+          // 如果存在，更新状态
           header.set(res[0][1])
           this.setState({
             userName: res[1][1]
           })
+          // 发起请求，接收存款余额
           this.fetchBalance()
         }
       })
@@ -132,6 +168,7 @@ class Profile extends React.Component {
         //出错
       })
   }
+
   onLoginFinished = personInformation => {
     if (personInformation.success === true) {
       header.set(personInformation.data.token)
@@ -148,14 +185,17 @@ class Profile extends React.Component {
         })
     }
   }
+
   loginCancel = () => {
     this.setState({
       isLogined: true
     })
   }
+
   CustomTabBarPress = () => {
     this.props.navigation.goBack(null)
   }
+
   render() {
     return (
       <View style={headStyle.container}>
@@ -181,7 +221,7 @@ class Profile extends React.Component {
 export default PageWithTab(Profile, '返回')
 
 /**
- * 工具栏
+ * 工具栏，就是个人信息的下半部分
  * 其中的name会在点击的时候传给GridItemClick函数
  * @parma:GridItemClick函数
  */
@@ -273,6 +313,9 @@ class GridBody extends Component {
   }
 }
 
+/**
+ * 右上角的系统信息
+ */
 class Message extends Component {
   render() {
     return (
@@ -322,6 +365,9 @@ class Message extends Component {
   }
 }
 
+/**
+ * 上半部分的样式
+ */
 const headStyle = StyleSheet.create({
   container: {
     backgroundColor: '#eee',
