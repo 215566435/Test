@@ -4,9 +4,10 @@ import { centralization } from '../../style-util'
 import { RoundButton } from '../../components/Button'
 
 /**
- * 个人信息
+ * 个人信息上半部分组件
  */
 export class Head extends React.Component {
+  // 转化money变量值 undefined到 0
   undefineToZero = money => {
     if (money !== void 666) {
       return money
@@ -15,6 +16,9 @@ export class Head extends React.Component {
     }
   }
 
+  /**
+   * 渲染存款
+   */
   renderBalance = () => {
     const { userBalence } = this.props
     if (userBalence.rmb === '' && userBalence.aud === '') {
@@ -24,6 +28,23 @@ export class Head extends React.Component {
     }
   }
 
+  /**
+   * 渲染佣金
+   * 佣金功能
+   * 18年6月加入
+   */
+  renderCommission = () => {
+    const { Commission } = this.props
+    if (Commission.rmb === '' && Commission.aud === '') {
+      return '我的佣金：0'
+    } else {
+      return `我的佣金：${this.undefineToZero(Commission.rmb)}  ${this.undefineToZero(Commission.aud)}`
+    }
+  }
+
+  /**
+   * 账户充值方法
+   */
   recharge = currency => {
     const navigate = this.props.navigation.navigate
     Alert.alert('充值', '请选择要充值到哪个账户', [
@@ -81,7 +102,8 @@ export class Head extends React.Component {
           </TouchableOpacity>
           <Text style={headTextStyle}>欢迎您，{userName}</Text>
           <View style={{ flexDirection: 'row' }}>
-            <Text style={headTextStyle}>{this.renderBalance()}</Text>
+            <Text style={headTextStyle}>{this.renderBalance()}</Text> // 渲染预存款
+            <Text style={headTextStyle}>{this.renderCommission()}</Text> // 渲染我的佣金
             <RoundButton backgroundColor="#9254de" onPress={this.recharge}>
               <Text style={{ ...headTextStyle, margin: 0, fontSize: 10 }}>充值</Text>
             </RoundButton>
