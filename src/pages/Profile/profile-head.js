@@ -34,11 +34,11 @@ export class Head extends React.Component {
    * 18年6月加入
    */
   renderCommission = () => {
-    const { Commission } = this.props
-    if (Commission.rmb === '' && Commission.aud === '') {
-      return '我的佣金：0'
+    const { userCommission } = this.props //从props中拿到Commission， profile.js的head标签要加入userCommission={this.state.userCommission}
+    if (userCommission.rmb === '' && userCommission.aud === '') {
+      //return '我的佣金：0'
     } else {
-      return `我的佣金：${this.undefineToZero(Commission.rmb)}  ${this.undefineToZero(Commission.aud)}`
+      return `我的佣金：¥${this.undefineToZero(userCommission.rmb)}  $${this.undefineToZero(userCommission.aud)}`
     }
   }
 
@@ -68,6 +68,11 @@ export class Head extends React.Component {
         style: 'cancel'
       }
     ])
+  }
+
+  commissionHandler = () => {
+    const navigate = this.props.navigation.navigate;
+    navigate('Commission');
   }
 
   render() {
@@ -102,10 +107,15 @@ export class Head extends React.Component {
           </TouchableOpacity>
           <Text style={headTextStyle}>欢迎您，{userName}</Text>
           <View style={{ flexDirection: 'row' }}>
-            <Text style={headTextStyle}>{this.renderBalance()}</Text> // 渲染预存款
-            <Text style={headTextStyle}>{this.renderCommission()}</Text> // 渲染我的佣金
+            <Text style={headTextStyle}>{this.renderBalance()}</Text>
             <RoundButton backgroundColor="#9254de" onPress={this.recharge}>
               <Text style={{ ...headTextStyle, margin: 0, fontSize: 10 }}>充值</Text>
+            </RoundButton>
+          </View>
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={headTextStyle}>{this.renderCommission()}</Text>
+            <RoundButton backgroundColor="#9254de" onPress={this.commissionHandler}>
+              <Text style={{ ...headTextStyle, margin: 0, fontSize: 10 }}>查看</Text>
             </RoundButton>
           </View>
         </View>

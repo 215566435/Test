@@ -123,6 +123,7 @@ app.model(require("./pages/Loading/index"));
 app.model(require("./pages/Charge/charge"));
 app.model(require("./pages/Settle/remake_settle"));
 app.model(require("./pages/Manifest/hank_model"));
+app.model(require("./pages/Commission/model"));
 // 在page下创建了新Model需要在这里配置
 
 // Rluy 框架文档 https://github.com/Foveluy/Rluy#model 其实还有一些不一样

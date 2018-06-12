@@ -25,6 +25,7 @@ import FeedbackForm from '../FeedbackForm'
 import FeedbackReply from '../FeedbackReply'
 import FeedbackReplyForm from '../FeedbackReplyForm'
 import Charge from '../Charge/index'
+import CommissionList from '../Commission/index'
 
 const ProfileInstace = null
 let _profile = null
@@ -39,7 +40,7 @@ const ProfileHOC = () => {
     static navigationOptions = {
       header: null,
       tabBarOnPress: (obj, jump) => {
-        //this.onTabPress(obj, jump)
+        //相当于this.onTabPress(obj, jump)
         ProfileInstace.onTabPress(obj, jump)
       }
     }
@@ -48,10 +49,12 @@ const ProfileHOC = () => {
     // 哦 明白了， 每次跳转页面，我们都验证一下用户是否登录，然后接收存款余额，如果没登录
     // 跳转到登录页面
     onTabPress({ route, index }, jump) {
+      console.log('准备调用fetchBalance'); //首页加载时并没有进来
       // 调用Profile标签下面的CheckLogin方法
       this.refs.Profile.checkLogin()
       // 调用Profile标签下的fetchBalance方法
       this.refs.Profile.fetchBalance()
+      this.refs.Profile.fetchCommission()
       jump(index)
     }
     componentDidMount() {
@@ -146,6 +149,14 @@ export default StackNavigator(
     },
     FeedbackReplyForm: {
       screen: props => <FeedbackReplyForm {...props} />,
+      navigationOptions: {
+        header: null,
+        tabBarVisible: false,
+        gesturesEnabled: true
+      }
+    },
+    CommissionList: {
+      screen: props => <CommissionList {...props} />,
       navigationOptions: {
         header: null,
         tabBarVisible: false,

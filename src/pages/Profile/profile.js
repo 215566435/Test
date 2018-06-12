@@ -1,6 +1,8 @@
 /**
  * 2017/10/26 方正 创建
  * 本页面是用于个人登陆
+ * 
+ * 逻辑入口在checkLogin
  */
 import React, { Component } from 'react'
 import {
@@ -42,8 +44,12 @@ class Profile extends React.Component {
     userBalence: {
       aud: '',
       rmb: ''
-    }
+    },
+    userCommission: {
+        aud: '',
+        rmb: ''
   }
+}
 
   /**
    * 封装接收存款余额的方法
@@ -55,7 +61,7 @@ class Profile extends React.Component {
         headers: header.get(),
         body: '{}'
       })
-
+      console.log('fetchBalance', res);
       const json = await res.json()
       that.setState({
         userBalence: {
@@ -70,19 +76,22 @@ class Profile extends React.Component {
    * 封装接收佣金余额的方法
    */
   fetchCommission = () => {
-    ;(async that => {
-      //接口还没有写
-      const res = await fetch(Url + 'user/GetCommissionBalance', {
+    ;(async that => { // that相当于this，这个是两个括号，立即自执行函数，应该是为了确保this不变。但是不确定？？？
+      const res = await fetch(Url + 'user/GetCommissionSummary', {
         method: 'POST',
         headers: header.get(),
         body: '{}'
       })
-
+      console.log('fetchCommission', res);
       const json = await res.json()
+      console.log('rmb', json.data.commissionAmounts.RMB);
+      console.log('rmb', json.data.commissionAmounts.RMB.total);
+      //console.log('AUD', json.parse(json.data.commissionAmounts.AUD));
       that.setState({
-        userBalence: {
-          aud: json.data[1],
-          rmb: json.data[0]
+        userCommission: {
+          // aud: json.data.commissionAmounts.AUD.total || 0,
+          aud: json.data.commissionAmounts.AUD.total,
+          rmb: json.data.commissionAmounts.RMB.total
         }
       })
     })(this)
@@ -140,6 +149,7 @@ class Profile extends React.Component {
 
   /**
    * 查看本地内存检验login
+   * 如果存在token，那么发起请求，接收存款和佣金
    */
   checkLogin = () => {
     AsyncStorage.multiGet(['token', 'name'])
@@ -161,7 +171,9 @@ class Profile extends React.Component {
             userName: res[1][1]
           })
           // 发起请求，接收存款余额
-          this.fetchBalance()
+          this.fetchBalance();
+          // 发起请求， 接受用佣金
+          this.fetchCommission();
         }
       })
       .catch(res => {
@@ -169,6 +181,9 @@ class Profile extends React.Component {
       })
   }
 
+  /**
+   * 登陆完成以后清空，收取存款和佣金
+   */
   onLoginFinished = personInformation => {
     if (personInformation.success === true) {
       header.set(personInformation.data.token)
@@ -178,7 +193,8 @@ class Profile extends React.Component {
             userName: personInformation.data.name
           })
           this.props.refreshAll()
-          this.fetchBalance()
+          this.fetchBalance();
+          this.fetchCommission();
         })
         .catch(res => {
           //登陆失败
@@ -207,6 +223,7 @@ class Profile extends React.Component {
           <Head
             userName={this.state.userName}
             userBalence={this.state.userBalence}
+            userCommission={this.state.userCommission}
             navigation={this.props.navigation}
             {...this.props}
             Message={Message}

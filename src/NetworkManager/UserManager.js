@@ -1,4 +1,6 @@
-
+/**
+ * UserManager 对应的就是API中的userController
+ */
 
 import BaseManager, { ListManager } from "./BaseManager";
 import { getCurrent } from "../util";
