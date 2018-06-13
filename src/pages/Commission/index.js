@@ -5,6 +5,7 @@
 
 import React, { Component } from "react";
 import { View, Text, FlatList, Image } from "react-native";
+import { connect } from "react-redux";
 
 class Commission extends Component {
   componentDidMount() {

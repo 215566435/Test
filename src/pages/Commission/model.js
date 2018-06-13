@@ -5,15 +5,16 @@
 import BaseManager from '../../NetworkManager/BaseManager'
 
 export default {
-  namespace: "commission",
+  namespace: 'commission',
   state: {},
   reducers: {
     mapCommissionList(state, { payload }) {
-      return { ...state, commissionList: payload };
+      return { ...state, commission: payload };
     }
   },
   effects: {
     *fetchCommissionList({ select, call, put }, { payload }) {
+        console.log('开始fetch');
         const baseManager = new BaseManager;
         const res = yield baseManager.fetchApi({
             url: baseManager.Url + 'user/CommissionsList',
@@ -24,6 +25,8 @@ export default {
               pagesize: 15
             }
         })
+
+        console.log('res', res);
 
         try {
             const items = res.data.items

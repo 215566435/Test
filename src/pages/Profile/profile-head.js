@@ -70,9 +70,12 @@ export class Head extends React.Component {
     ])
   }
 
+  /**
+   * 点击佣金旁边的查看按钮，跳转页面到佣金列表页面
+   */
   commissionHandler = () => {
     const navigate = this.props.navigation.navigate;
-    navigate('Commission');
+    navigate('CommissionList');
   }
 
   render() {
