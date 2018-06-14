@@ -234,3 +234,11 @@ export function getCurrent(state) {
 export const Eng2Cn = string => {
   return string === 'RMB' ? '人民币' : '澳币'
 }
+
+/**
+ * 人民币或者澳币符号判断
+ * @param {} string 
+ */
+export const Eng2CnSymbol = string => {
+  return string === 'RMB' ? '¥' : '$'
+}
