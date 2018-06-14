@@ -24,6 +24,7 @@ const actionStategy = {
                 pagesize: 15
             }
         })
+        console.log('deposite', json);
         yield put({
             type: 'Deposite_SET_STATE',
             data: { ...state, Deposite: json.data.items }

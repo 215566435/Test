@@ -38,6 +38,8 @@ import Attach from './pages/Attachment/index'
 import SettleEditAddress from './pages/Settle/settle-edit-address'
 import SettleAddressSelector from './pages/Settle/settle-address-selector'
 import SettleCourierPicker from './pages/Settle/settle-courier-picker'
+//import CommissionWithdraw from './pages/CommissionWithdraw/index'
+
 
 const iconsSize = Platform.OS === 'ios' ? 26 : 15
 
@@ -270,7 +272,15 @@ const RootTabs = StackNavigator(
         tabBarVisible: false,
         gesturesEnabled: true
       }
-    }
+    },
+    // CommissionWithdraw: {
+    //   screen: props => <CommissionWithdraw {...props} />,
+    //   navigationOptions: {
+    //     header: null,
+    //     tabBarVisible: false,
+    //     gesturesEnabled: true
+    //   }
+    // }
   },
   {
     initialRouteName: 'Home',

@@ -5,26 +5,26 @@
 import BaseManager from '../../NetworkManager/BaseManager'
 
 export default {
-  namespace: 'commission',
+  namespace: 'CommissionWithdraw',
   state: {},
   reducers: {
-    mapCommissionList(state, { payload }) {
-      return { ...state, commission: payload };
+    mapCommissionWithdrawList(state, { payload }) {
+      return { ...state, CommissionWithdraw: payload };
     }
   },
   effects: {
-    *fetchCommissionList({ select, call, put }, { payload }) {
-        let commission = yield select(state => state.commission.commission); //select拿到当前list数据
-        // 解决第一次拿来commission是undefined问题
-        if (commission === void 666) {
-            commission = {};
+    *fetchCommissionWithdrawList({ select, call, put }, { payload }) {
+        let CommissionWithdraw = yield select(state => state.CommissionWithdraw.CommissionWithdraw); //select拿到当前list数据
+        // 解决第一次拿来CommissionWithdraw是undefined问题
+        if (CommissionWithdraw === void 666) {
+            CommissionWithdraw = {};
         }
-        console.log('model文件commission state', commission);
+        console.log('model文件CommissionWithdraw state', CommissionWithdraw);
 
         console.log('开始fetch');
         const baseManager = new BaseManager;
         const res = yield baseManager.fetchApi({
-            url: baseManager.Url + 'user/CommissionsList',
+            url: baseManager.Url + 'user/CommissionWithdrawsList',
             body: {
               type: 0,//佣金页面不涉及type默认0就行
               keyword: '',//也不涉及keyword
@@ -39,10 +39,10 @@ export default {
             let items = res.data.items
             console.log('合并前items', items)
             if (items.length !== 0) {          
-              items = [...items, ...commission]
+              items = [...items, ...CommissionWithdraw]
               console.log('合并后items', items)
               yield put({
-                type: 'mapCommissionList',
+                type: 'mapCommissionWithdrawList',
                 payload: items
               })
             }

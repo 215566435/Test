@@ -5,7 +5,7 @@ import React from "react";
 import { View, Text } from "react-native";
 import { timeSplit, Eng2CnSymbol } from "../../../util";
 
-export default (CommissionRow = (item, index) => {
+export default (CommissionWithdrawRow = (item, index) => {
   EnTypeToCNType = (type) => {
     cnType = '';
     if (type == 'Returns') {
@@ -15,21 +15,21 @@ export default (CommissionRow = (item, index) => {
     }
     return cnType;
   }
-  // console.log('进入CommissionRow');
-  // console.log('CommissionItem', item);
+  // console.log('进入CommissionWithdrawRow');
+  // console.log('CommissionWithdrawItem', item);
         // 数据
         // 0:Object
-        // commissionPrice:-59.63
-        // commissionType:"Returns"
-        // commissionUserId:5196
-        // commissionUserPrice:132.5
+        // CommissionWithdrawPrice:-59.63
+        // CommissionWithdrawType:"Returns"
+        // CommissionWithdrawUserId:5196
+        // CommissionWithdrawUserPrice:132.5
         // createTime:"2018-05-21T11:08:24.97"
         // currency:"RMB"
         // id:25
         // orderId:"70000731587"
         // remark:null
         // status:"NotWithdrawn"
-  const commissionData = item.item;
+  const CommissionWithdrawData = item.item;
   return (
     <View
       style={{
@@ -44,10 +44,10 @@ export default (CommissionRow = (item, index) => {
 
 
       <View>
-        <Text style={{ backgroundColor: "transparent" }}>订单号：{commissionData.orderId}</Text> 
+        <Text style={{ backgroundColor: "transparent" }}>订单号：{CommissionWithdrawData.orderId}</Text> 
         <View style={{ flexDirection: "row" }}>
           <Text style={{ color: "#919191", backgroundColor: "transparent" }}>
-            {EnTypeToCNType(commissionData.commissionType)}
+            {EnTypeToCNType(CommissionWithdrawData.CommissionWithdrawType)}
           </Text>
           <Text
             style={{
@@ -56,7 +56,7 @@ export default (CommissionRow = (item, index) => {
               backgroundColor: "transparent"
             }}
           >
-            {timeSplit(commissionData.createTime).date}
+            {timeSplit(CommissionWithdrawData.createTime).date}
           </Text>
         </View>
       </View>
@@ -67,7 +67,7 @@ export default (CommissionRow = (item, index) => {
           backgroundColor: "transparent"
         }}
       >
-        {Eng2CnSymbol(commissionData.currency)}{commissionData.commissionPrice}
+        {Eng2CnSymbol(CommissionWithdrawData.currency)}{CommissionWithdrawData.CommissionWithdrawPrice}
       </Text>
     </View>
   );

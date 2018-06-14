@@ -7,17 +7,17 @@ import React, { Component } from "react";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 //每行的渲染样式
-import CommissionRow from "./View/CommissionRow";
+import CommissionWithdrawRow from "./View/CommissionWithdrawRow";
 // 从manifest页面拿来头部
-import { HeaderWithLeftArrow } from "./View/CommissionHeader";
+import { HeaderWithLeftArrow } from "./View/CommissionWithdrawHeader";
 
 // 声明一个变量pageIndex记录目前的页数
 let pageIndex = 1;
-class Commission extends Component {
+class CommissionWithdrawWithdraw extends Component {
   componentDidMount() {
     //页面加载完成，第一次获取数据，
     this.props.dispatch({
-      type: "fetchCommissionList",
+      type: "fetchCommissionWithdrawList",
       payload: { pageIndex } //payLoad必须是对象
     });
   }
@@ -35,13 +35,13 @@ class Commission extends Component {
   endReachHandler = () => {
     pageIndex++;
     this.props.dispatch({
-      type: "fetchCommissionList",
+      type: "fetchCommissionWithdrawList",
       payload: { pageIndex } //payload必须是对象
     });
   };
   render() {
     // 渲染主题页面
-    console.log("index文件commission state", this.props.commission);
+    console.log("index文件CommissionWithdraw state", this.props.CommissionWithdraw);
     return (
       <View>
         <HeaderWithLeftArrow title="佣金记录" onPress={this.goBack} />
@@ -63,7 +63,9 @@ class Commission extends Component {
               申请提现
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => { 
+            //this.props.navigation.navigate('CommissionWithdraw', { pack })
+           }}>
             <Text
               style={{
                 fontSize: 16,
@@ -79,8 +81,8 @@ class Commission extends Component {
           </TouchableOpacity>
         </View>
         <FlatList
-          data={this.props.commission || []}
-          renderItem={CommissionRow}
+          data={this.props.CommissionWithdraw || []}
+          renderItem={CommissionWithdrawRow}
           keyExtractor={item => item.id}
           onEndReached={this.endReachHandler}
           initialNumToRender={6}
@@ -93,9 +95,9 @@ class Commission extends Component {
 
 function mapStateToProps(state) {
   return {
-    // 从application level state 中拿到 commission state
-    ...state.commission
+    // 从application level state 中拿到 CommissionWithdraw state
+    ...state.CommissionWithdraw
   };
 }
 
-export default connect(mapStateToProps)(Commission);
+export default connect(mapStateToProps)(CommissionWithdraw);
