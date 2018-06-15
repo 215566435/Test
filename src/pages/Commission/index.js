@@ -4,7 +4,7 @@
  */
 
 import React, { Component } from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, Alert } from "react-native";
 import { connect } from "react-redux";
 //每行的渲染样式
 import CommissionRow from "./View/CommissionRow";
@@ -30,7 +30,7 @@ class Commission extends Component {
   };
 
   /**
-   * 页面加载到底
+   * 页面加载到底,触发请求渲染下一页
    */
   endReachHandler = () => {
     pageIndex++;
@@ -39,17 +39,65 @@ class Commission extends Component {
       payload: { pageIndex } //payload必须是对象
     });
   };
+
+  /**
+   * 申请提现
+   * 弹出警告栏选择提现方法
+   */
+  withdrawHandler = () => {
+    Alert.alert(
+      '选择提现账户',
+      "",
+      [
+        {
+          text: "预存款",
+          onPress: () => {
+            this.props.navigation.navigate("WithdrawToDeposit", { ...this.props.commission });
+          }
+        },
+        {
+          text: "微信",
+          onPress: () => {
+            this.props.navigation.navigate("SettleEditAddress", {  });
+          }
+        },
+        {
+          text: "支付宝",
+          onPress: () => {
+            this.props.navigation.navigate("SettleEditAddress", {  });
+          }
+        },
+        {
+          text: "中国境内银行",
+          onPress: () => {
+            this.props.navigation.navigate("SettleEditAddress", {  });
+          }
+        },
+        {
+          text: "境外银行-澳币",
+          onPress: () => {
+            this.props.navigation.navigate("SettleEditAddress", {  });
+          }
+        },
+        { text: "取消" }
+      ],
+      { cancelable: false }
+    );
+  };
+
   render() {
     // 渲染主题页面
     console.log("index文件commission state", this.props.commission);
     return (
       <View>
         <HeaderWithLeftArrow title="佣金记录" onPress={this.goBack} />
-        <View style={{
-          alignItems: "center",
-          flexDirection: "row",
-        }}>
-          <TouchableOpacity onPress={() => {}}>
+        <View
+          style={{
+            alignItems: "center",
+            flexDirection: "row"
+          }}
+        >
+          <TouchableOpacity onPress={this.withdrawHandler}>
             <Text
               style={{
                 fontSize: 16,
@@ -63,7 +111,11 @@ class Commission extends Component {
               申请提现
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity
+            onPress={() => {
+              this.props.navigation.navigate("CommissionWithdraw");
+            }}
+          >
             <Text
               style={{
                 fontSize: 16,

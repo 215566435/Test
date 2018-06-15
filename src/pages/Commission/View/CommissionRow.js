@@ -62,7 +62,7 @@ export default (CommissionRow = (item, index) => {
       </View>
       <Text
         style={{
-          color: item.depositChange > 0 ? "#00a854" : "#404040",
+          color: commissionData.commissionPrice > 0 ? "#00a854" : "#404040",
           fontSize: 18,
           backgroundColor: "transparent"
         }}

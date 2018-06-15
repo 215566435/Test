@@ -1,5 +1,5 @@
 /**
- * 佣金页面
+ * 佣金提现记录页面
  * 06/18创建
  */
 
@@ -13,7 +13,7 @@ import { HeaderWithLeftArrow } from "./View/CommissionWithdrawHeader";
 
 // 声明一个变量pageIndex记录目前的页数
 let pageIndex = 1;
-class CommissionWithdrawWithdraw extends Component {
+class CommissionWithdraw extends Component {
   componentDidMount() {
     //页面加载完成，第一次获取数据，
     this.props.dispatch({
@@ -41,45 +41,13 @@ class CommissionWithdrawWithdraw extends Component {
   };
   render() {
     // 渲染主题页面
-    console.log("index文件CommissionWithdraw state", this.props.CommissionWithdraw);
+    console.log(
+      "index文件CommissionWithdraw state",
+      this.props.CommissionWithdraw
+    );
     return (
       <View>
-        <HeaderWithLeftArrow title="佣金记录" onPress={this.goBack} />
-        <View style={{
-          alignItems: "center",
-          flexDirection: "row",
-        }}>
-          <TouchableOpacity onPress={() => {}}>
-            <Text
-              style={{
-                fontSize: 16,
-                textAlign: "left",
-                backgroundColor: "transparent",
-                width: 150,
-                padding: 20,
-                top: 10
-              }}
-            >
-              申请提现
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => { 
-            //this.props.navigation.navigate('CommissionWithdraw', { pack })
-           }}>
-            <Text
-              style={{
-                fontSize: 16,
-                textAlign: "right",
-                backgroundColor: "transparent",
-                width: 160,
-                padding: 20,
-                top: 10
-              }}
-            >
-              佣金提现记录
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <HeaderWithLeftArrow title="佣金提现记录" onPress={this.goBack} />
         <FlatList
           data={this.props.CommissionWithdraw || []}
           renderItem={CommissionWithdrawRow}

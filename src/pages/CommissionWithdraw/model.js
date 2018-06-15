@@ -24,7 +24,7 @@ export default {
         console.log('开始fetch');
         const baseManager = new BaseManager;
         const res = yield baseManager.fetchApi({
-            url: baseManager.Url + 'user/CommissionWithdrawsList',
+            url: baseManager.Url + 'user/CommissionWithdrawList',
             body: {
               type: 0,//佣金页面不涉及type默认0就行
               keyword: '',//也不涉及keyword
@@ -47,7 +47,9 @@ export default {
               })
             }
           } catch (e) {
-            Alert.alert('出错了', '服务请求出错')
+            //后台model文件，不想引用react native了直接consolelog
+            //Alert.alert('出错了', '服务请求出错')
+            console.log('请求出错，查看API');
           }
     }
   }
