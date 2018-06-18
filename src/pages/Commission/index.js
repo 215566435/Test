@@ -52,13 +52,15 @@ class Commission extends Component {
         {
           text: "预存款",
           onPress: () => {
-            this.props.navigation.navigate("WithdrawToDeposit", { ...this.props.commission });
+            //{ ...this.props.commission }这个第二个参数就是传入的props
+            //this.props.navigation.navigate("WithdrawToDeposit", { ...this.props.commission });
+            this.props.navigation.navigate("WithdrawToDeposit", {  });
           }
         },
         {
           text: "微信",
           onPress: () => {
-            this.props.navigation.navigate("SettleEditAddress", {  });
+            this.props.navigation.navigate("WithdrawToWeChat", {  });
           }
         },
         {
@@ -90,7 +92,7 @@ class Commission extends Component {
     console.log("index文件commission state", this.props.commission);
     return (
       <View>
-        <HeaderWithLeftArrow title="佣金记录" onPress={this.goBack} />
+        <HeaderWithLeftArrow title="佣金来源详情" onPress={this.goBack} />
         <View
           style={{
             alignItems: "center",
@@ -126,7 +128,7 @@ class Commission extends Component {
                 top: 10
               }}
             >
-              佣金提现记录
+              提现记录
             </Text>
           </TouchableOpacity>
         </View>

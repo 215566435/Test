@@ -3,6 +3,10 @@
  * 在rootSaga中配置model
  */
 import BaseManager from "../../NetworkManager/BaseManager";
+// 把Alert引到数据层，不太好吧！！但是之前都这么做得，忍了
+import {
+  Alert
+} from "react-native";
 
 export default {
   namespace: "commission",
@@ -63,24 +67,77 @@ export default {
     *fetchCommission({ select, call, put }, { payload }) {
       console.log("开始fetchCommission");
       const baseManager = new BaseManager();
-      const res = yield baseManager.fetchApi({
+      //获取可提佣金数
+      const commissionSummary = yield baseManager.fetchApi({
         url: baseManager.Url + "user/GetCommissionSummary",
         body: {}
       });
-
-      console.log('fetchCommission中的res',res);
+      console.log("fetchCommission中的commissionSummary", commissionSummary);
+      const maxCommissionId = yield baseManager.fetchApi({
+        url: baseManager.Url + "user/GetMaxCommissionId",
+        body: {}
+      });
 
       try {
         //转换数据结构
-        items = res.data.commissionAmounts
+        items = {...commissionSummary.data.commissionAmounts, ...maxCommissionId};
+        console.log('model文件中的items', items);
         yield put({
           type: "mapCommission",
           payload: items
         });
       } catch (e) {
         Alert.alert("出错了", "服务请求出错");
-        console.log('请求出错');
+        console.log("请求出错");
       }
+    },
+    /**
+     * 发请求，接收目前最大的佣金ID，请求后台佣金提现时候需要提供这个ID
+     */
+    *createCommissionWithdraw({ select, call, put }, { payload }) {
+      console.log("开始createCommissionWithdraw");
+      const { maxCommissionId, Account, BankName, OrderCommissionWithdrawMethod, PayName, instance } = payload;
+      console.log('maxCommissionId', maxCommissionId);
+      const baseManager = new BaseManager();
+      // 请求数据
+      // public int MaxCommissionId { get; set; }
+      // public string Account { get; set; }
+      // public string BankName { get; set; }
+      // // 枚举类型传入字符串就行
+      // public OrderCommissionWithdrawMethod Method { get; set; }
+      // public string PayName { get; set; }
+
+      // 佣金提现方式
+      // PreDeposit = 0,
+      // WeChat = 1,
+      // Alipay = 2,
+      // ChinaBank = 3,
+      // OverseasBankAUD = 4,
+
+      const res = yield baseManager.fetchApi({
+        url: baseManager.Url + "user/createCommissionWithdraw",
+        body: {
+          MaxCommissionId: maxCommissionId,
+          Account: Account,
+          BankName: BankName,
+          OrderCommissionWithdrawMethod: OrderCommissionWithdrawMethod,
+          PayName: PayName,
+        }
+      });
+      console.log("createCommissionWithdraw中的res", res);
+
+      if (!res.success) {
+        Alert.alert('请求失败！', res.message)
+        return
+      }
+
+      //一秒后没有完成，自动跳转到佣金记录来源详情页面
+      setTimeout(() => {
+        instance.props.navigation.goBack()
+      }, 1000)
+
+      instance.props.navigation.goBack()
+      Alert.alert('提现请求发起成功！')
     }
   }
 };
