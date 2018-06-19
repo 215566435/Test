@@ -39,7 +39,7 @@ export default {
             let items = res.data.items
             console.log('合并前items', items)
             if (items.length !== 0) {          
-              items = [...items, ...CommissionWithdraw]
+              items = [ ...CommissionWithdraw, ...items]
               console.log('合并后items', items)
               yield put({
                 type: 'mapCommissionWithdrawList',

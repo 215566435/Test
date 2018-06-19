@@ -21,10 +21,12 @@ export default {
   },
   effects: {
     /**
-     * 发请求，接收佣金列表
+     * 页面加载完成发请求，接收佣金列表
+     * 用户滑动到底，接受新列表数据，和原来数据合并（下拉刷新效果）
      */
     *fetchCommissionList({ select, call, put }, { payload }) {
-      let commission = yield select(state => state.commission.commission); //select拿到当前list数据
+      //select拿到当前list数据
+      let commission = yield select(state => state.commission.commission); 
       // 解决第一次拿来commission是undefined问题
       if (commission === void 666) {
         commission = {};
@@ -38,22 +40,26 @@ export default {
         body: {
           type: 0, //佣金页面不涉及type默认0就行
           keyword: "", //也不涉及keyword
-          currentpage: payload.pageIndex,
+          currentpage: payload.pageIndex, // 前台的计数器，每次onEndReached就会传入新的currentpage
           pagesize: 15
         }
       });
 
-      //console.log('res', res);
+      console.log('结束fetchCommissionList', res);
 
       try {
-        let items = res.data.items;
+        // 新请求获取的数据
+        const items = res.data.items;
         console.log("合并前items", items);
         if (items.length !== 0) {
-          items = [...items, ...commission];
-          console.log("合并后items", items);
+          // 反了，结果新拿到的数据在旧的数据上面，注意
+          // items = [...items, ...commission];
+          // 和现有的数据合并
+          const newItems = [ ...commission,...items ];
+          console.log("合并后newItems", newItems);
           yield put({
             type: "mapCommissionList",
-            payload: items
+            payload: newItems
           });
         }
       } catch (e) {
@@ -80,6 +86,7 @@ export default {
 
       try {
         //转换数据结构
+        // items = { ...maxCommissionId, ...commissionSummary.data.commissionAmounts};
         items = {...commissionSummary.data.commissionAmounts, ...maxCommissionId};
         console.log('model文件中的items', items);
         yield put({
@@ -98,6 +105,7 @@ export default {
       console.log("开始createCommissionWithdraw");
       const { maxCommissionId, Account, BankName, OrderCommissionWithdrawMethod, PayName, instance } = payload;
       console.log('maxCommissionId', maxCommissionId);
+      console.log('Model中Account', Account);
       const baseManager = new BaseManager();
       // 请求数据
       // public int MaxCommissionId { get; set; }

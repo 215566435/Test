@@ -7,10 +7,38 @@ import { timeSplit, Eng2CnSymbol } from "../../../util";
 
 export default (CommissionWithdrawRow = (item, index) => {
   enStatusToCn = type => {
+    //     //提款状态
+    //     /// <summary>
+    //     /// 待审核
+    //     /// </summary>
+    //     [Text("待审核")]
+    //     Pending = 0,
+
+    //     /// <summary>
+    //     /// 待放款
+    //     /// </summary>
+    //     [Text("待放款")]
+    //     WaitingTobePaid = 1,
+
+    //     /// <summary>
+    //     /// 已放款
+    //     /// </summary>
+    //     [Text("已放款")]
+    //     Paid = 2,
+
+    //     /// <summary>
+    //     /// 未通过
+    //     /// </summary>
+    //     [Text("未通过")]
+    //     NotPass = 3,
     cnType = "";
     if (type == "Paid") {
       cnType = "已放款";
-    } else {
+    } else if( type == "Pending"){
+      cnType = "待审核";
+    }else if ( type == "WaitingTobePaid"){
+      cnType = "待放款";
+    }else if ( type == "NotPass"){
       cnType = "未通过";
     }
     return cnType;

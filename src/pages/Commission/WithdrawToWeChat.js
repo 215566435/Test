@@ -46,9 +46,9 @@ class WithdrawToWeChat extends Component {
       type: "createCommissionWithdraw",
       payload: {
         maxCommissionId: this.props.data,
-        Account: "",
+        Account: this.weChat,
         BankName: "",
-        OrderCommissionWithdrawMethod: "PreDeposit",
+        OrderCommissionWithdrawMethod: "WeChat",
         PayName: "",
         instance: this
       }
@@ -75,6 +75,15 @@ class WithdrawToWeChat extends Component {
   //       isKeyboardShow: false
   //     })
   //   }
+  // 绑定输入数据显示
+  onChangeText = (text, name) => {
+    if (this[name] !== void 666) {
+      this[name] = text;
+    } else {
+      this[name] = "";
+      this[name] = text;
+    }
+  };
 
   render() {
     console.log("提现到微信页面的this.props", this.props);
@@ -103,6 +112,7 @@ class WithdrawToWeChat extends Component {
               onChangeText={this.onChangeText}
             />
             <View style={{ alignItems: "flex-start", padding: 20 }}>
+              <Text>我们会把提现金额打到您的微信帐户，澳币按照当天汇率转成人民币</Text>
               <Text>您的申请提交后，我们将：</Text>
               <Text>1.在2个工作日内，审核您的体现申请。</Text>
               <Text>2.在2个工作日内，跟您打款。</Text>
