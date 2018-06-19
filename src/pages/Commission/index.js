@@ -149,6 +149,7 @@ class Commission extends Component {
           keyExtractor={item => item.id}
           onEndReached={this.endReachHandler}
           onEndReachedThreshold={0.1}
+          style={{marginBottom: 120}}
         />
       </View>
     );

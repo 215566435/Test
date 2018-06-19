@@ -41,8 +41,6 @@ export default (CommissionRow = (item, index) => {
         padding: 10
       }}
     >
-
-
       <View>
         <Text style={{ backgroundColor: "transparent" }}>订单号：{commissionData.orderId}</Text> 
         <View style={{ flexDirection: "row" }}>

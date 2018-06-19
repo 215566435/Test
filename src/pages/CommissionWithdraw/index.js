@@ -55,6 +55,7 @@ class CommissionWithdraw extends Component {
           onEndReached={this.endReachHandler}
           initialNumToRender={6}
           onEndReachedThreshold={0.1}
+          style={{marginBottom: 60}}
         />
       </View>
     );

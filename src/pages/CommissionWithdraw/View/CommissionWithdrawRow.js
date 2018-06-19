@@ -1,11 +1,14 @@
 /**
- * 每一行佣金数据
+ * 每一行佣金提现数据
  */
 import React from "react";
 import { View, Text } from "react-native";
-import { timeSplit, Eng2CnSymbol } from "../../../util";
+import { timeSplit, Eng2CnSymbol, height, width } from "../../../util";
 
 export default (CommissionWithdrawRow = (item, index) => {
+  /**
+   * 请求返回的英文提款状态转中文
+   */
   enStatusToCn = type => {
     //     //提款状态
     //     /// <summary>
@@ -34,14 +37,33 @@ export default (CommissionWithdrawRow = (item, index) => {
     cnType = "";
     if (type == "Paid") {
       cnType = "已放款";
-    } else if( type == "Pending"){
+    } else if (type == "Pending") {
       cnType = "待审核";
-    }else if ( type == "WaitingTobePaid"){
+    } else if (type == "WaitingTobePaid") {
       cnType = "待放款";
-    }else if ( type == "NotPass"){
+    } else if (type == "NotPass") {
       cnType = "未通过";
     }
     return cnType;
+  };
+
+  /**
+   * 请求返回的提款方式转中文
+   */
+  enMethodToCn = type => {
+    cnMethod = "";
+    if (type == "PreDeposit") {
+      cnMethod = "预存款";
+    } else if (type == "WeChat") {
+      cnMethod = "微信";
+    } else if (type == "Alipay") {
+      cnMethod = "支付宝";
+    } else if (type == "ChinaBank") {
+      cnMethod = "中国境内银行";
+    } else if (type == "OverseasBankAUD") {
+      cnMethod = "境外银行-澳币";
+    }
+    return cnMethod;
   };
   // console.log('进入CommissionWithdrawRow');
   // console.log('CommissionWithdrawItem', item);
@@ -62,6 +84,10 @@ export default (CommissionWithdrawRow = (item, index) => {
   // withdrawAmount:0
   // withdrawAmountRMB:319.8
   // withdrawMethod:"PreDeposit"
+
+  // <Text style={{ color: "#919191", backgroundColor: "transparent" }}>
+  //           {enStatusToCn(CommissionWithdrawData.status)}
+  //         </Text>
   const CommissionWithdrawData = item.item;
   return (
     <View
@@ -69,45 +95,94 @@ export default (CommissionWithdrawRow = (item, index) => {
         borderBottomColor: "#e9e9e9",
         borderBottomWidth: 0.5,
         marginTop: 10,
-        flexDirection: "row",
+        flexDirection: "column",
         justifyContent: "space-between",
         padding: 10
       }}
     >
-      <View>
-        <Text style={{ backgroundColor: "transparent" }}>
-          提现： ¥{CommissionWithdrawData.withdrawAmountRMB} ${
-            CommissionWithdrawData.withdrawAmount
-          }
-        </Text>
-        <View style={{ flexDirection: "row" }}>
-          <Text style={{ color: "#919191", backgroundColor: "transparent" }}>
-            {enStatusToCn(CommissionWithdrawData.status)}
+      <View
+        style={{
+          flexDirection: "row"
+        }}
+      >
+        <View style={{ width: (3 * width) / 5 }}>
+          <Text style={{ backgroundColor: "transparent" }}>
+            申请金额：¥{CommissionWithdrawData.withdrawAmountRMB} ${
+              CommissionWithdrawData.withdrawAmount
+            }
           </Text>
+        </View>
+        <View style={{ width: (2 * width) / 5 }}>
           <Text
             style={{
-              marginLeft: 15,
+              color:
+                CommissionWithdrawData.finalAmountRMB > 0
+                  ? "#00a854"
+                  : "#404040",
+              backgroundColor: "transparent"
+            }}
+          >
+            发放：{Eng2CnSymbol(CommissionWithdrawData.finalAmountCurrency)}
+            {CommissionWithdrawData.finalAmountCurrency == "RMB"
+              ? CommissionWithdrawData.finalAmountRMB
+              : CommissionWithdrawData.finalAmount}
+          </Text>
+        </View>
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          flex: 1
+        }}
+      >
+        <View style={{ width: (3 * width) / 5 }}>
+          <Text
+            style={{
               color: "#919191",
               backgroundColor: "transparent"
             }}
           >
-            {timeSplit(CommissionWithdrawData.createdTime).date}
+            申请时间：{timeSplit(CommissionWithdrawData.createdTime).date}
+          </Text>
+        </View>
+        <View style={{ width: (2 * width) / 5 }}>
+          <Text
+            style={{
+              color: "#919191",
+              backgroundColor: "transparent"
+            }}
+          >
+            状态：{enStatusToCn(CommissionWithdrawData.status)}
           </Text>
         </View>
       </View>
-      <Text
+      <View
         style={{
-          color:
-            CommissionWithdrawData.finalAmountRMB > 0 ? "#00a854" : "#404040",
-          fontSize: 16,
-          backgroundColor: "transparent"
+          flexDirection: "row",
+          flex: 1
         }}
       >
-        发放：{Eng2CnSymbol(CommissionWithdrawData.finalAmountCurrency)}
-        {CommissionWithdrawData.finalAmountCurrency == "RMB"
-          ? CommissionWithdrawData.finalAmountRMB
-          : CommissionWithdrawData.finalAmount}
-      </Text>
+        <View style={{ width: (3 * width) / 5 }}>
+          <Text
+            style={{
+              color: "#919191",
+              backgroundColor: "transparent"
+            }}
+          >
+            受理时间：{timeSplit(CommissionWithdrawData.paymentTime).date}
+          </Text>
+        </View>
+        <View style={{ width: (2 * width) / 5 }}>
+          <Text
+            style={{
+              color: "#919191",
+              backgroundColor: "transparent"
+            }}
+          >
+            账户：{enMethodToCn(CommissionWithdrawData.withdrawMethod)}
+          </Text>
+        </View>
+      </View>
     </View>
   );
 });
