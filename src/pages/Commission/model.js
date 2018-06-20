@@ -4,9 +4,7 @@
  */
 import BaseManager from "../../NetworkManager/BaseManager";
 // 把Alert引到数据层，不太好吧！！但是之前都这么做得，忍了
-import {
-  Alert
-} from "react-native";
+import { Alert } from "react-native";
 
 export default {
   namespace: "commission",
@@ -26,7 +24,7 @@ export default {
      */
     *fetchCommissionList({ select, call, put }, { payload }) {
       //select拿到当前list数据
-      let commission = yield select(state => state.commission.commission); 
+      let commission = yield select(state => state.commission.commission);
       // 解决第一次拿来commission是undefined问题
       if (commission === void 666) {
         commission = {};
@@ -45,7 +43,7 @@ export default {
         }
       });
 
-      console.log('结束fetchCommissionList', res);
+      console.log("结束fetchCommissionList", res);
 
       try {
         // 新请求获取的数据
@@ -55,7 +53,7 @@ export default {
           // 反了，结果新拿到的数据在旧的数据上面，注意
           // items = [...items, ...commission];
           // 和现有的数据合并
-          const newItems = [ ...commission,...items ];
+          const newItems = [...commission, ...items];
           console.log("合并后newItems", newItems);
           yield put({
             type: "mapCommissionList",
@@ -87,8 +85,11 @@ export default {
       try {
         //转换数据结构
         // items = { ...maxCommissionId, ...commissionSummary.data.commissionAmounts};
-        items = {...commissionSummary.data.commissionAmounts, ...maxCommissionId};
-        console.log('model文件中的items', items);
+        items = {
+          ...commissionSummary.data.commissionAmounts,
+          ...maxCommissionId
+        };
+        console.log("model文件中的items", items);
         yield put({
           type: "mapCommission",
           payload: items
@@ -103,9 +104,16 @@ export default {
      */
     *createCommissionWithdraw({ select, call, put }, { payload }) {
       console.log("开始createCommissionWithdraw");
-      const { maxCommissionId, Account, BankName, OrderCommissionWithdrawMethod, PayName, instance } = payload;
-      console.log('maxCommissionId', maxCommissionId);
-      console.log('Model中Account', Account);
+      const {
+        maxCommissionId,
+        Account,
+        BankName,
+        OrderCommissionWithdrawMethod,
+        PayName,
+        instance
+      } = payload;
+      console.log("maxCommissionId", maxCommissionId);
+      console.log("Model中Account", Account);
       const baseManager = new BaseManager();
       // 请求数据
       // public int MaxCommissionId { get; set; }
@@ -129,23 +137,23 @@ export default {
           Account: Account,
           BankName: BankName,
           OrderCommissionWithdrawMethod: OrderCommissionWithdrawMethod,
-          PayName: PayName,
+          PayName: PayName
         }
       });
       console.log("createCommissionWithdraw中的res", res);
 
       if (!res.success) {
-        Alert.alert('请求失败！', res.message)
-        return
+        Alert.alert("请求失败！", res.message);
+        return;
       }
 
       //一秒后没有完成，自动跳转到佣金记录来源详情页面
       setTimeout(() => {
-        instance.props.navigation.goBack()
-      }, 1000)
+        instance.props.navigation.goBack();
+      }, 1000);
 
-      instance.props.navigation.goBack()
-      Alert.alert('提现请求发起成功！')
+      instance.props.navigation.goBack();
+      Alert.alert("提现请求发起成功！");
     }
   }
 };

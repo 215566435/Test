@@ -58,10 +58,13 @@ const ProfileHOC = () => {
       jump(index)
     }
     componentDidMount() {
-      // 这个完全看不懂是在干什么
+      // 这个搞了很久才懂，这个是通过ref属性获得的子组件，profile的DOM节点
       _profile = this.refs.Profile.page
+      console.log('profile中的是否可提返回值', this.refs.Profile.page.getIsWithdrawAvailable());
     }
     render() { // 渲染从profile.js引入的个人信息列表
+      console.log('profile中的states', this.state);
+      console.log('profile中的props', this.props);
       return ( // 使用profile组件，并且把refreshAll传进去，给一个ref值，就可以得到这个标签的DOM节点
         <View>
           <Profile {...this.props} refreshAll={this.props.refreshAll} ref="Profile" />
@@ -156,7 +159,7 @@ export default StackNavigator(
       }
     },
     CommissionList: {
-      screen: props => <CommissionList {...props} />,
+      screen: props => <CommissionList {...props} Profile={_profile} />,
       navigationOptions: {
         header: null,
         tabBarVisible: false,

@@ -35,9 +35,8 @@ class Commission extends Component {
    * 页面加载到底,触发请求渲染下一页
    */
   endReachHandler = () => {
-    // 这里需要-1， 我也不知道为什么，可能是因为程序启动时候所有方法都会被调用一次吧，不然就直接到第三页！！！
     pageIndex++;
-    console.log('pagIndex', pageIndex);
+    console.log("pagIndex", pageIndex);
     this.props.dispatch({
       type: "fetchCommissionList",
       payload: { pageIndex } //payload必须是对象
@@ -91,70 +90,117 @@ class Commission extends Component {
     );
   };
 
+  /**
+   * 渲染申请提现按钮
+   */
+  renderApplyWithDraw = () => {
+    return (
+      <TouchableOpacity onPress={this.withdrawHandler}>
+        <Text
+          style={{
+            fontSize: 16,
+            textAlign: "center",
+            backgroundColor: "transparent",
+            width: 160,
+            padding: 20,
+            paddingBottom: 10
+          }}
+        >
+          申请提现
+        </Text>
+      </TouchableOpacity>
+    );
+  };
+
+  /**
+   * 渲染没有可提佣金按钮
+   */
+  renderNoWithDraw = () => {
+    return (
+      <TouchableOpacity>
+        <Text
+          style={{
+            fontSize: 16,
+            textAlign: "center",
+            backgroundColor: "transparent",
+            width: 160,
+            padding: 20,
+            paddingBottom: 10
+          }}
+        >
+          没有可提佣金
+        </Text>
+      </TouchableOpacity>
+    );
+  };
+
+  /**
+   * 渲染底部按钮
+   */
+  renderButtons = () => {
+    return (
+      <View
+        style={{
+          alignItems: "center",
+          flexDirection: "row",
+          height: 50
+        }}
+      >
+        {this.props.Profile.getIsWithdrawAvailable()
+          ? this.renderApplyWithDraw()
+          : this.renderNoWithDraw()}
+        <TouchableOpacity
+          onPress={() => {
+            this.props.navigation.navigate("CommissionWithdraw");
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 16,
+              textAlign: "center",
+              backgroundColor: "transparent",
+              width: 160,
+              padding: 20,
+              paddingBottom: 10
+            }}
+          >
+            提现记录
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
   render() {
     // 渲染主题页面
-    console.log("佣金来源文件commission state", this.props.commission);
-    console.log("佣金来源文件的this.props", this.props);
+    console.log("佣金来源详情this.props.commission", this.props.commission);
+    console.log("佣金来源详情this.props.profile", this.props.Profile);
+    console.log(
+      "佣金来源详情是否有佣金可提",
+      this.props.Profile.getIsWithdrawAvailable()
+    );
+    console.log("佣金来源详情his.props", this.props);
     //style={{height: height-10}}
     return (
       <View>
         <View>
-          <View>
-            <HeaderWithLeftArrow title="佣金来源详情" onPress={this.goBack} />
-          </View>
-          <View
-            style={{
-              alignItems: "center",
-              flexDirection: "row",
-              height: 50
-            }}
-          >
-            <TouchableOpacity onPress={this.withdrawHandler}>
-              <Text
-                style={{
-                  fontSize: 16,
-                  textAlign: "left",
-                  backgroundColor: "transparent",
-                  width: 160,
-                  padding: 20,
-                  paddingBottom: 10
-                }}
-              >
-                申请提现
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                this.props.navigation.navigate("CommissionWithdraw");
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 16,
-                  textAlign: "right",
-                  backgroundColor: "transparent",
-                  width: 160,
-                  padding: 20,
-                  paddingBottom: 10
-                }}
-              >
-                提现记录
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <HeaderWithLeftArrow title="佣金来源详情" onPress={this.goBack} />
         </View>
-        <FlatList
-          data={this.props.commission || []}
-          renderItem={CommissionRow}
-          keyExtractor={item => item.id}
-          onEndReached={this.endReachHandler}
-          onEndReachedThreshold={0.1}
-          style={{marginBottom: 120}}
-        />
+        <View>
+          <FlatList
+            data={this.props.commission || []}
+            renderItem={CommissionRow}
+            keyExtractor={item => item.id}
+            onEndReached={this.endReachHandler}
+            onEndReachedThreshold={0.1}
+            style={{ marginBottom: 120 }}
+          />
+        </View>
       </View>
     );
   }
 }
+//<View>{this.renderButtons()}</View>
 
 function mapStateToProps(state) {
   return {
