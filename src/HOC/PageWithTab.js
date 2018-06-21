@@ -7,7 +7,7 @@ import { width, height } from "../util";
  * 使用方法
     1: 最外部的包裹, flexDriction 默认的竖直
     2: 吸顶导航: 必须固定高度
-    3: 中间是滚动层 flex: 1,(ScrollView可以不加flex: 1, 其他组价没测试,), 这个项目
+    3: 中间是滚动层 flex: 1,(ScrollView可以不加flex: 1, 其他组价没测试,), 如果flex不行那就硬设定height:height-44
     4: 最下面的tabBar 使用PageWithTab包裹已经创建好的页面组件
     5: 必须创建一个CustomTabBarPress方法，指定点击之后的时间
     例：

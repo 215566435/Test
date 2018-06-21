@@ -12,16 +12,20 @@ import CommissionRow from "./View/CommissionRow";
 import { HeaderWithLeftArrow } from "./View/CommissionHeader";
 // 帮助类里面拿到屏幕的长宽
 import { width, height } from "../../util";
+// 拿到底部两个按钮的HOC
+import { PageWithTab } from "../../HOC/PageWithTab";
 
 // 声明一个变量pageIndex记录目前的页数
-let pageIndex = 1;
+let pageIndex = 0;
 class Commission extends Component {
   componentDidMount() {
-    //页面加载完成，第一次获取数据，
-    this.props.dispatch({
-      type: "fetchCommissionList",
-      payload: { pageIndex } //payLoad必须是对象
-    });
+    // 这个请求在给flatList加了Height之后就不需要了，因为有了height，
+    // 第一次加载组件的时候没有数据，onEndReached函数会自动执行，加载第一页数据。不用在这里拿数据了
+    // //页面加载完成，第一次获取数据，
+    // this.props.dispatch({
+    //   type: "fetchCommissionList",
+    //   payload: { pageIndex } //payLoad必须是对象
+    // });
   }
 
   /**
@@ -98,12 +102,10 @@ class Commission extends Component {
       <TouchableOpacity onPress={this.withdrawHandler}>
         <Text
           style={{
-            fontSize: 16,
             textAlign: "center",
-            backgroundColor: "transparent",
-            width: 160,
-            padding: 20,
-            paddingBottom: 10
+            backgroundColor: "White",
+            width: width / 2,
+            padding: 15
           }}
         >
           申请提现
@@ -120,12 +122,10 @@ class Commission extends Component {
       <TouchableOpacity>
         <Text
           style={{
-            fontSize: 16,
             textAlign: "center",
-            backgroundColor: "transparent",
-            width: 160,
-            padding: 20,
-            paddingBottom: 10
+            backgroundColor: "White",
+            width: width / 2,
+            padding: 15
           }}
         >
           没有可提佣金
@@ -143,7 +143,7 @@ class Commission extends Component {
         style={{
           alignItems: "center",
           flexDirection: "row",
-          height: 50
+          height: 44
         }}
       >
         {this.props.Profile.getIsWithdrawAvailable()
@@ -156,12 +156,10 @@ class Commission extends Component {
         >
           <Text
             style={{
-              fontSize: 16,
               textAlign: "center",
-              backgroundColor: "transparent",
-              width: 160,
-              padding: 20,
-              paddingBottom: 10
+              width: width / 2,
+              padding: 15,
+              backgroundColor: "#ff7875"
             }}
           >
             提现记录
@@ -173,29 +171,34 @@ class Commission extends Component {
 
   render() {
     // 渲染主题页面
-    console.log("佣金来源详情this.props.commission", this.props.commission);
-    console.log("佣金来源详情this.props.profile", this.props.Profile);
-    console.log(
-      "佣金来源详情是否有佣金可提",
-      this.props.Profile.getIsWithdrawAvailable()
-    );
-    console.log("佣金来源详情his.props", this.props);
-    //style={{height: height-10}}
+    // console.log("佣金来源详情this.props.commission", this.props.commission);
+    // console.log("佣金来源详情this.props.profile", this.props.Profile);
+    // console.log(
+    //   "佣金来源详情是否有佣金可提",
+    //   this.props.Profile.getIsWithdrawAvailable()
+    // );
+    // console.log("佣金来源详情his.props", this.props);
     return (
-      <View>
+      <View
+        style={{
+          flexDirection: "column",
+          height: height
+        }}
+      >
         <View>
           <HeaderWithLeftArrow title="佣金来源详情" onPress={this.goBack} />
         </View>
-        <View>
+        <View style={{ flex: 1 }}>
           <FlatList
             data={this.props.commission || []}
             renderItem={CommissionRow}
             keyExtractor={item => item.id}
             onEndReached={this.endReachHandler}
             onEndReachedThreshold={0.1}
-            style={{ marginBottom: 120 }}
+            pageSize={15}
           />
         </View>
+        <View>{this.renderApplyWithDraw()}</View>
       </View>
     );
   }
@@ -208,5 +211,8 @@ function mapStateToProps(state) {
     ...state.commission
   };
 }
+
+// 没有用封装好的PageWithTab因为涉及一个判断，有没有佣金显示的button不一样
+// const Wrapper = PageWithTab(Commission,["无可提佣金", "发给客户"],["white", "#ff7875"]);
 
 export default connect(mapStateToProps)(Commission);

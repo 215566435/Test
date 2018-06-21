@@ -225,6 +225,8 @@ class Profile extends React.Component {
 
   CustomTabBarPress = () => {
     this.props.navigation.goBack(null);
+    //这里需要修改一下！！
+    //this.props.navigation.goBack('home');
   };
 
   render() {

@@ -39,14 +39,14 @@ class WithdrawToDeposit extends Component {
    */
   CustomTabBarPress = (e, child, index) => {
     //发起提现请求,因为需要返回success再跳转，所以这里采取的办法是把this传到model中，在model中处理跳转，
-    //但是个人觉得不是很合理，最好在dispatch这里接一个then（）但是直到可行不可行。
+    //但是个人觉得不是很合理，最好在dispatch这里接一个then（）但是不知道可行不可行。
     this.props.dispatch({
       type: "createCommissionWithdraw",
       payload: {
         maxCommissionId: this.props.data,
         Account: '',
         BankName: '',
-        OrderCommissionWithdrawMethod: 'PreDeposit',
+        OrderCommissionWithdrawMethod: 0,
         PayName: '',
         instance: this
       }

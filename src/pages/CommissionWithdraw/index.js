@@ -26,7 +26,19 @@ class CommissionWithdraw extends Component {
    * 返回主页方法
    */
   goBack = () => {
-    this.props.navigation.goBack(null);
+    //如果是下完单转过来的，点击goBack直接返回到profile页面
+    //但是，目前profile页面自己配置的路由，不能直接this.props.navigation.pop(3)回去
+    //暂时用这种方法回去，同时也有别的bug，profile page的返回按钮直接goback的话回到本页，
+    //形成了循环返回，需要修改profile页面的返回按钮
+    if (this.props.navigation.state.params.flag) {
+      this.props.navigation.navigate("Profile");
+    } else {
+      this.props.navigation.goBack(null);
+    }
+
+    //this.props.navigation.goBack();
+    //返回两个页面 
+    //this.props.navigation.pop(2)
   };
 
   /**
@@ -45,6 +57,7 @@ class CommissionWithdraw extends Component {
       "index文件CommissionWithdraw state",
       this.props.CommissionWithdraw
     );
+    console.log("index文件props", this.props);
     return (
       <View>
         <HeaderWithLeftArrow title="佣金提现记录" onPress={this.goBack} />
@@ -55,7 +68,7 @@ class CommissionWithdraw extends Component {
           onEndReached={this.endReachHandler}
           initialNumToRender={6}
           onEndReachedThreshold={0.1}
-          style={{marginBottom: 60}}
+          style={{ marginBottom: 60 }}
         />
       </View>
     );

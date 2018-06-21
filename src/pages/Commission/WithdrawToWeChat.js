@@ -25,7 +25,7 @@ import { HeaderWithLeftArrow } from "./View/CommissionHeader";
 import { PageWithTab } from "../../HOC/PageWithTab";
 import { header, Url, height, width } from "../../util";
 import { centralization } from "../../style-util";
-import { Input, InputSelfControl } from "../../components/Input";
+import { Input, InputSelfControl } from "../../components/LargerTextInput";
 import { Page } from "../../components/page";
 
 class WithdrawToWeChat extends Component {
@@ -40,15 +40,24 @@ class WithdrawToWeChat extends Component {
    * 创建点击最下面提交申请按钮的eventHandler
    */
   CustomTabBarPress = (e, child, index) => {
+    // 先对表单进行校验，如果没有填写微信号，弹出警告
+    // 理论上应该先Trim一下，这里简化了，反正后台也要校验
+    if (!this.weChat) {
+      Alert.alert("提交错误", "请您填写微信号", [{ text: "OK" }], {
+        cancelable: false
+      });
+      return
+    }
+
     //发起提现请求,因为需要返回success再跳转，所以这里采取的办法是把this传到model中，在model中处理跳转，
-    //但是个人觉得不是很合理，最好在dispatch这里接一个then（）但是直到可行不可行。
+    //但是个人觉得不是很合理，最好在dispatch这里接一个then（）但是不知道可行不可行。
     this.props.dispatch({
       type: "createCommissionWithdraw",
       payload: {
         maxCommissionId: this.props.data,
         Account: this.weChat,
         BankName: "",
-        OrderCommissionWithdrawMethod: "WeChat",
+        OrderCommissionWithdrawMethod: 1,
         PayName: "",
         instance: this
       }
@@ -112,7 +121,9 @@ class WithdrawToWeChat extends Component {
               onChangeText={this.onChangeText}
             />
             <View style={{ alignItems: "flex-start", padding: 20 }}>
-              <Text>我们会把提现金额打到您的微信帐户，澳币按照当天汇率转成人民币</Text>
+              <Text>
+                我们会把提现金额打到您的微信帐户，澳币按照当天汇率转成人民币
+              </Text>
               <Text>您的申请提交后，我们将：</Text>
               <Text>1.在2个工作日内，审核您的体现申请。</Text>
               <Text>2.在2个工作日内，跟您打款。</Text>
