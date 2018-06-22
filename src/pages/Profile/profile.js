@@ -4,6 +4,7 @@
  *
  * 逻辑入口在checkLogin
  */
+//TODO：修改佣金提现之后循环返回问题
 import React, { Component } from "react";
 import {
   View,
@@ -233,7 +234,11 @@ class Profile extends React.Component {
   };
 
   CustomTabBarPress = () => {
-    this.props.navigation.goBack(null);
+    //TODO：修改佣金提现之后循环返回问题
+    //目前因为goBack不能刷新状态，所以这里只能使用navigate回去了，这里有瑕疵
+    //不然回不去了
+    //this.props.navigation.goBack(null);
+    this.props.navigation.navigate('Home');
   };
 
   render() {
@@ -259,7 +264,8 @@ class Profile extends React.Component {
   }
 }
 
-export default PageWithTab(Profile, "返回");
+// 回到主页
+export default PageWithTab(Profile, "主页");
 
 /**
  * 工具栏，就是个人信息的下半部分

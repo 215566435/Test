@@ -149,10 +149,10 @@ export default {
         return;
       }
 
-      //一秒后没有完成，自动跳转到佣金记录来源详情页面
+      // 一秒后没有完成，自动跳转到佣金记录来源详情页面
       setTimeout(() => {
-        instance.props.navigation.goBack();
-      }, 1000);
+        instance.props.navigation.navigate('CommissionWithdraw', { flag: "true" })
+      }, 0);
       //comment 这里结束
 
       // 提现申请完成返回上一页，
@@ -161,8 +161,10 @@ export default {
       // 对提现申请用户体验优化，下单完成后跳转到佣金提现记录页面
       // 同时要传入一个数据，在佣金提现记录页面可以判断，如果是申请提款完成以后跳转进过去的，
       // 顶部返回按钮就直接跳转到profile页面，而不是跳回申请提现页面
-      instance.props.navigation.navigate('CommissionWithdraw', { flag: "true" })
+      //instance.props.navigation.navigate('CommissionWithdraw')
+      
       Alert.alert("提现请求发起成功！请您耐心等待审核！");
+      instance.props.navigation.navigate('CommissionWithdraw', { flag: "true" })
     }
   }
 };

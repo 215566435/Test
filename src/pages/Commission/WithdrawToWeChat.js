@@ -57,7 +57,7 @@ class WithdrawToWeChat extends Component {
         maxCommissionId: this.props.data,
         Account: this.weChat,
         BankName: "",
-        OrderCommissionWithdrawMethod: 1,
+        OrderCommissionWithdrawMethod: '1',
         PayName: "",
         instance: this
       }

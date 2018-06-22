@@ -68,7 +68,7 @@ const ProfileHOC = () => {
       jump(index);
     }
     componentDidMount() {
-      // 这个搞了很久才懂，这个是通过ref属性获得的子组件，profile的DOM节点
+      // 这个搞了很久才懂，这个是通过ref属性获得的子组件，profile的DOM节点 .page就是profile里面的方法们
       _profile = this.refs.Profile.page;
       console.log(
         "profile中的是否可提返回值",

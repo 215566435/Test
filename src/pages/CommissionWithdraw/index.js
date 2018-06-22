@@ -33,7 +33,8 @@ class CommissionWithdraw extends Component {
     //注意数据结构，如果if后面跟this.props.navigation.state.params.flag会报错
     if (this.props.navigation.state.params) {
       //直接返回profile后端路由的顶端
-      this.props.navigation.popToTop();
+      //this.props.navigation.popToTop(null);
+      this.props.navigation.navigate('Profile')
     } else {
       this.props.navigation.goBack(null);
     }
