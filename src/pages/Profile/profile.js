@@ -55,8 +55,8 @@ class Profile extends React.Component {
   };
 
   getIsWithdrawAvailable = () => {
-    return this.state.isWithdrawAvailable.isWithdrawAvailable
-  }
+    return this.state.isWithdrawAvailable.isWithdrawAvailable;
+  };
 
   /**
    * 封装接收存款余额的方法
@@ -91,21 +91,30 @@ class Profile extends React.Component {
         body: "{}"
       });
       console.log("fetchCommission", res);
-      const json = await res.json();
-      console.log("rmb", json.data.commissionAmounts.RMB);
-      console.log("rmb", json.data.commissionAmounts.RMB.total);
-      console.log("isWithdrawAvailable", json.data.isWithdrawAvailable);
-      //console.log('AUD', json.parse(json.data.commissionAmounts.AUD));
-      that.setState({
-        userCommission: {
-          // aud: json.data.commissionAmounts.AUD.total || 0,
-          aud: json.data.commissionAmounts.AUD.total,
-          rmb: json.data.commissionAmounts.RMB.total
-        },
-        isWithdrawAvailable: {
-          isWithdrawAvailable: json.data.isWithdrawAvailable
+
+      try {
+        const json = await res.json();
+        console.log("rmb", json.data.commissionAmounts.RMB);
+        console.log("rmb", json.data.commissionAmounts.RMB.total);
+        console.log("isWithdrawAvailable", json.data.isWithdrawAvailable);
+        //console.log('AUD', json.parse(json.data.commissionAmounts.AUD));
+        that.setState({
+          userCommission: {
+            // aud: json.data.commissionAmounts.AUD.total || 0,
+            aud: json.data.commissionAmounts.AUD.total,
+            rmb: json.data.commissionAmounts.RMB.total
+          },
+          isWithdrawAvailable: {
+            isWithdrawAvailable: json.data.isWithdrawAvailable
+          }
+        });
+      } catch (error) {
+        console.log("请求佣金报错,佣金模块还未上线", error);
+        that.setState({
+          userCommission: null
         }
-      });
+        )
+      }
     })(this);
   };
 
@@ -225,8 +234,6 @@ class Profile extends React.Component {
 
   CustomTabBarPress = () => {
     this.props.navigation.goBack(null);
-    //这里需要修改一下！！
-    //this.props.navigation.goBack('home');
   };
 
   render() {

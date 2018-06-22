@@ -13,7 +13,10 @@ import { HeaderWithLeftArrow } from "./View/CommissionHeader";
 // 帮助类里面拿到屏幕的长宽
 import { width, height } from "../../util";
 // 拿到底部两个按钮的HOC
-import { PageWithTab } from "../../HOC/PageWithTab";
+// import { PageWithTab } from "../../HOC/PageWithTab";
+
+import { Spin, SpinScreen } from '../../components/Spin';
+
 
 // 声明一个变量pageIndex记录目前的页数
 let pageIndex = 0;
@@ -169,6 +172,13 @@ class Commission extends Component {
     );
   };
 
+  /**
+   * 后续可能需要加入的ListFooterComponent用来下拉刷新的时候提示用户
+   */
+  renderFooter() {
+    //   if (!this.props.commission) return <SpinScreen />
+  }
+
   render() {
     // 渲染主题页面
     // console.log("佣金来源详情this.props.commission", this.props.commission);
@@ -198,12 +208,13 @@ class Commission extends Component {
             pageSize={15}
           />
         </View>
-        <View>{this.renderApplyWithDraw()}</View>
+        <View>{this.renderButtons()}</View>
       </View>
     );
   }
 }
 //<View>{this.renderButtons()}</View>
+//<View>{this.renderApplyWithDraw()}</View>
 
 function mapStateToProps(state) {
   return {

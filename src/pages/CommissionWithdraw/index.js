@@ -13,6 +13,7 @@ import { HeaderWithLeftArrow } from "./View/CommissionWithdrawHeader";
 
 // 声明一个变量pageIndex记录目前的页数
 let pageIndex = 1;
+let flag = ""
 class CommissionWithdraw extends Component {
   componentDidMount() {
     //页面加载完成，第一次获取数据，
@@ -26,18 +27,19 @@ class CommissionWithdraw extends Component {
    * 返回主页方法
    */
   goBack = () => {
+    
     //如果是下完单转过来的，点击goBack直接返回到profile页面
-    //但是，目前profile页面自己配置的路由，不能直接this.props.navigation.pop(3)回去
-    //暂时用这种方法回去，同时也有别的bug，profile page的返回按钮直接goback的话回到本页，
-    //形成了循环返回，需要修改profile页面的返回按钮
-    if (this.props.navigation.state.params.flag) {
-      this.props.navigation.navigate("Profile");
+    //目前profile页面自己配置的路由，直接返回路由的顶端就是profile页面了
+    //注意数据结构，如果if后面跟this.props.navigation.state.params.flag会报错
+    if (this.props.navigation.state.params) {
+      //直接返回profile后端路由的顶端
+      this.props.navigation.popToTop();
     } else {
       this.props.navigation.goBack(null);
     }
 
     //this.props.navigation.goBack();
-    //返回两个页面 
+    //返回两个页面
     //this.props.navigation.pop(2)
   };
 

@@ -112,51 +112,57 @@ export default {
         PayName,
         instance
       } = payload;
-      //comment这里开始
-      // console.log("maxCommissionId", maxCommissionId);
-      // console.log("Model中Account", Account);
-      // const baseManager = new BaseManager();
-      // // 请求数据
-      // // public int MaxCommissionId { get; set; }
-      // // public string Account { get; set; }
-      // // public string BankName { get; set; }
-      // // // 枚举类型传入字符串就行
-      // // public OrderCommissionWithdrawMethod Method { get; set; }
-      // // public string PayName { get; set; }
+      
+      //如果不想发下单请求，测试用comment这里开始
+      console.log("maxCommissionId", maxCommissionId);
+      console.log("Model中Account", Account);
+      const baseManager = new BaseManager();
+      // 请求数据
+      // public int MaxCommissionId { get; set; }
+      // public string Account { get; set; }
+      // public string BankName { get; set; }
+      // // 枚举类型传入字符串就行
+      // public OrderCommissionWithdrawMethod Method { get; set; }
+      // public string PayName { get; set; }
 
-      // // 佣金提现方式
-      // // PreDeposit = 0,
-      // // WeChat = 1,
-      // // Alipay = 2,
-      // // ChinaBank = 3,
-      // // OverseasBankAUD = 4,
+      // 佣金提现方式
+      // PreDeposit = 0,
+      // WeChat = 1,
+      // Alipay = 2,
+      // ChinaBank = 3,
+      // OverseasBankAUD = 4,
 
-      // const res = yield baseManager.fetchApi({
-      //   url: baseManager.Url + "user/createCommissionWithdraw",
-      //   body: {
-      //     MaxCommissionId: maxCommissionId,
-      //     Account: Account,
-      //     BankName: BankName,
-      //     OrderCommissionWithdrawMethod: OrderCommissionWithdrawMethod,
-      //     PayName: PayName
-      //   }
-      // });
-      // console.log("createCommissionWithdraw中的res", res);
+      const res = yield baseManager.fetchApi({
+        url: baseManager.Url + "user/createCommissionWithdraw",
+        body: {
+          MaxCommissionId: maxCommissionId,
+          Account: Account,
+          BankName: BankName,
+          OrderCommissionWithdrawMethod: OrderCommissionWithdrawMethod,
+          PayName: PayName
+        }
+      });
+      console.log("createCommissionWithdraw中的res", res);
 
-      // if (!res.success) {
-      //   Alert.alert("请求失败！", res.message);
-      //   return;
-      // }
+      if (!res.success) {
+        Alert.alert("请求失败！", res.message);
+        return;
+      }
 
-      // //一秒后没有完成，自动跳转到佣金记录来源详情页面
-      // setTimeout(() => {
-      //   instance.props.navigation.goBack();
-      // }, 1000);
+      //一秒后没有完成，自动跳转到佣金记录来源详情页面
+      setTimeout(() => {
+        instance.props.navigation.goBack();
+      }, 1000);
       //comment 这里结束
 
+      // 提现申请完成返回上一页，
       //instance.props.navigation.goBack();
+
+      // 对提现申请用户体验优化，下单完成后跳转到佣金提现记录页面
+      // 同时要传入一个数据，在佣金提现记录页面可以判断，如果是申请提款完成以后跳转进过去的，
+      // 顶部返回按钮就直接跳转到profile页面，而不是跳回申请提现页面
       instance.props.navigation.navigate('CommissionWithdraw', { flag: "true" })
-      Alert.alert("提现请求发起成功！");
+      Alert.alert("提现请求发起成功！请您耐心等待审核！");
     }
   }
 };
