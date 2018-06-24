@@ -44,10 +44,10 @@ class WithdrawToDeposit extends Component {
       type: "createCommissionWithdraw",
       payload: {
         maxCommissionId: this.props.data,
-        Account: '',
-        BankName: '',
-        OrderCommissionWithdrawMethod: 0,
-        PayName: '',
+        Account: "",
+        BankName: "",
+        OrderCommissionWithdrawMethod: "PreDeposit",
+        PayName: "",
         instance: this
       }
     });

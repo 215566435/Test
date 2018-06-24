@@ -132,13 +132,15 @@ export default {
       // ChinaBank = 3,
       // OverseasBankAUD = 4,
 
+      // 注意Method这行的请求字符串是Method
+      // Method: OrderCommissionWithdrawMethod,
       const res = yield baseManager.fetchApi({
         url: baseManager.Url + "user/createCommissionWithdraw",
         body: {
           MaxCommissionId: maxCommissionId,
           Account: Account,
           BankName: BankName,
-          OrderCommissionWithdrawMethod: OrderCommissionWithdrawMethod,
+          Method: OrderCommissionWithdrawMethod,
           PayName: PayName
         }
       });
@@ -152,7 +154,7 @@ export default {
       // 一秒后没有完成，自动跳转到佣金记录来源详情页面
       setTimeout(() => {
         instance.props.navigation.navigate('CommissionWithdraw', { flag: "true" })
-      }, 0);
+      }, 1000);
       //comment 这里结束
 
       // 提现申请完成返回上一页，

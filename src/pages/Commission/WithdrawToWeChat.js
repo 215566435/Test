@@ -46,7 +46,7 @@ class WithdrawToWeChat extends Component {
       Alert.alert("提交错误", "请您填写微信号", [{ text: "OK" }], {
         cancelable: false
       });
-      return
+      return;
     }
 
     //发起提现请求,因为需要返回success再跳转，所以这里采取的办法是把this传到model中，在model中处理跳转，
@@ -57,7 +57,7 @@ class WithdrawToWeChat extends Component {
         maxCommissionId: this.props.data,
         Account: this.weChat,
         BankName: "",
-        OrderCommissionWithdrawMethod: '1',
+        OrderCommissionWithdrawMethod: "WeChat",
         PayName: "",
         instance: this
       }

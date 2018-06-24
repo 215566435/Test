@@ -43,10 +43,15 @@ class WithdrawToCNBank extends Component {
     // 先对表单进行校验，如果没有填写微信号，弹出警告
     // 理论上应该先Trim一下，这里简化了，反正后台也要校验
     if (!this.bankAccount || !this.bankName || !this.accountName) {
-      Alert.alert("提交错误", "请您填写银行账号，银行名称和账号名称", [{ text: "OK" }], {
-        cancelable: false
-      });
-      return
+      Alert.alert(
+        "提交错误",
+        "请您填写银行账号，银行名称和账号名称",
+        [{ text: "OK" }],
+        {
+          cancelable: false
+        }
+      );
+      return;
     }
 
     //发起提现请求,因为需要返回success再跳转，所以这里采取的办法是把this传到model中，在model中处理跳转，
@@ -57,7 +62,7 @@ class WithdrawToCNBank extends Component {
         maxCommissionId: this.props.data,
         Account: this.bankAccount,
         BankName: this.bankName,
-        OrderCommissionWithdrawMethod: 3,
+        OrderCommissionWithdrawMethod: "ChinaBank",
         PayName: this.accountName,
         instance: this
       }
@@ -105,7 +110,10 @@ class WithdrawToCNBank extends Component {
             flexDirection: "column"
           }}
         >
-          <HeaderWithLeftArrow title="提现到中国境内银行" onPress={this.goBack} />
+          <HeaderWithLeftArrow
+            title="提现到中国境内银行"
+            onPress={this.goBack}
+          />
           <View style={centralization({ flex: 1 })}>
             <View>
               <Text style={{ fontSize: 20 }}>
@@ -134,7 +142,9 @@ class WithdrawToCNBank extends Component {
               onChangeText={this.onChangeText}
             />
             <View style={{ alignItems: "flex-start", padding: 20 }}>
-              <Text>我们会把提现金额打到您的支付宝帐户，澳币按照当天汇率转成人民币</Text>
+              <Text>
+                我们会把提现金额打到您的支付宝帐户，澳币按照当天汇率转成人民币
+              </Text>
               <Text>您的申请提交后，我们将：</Text>
               <Text>1.在2个工作日内，审核您的体现申请。</Text>
               <Text>2.在2个工作日内，跟您打款。</Text>

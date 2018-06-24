@@ -57,7 +57,7 @@ class WithdrawToAlipay extends Component {
         maxCommissionId: this.props.data,
         Account: this.alipay,
         BankName: "",
-        OrderCommissionWithdrawMethod: 2,
+        OrderCommissionWithdrawMethod: "Alipay",
         PayName: "",
         instance: this
       }

@@ -57,7 +57,7 @@ class WithdrawToAUBank extends Component {
         maxCommissionId: this.props.data,
         Account: this.bankAccount,
         BankName: this.bankName,
-        OrderCommissionWithdrawMethod: 5,
+        OrderCommissionWithdrawMethod: 'OverseasBankAUD',
         PayName: "",
         instance: this
       }
