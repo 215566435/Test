@@ -168,6 +168,7 @@ export default {
         }
 
         //这个能发到哪去？？？？貌似删了也没事
+        // 看完代码明白了，这里是接收新的购物车信息
         instance.props.dispatch({ type: 'fetchCart' })
 
         //一秒后没有完成，自动跳转到GoodState页面

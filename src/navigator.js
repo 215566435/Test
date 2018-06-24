@@ -1,6 +1,8 @@
 /**
  * 路由router文件
  * 如果你想要引入页面，就在这里定义
+ * 注意，这个只是前端路由，意思是，个人中心（profile）以外的页面在这里配置。
+ * 后端路由在profile/index.js页面里配置，不要搞混了
  */
 
 import React from 'react'
@@ -38,6 +40,14 @@ import Attach from './pages/Attachment/index'
 import SettleEditAddress from './pages/Settle/settle-edit-address'
 import SettleAddressSelector from './pages/Settle/settle-address-selector'
 import SettleCourierPicker from './pages/Settle/settle-courier-picker'
+// Hank
+// import WithdrawToAlipay from './pages/Commission/WithdrawToAlipay'
+// import WithdrawToAUBank from './pages/Commission/WithdrawToAUBank'
+// import WithdrawToCNBank from './pages/Commission/WithdrawToCNBank'
+// import WithdrawToDeposit from './pages/Commission/WithdrawToDeposit'
+// import WithdrawToWeChat from './pages/Commission/WithdrawToWeChat'
+// import CommissionWithdraw from './pages/CommissionWithdraw'
+
 
 const iconsSize = Platform.OS === 'ios' ? 26 : 15
 
@@ -270,7 +280,56 @@ const RootTabs = StackNavigator(
         tabBarVisible: false,
         gesturesEnabled: true
       }
-    }
+    },
+    // Hank
+    // CommissionWithdraw: {
+    //   screen: props => <CommissionWithdraw {...props} />,
+    //   navigationOptions: {
+    //     header: null,
+    //     tabBarVisible: false,
+    //     gesturesEnabled: true
+    //   }
+    // },
+    // WithdrawToAlipay: {
+    //   screen: props => <WithdrawToAlipay {...props} />,
+    //   navigationOptions: {
+    //     header: null,
+    //     tabBarVisible: false,
+    //     gesturesEnabled: true
+    //   }
+    // },
+    // WithdrawToAUBank: {
+    //   screen: props => <WithdrawToAUBank {...props} />,
+    //   navigationOptions: {
+    //     header: null,
+    //     tabBarVisible: false,
+    //     gesturesEnabled: true
+    //   }
+    // },
+    // WithdrawToCNBank: {
+    //   screen: props => <WithdrawToCNBank {...props} />,
+    //   navigationOptions: {
+    //     header: null,
+    //     tabBarVisible: false,
+    //     gesturesEnabled: true
+    //   }
+    // },
+    // WithdrawToDeposit: {
+    //   screen: props => <WithdrawToDeposit {...props} />,
+    //   navigationOptions: {
+    //     header: null,
+    //     tabBarVisible: false,
+    //     gesturesEnabled: true
+    //   }
+    // },
+    // WithdrawToWeChat: {
+    //   screen: props => <WithdrawToWeChat {...props} />,
+    //   navigationOptions: {
+    //     header: null,
+    //     tabBarVisible: false,
+    //     gesturesEnabled: true
+    //   }
+    // },
   },
   {
     initialRouteName: 'Home',

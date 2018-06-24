@@ -3,6 +3,8 @@ package com.austgo.daigou;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
+import cn.jiguang.share.reactnative.JSharePackage;
 // import cn.jiguang.share.reactnative.JSharePackage; // 极光推送
 import com.beefe.picker.PickerViewPackage;
 import com.rnfs.RNFSPackage;
@@ -39,6 +41,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new SplashScreenReactPackage(),
+            new JSharePackage(),
             new PickerViewPackage(),
             new WeChatPackage(),
             new RNFSPackage(),

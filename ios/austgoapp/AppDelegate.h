@@ -8,7 +8,7 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "SplashScreen.h"  // here
+#import "SplashScreen.h" 
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

@@ -157,6 +157,8 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-splash-screen')
+    compile project(':jshare-react-native')
     compile project(':react-native-picker')
     compile project(':react-native-wechat')
     //compile project(':RCTWeChat') //solve TransformException: java.util.zip.ZipException: duplicate entry: com/theweflex/react/BuildConfig.class
