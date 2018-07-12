@@ -14,7 +14,7 @@ import { Icon } from './Views/Icon'
 
 class Home extends Component {
   componentDidMount() {
-    this.props.fetchHome()
+    this.props.fetchHome();
   }
   onLayoutPress = (e, child, index) => {
     this.props.checkDetail(child.key, this)
@@ -33,6 +33,8 @@ class Home extends Component {
 
   render() {
     console.log('首页渲染')
+    console.log('render 方法中props', this.props);
+    console.log('render 方法中cateList', this.props.cateList);
     return (
       <View style={{ backgroundColor: 'white' }}>
         <Body
@@ -40,6 +42,7 @@ class Home extends Component {
           Carousel={this.props.Carousel}
           goodNews={this.props.goodNews}
           event={this.props.event}
+          cateList={this.props.cateList}
           onLayoutPress={this.onLayoutPress}
           onEventPress={id => this.props.checkDetail(id, this)}
           isAud={this.props.isAud}
@@ -65,7 +68,8 @@ function mapState(state) {
     goodNews: state.Home.goodNews,
     event: state.Home.event,
     isAud: state.PriceList.isAud,
-    noteCount: state.Home.noteCount
+    noteCount: state.Home.noteCount,
+    cateList: state.Home.cateList
   }
 }
 

@@ -4,6 +4,11 @@ import { AsyncStorage } from 'react-native';
 import { combineReducers } from 'redux';
 import BaseManager from '../../NetworkManager/BaseManager';
 
+/**
+ * 自己封装的fetch帮助函数
+ * TODO： 以后把这个去掉，用util里的fetch
+ * @param {*} param0 
+ */
 function* fetchFunc({ url, body }) {
     yield setLogin()
     const res = yield call(fetch, url, {
@@ -11,12 +16,19 @@ function* fetchFunc({ url, body }) {
         headers: header.get(),
         body: JSON.stringify(body),
     })
+    // Hank：这个不用加yield吧？？
     return yield res.json();
 }
-
+/**
+ * Home页面的帮助类
+ * 负责取数据， 应该是为了缓存主页加载速度，把数据放在本地了
+ */
 class HomeManager extends BaseManager {
+
     *getHomeData() {
+        // 从本地拿到主页数据
         const homeJsonData = yield AsyncStorage.getItem('homeData');
+        // 本地没有主页数据，请求获取，存储在本地
         if (homeJsonData === null) {
             const json = yield this.getHomeDataRefresh();
             yield AsyncStorage.setItem('homeData', JSON.stringify(json));
@@ -25,6 +37,10 @@ class HomeManager extends BaseManager {
             return JSON.parse(homeJsonData);
         }
     }
+
+    /**
+     * 发送请求，拿到首页数据
+     */
     *getHomeDataRefresh() {
         return yield this.fetchApi({
             url: this.Url + 'home/index',
@@ -32,6 +48,9 @@ class HomeManager extends BaseManager {
         })
     }
 
+    /**
+     * 发送状态到Reducer
+     */
     *mapHomeDataToProps(json, put, state) {
         yield put({
             type: 'Home_SET_STATE',
@@ -40,7 +59,9 @@ class HomeManager extends BaseManager {
                 Carousel: json.data.s,
                 goodNews: json.data.g,
                 event: json.data.e,
-                hotKey: json.data.h
+                hotKey: json.data.h,
+                //Hank加入首页分类列表
+                cateList: json.data.cateList
             }
         })
     }
@@ -48,11 +69,16 @@ class HomeManager extends BaseManager {
 
 
 const actionStategy = {
+    /**
+     * 首页加载
+     */
     fetchHome: function* (state) {
         const hmanager = new HomeManager;
+        // 加载数据
         yield hmanager.mapHomeDataToProps(yield hmanager.getHomeData(), put, state);
+        // Hank：这个为啥还要Refresh一次？？
         yield hmanager.mapHomeDataToProps(yield hmanager.getHomeDataRefresh(), put, state);
-
+        // 请求获得当前登录用户信息
         const info = yield fetchFunc({ url: Url + 'user/GetCurrentUserinfo', body: '' });
         console.log(info)
         yield put({
@@ -67,6 +93,7 @@ const actionStategy = {
         } else {
             fix = false;
         }
+        // 这个P是allState
         const PriceList = yield select(p => p.PriceList)
         yield put({
             type: 'SET_STATE',
