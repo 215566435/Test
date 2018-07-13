@@ -25,8 +25,49 @@ export class Body extends Component {
     Carousel: []
   };
 
+  state = {
+    // 这里目前是写死的状态
+    featuredLinks: [
+      { image: "", text: "会员臻选" },
+      { image: "", text: "每日表单" },
+      { image: "", text: "新人种草" },
+      { image: "", text: "达人分享" },
+      { image: "", text: "产品分类" }
+    ]
+  };
+
   onCartPress = () => {
     this.props.navigate("Cart");
+  };
+
+  // 单个featuredLinkItem
+  renderfeaturedLinkItem = (image, text, index) => {
+    <View key={index}>
+      {image}
+      <Text>
+        {text}
+      </Text>
+    </View>
+  };
+
+  renderFeaturedLinks = () => {
+    const { featuredLinks } = this.state;
+    console.log("Body中的State", this.state);
+    // return (
+    //   <View>
+    //     {featuredLinks.map((item, index) => {
+    //       this.renderFeaturedLinkItem(item.image, item.text, index);
+    //     })}
+    //   </View>
+    // );
+
+    return (
+        <View>
+            <Text>
+                123
+            </Text>
+        </View>
+    )
   };
 
   // 渲染活动页
@@ -218,63 +259,6 @@ export class Body extends Component {
     );
   };
 
-  // 渲染首页的CatList（分类列表）
-  renderCateList = () => {
-    const { cateList } = this.props;
-    console.log("cateList", cateList);
-    return (
-      <View>
-        {/* 但是为什么之前的代码就不用做判断？？？ */}
-        {/* <Text>{cateList && cateList.length > 0 ? cateList[0].name : '暂无分类'}</Text> */}
-        {cateList && cateList.length > 0 ? (
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {cateList.map(item => {
-              return (
-                <TouchableOpacity
-                  key={item.id}
-                  onPress={() => this.props.onEventPress(item.id)}
-                >
-                  <View
-                    style={{
-                      height: 40,
-                      width: 100,
-                      padding: 10,
-                      borderWidth: 0.5,
-                      borderColor: "#f7f7f7"
-                    }}
-                  >
-                    <Text
-                      numberOfLines={2}
-                      style={{ fontSize: 12, backgroundColor: "transparent" }}
-                    >
-                      {item.name}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
-          </ScrollView>
-        ) : (
-          <Text>暂无分类</Text>
-        )}
-        {/* {cateList[0].name} */}
-        {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                {cateList.map((item) => {
-                    return(
-
-                                       <TouchableOpacity key={item.id} onPress={() => this.props.onEventPress(item.id)}>
-                                           <View style={{ height: 200, width: 120, padding: 10, borderWidth: 0.5, borderColor: "#f7f7f7" }}>
-                                               <Text numberOfLines={2} style={{ fontSize: 12, backgroundColor: "transparent" }}>{item.name}</Text>
-                                           </View>
-                                       </TouchableOpacity>
-
-                    )
-                })}
-                </ScrollView> */}
-      </View>
-    );
-  };
-
   render() {
     // 调用上面封装的两个方法，输出页面
     const loaded = () => {
@@ -294,10 +278,9 @@ export class Body extends Component {
       return (
         <ScrollView
           style={{
-            height: height - 44 - 45 - (Platform.OS === "ios" ? 23 : 24)
+            height: height - 44 - 45 - 30 - (Platform.OS === "ios" ? 23 : 24)
           }}
         >
-          {this.renderCateList()}
           <Carousel>
             {this.props.Carousel.map(item => {
               return (
@@ -310,12 +293,14 @@ export class Body extends Component {
               );
             })}
           </Carousel>
+          {this.renderFeaturedLinks()}
           {this.renderEvent()}
           {this.renderLayout()}
         </ScrollView>
       );
     };
 
+    console.log("body中的cateList", this.props.cateList);
     return (
       <View>
         <CustomHeader
@@ -323,6 +308,7 @@ export class Body extends Component {
           onCartPress={this.onCartPress}
           onValueChange={this.props.onValueChange}
           isShowAud={this.props.isAud}
+          cateList={this.props.cateList}
         />
         {loaded()}
       </View>

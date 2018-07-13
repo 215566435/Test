@@ -19,6 +19,8 @@ class Home extends Component {
   onLayoutPress = (e, child, index) => {
     this.props.checkDetail(child.key, this)
   }
+  
+  // 底部导航栏点击事件
   navigationTabBarPress = (e, child, index) => {
     if (index === 0) {
       this.props.navigation.navigate('EventPage')
