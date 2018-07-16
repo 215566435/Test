@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   Platform,
   Modal,
-  Switch
+  Switch,
+  FlatList
 } from "react-native";
 
 import { Carousel } from "../../../components/Carousel";
@@ -26,13 +27,13 @@ export class Body extends Component {
   };
 
   state = {
-    // 这里目前是写死的状态
+    // 声明特色链接模块的数据，这里目前是写死的状态
     featuredLinks: [
-      { image: "", text: "会员臻选" },
-      { image: "", text: "每日表单" },
-      { image: "", text: "新人种草" },
-      { image: "", text: "达人分享" },
-      { image: "", text: "产品分类" }
+      { image: "ios-contact", text: "会员臻选" },
+      { image: "ios-trophy", text: "销量冠军" },
+      { image: "ios-happy", text: "达人分享" },
+      { image: "ios-planet", text: "全球好物" },
+      { image: "ios-list", text: "产品分类" }
     ]
   };
 
@@ -40,37 +41,36 @@ export class Body extends Component {
     this.props.navigate("Cart");
   };
 
-  // 单个featuredLinkItem
-  renderfeaturedLinkItem = (image, text, index) => {
-    <View key={index}>
-      {image}
-      <Text>
-        {text}
-      </Text>
-    </View>
-  };
-
+  // 渲染特色链接模块
   renderFeaturedLinks = () => {
     const { featuredLinks } = this.state;
-    console.log("Body中的State", this.state);
-    // return (
-    //   <View>
-    //     {featuredLinks.map((item, index) => {
-    //       this.renderFeaturedLinkItem(item.image, item.text, index);
-    //     })}
-    //   </View>
-    // );
-
     return (
-        <View>
-            <Text>
-                123
-            </Text>
-        </View>
-    )
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginTop: 10
+        }}
+      >
+        {featuredLinks.map((item, index) => {
+          return (
+            <View key={index} style={{ flex: 1, alignItems: "center" }}>
+              <Ionicons
+                name={item.image}
+                size={36}
+                color="#f46e65"
+                style={{ backgroundColor: "transparent" }}
+              />
+              <Text style={{ fontSize: 10 }}>{item.text}</Text>
+            </View>
+          );
+        })}
+      </View>
+    );
   };
 
-  // 渲染活动页
+  // 渲染促销活动模块
   renderEvent = () => {
     const { event } = this.props;
 
@@ -118,8 +118,8 @@ export class Body extends Component {
                     >
                       <View
                         style={{
-                          height: 200,
-                          width: 120,
+                          height: 180,
+                          width: 130,
                           padding: 10,
                           borderWidth: 0.5,
                           borderColor: "#f7f7f7"
@@ -138,13 +138,13 @@ export class Body extends Component {
                                 "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36"
                             }
                           }}
-                          style={{ height: 100, width: 100 }}
+                          style={{ height: 110, width: 110 }}
                           resizeMode="contain"
                         />
                         <Text
                           numberOfLines={2}
                           style={{
-                            fontSize: 12,
+                            fontSize: 10,
                             backgroundColor: "transparent"
                           }}
                         >
@@ -152,6 +152,7 @@ export class Body extends Component {
                         </Text>
                         <Text
                           style={{
+                            fontSize: 12,
                             color: "#f56a00",
                             backgroundColor: "transparent"
                           }}
@@ -181,7 +182,7 @@ export class Body extends Component {
     );
   };
 
-  // 渲染活动页以后的布局
+  // 渲染首页商品展示模块
   renderLayout = () => {
     return (
       <View>
@@ -227,14 +228,15 @@ export class Body extends Component {
                       />
                       <Text
                         numberOfLines={2}
-                        style={{ fontSize: 12, backgroundColor: "transparent" }}
+                        style={{ fontSize: 10, backgroundColor: "transparent" }}
                       >
                         {item.n}
                       </Text>
                       <Text
                         style={{
                           color: "#f56a00",
-                          backgroundColor: "transparent"
+                          backgroundColor: "transparent",
+                          fontSize: 12,
                         }}
                       >
                         {price.p ? price.p : "¥" + itm.ap.p.r}
@@ -260,7 +262,7 @@ export class Body extends Component {
   };
 
   render() {
-    // 调用上面封装的两个方法，输出页面
+    // 调用上面封装的方法，输出页面
     const loaded = () => {
       if (!this.props.goodNews || !this.props.event)
         return (
@@ -296,11 +298,20 @@ export class Body extends Component {
           {this.renderFeaturedLinks()}
           {this.renderEvent()}
           {this.renderLayout()}
+          {/* TODO: 把猜你喜欢这个弄上去 */}
+          {/* <FlatList
+        data={this.props.orderList || []}
+        renderItem={Grid}
+        keyExtractor={i => {
+          return i.i;
+        }}
+        numColumns = {2}
+        pageSize={4}
+        onEndReached={this.handleOnEnd}
+      /> */}
         </ScrollView>
       );
     };
-
-    console.log("body中的cateList", this.props.cateList);
     return (
       <View>
         <CustomHeader

@@ -35,8 +35,6 @@ class Home extends Component {
 
   render() {
     console.log('首页渲染')
-    console.log('render 方法中props', this.props);
-    console.log('render 方法中cateList', this.props.cateList);
     return (
       <View style={{ backgroundColor: 'white' }}>
         <Body
