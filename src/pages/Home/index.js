@@ -11,6 +11,9 @@ import { CustomTabBar } from '../../components/CustomTabBar'
 
 import { Body } from './Views/body'
 import { Icon } from './Views/Icon'
+import { Button } from '../../components/Button';
+
+import BasicTabsExample from './Views/tabs';
 
 class Home extends Component {
   componentDidMount() {
@@ -37,7 +40,8 @@ class Home extends Component {
     console.log('首页渲染')
     return (
       <View style={{ backgroundColor: 'white' }}>
-        <Body
+
+        {/* <Body
           {...this.props.navigation}
           Carousel={this.props.Carousel}
           goodNews={this.props.goodNews}
@@ -56,7 +60,7 @@ class Home extends Component {
           <Icon name="ios-home" title="澳购商城" color="#f46e65" />
           <Icon name="md-list-box" title="分类" />
           <Icon name="ios-person" title="个人中心" note={true} noteCount={this.props.noteCount} />
-        </CustomTabBar>
+        </CustomTabBar> */}
       </View>
     )
   }
