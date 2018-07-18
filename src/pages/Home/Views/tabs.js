@@ -1,30 +1,46 @@
+// import React from 'react';
+// import { Text, View } from 'react-native';
+// import { TabNavigator } from 'react-navigation';
+
+// class HomeScreen extends React.Component {
+//   render() {
+//     return (
+//       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+//         <Text>Home!</Text>
+//       </View>
+//     );
+//   }
+// }
+
+// class SettingsScreen extends React.Component {
+//   render() {
+//     return (
+//       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+//         <Text>Settings!</Text>
+//       </View>
+//     );
+//   }
+// }
+
+// export default TabNavigator({
+//   Home: { screen: HomeScreen },
+//   Settings: { screen: SettingsScreen },
+// });
+
+
+
+
+
+
+
 /* tslint:disable:no-console */
 import React from "react";
 import { ScrollView, Text, View } from "react-native";
-import { Tabs, Button } from "antd-mobile-rn";
-
-const renderContent = (tab, index) => {
-  const style = {
-    paddingVertical: 40,
-    justifyContent: "center",
-    alignItems: "center",
-    margin: 10,
-    backgroundColor: "#ddd"
-  };
-
-  const content = [1, 2, 3, 4, 5, 6, 7, 8].map(i => {
-    return (
-      <View key={`${index}_${i}`} style={style}>
-        <Text>
-          {tab.title} - {i}
-        </Text>
-      </View>
-    );
-  });
-  return <ScrollView style={{ backgroundColor: "#fff" }}>{content}</ScrollView>;
-};
+import { Tabs } from "antd-mobile-rn";
 
 export default class BasicTabsExample extends React.Component {
+    _change = (props) => {
+    }
   render() {
     const style = {
       alignItems: "center",
@@ -32,28 +48,36 @@ export default class BasicTabsExample extends React.Component {
       height: 150,
       backgroundColor: "#fff"
     };
-    console.log("进入Tabs");
+
+    const tabs = [
+      { title: "1st Tab" },
+      { title: "2nd Tab" },
+      { title: "3rd Tab" }
+    ];
+
     return (
-      <View style={{ flex: 1 }}>
-        <Tabs
-          tabs={[
-            { title: "First Tab" },
-            { title: "Second Tab" },
-            { title: "Third Tab" }
-          ]}
-          initialPage={1}
-        >
-          <View style={style}>
-            <Text>Content of First Tab</Text>
-          </View>
-          <View style={style}>
-            <Text>Content of Second Tab</Text>
-          </View>
-          <View style={style}>
-            <Text>Content of Third Tab</Text>
-          </View>
-        </Tabs>
-      </View>
+      <Tabs
+        tabs={tabs}
+          onChange={(tab, index) => {
+            console.log("onChange", index, tab);
+          }}
+        //   onTabClick={(tab, index) => {
+        //     console.log("onTabClick", index, tab);
+        //   }}
+        // onChange={(tab, index) => this._change(tab, index)}
+        renderTabBar={props => <Tabs.DefaultTabBar {...props} page={3} />}
+        initialPage={1}
+      >
+        <View style={style}>
+          <Text>Content of First Tab</Text>
+        </View>
+        <View style={style}>
+          <Text>Content of Second Tab</Text>
+        </View>
+        <View style={style}>
+          <Text>Content of Third Tab</Text>
+        </View>
+      </Tabs>
     );
   }
 }

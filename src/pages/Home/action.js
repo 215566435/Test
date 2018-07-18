@@ -57,8 +57,9 @@ class HomeManager extends BaseManager {
             data: {
                 ...state,
                 Carousel: json.data.s,
-                goodNews: json.data.g,
-                event: json.data.e,
+                // goodNews: json.data.g,
+                // event: json.data.e,
+                homeItems: json.data.homeItems,
                 hotKey: json.data.h,
                 //Hank加入首页分类列表
                 cateList: json.data.cateList
@@ -80,7 +81,7 @@ const actionStategy = {
         yield hmanager.mapHomeDataToProps(yield hmanager.getHomeDataRefresh(), put, state);
         // 请求获得当前登录用户信息
         const info = yield fetchFunc({ url: Url + 'user/GetCurrentUserinfo', body: '' });
-        console.log(info)
+        console.log('首页中拿到用户信息', info)
         yield put({
             type: 'Home_SET_STATE',
             data: { noteCount: info.data.messageCount }

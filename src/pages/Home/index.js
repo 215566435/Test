@@ -38,14 +38,16 @@ class Home extends Component {
 
   render() {
     console.log('首页渲染')
+    console.log('首页Props', this.props);
     return (
       <View style={{ backgroundColor: 'white' }}>
-
-        {/* <Body
+      {/* <BasicTabsExample /> */}
+        <Body
           {...this.props.navigation}
           Carousel={this.props.Carousel}
-          goodNews={this.props.goodNews}
-          event={this.props.event}
+          // goodNews={this.props.goodNews}
+          // event={this.props.event}
+          homeItems={this.props.homeItems}
           cateList={this.props.cateList}
           onLayoutPress={this.onLayoutPress}
           onEventPress={id => this.props.checkDetail(id, this)}
@@ -60,7 +62,7 @@ class Home extends Component {
           <Icon name="ios-home" title="澳购商城" color="#f46e65" />
           <Icon name="md-list-box" title="分类" />
           <Icon name="ios-person" title="个人中心" note={true} noteCount={this.props.noteCount} />
-        </CustomTabBar> */}
+        </CustomTabBar>
       </View>
     )
   }
@@ -69,11 +71,12 @@ class Home extends Component {
 function mapState(state) {
   return {
     Carousel: state.Home.Carousel,
-    goodNews: state.Home.goodNews,
-    event: state.Home.event,
+    // goodNews: state.Home.goodNews,
+    // event: state.Home.event,
     isAud: state.PriceList.isAud,
     noteCount: state.Home.noteCount,
-    cateList: state.Home.cateList
+    cateList: state.Home.cateList,
+    homeItems: state.Home.homeItems
   }
 }
 

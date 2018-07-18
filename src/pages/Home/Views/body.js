@@ -70,119 +70,149 @@ export class Body extends Component {
     );
   };
 
-  // 渲染促销活动模块
-  renderEvent = () => {
-    const { event } = this.props;
+  // 渲染首页主体（遍历homeItem判断是event还是cate，以不同样式渲染）
+  renderHomeItems = () => {
+    const { homeItems } = this.props;
+    if (!homeItems) {
+      return (
+        <View>
+          <Text>暂无数据</Text>
+        </View>
+      );
+    }
+    homeItems.map(homeItem => {
+      if (homeItem.type == "event") {
+        console.log("这里是homeItem", homeItem);
+        // return this.renderEvent(homeItem);
+        return (
+          <View>
+            <Text>这里是Event</Text>
+          </View>
+        );
+      }
+      return (
+        <View>
+          <Text>这里是Cate</Text>
+        </View>
+      );
+    });
+  };
 
+  // 渲染单个Event
+  renderEvent = event => {
     return (
       <View>
-        {event.map(item => {
-          return (
-            <View style={{ alignItems: "center", marginTop: 10 }} key={item.i}>
-              <Text
-                style={{
-                  fontSize: 20,
-                  padding: 10,
-                  color: "#f56a00",
-                  backgroundColor: "transparent"
-                }}
-              >
-                🌟{item.n}🌟
-              </Text>
-              <TouchableOpacity
-                onPress={() => this.props.EventImagePress(item.id)}
-              >
-                <Image
-                  source={{
-                    uri:
-                      "http://cdn2u.com" +
-                      item.i +
-                      "?width=750&constrain=true&bgcolor=white"
-                  }}
-                  style={{ height: 200, width: width }}
-                  resizeMode="contain"
-                />
-              </TouchableOpacity>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                {item.g.map(itm => {
-                  const { isAud } = this.props;
-                  const price = {
-                    p: isAud ? "$" + itm.ap.p.a : "¥" + itm.ap.p.r,
-                    pi: isAud ? "$" + itm.ap.p.ai : "¥" + itm.ap.p.ri
-                  };
+        <View style={{ alignItems: "center", marginTop: 10 }} key={event.id}>
+          <Text
+            style={{
+              fontSize: 20,
+              padding: 10,
+              color: "#f56a00",
+              backgroundColor: "transparent"
+            }}
+          >
+            🌟{event.name}🌟
+          </Text>
+          <TouchableOpacity
+            onPress={() => this.props.EventImagePress(event.id)}
+          >
+            <Image
+              source={{
+                uri:
+                  "http://cdn2u.com" +
+                  item.image +
+                  "?width=750&constrain=true&bgcolor=white"
+              }}
+              style={{ height: 200, width: width }}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {event.goods.items.map(item => {
+              const { isAud } = this.props;
 
-                  return (
-                    <TouchableOpacity
-                      key={itm.i}
-                      onPress={() => this.props.onEventPress(itm.id)}
+              // price这里有疑问！！！
+              // const price = {
+              //   p: isAud ? "$" + itm.ap.p.a : "¥" + itm.ap.p.r,
+              //   pi: isAud ? "$" + itm.ap.p.ai : "¥" + itm.ap.p.ri
+              // };
+
+              const price = {
+                p: isAud ? "$" + 123 : "¥" + 321,
+                pi: isAud ? "$" + 1231 : "¥" + 1321
+              };
+
+              return (
+                <TouchableOpacity
+                  key={item.id}
+                  onPress={() => this.props.onEventPress(item.id)}
+                >
+                  <View
+                    style={{
+                      height: 180,
+                      width: 130,
+                      padding: 10,
+                      borderWidth: 0.5,
+                      borderColor: "#f7f7f7"
+                    }}
+                  >
+                    <Image
+                      source={{
+                        uri:
+                          "http://cdn2u.com" +
+                          item.image +
+                          "?width=140&height=140&constrain=true&bgcolor=white",
+                        header: {
+                          Accept:
+                            "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;",
+                          "User-Agent":
+                            "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36"
+                        }
+                      }}
+                      style={{ height: 110, width: 110 }}
+                      resizeMode="contain"
+                    />
+                    <Text
+                      numberOfLines={2}
+                      style={{
+                        fontSize: 10,
+                        backgroundColor: "transparent"
+                      }}
                     >
-                      <View
-                        style={{
-                          height: 180,
-                          width: 130,
-                          padding: 10,
-                          borderWidth: 0.5,
-                          borderColor: "#f7f7f7"
-                        }}
-                      >
-                        <Image
-                          source={{
-                            uri:
-                              "http://cdn2u.com" +
-                              itm.i +
-                              "?width=140&height=140&constrain=true&bgcolor=white",
-                            header: {
-                              Accept:
-                                "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;",
-                              "User-Agent":
-                                "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36"
-                            }
-                          }}
-                          style={{ height: 110, width: 110 }}
-                          resizeMode="contain"
-                        />
-                        <Text
-                          numberOfLines={2}
-                          style={{
-                            fontSize: 10,
-                            backgroundColor: "transparent"
-                          }}
-                        >
-                          {itm.n}
-                        </Text>
-                        <Text
-                          style={{
-                            fontSize: 12,
-                            color: "#f56a00",
-                            backgroundColor: "transparent"
-                          }}
-                        >
-                          {price.p !== "$null" ? price.p : "¥" + itm.ap.p.r}
-                        </Text>
-                        <Text
-                          style={{
-                            fontSize: 10,
-                            color: "#919191",
-                            backgroundColor: "transparent"
-                          }}
-                        >
-                          包邮价:{price.pi !== "$null"
-                            ? price.pi
-                            : "¥" + itm.ap.p.ri}
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
-                  );
-                })}
-              </ScrollView>
-            </View>
-          );
-        })}
+                      {item.name}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        color: "#f56a00",
+                        backgroundColor: "transparent"
+                      }}
+                    >
+                      {price.p !== "$null" ? price.p : "¥" + itm.ap.p.r}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 10,
+                        color: "#919191",
+                        backgroundColor: "transparent"
+                      }}
+                    >
+                      {/* 包邮价:{price.pi !== "$null"
+                        ? price.pi
+                        : "¥" + itm.ap.p.ri} */}
+                      包邮价:{price.pi !== "$null" ? price.pi : "¥" + 888}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+        </View>
       </View>
     );
   };
 
-  // 渲染首页商品展示模块
+  // 渲染首页Cate
   renderLayout = () => {
     return (
       <View>
@@ -236,7 +266,7 @@ export class Body extends Component {
                         style={{
                           color: "#f56a00",
                           backgroundColor: "transparent",
-                          fontSize: 12,
+                          fontSize: 12
                         }}
                       >
                         {price.p ? price.p : "¥" + itm.ap.p.r}
@@ -264,7 +294,7 @@ export class Body extends Component {
   render() {
     // 调用上面封装的方法，输出页面
     const loaded = () => {
-      if (!this.props.goodNews || !this.props.event)
+      if (!this.props.homeItems)
         return (
           <View
             style={{
@@ -296,19 +326,9 @@ export class Body extends Component {
             })}
           </Carousel>
           {this.renderFeaturedLinks()}
-          {this.renderEvent()}
-          {this.renderLayout()}
-          {/* TODO: 把猜你喜欢这个弄上去 */}
-          {/* <FlatList
-        data={this.props.orderList || []}
-        renderItem={Grid}
-        keyExtractor={i => {
-          return i.i;
-        }}
-        numColumns = {2}
-        pageSize={4}
-        onEndReached={this.handleOnEnd}
-      /> */}
+          {this.renderHomeItems()}
+          {/* {this.renderEvent()}
+          {this.renderLayout()} */}
         </ScrollView>
       );
     };

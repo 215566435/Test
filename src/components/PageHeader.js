@@ -72,6 +72,7 @@ export class CustomHeader extends React.Component {
   renderCateList = () => {
     const { cateList } = this.props;
     console.log("渲染首页CateList", cateList);
+    console.log("renderCateList页面的props", this.props);
     return (
       <View>
         {/* <Text>{cateList && cateList.length > 0 ? cateList[0].name : '暂无分类'}</Text> */}
@@ -80,7 +81,7 @@ export class CustomHeader extends React.Component {
             {cateList.map(item => {
               return (
                 <TouchableOpacity
-                  key={item.id}
+                  key={item.name}
                 >
                   <View
                     style={{
