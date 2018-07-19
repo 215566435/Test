@@ -52,6 +52,7 @@ export class Grid extends React.Component {
 
     const GridItem = React.Children.map(this.props.children, (child, index) => {
       const fixKey = child.key || index
+      console.log('fixkey', fixKey);
       return (
         <TouchableOpacity
           activeOpacity={0.6}

@@ -21,6 +21,7 @@ import Ionicons from "react-native-vector-icons/Ionicons"; // 4.4.2
 // import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import { header, width, height } from "../../../util";
 
+// TODO：已知问题在Cate里Grid和Event中如果有相同产品，就会有相同的Key，RN就会报错。
 export class Body extends Component {
   static defaultProps = {
     Carousel: []
@@ -54,8 +55,9 @@ export class Body extends Component {
         }}
       >
         {featuredLinks.map((item, index) => {
+          // console.log('featuredLinks', item);
           return (
-            <View key={index} style={{ flex: 1, alignItems: "center" }}>
+            <View key={item.image} style={{ flex: 1, alignItems: "center" }}>
               <Ionicons
                 name={item.image}
                 size={36}
@@ -73,6 +75,7 @@ export class Body extends Component {
   // 渲染首页主体（遍历homeItem判断是event还是cate，以不同样式渲染）
   renderHomeItems = () => {
     const { homeItems } = this.props;
+
     if (!homeItems) {
       return (
         <View>
@@ -80,29 +83,29 @@ export class Body extends Component {
         </View>
       );
     }
-    homeItems.map(homeItem => {
-      if (homeItem.type == "event") {
-        console.log("这里是homeItem", homeItem);
-        // return this.renderEvent(homeItem);
-        return (
-          <View>
-            <Text>这里是Event</Text>
-          </View>
-        );
+
+    // 遍历数据生成样式， 返回给调用者
+    return homeItems.map((homeItem, index) => {
+
+      // 如果Type是Event按Event样式渲染
+      if (homeItem.type == "Event") {
+        console.log("这里是Event", homeItem.event);
+        return this.renderEvent(homeItem.event, index);
       }
+
+      // 如果Type不是Event，就是cate，按照cate样式渲染
+      console.log("这里是cate", homeItem.cate);
       return (
-        <View>
-          <Text>这里是Cate</Text>
-        </View>
+        this.renderLayout(homeItem.cate, index)
       );
     });
+
   };
 
   // 渲染单个Event
   renderEvent = event => {
     return (
-      <View>
-        <View style={{ alignItems: "center", marginTop: 10 }} key={event.id}>
+        <View style={{ alignItems: "center", marginTop: 10 }} key={event.image}>
           <Text
             style={{
               fontSize: 20,
@@ -120,7 +123,7 @@ export class Body extends Component {
               source={{
                 uri:
                   "http://cdn2u.com" +
-                  item.image +
+                  event.image +
                   "?width=750&constrain=true&bgcolor=white"
               }}
               style={{ height: 200, width: width }}
@@ -128,18 +131,12 @@ export class Body extends Component {
             />
           </TouchableOpacity>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {event.goods.items.map(item => {
+            {event.goods.map(item => {
               const { isAud } = this.props;
 
-              // price这里有疑问！！！
-              // const price = {
-              //   p: isAud ? "$" + itm.ap.p.a : "¥" + itm.ap.p.r,
-              //   pi: isAud ? "$" + itm.ap.p.ai : "¥" + itm.ap.p.ri
-              // };
-
               const price = {
-                p: isAud ? "$" + 123 : "¥" + 321,
-                pi: isAud ? "$" + 1231 : "¥" + 1321
+                p: isAud ? "$" + item.ap.p.a : "¥" + item.ap.p.r,
+                pi: isAud ? "$" + item.ap.p.ai : "¥" + item.ap.p.ri
               };
 
               return (
@@ -160,7 +157,7 @@ export class Body extends Component {
                       source={{
                         uri:
                           "http://cdn2u.com" +
-                          item.image +
+                          item.i +
                           "?width=140&height=140&constrain=true&bgcolor=white",
                         header: {
                           Accept:
@@ -179,7 +176,7 @@ export class Body extends Component {
                         backgroundColor: "transparent"
                       }}
                     >
-                      {item.name}
+                      {item.n}
                     </Text>
                     <Text
                       style={{
@@ -188,7 +185,7 @@ export class Body extends Component {
                         backgroundColor: "transparent"
                       }}
                     >
-                      {price.p !== "$null" ? price.p : "¥" + itm.ap.p.r}
+                      {price.p !== "$null" ? price.p : "¥" + item.ap.p.r}
                     </Text>
                     <Text
                       style={{
@@ -197,10 +194,9 @@ export class Body extends Component {
                         backgroundColor: "transparent"
                       }}
                     >
-                      {/* 包邮价:{price.pi !== "$null"
+                      包邮价:{price.pi !== "$null"
                         ? price.pi
-                        : "¥" + itm.ap.p.ri} */}
-                      包邮价:{price.pi !== "$null" ? price.pi : "¥" + 888}
+                        : "¥" + item.ap.p.ri}
                     </Text>
                   </View>
                 </TouchableOpacity>
@@ -208,85 +204,79 @@ export class Body extends Component {
             })}
           </ScrollView>
         </View>
-      </View>
     );
   };
 
   // 渲染首页Cate
-  renderLayout = () => {
+  // 后台没返回ID， 只能拿index做key
+  renderLayout = (cate, index) => {
     return (
-      <View>
-        {this.props.goodNews.map((itm, index) => {
-          return (
-            <View key={index} style={{ alignItems: "center", marginTop: 10 }}>
-              <Text
-                style={{
-                  fontSize: 20,
-                  color: "#f46e65",
-                  backgroundColor: "transparent"
-                }}
-              >
-                🌟{itm.n}🌟
-              </Text>
-              <Grid
-                onPress={this.props.onLayoutPress}
-                cols={2}
-                wMargin={5}
-                hMargin={5}
-                itemHeight={Platform.OS === "ios" ? 190 : 220}
-                borderWidth={0.5}
-                borderColor={"rgba(120,120,120,0.3)"}
-              >
-                {itm.g.map(item => {
-                  const { isAud } = this.props;
-                  const price = {
-                    p: isAud ? "$" + item.ap.p.a : "¥" + item.ap.p.r,
-                    pi: isAud ? "$" + item.ap.p.ai : "¥" + item.ap.p.ri
-                  };
-                  return (
-                    <View style={{ alignItems: "center" }} key={item.id}>
-                      <Image
-                        key={item.i}
-                        source={{
-                          uri:
-                            "http://cdn2u.com" +
-                            item.i +
-                            "?width=140&height=140&constrain=true&bgcolor=white"
-                        }}
-                        style={{ height: 120, width: 150 }}
-                        resizeMode="contain"
-                      />
-                      <Text
-                        numberOfLines={2}
-                        style={{ fontSize: 10, backgroundColor: "transparent" }}
-                      >
-                        {item.n}
-                      </Text>
-                      <Text
-                        style={{
-                          color: "#f56a00",
-                          backgroundColor: "transparent",
-                          fontSize: 12
-                        }}
-                      >
-                        {price.p ? price.p : "¥" + itm.ap.p.r}
-                      </Text>
-                      <Text
-                        style={{
-                          fontSize: 10,
-                          color: "#919191",
-                          backgroundColor: "transparent"
-                        }}
-                      >
-                        包邮价:{price.pi ? price.pi : "¥" + itm.ap.p.ri}
-                      </Text>
-                    </View>
-                  );
-                })}
-              </Grid>
-            </View>
-          );
-        })}
+      <View key={index} style={{ alignItems: "center", marginTop: 10 }}>
+        <Text
+          style={{
+            fontSize: 20,
+            color: "#f46e65",
+            backgroundColor: "transparent"
+          }}
+        >
+          🌟{cate.n}🌟
+        </Text>
+        <Grid
+          onPress={this.props.onLayoutPress}
+          cols={2}
+          wMargin={5}
+          hMargin={5}
+          itemHeight={Platform.OS === "ios" ? 190 : 220}
+          borderWidth={0.5}
+          borderColor={"rgba(120,120,120,0.3)"}
+        >
+          {cate.g.map(good => {
+            const { isAud } = this.props;
+            const price = {
+              p: isAud ? "$" + good.ap.p.a : "¥" + good.ap.p.r,
+              pi: isAud ? "$" + good.ap.p.ai : "¥" + good.ap.p.ri
+            };
+            return (
+              <View style={{ alignItems: "center" }} key={good.id}>
+                <Image
+                  key={good.i}
+                  source={{
+                    uri:
+                      "http://cdn2u.com" +
+                      good.i +
+                      "?width=140&height=140&constrain=true&bgcolor=white"
+                  }}
+                  style={{ height: 120, width: 150 }}
+                  resizeMode="contain"
+                />
+                <Text
+                  numberOfLines={2}
+                  style={{ fontSize: 10, backgroundColor: "transparent" }}
+                >
+                  {good.n}
+                </Text>
+                <Text
+                  style={{
+                    color: "#f56a00",
+                    backgroundColor: "transparent",
+                    fontSize: 12
+                  }}
+                >
+                  {price.p ? price.p : "¥" + good.ap.p.r}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 10,
+                    color: "#919191",
+                    backgroundColor: "transparent"
+                  }}
+                >
+                  包邮价:{price.pi ? price.pi : "¥" + good.ap.p.ri}
+                </Text>
+              </View>
+            );
+          })}
+        </Grid>
       </View>
     );
   };
@@ -327,8 +317,6 @@ export class Body extends Component {
           </Carousel>
           {this.renderFeaturedLinks()}
           {this.renderHomeItems()}
-          {/* {this.renderEvent()}
-          {this.renderLayout()} */}
         </ScrollView>
       );
     };

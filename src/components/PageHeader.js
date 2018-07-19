@@ -86,7 +86,7 @@ export class CustomHeader extends React.Component {
                   <View
                     style={{
                       height: 30,
-                      width: 100,
+                      width: 120,
                       padding: 5,
                       borderWidth: 0.5,
                       borderColor: "#f7f7f7",

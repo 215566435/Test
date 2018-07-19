@@ -4,7 +4,7 @@
  */
 
 import React, { Component } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, AsyncStorage } from 'react-native'
 import { connect } from 'react-redux'
 
 import { CustomTabBar } from '../../components/CustomTabBar'
@@ -17,6 +17,8 @@ import BasicTabsExample from './Views/tabs';
 
 class Home extends Component {
   componentDidMount() {
+    // 清除本地内存数据
+    // AsyncStorage.clear();
     this.props.fetchHome();
   }
   onLayoutPress = (e, child, index) => {
