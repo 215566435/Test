@@ -13,6 +13,7 @@ function* fetchSelect({ url, body }) {
 
 
 const actionStategy = {
+    //页面加载完成，请求拿到类别
     fetchCategory: function* (state, others) {
         const json = yield fetchSelect({
             url: Url + 'goods/GetCatesHomePage',
@@ -23,6 +24,7 @@ const actionStategy = {
             data: { ...state, tabList: json.data }
         })
     },
+    //
     catePress: function* (state, others) {
         const SearchPageState = yield select(state => state.SearchPage)
 

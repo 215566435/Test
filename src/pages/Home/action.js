@@ -52,6 +52,7 @@ class HomeManager extends BaseManager {
      * 发送状态到Reducer
      */
     *mapHomeDataToProps(json, put, state) {
+        console.log('action中的json', json);
         yield put({
             type: 'Home_SET_STATE',
             data: {

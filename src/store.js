@@ -60,9 +60,16 @@ const appReducer = combineReducers({ ...reducers, ...App.appReducers });
 
 const sagaMiddleware = createSagaMiddleware(rootSaga);
 
+// 使用react-native-debugger https://github.com/jhen0409/react-native-debugger
+// 用了一个月，太慢了，放弃！！！
+// export const store = createStore(
+//   appReducer,
+//   composeWithDevTools(applyMiddleware(sagaMiddleware))
+// );
+
 export const store = createStore(
   appReducer,
-  composeWithDevTools(applyMiddleware(sagaMiddleware))
+  applyMiddleware(sagaMiddleware)
 );
 
 sagaMiddleware.run(rootSaga); //运行所有已经注册的saga

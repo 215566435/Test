@@ -22,6 +22,8 @@ export class Body extends Component {
 
         if (!this.props.tabList) return <Spin />;
 
+        console.log('分类显示', this.props);
+
         return this.props.tabList.map((tab, idx) => {
             if (!tab.s) {
                 return (
