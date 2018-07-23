@@ -125,6 +125,8 @@ app.model(require("./pages/Settle/remake_settle"));
 app.model(require("./pages/Manifest/hank_model"));
 app.model(require("./pages/Commission/model"));
 app.model(require("./pages/CommissionWithdraw/model"));
+//首页会员臻选
+app.model(require("./pages/MemberCollection/model"));
 // 在page下创建了新Model需要在这里配置
 
 // Rluy 框架文档 https://github.com/Foveluy/Rluy#model 其实还有一些不一样

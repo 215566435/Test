@@ -72,7 +72,7 @@ export class CustomHeader extends React.Component {
   renderCateList = () => {
     const { cateList } = this.props;
     console.log("渲染首页CateList", cateList);
-    console.log("renderCateList页面的props", this.props);
+    console.log("renderCateList方法的props", this.props);
     return (
       <View>
         {/* <Text>{cateList && cateList.length > 0 ? cateList[0].name : '暂无分类'}</Text> */}
@@ -80,9 +80,7 @@ export class CustomHeader extends React.Component {
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {cateList.map(item => {
               return (
-                <TouchableOpacity
-                  key={item.name}
-                >
+                <TouchableOpacity key={item.name} onPress = {this.props.onCateListPress}>
                   <View
                     style={{
                       height: 30,
@@ -95,7 +93,11 @@ export class CustomHeader extends React.Component {
                   >
                     <Text
                       numberOfLines={2}
-                      style={{ fontSize: 12, backgroundColor: "transparent", textAlign: "center" }}
+                      style={{
+                        fontSize: 12,
+                        backgroundColor: "transparent",
+                        textAlign: "center"
+                      }}
                     >
                       {item.name}
                     </Text>
