@@ -17,6 +17,7 @@ const actionStategy = {
             type: "Search_SET_STATE",
             data: { ...state, loading: true }
         })
+        // 传入ID和text找到本页显示的Items
         const json = yield goodsManager.SearchGoodsList(others.text, others.currentCateId);
         yield put({
             type: "Search_SET_STATE",

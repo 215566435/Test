@@ -2,7 +2,6 @@
  * 方正
  * 商品分类
  * 建议使用 dva 模式进行重写
- * 
  */
 
 import React, { Component } from 'react';
@@ -22,6 +21,7 @@ class Category extends Component {
 
     onheadPress = (e, child, index) => {
     }
+
     navigationTabBarPress = () => {
         this.props.navigation.goBack(null)
     }

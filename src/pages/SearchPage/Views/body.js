@@ -40,6 +40,8 @@ export class Body extends Component {
     _keyExtractor = (child) => child.id
 
     renderSearchList = () => {
+        console.log('CateList的Item', this.props.item);
+        console.log('CateList的props', this.props);
         return (
             <FlatList
                 style={{ zIndex: -10, height: height - 43 - 30, width: width, backgroundColor: "#f7f7f7" }}

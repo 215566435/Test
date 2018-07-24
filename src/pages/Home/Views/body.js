@@ -30,11 +30,11 @@ export class Body extends Component {
   state = {
     // 声明特色链接模块的数据，这里目前是写死的状态
     featuredLinks: [
-      { image: "ios-contact", text: "会员臻选" },
-      { image: "ios-trophy", text: "销量冠军" },
-      { image: "ios-happy", text: "达人分享" },
-      { image: "ios-planet", text: "全球好物" },
-      { image: "ios-list", text: "产品分类" }
+      { image: "ios-contact", text: "会员臻选", link: "MemberCollection" },
+      { image: "ios-trophy", text: "销量冠军", link: "TopList" },
+      { image: "ios-happy", text: "达人分享", link: "ExpertShare" },
+      { image: "ios-planet", text: "全球好物", link: "GlobalProducts" },
+      { image: "ios-list", text: "产品分类", link: "Category" }
     ]
   };
 
@@ -65,7 +65,8 @@ export class Body extends Component {
               <TouchableOpacity
                 style={{ flex: 1, alignItems: "center" }}
                 onPress={() => {
-                  console.log("featuredLinks OnPress");
+                  // console.log("featuredLinks OnPress");
+                  this.props.navigate(item.link);
                 }}
               >
                 <Ionicons

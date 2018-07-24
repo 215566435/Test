@@ -8,6 +8,8 @@ import Cart from '../Cart';
 // import Settle from '../Settle';
 import Search from '../SearchPage';
 import Activity from '../Activity'
+import MemberCollection from '../MemberCollection'
+import TopList from '../TopList'
 
 export default StackNavigator(
     {
@@ -51,6 +53,22 @@ export default StackNavigator(
         // },
         Activity: {
             screen: Activity,
+            navigationOptions: {
+                header: null,
+                tabBarVisible: false,
+                gesturesEnabled: true
+            }
+        },
+        MemberCollection: {
+            screen: MemberCollection,
+            navigationOptions: {
+                header: null,
+                tabBarVisible: false,
+                gesturesEnabled: true
+            }
+        },
+        TopList: {
+            screen: TopList,
             navigationOptions: {
                 header: null,
                 tabBarVisible: false,

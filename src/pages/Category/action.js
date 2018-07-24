@@ -13,7 +13,7 @@ function* fetchSelect({ url, body }) {
 
 
 const actionStategy = {
-    //页面加载完成，请求拿到类别
+    // 页面加载完成，请求拿到类别
     fetchCategory: function* (state, others) {
         const json = yield fetchSelect({
             url: Url + 'goods/GetCatesHomePage',
@@ -24,7 +24,8 @@ const actionStategy = {
             data: { ...state, tabList: json.data }
         })
     },
-    //
+
+    // 点击单个类别， 显示商品list
     catePress: function* (state, others) {
         const SearchPageState = yield select(state => state.SearchPage)
 
@@ -32,8 +33,9 @@ const actionStategy = {
             type: "Search_SET_STATE",
             data: { ...state, autoFocus: false }
         })
+        // 跳转到search页面显示，具体类别的产品
+        console.log('Category的Instance', others.instance);
         others.instance.props.navigation.navigate('Search')
-
 
         const json = yield fetchSelect({
             url: Url + 'goods/PriceList',

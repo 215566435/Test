@@ -10,17 +10,17 @@ import { TabHead } from "../../components/Tab";
 import { Spin } from "../../components/Spin";
 
 // 从Views文件夹拿来头部
-import { HeaderWithLeftArrow } from "./Views/MemberCollectionHeader";
+import { HeaderWithLeftArrow } from "./Views/TopListHeader";
 import { ProductBox } from "../../components/ProductBox";
 import { width, height, priceHelper } from "../../util";
 
-class MemberCollection extends Component {
+class TopList extends Component {
   // state = {};
 
   componentDidMount() {
     // 页面加载完成，请求API，加载数据
     this.props.dispatch({
-      type: "fetchMemberCollection"
+      type: "fetchTopList"
     });
   }
 
@@ -59,7 +59,7 @@ class MemberCollection extends Component {
   renderHeader = () => {
     return (
       <View>
-        <HeaderWithLeftArrow title="会员臻选" onPress={this.goBack} />
+        <HeaderWithLeftArrow title="销量冠军" onPress={this.goBack} />
       </View>
     );
   };
@@ -76,7 +76,7 @@ class MemberCollection extends Component {
           width: width,
           backgroundColor: "#f7f7f7"
         }}
-        data={this.props.memberCollection}
+        data={this.props.topList}
         renderItem={this.renderGoods}
         initialNumToRender={16}
         keyExtractor={this._keyExtractor}
@@ -85,8 +85,9 @@ class MemberCollection extends Component {
     );
   };
 
+
   render() {
-    console.log("会员臻选中props", this.props);
+    console.log("每日榜单中props", this.props);
     return (
       <View>
         {this.renderHeader()}
@@ -98,8 +99,8 @@ class MemberCollection extends Component {
 
 const mapStateToProps = applicationState => {
   return {
-    ...applicationState.memberCollection
+    ...applicationState.topList
   };
 };
 
-export default connect(mapStateToProps)(MemberCollection);
+export default connect(mapStateToProps)(TopList);

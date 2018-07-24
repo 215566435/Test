@@ -4,7 +4,7 @@
 import { Alert } from "react-native";
 
 export default {
-  namespace: 'memberCollection',
+  namespace: 'topList',
   //这个state是伪数据，也可以在index中声明
   state: {
       data: {
@@ -18,19 +18,19 @@ export default {
     },
 
   reducers: {
-    mapMemberCollection(state, { payload }) {
-      return { ...state,  memberCollection: payload};
+    mapTopList(state, { payload }) {
+      return { ...state,  topList: payload};
     }
   },
   effects: {
     // 接收index发来的请求，处理，访问服务器API拿数据
-    *fetchMemberCollection({ select, call, put }, { payload }) {
-      let memberCollection = yield select(state => state.memberCollection);
-      console.log('memberCollection', memberCollection);
+    *fetchTopList({ select, call, put }, { payload }) {
+      let topList = yield select(state => state.topList);
+      console.log('TopList', topList);
       // const manager = new BaseManager();
       // const res = yield manager.fetchApi({
       //   //fetch新的数据
-      //   url: manager.Url + "memberCollection/list",
+      //   url: manager.Url + "TopList/list",
       //   body: {
       //     type: payload.type,
       //     keyword: "",
@@ -40,13 +40,13 @@ export default {
       // });
 
       // 拿到伪数据
-      const res = memberCollection
+      const res = topList
 
       console.log('请求拿到的数据', res);
       try {
         let items = res.data.items; //数据格式转化
         yield put({
-          type: "mapMemberCollection",
+          type: "mapTopList",
           payload: items
         });
       } catch (e) {
