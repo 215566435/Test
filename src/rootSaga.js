@@ -128,6 +128,8 @@ app.model(require("./pages/CommissionWithdraw/model"));
 //首页会员臻选
 app.model(require("./pages/MemberCollection/model"));
 app.model(require("./pages/TopList/model"));
+app.model(require("./pages/ExpertShare/model"));
+app.model(require("./pages/GlobalProducts/model"));
 // 在page下创建了新Model需要在这里配置
 
 // Rluy 框架文档 https://github.com/Foveluy/Rluy#model 其实还有一些不一样

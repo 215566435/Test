@@ -10,6 +10,8 @@ import Search from '../SearchPage';
 import Activity from '../Activity'
 import MemberCollection from '../MemberCollection'
 import TopList from '../TopList'
+import GlobalProducts from '../GlobalProducts'
+import ExpertShare from '../ExpertShare'
 
 export default StackNavigator(
     {
@@ -69,6 +71,22 @@ export default StackNavigator(
         },
         TopList: {
             screen: TopList,
+            navigationOptions: {
+                header: null,
+                tabBarVisible: false,
+                gesturesEnabled: true
+            }
+        },
+        ExpertShare: {
+            screen: ExpertShare,
+            navigationOptions: {
+                header: null,
+                tabBarVisible: false,
+                gesturesEnabled: true
+            }
+        },
+        GlobalProducts: {
+            screen: GlobalProducts,
             navigationOptions: {
                 header: null,
                 tabBarVisible: false,

@@ -31,7 +31,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "antd-mobile-rn": "^2.2.0",
+    "antd-mobile-rn": "^2.2.1",
     "babel": "^6.23.0",
     "babel-plugin-transform-remove-console": "^6.8.5",
     "babel-plugin-transform-runtime": "^6.23.0",

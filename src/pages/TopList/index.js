@@ -1,5 +1,5 @@
 /**
- * 会员臻选页面
+ * 销量冠军页面
  * 07/18创建
  */
 
@@ -13,10 +13,12 @@ import { Spin } from "../../components/Spin";
 import { HeaderWithLeftArrow } from "./Views/TopListHeader";
 import { ProductBox } from "../../components/ProductBox";
 import { width, height, priceHelper } from "../../util";
+import { Tabs } from "antd-mobile-rn";
 
 class TopList extends Component {
   // state = {};
 
+  /********************* 声明周期函数 **********************/
   componentDidMount() {
     // 页面加载完成，请求API，加载数据
     this.props.dispatch({
@@ -24,6 +26,7 @@ class TopList extends Component {
     });
   }
 
+  /********************* 事件handler **********************/
   /**
    * 返回主页方法
    */
@@ -31,8 +34,15 @@ class TopList extends Component {
     this.props.navigation.goBack(null);
   };
 
-  _keyExtractor = (child) => child.id
+  // 对象的id当做key
+  _keyExtractor = child => child.id;
 
+  /**
+   * tabs被点击
+   */
+  _onTabChange = () => {};
+
+  /********************* 渲染页面的方法 **********************/
   /**
    * 渲染单个产品
    */
@@ -54,29 +64,50 @@ class TopList extends Component {
   };
 
   /**
-   * 我来组成头部！
+   * 渲染头部
    */
   renderHeader = () => {
     return (
-      <View>
+      <View style={style.pageStyle}>
         <HeaderWithLeftArrow title="销量冠军" onPress={this.goBack} />
       </View>
     );
   };
 
   /**
-   * 我来组成身体！
+   * 渲染Tab
    */
-  renderBody = () => {
+  renderTab = () => {
+    console.log("页面中的tabs", this.props.data.tabs);
+    return (
+      <Tabs
+        tabs={this.props.data.tabs}
+        //page={1}
+        //initialPage={0}
+        renderTabBar={props => <Tabs.DefaultTabBar {...props} page={3} />}
+        //onChange={(tab, index) => this._onTabChange(tab, index)}
+      >
+        <View>
+          <Text>Content of First Tab</Text>
+        </View>
+        <View>
+          <Text>Content of Second Tab</Text>
+        </View>
+        <View>
+          <Text>Content of Third Tab</Text>
+        </View>
+      </Tabs>
+    );
+  };
+
+  /**
+   * 渲染列表
+   */
+  renderList = () => {
+    console.log("list", this.props.topList);
     return (
       <FlatList
-        style={{
-          zIndex: -10,
-          height: height - 43 - 30,
-          width: width,
-          backgroundColor: "#f7f7f7"
-        }}
-        data={this.props.topList}
+        data={this.props.topList.items ? this.props.topList.items : {}}
         renderItem={this.renderGoods}
         initialNumToRender={16}
         keyExtractor={this._keyExtractor}
@@ -85,17 +116,27 @@ class TopList extends Component {
     );
   };
 
-
   render() {
-    console.log("每日榜单中props", this.props);
+    console.log("销量冠军中props", this.props);
+
     return (
-      <View>
+      <View style={style.pageStyle}>
         {this.renderHeader()}
-        {this.renderBody()}
+        {this.renderTab()}
+        {this.renderList()}
       </View>
     );
   }
 }
+
+// 页面的样式对象
+const style = {
+  pageStyle: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#fff"
+  }
+};
 
 const mapStateToProps = applicationState => {
   return {
