@@ -12,6 +12,7 @@ import MemberCollection from '../MemberCollection'
 import TopList from '../TopList'
 import GlobalProducts from '../GlobalProducts'
 import ExpertShare from '../ExpertShare'
+import ExpertShareDetail from '../ExpertShareDetail'
 
 export default StackNavigator(
     {
@@ -79,6 +80,14 @@ export default StackNavigator(
         },
         ExpertShare: {
             screen: ExpertShare,
+            navigationOptions: {
+                header: null,
+                tabBarVisible: false,
+                gesturesEnabled: true
+            }
+        },
+        ExpertShareDetail: {
+            screen: ExpertShareDetail,
             navigationOptions: {
                 header: null,
                 tabBarVisible: false,

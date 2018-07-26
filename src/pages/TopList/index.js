@@ -10,7 +10,7 @@ import { TabHead } from "../../components/Tab";
 import { Spin } from "../../components/Spin";
 
 // 从Views文件夹拿来头部
-import { HeaderWithLeftArrow } from "./Views/TopListHeader";
+import { HeaderWithLeftArrow } from "../../components/PageHeader";
 import { ProductBox } from "../../components/ProductBox";
 import { width, height, priceHelper } from "../../util";
 import { Tabs } from "antd-mobile-rn";
@@ -18,7 +18,7 @@ import { Tabs } from "antd-mobile-rn";
 class TopList extends Component {
   // state = {};
 
-  /********************* 声明周期函数 **********************/
+  /********************* 生命周期函数 **********************/
   componentDidMount() {
     // 页面加载完成，请求API，加载数据
     this.props.dispatch({
@@ -68,7 +68,7 @@ class TopList extends Component {
    */
   renderHeader = () => {
     return (
-      <View style={style.pageStyle}>
+      <View>
         <HeaderWithLeftArrow title="销量冠军" onPress={this.goBack} />
       </View>
     );
@@ -87,7 +87,8 @@ class TopList extends Component {
         renderTabBar={props => <Tabs.DefaultTabBar {...props} page={3} />}
         //onChange={(tab, index) => this._onTabChange(tab, index)}
       >
-        <View>
+        {/* 里面的Tab页面 */}
+        {/* <View>
           <Text>Content of First Tab</Text>
         </View>
         <View>
@@ -95,7 +96,8 @@ class TopList extends Component {
         </View>
         <View>
           <Text>Content of Third Tab</Text>
-        </View>
+        </View> */}
+        <View>{this.renderList()}</View>
       </Tabs>
     );
   };
@@ -123,7 +125,6 @@ class TopList extends Component {
       <View style={style.pageStyle}>
         {this.renderHeader()}
         {this.renderTab()}
-        {this.renderList()}
       </View>
     );
   }
@@ -132,9 +133,12 @@ class TopList extends Component {
 // 页面的样式对象
 const style = {
   pageStyle: {
-    alignItems: "center",
-    justifyContent: "center",
+    flex: 1,
     backgroundColor: "#fff"
+  },
+  defaultStyle: {
+    alignItems: "center",
+    justifyContent: "center"
   }
 };
 

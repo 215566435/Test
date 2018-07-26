@@ -1,5 +1,5 @@
 /**
- * 达人分享列表页面
+ * 达人分享页面
  * 07/18创建
  */
 
@@ -14,18 +14,16 @@ import { HeaderWithLeftArrow } from "../../components/PageHeader";
 import { ProductBox } from "../../components/ProductBox";
 import { width, height, priceHelper } from "../../util";
 
-class ExpertShare extends Component {
+class ExpertShareDetail extends Component {
   // state = {};
 
-  /********************* 生命周期函数 **********************/
   componentDidMount() {
     // 页面加载完成，请求API，加载数据
     this.props.dispatch({
-      type: "fetchExpertShare"
+      type: "fetchExpertShareDetail"
     });
   }
 
-  /********************* 事件handler **********************/
   /**
    * 返回主页方法
    */
@@ -33,18 +31,30 @@ class ExpertShare extends Component {
     this.props.navigation.goBack(null);
   };
 
-  _keyExtractor = child => child.id;
-
-  /********************* 渲染页面的方法 **********************/
-  renderExpertShare = () => {
-    return(
-      <View>
-      </View>
-    )
-  }
+  _keyExtractor = (child) => child.id
 
   /**
-   * 渲染页面头部
+   * 渲染单个产品
+   */
+  renderGoods = child => {
+    const item = child.item;
+    const { isAud } = this.props;
+    const { price, price2 } = priceHelper(isAud, item);
+
+    return (
+      <ProductBox
+        onPress={() => this.props.GoodItem(item.id)}
+        isAud={isAud}
+        price={price}
+        price2={price2}
+        name={item.n}
+        uri={item.i}
+      />
+    );
+  };
+
+  /**
+   * 我来组成头部！
    */
   renderHeader = () => {
     return (
@@ -55,46 +65,42 @@ class ExpertShare extends Component {
   };
 
   /**
-   * 渲染列表
+   * 我来组成身体！
    */
-  renderList = () => {
+  renderBody = () => {
     return (
       <FlatList
-        data={this.props.expertShare}
-        renderItem={this.renderExpertShare}
-        initialNumToRender={6}
+        style={{
+          zIndex: -10,
+          height: height - 43 - 30,
+          width: width,
+          backgroundColor: "#f7f7f7"
+        }}
+        data={this.props.expertShareDetail}
+        renderItem={this.renderGoods}
+        initialNumToRender={16}
         keyExtractor={this._keyExtractor}
+        numColumns={2}
       />
     );
   };
 
+
   render() {
     console.log("达人分享中props", this.props);
     return (
-      <View style={style.pageStyle}>
+      <View>
         {this.renderHeader()}
-        {this.renderList()}
+        {this.renderBody()}
       </View>
     );
   }
 }
 
-// 页面的样式对象
-const style = {
-  pageStyle: {
-    flex: 1,
-    backgroundColor: "#fff"
-  },
-  defaultStyle: {
-    alignItems: "center",
-    justifyContent: "center"
-  }
-};
-
 const mapStateToProps = applicationState => {
   return {
-    ...applicationState.expertShare
+    ...applicationState.expertShareDetail
   };
 };
 
-export default connect(mapStateToProps)(ExpertShare);
+export default connect(mapStateToProps)(ExpertShareDetail);

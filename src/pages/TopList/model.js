@@ -5,13 +5,17 @@ import { Alert } from "react-native";
 
 export default {
   namespace: 'topList',
-  //这个state是伪数据，也可以在index中声明
+  // 这个state是伪数据，也可以在index中声明
+  // 如果没有后端配合，现在这里写伪数据
   state: {
       data: {
         tabs: [
           { title: '产品分类1' },
           { title: '产品分类2' },
           { title: '产品分类3' },
+          { title: '产品分类4' },
+          { title: '产品分类5' },
+          { title: '产品分类6' },
         ],
         items: [
           {id: 1, n: "abc", i: "/proimgs/AG/20160408191118644.jpg", p: { a: 12.5, ai: 16.92, r: 63.69, ri: 86.29},  p2: { a: 12.5, ai: 17.92, r: 64.69, ri: 87.29},},
@@ -19,6 +23,7 @@ export default {
           {id: 3, n: "abc", i: "/proimgs/AG/20160408191118644.jpg", p: { a: 12.5, ai: 16.92, r: 63.69, ri: 86.29},  p2: { a: 12.5, ai: 17.92, r: 64.69, ri: 87.29},},
           {id: 4, n: "abc", i: "/proimgs/AG/20160408191118644.jpg", p: { a: 12.5, ai: 16.92, r: 63.69, ri: 86.29},  p2: { a: 12.5, ai: 17.92, r: 64.69, ri: 87.29},},
         ],
+        image: "/proimgs/AG/20160408191118644.jpg",
       },
       topList: {}
     },

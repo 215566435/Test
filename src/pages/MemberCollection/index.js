@@ -10,7 +10,7 @@ import { TabHead } from "../../components/Tab";
 import { Spin } from "../../components/Spin";
 
 // 从Views文件夹拿来头部
-import { HeaderWithLeftArrow } from "./Views/MemberCollectionHeader";
+import { HeaderWithLeftArrow } from "../../components/PageHeader";
 import { ProductBox } from "../../components/ProductBox";
 import { width, height, priceHelper } from "../../util";
 

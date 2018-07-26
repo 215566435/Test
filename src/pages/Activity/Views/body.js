@@ -75,6 +75,7 @@ export class Body extends Component {
   }
 }
 
+// TODO：把这个类摘出来， 以后loading图片都用这个
 class AnimatedImage extends Component {
   static defaultProps = {
     resizeMode: null,

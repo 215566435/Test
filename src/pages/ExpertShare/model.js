@@ -1,5 +1,5 @@
 /**
- * 会员臻选页面的model
+ * 达人分享列表页面的model
  */
 import { Alert } from "react-native";
 
@@ -9,11 +9,12 @@ export default {
   state: {
       data: {
         items: [
-          {id: 1, n: "abc", i: "/proimgs/AG/20160408191118644.jpg", p: { a: 12.5, ai: 16.92, r: 63.69, ri: 86.29},  p2: { a: 12.5, ai: 17.92, r: 64.69, ri: 87.29},},
-          {id: 2, n: "abc", i: "/proimgs/AG/20160408191118644.jpg", p: { a: 12.5, ai: 16.92, r: 63.69, ri: 86.29},  p2: { a: 12.5, ai: 17.92, r: 64.69, ri: 87.29},},
-          {id: 3, n: "abc", i: "/proimgs/AG/20160408191118644.jpg", p: { a: 12.5, ai: 16.92, r: 63.69, ri: 86.29},  p2: { a: 12.5, ai: 17.92, r: 64.69, ri: 87.29},},
-          {id: 4, n: "abc", i: "/proimgs/AG/20160408191118644.jpg", p: { a: 12.5, ai: 16.92, r: 63.69, ri: 86.29},  p2: { a: 12.5, ai: 17.92, r: 64.69, ri: 87.29},},
-        ]
+          {id: 1, title: "title", subTitle: "subTitle", image: "/proimgs/AG/20160408191118644.jpg"}, 
+          {id: 2, title: "title", subTitle: "subTitle", image: "/proimgs/AG/20160408191118644.jpg"}, 
+          {id: 3, title: "title", subTitle: "subTitle", image: "/proimgs/AG/20160408191118644.jpg"}, 
+          {id: 4, title: "title", subTitle: "subTitle", image: "/proimgs/AG/20160408191118644.jpg"}, 
+          {id: 5, title: "title", subTitle: "subTitle", image: "/proimgs/AG/20160408191118644.jpg"}, 
+        ],
       }
     },
 

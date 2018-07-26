@@ -129,6 +129,7 @@ app.model(require("./pages/CommissionWithdraw/model"));
 app.model(require("./pages/MemberCollection/model"));
 app.model(require("./pages/TopList/model"));
 app.model(require("./pages/ExpertShare/model"));
+app.model(require("./pages/ExpertShareDetail/model"));
 app.model(require("./pages/GlobalProducts/model"));
 // 在page下创建了新Model需要在这里配置
 

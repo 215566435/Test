@@ -17,12 +17,13 @@ import {
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons"; // 4.4.2
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
-import { stateBarMargin } from "../util";
+import { stateBarMargin, width } from "../util";
 
 // import { } from 'HOC/ModalWrapper'
 
 /**
- * 简单页面头部
+ * 简单页面头
+ * 其实这用样式组件，可以不用classbased component
  */
 export class PageHeader extends React.Component {
   render() {
@@ -40,6 +41,7 @@ export class PageHeader extends React.Component {
 
 /**
  * 带搜索和切换币种的页面头
+ * 其实这用样式组件，可以不用classbased component
  */
 export class CustomHeader extends React.Component {
   state = {
@@ -190,6 +192,53 @@ export class CustomHeader extends React.Component {
     );
   }
 }
+
+/**
+ * 带左箭头返回按钮的页面头部
+ * 这里用functionbased component才是正确的做法
+ */
+export const HeaderWithLeftArrow = ({ onPress, title }) => {
+  return (
+    <PageHeader>
+      <View
+        style={{
+          alignItems: "center",
+          flexDirection: "row",
+          top: Platform.OS === "ios" ? 10 : 0
+        }}
+      >
+        <TouchableOpacity onPress={onPress} style={{ width: 40 }}>
+          <View
+            style={{
+              borderLeftWidth: 2,
+              borderBottomWidth: 2,
+              marginLeft: 10,
+              height: 15,
+              width: 15,
+              transform: [{ rotateZ: "45deg" }, { perspective: 1000 }]
+            }}
+          />
+        </TouchableOpacity>
+        <Text
+          style={{
+            fontSize: 18,
+            textAlign: "center",
+            backgroundColor: "transparent",
+            width: width - 80
+          }}
+        >
+          {title}
+        </Text>
+      </View>
+      <View
+        style={{
+          alignItems: "center",
+          flexDirection: "row"
+        }}
+      />
+    </PageHeader>
+  );
+};
 
 /**
  * 转换澳币和RMB方法
