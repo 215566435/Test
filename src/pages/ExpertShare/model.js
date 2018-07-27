@@ -9,11 +9,11 @@ export default {
   state: {
       data: {
         items: [
-          {id: 1, title: "title", subTitle: "subTitle", image: "/proimgs/AG/20160408191118644.jpg"}, 
-          {id: 2, title: "title", subTitle: "subTitle", image: "/proimgs/AG/20160408191118644.jpg"}, 
-          {id: 3, title: "title", subTitle: "subTitle", image: "/proimgs/AG/20160408191118644.jpg"}, 
-          {id: 4, title: "title", subTitle: "subTitle", image: "/proimgs/AG/20160408191118644.jpg"}, 
-          {id: 5, title: "title", subTitle: "subTitle", image: "/proimgs/AG/20160408191118644.jpg"}, 
+          {id: 1, title: "title", subTitle: "subTitle", image: "/images/upload/390978-f0588c5c6c6d0997e4cd4dedd889b218-800x500.jpg"}, 
+          {id: 2, title: "title", subTitle: "subTitle", image: "/images/upload/390978-f0588c5c6c6d0997e4cd4dedd889b218-800x500.jpg"}, 
+          {id: 3, title: "title", subTitle: "subTitle", image: "/images/upload/390978-f0588c5c6c6d0997e4cd4dedd889b218-800x500.jpg"}, 
+          {id: 4, title: "title", subTitle: "subTitle", image: "/img3/upload/1/20180104134707920.jpg"}, 
+          {id: 5, title: "title", subTitle: "subTitle", image: "/img3/upload/1/20180104134707920.jpg"}, 
         ],
       }
     },

@@ -6,22 +6,30 @@
 import React, { Component } from "react";
 import { View, Text, FlatList, Image } from "react-native";
 import { connect } from "react-redux";
-import { TabHead } from "../../components/Tab";
 import { Spin } from "../../components/Spin";
 
 // 从Views文件夹拿来头部
 import { HeaderWithLeftArrow } from "../../components/PageHeader";
-import { ProductBox } from "../../components/ProductBox";
+import { PageWithTab } from '../../HOC/PageWithTab';
 import { width, height, priceHelper } from "../../util";
 
 class ExpertShareDetail extends Component {
   // state = {};
 
+  /********************* 生命周期函数 **********************/
   componentDidMount() {
     // 页面加载完成，请求API，加载数据
     this.props.dispatch({
       type: "fetchExpertShareDetail"
     });
+  }
+  /********************* 事件handler **********************/
+
+  /**
+   * 底部Tab的按键handler
+   */
+  CustomTabBarPress = (e, child, index) => {
+    console.log('分享);
   }
 
   /**
@@ -31,30 +39,12 @@ class ExpertShareDetail extends Component {
     this.props.navigation.goBack(null);
   };
 
-  _keyExtractor = (child) => child.id
+  _keyExtractor = child => child.id;
+
+  /********************* 渲染页面的方法 **********************/
 
   /**
-   * 渲染单个产品
-   */
-  renderGoods = child => {
-    const item = child.item;
-    const { isAud } = this.props;
-    const { price, price2 } = priceHelper(isAud, item);
-
-    return (
-      <ProductBox
-        onPress={() => this.props.GoodItem(item.id)}
-        isAud={isAud}
-        price={price}
-        price2={price2}
-        name={item.n}
-        uri={item.i}
-      />
-    );
-  };
-
-  /**
-   * 我来组成头部！
+   * 渲染头部
    */
   renderHeader = () => {
     return (
@@ -65,37 +55,63 @@ class ExpertShareDetail extends Component {
   };
 
   /**
-   * 我来组成身体！
+   * 渲染featuredImage
    */
-  renderBody = () => {
+  renderFeaturedImage = () => {
     return (
-      <FlatList
-        style={{
-          zIndex: -10,
-          height: height - 43 - 30,
-          width: width,
-          backgroundColor: "#f7f7f7"
-        }}
-        data={this.props.expertShareDetail}
-        renderItem={this.renderGoods}
-        initialNumToRender={16}
-        keyExtractor={this._keyExtractor}
-        numColumns={2}
-      />
+      <View>
+        <Text>大图片</Text>
+      </View>
     );
   };
 
+  /**
+   * 渲染作者
+   */
+  renderAuthor = () => {
+    return (
+      <View>
+        <Text>作者</Text>
+      </View>
+    );
+  };
+
+  /**
+   * 渲染featuredImage
+   */
+  renderContent = () => {
+    return (
+      <View>
+        <Text>正文</Text>
+      </View>
+    );
+  };
 
   render() {
     console.log("达人分享中props", this.props);
     return (
       <View>
         {this.renderHeader()}
-        {this.renderBody()}
+        {this.renderFeaturedImage()}
+        {this.renderAuthor()}
+        {this.renderContent()}
       </View>
     );
   }
 }
+
+// 页面的样式对象
+const style = {
+  pageStyle: {
+    flex: 1,
+    flexDirection: "column",
+    backgroundColor: "#fff"
+  },
+  defaultStyle: {
+    alignItems: "center",
+    justifyContent: "center"
+  }
+};
 
 const mapStateToProps = applicationState => {
   return {
@@ -103,4 +119,6 @@ const mapStateToProps = applicationState => {
   };
 };
 
-export default connect(mapStateToProps)(ExpertShareDetail);
+const wrapper = PageWithTab(ExpertShareDetail, ['分享'], ['#ff7875'])
+
+export default connect(mapStateToProps)(wrapper);

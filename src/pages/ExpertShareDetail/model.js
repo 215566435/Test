@@ -8,8 +8,10 @@ export default {
   //这个state是伪数据，也可以在index中声明
   state: {
       data: {
+        Id: 1,
         image: "/proimgs/AG/20160408191118644.jpg",
-        author: "AustGo"
+        author: "AustGo",
+        content: "content here",
       }
     },
 

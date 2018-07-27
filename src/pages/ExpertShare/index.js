@@ -4,7 +4,7 @@
  */
 
 import React, { Component } from "react";
-import { View, Text, FlatList, Image } from "react-native";
+import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { TabHead } from "../../components/Tab";
 import { Spin } from "../../components/Spin";
@@ -12,7 +12,8 @@ import { Spin } from "../../components/Spin";
 // 从Views文件夹拿来头部
 import { HeaderWithLeftArrow } from "../../components/PageHeader";
 import { ProductBox } from "../../components/ProductBox";
-import { width, height, priceHelper } from "../../util";
+import AnimatedImage from "../../components/AnimatedImage";
+import { width, height, goBack, priceHelper } from "../../util";
 
 class ExpertShare extends Component {
   // state = {};
@@ -26,6 +27,13 @@ class ExpertShare extends Component {
   }
 
   /********************* 事件handler **********************/
+
+  /**
+   * 跳转到单个文章的方法
+   */
+  onPressHandler = () => {
+    this.props.navigation.navigate("ExpertShareDetail");
+  };
   /**
    * 返回主页方法
    */
@@ -36,12 +44,38 @@ class ExpertShare extends Component {
   _keyExtractor = child => child.id;
 
   /********************* 渲染页面的方法 **********************/
-  renderExpertShare = () => {
-    return(
-      <View>
-      </View>
-    )
-  }
+
+  /**
+   * 渲染单个信息
+   */
+  renderExpertShareRow = (item, index) => {
+    const { image, title, subTitle } = item.item;
+    return (
+      <TouchableOpacity
+        style={style.rowStyle.rowDefaultStyle}
+        onPress={this.onPressHandler}
+      >
+        <View
+          style={{ ...style.rowStyle.AnimatedImage, ...style.defaultStyle }}
+        >
+          <AnimatedImage
+            url={
+              "http://cdn2u.com" +
+              image +
+              `?width=${800}` +
+              `&height=${500}` +
+              `&bgcolor=white `
+            }
+            Pheight={200}
+            Pwidth={width - 20}
+            style={style.defaultStyle}
+          />
+        </View>
+        <Text style={style.rowStyle.title}>{title}</Text>
+        <Text style={style.rowStyle.subTitle}>{subTitle}</Text>
+      </TouchableOpacity>
+    );
+  };
 
   /**
    * 渲染页面头部
@@ -61,15 +95,16 @@ class ExpertShare extends Component {
     return (
       <FlatList
         data={this.props.expertShare}
-        renderItem={this.renderExpertShare}
+        renderItem={this.renderExpertShareRow}
         initialNumToRender={6}
         keyExtractor={this._keyExtractor}
+        style={style.flatListStyle}
       />
     );
   };
 
   render() {
-    console.log("达人分享中props", this.props);
+    console.log("达人分享列表中props", this.props);
     return (
       <View style={style.pageStyle}>
         {this.renderHeader()}
@@ -83,11 +118,38 @@ class ExpertShare extends Component {
 const style = {
   pageStyle: {
     flex: 1,
+    flexDirection: "column",
     backgroundColor: "#fff"
   },
   defaultStyle: {
     alignItems: "center",
     justifyContent: "center"
+  },
+  flatListStyle: {},
+  rowStyle: {
+    rowDefaultStyle: {
+      alignItems: "center",
+      justifyContent: "center",
+      flexDirection: "column"
+    },
+    AnimatedImage: {
+      width: width - 20,
+      height: 200,
+      flexDirection: "column"
+    },
+    title: {
+      width: width - 20,
+      height: 20,
+      fontSize: 14,
+      flexDirection: "column"
+    },
+    subTitle: {
+      width: width - 20,
+      height: 20,
+      fontSize: 12,
+      color: "#CCC",
+      flexDirection: "column"
+    }
   }
 };
 
