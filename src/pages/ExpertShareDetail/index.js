@@ -10,7 +10,8 @@ import { Spin } from "../../components/Spin";
 
 // 从Views文件夹拿来头部
 import { HeaderWithLeftArrow } from "../../components/PageHeader";
-import { PageWithTab } from '../../HOC/PageWithTab';
+import AnimatedImage from "../../components/AnimatedImage";
+import { PageWithTab } from "../../HOC/PageWithTab";
 import { width, height, priceHelper } from "../../util";
 
 class ExpertShareDetail extends Component {
@@ -29,8 +30,8 @@ class ExpertShareDetail extends Component {
    * 底部Tab的按键handler
    */
   CustomTabBarPress = (e, child, index) => {
-    console.log('分享);
-  }
+    console.log("分享");
+  };
 
   /**
    * 返回主页方法
@@ -58,9 +59,22 @@ class ExpertShareDetail extends Component {
    * 渲染featuredImage
    */
   renderFeaturedImage = () => {
+    const { image } = this.props.data;
+
     return (
-      <View>
-        <Text>大图片</Text>
+      <View style={style.rowDefaultStyle}>
+        <AnimatedImage
+          url={
+            "http://cdn2u.com" +
+            image +
+            `?width=${800}` +
+            `&height=${500}` +
+            `&bgcolor=white `
+          }
+          Pheight={200}
+          Pwidth={width - 20}
+          style={style.defaultStyle}
+        />
       </View>
     );
   };
@@ -69,9 +83,22 @@ class ExpertShareDetail extends Component {
    * 渲染作者
    */
   renderAuthor = () => {
+    const { avatar, author } = this.props.data;
     return (
-      <View>
-        <Text>作者</Text>
+      <View style={style.rowAuthorStyle}>
+        <AnimatedImage
+          url={
+            "http://cdn2u.com" +
+            avatar +
+            `?width=${30}` +
+            `&height=${30}` +
+            `&bgcolor=white `
+          }
+          Pheight={30}
+          Pwidth={30}
+          style={style.authorStyle}
+        />
+        <Text style={style.authorStyle}>{author}</Text>
       </View>
     );
   };
@@ -81,8 +108,8 @@ class ExpertShareDetail extends Component {
    */
   renderContent = () => {
     return (
-      <View>
-        <Text>正文</Text>
+      <View style={style.contentStyle}>
+        <Text>正文111</Text>
       </View>
     );
   };
@@ -90,7 +117,7 @@ class ExpertShareDetail extends Component {
   render() {
     console.log("达人分享中props", this.props);
     return (
-      <View>
+      <View style={style.pageStyle}>
         {this.renderHeader()}
         {this.renderFeaturedImage()}
         {this.renderAuthor()}
@@ -103,13 +130,36 @@ class ExpertShareDetail extends Component {
 // 页面的样式对象
 const style = {
   pageStyle: {
-    flex: 1,
+    height: height - 44,
+    width: width,
     flexDirection: "column",
     backgroundColor: "#fff"
   },
   defaultStyle: {
     alignItems: "center",
     justifyContent: "center"
+  },
+  rowDefaultStyle: {
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row"
+  },
+  // renderFeaturedImage组件的样式
+  imageStyle: {},
+  // renderAuthorStyle组件的样式
+  rowAuthorStyle: {
+    margin: 20,
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  authorStyle: {
+    alignItems: "center",
+    justifyContent: "space-between"
+  },
+  // renderContent组件的样式
+  contentStyle: {
+    marginLeft: 20,
+    marginRight: 20
   }
 };
 
@@ -119,6 +169,6 @@ const mapStateToProps = applicationState => {
   };
 };
 
-const wrapper = PageWithTab(ExpertShareDetail, ['分享'], ['#ff7875'])
+const wrapper = PageWithTab(ExpertShareDetail, ["分享"], ["#ff7875"]);
 
 export default connect(mapStateToProps)(wrapper);
