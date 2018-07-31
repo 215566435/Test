@@ -17,6 +17,7 @@ import { width, height, priceHelper } from "../../util";
 class MemberCollection extends Component {
   // state = {};
 
+  /********************* 生命周期函数 **********************/
   componentDidMount() {
     // 页面加载完成，请求API，加载数据
     this.props.dispatch({
@@ -24,6 +25,7 @@ class MemberCollection extends Component {
     });
   }
 
+  /********************* 事件handler **********************/
   /**
    * 返回主页方法
    */
@@ -31,15 +33,19 @@ class MemberCollection extends Component {
     this.props.navigation.goBack(null);
   };
 
-  _keyExtractor = (child) => child.id
+  _keyExtractor = child => child.id;
 
+  /********************* 渲染页面的方法 **********************/
   /**
    * 渲染单个产品
    */
-  renderGoods = child => {
-    const item = child.item;
+  renderGoods = good => {
+    console.log("good", good);
+    const { item } = good;
+    console.log("this.props", this.props);
+    console.log("state", this.state);
     const { isAud } = this.props;
-    const { price, price2 } = priceHelper(isAud, item);
+    const { price, price2 } = priceHelper(isAud, item.ap);
 
     return (
       <ProductBox
@@ -54,7 +60,7 @@ class MemberCollection extends Component {
   };
 
   /**
-   * 我来组成头部！
+   * 渲染头部组件
    */
   renderHeader = () => {
     return (
@@ -65,22 +71,17 @@ class MemberCollection extends Component {
   };
 
   /**
-   * 我来组成身体！
+   * 渲染列表组件
    */
-  renderBody = () => {
+  renderList = () => {
     return (
       <FlatList
-        style={{
-          zIndex: -10,
-          height: height - 43 - 30,
-          width: width,
-          backgroundColor: "#f7f7f7"
-        }}
         data={this.props.memberCollection}
         renderItem={this.renderGoods}
-        initialNumToRender={16}
+        initialNumToRender={20}
         keyExtractor={this._keyExtractor}
         numColumns={2}
+        style={style.renderListStyle}
       />
     );
   };
@@ -88,18 +89,52 @@ class MemberCollection extends Component {
   render() {
     console.log("会员臻选中props", this.props);
     return (
-      <View>
+      <View style={style.pageStyle}>
         {this.renderHeader()}
-        {this.renderBody()}
+        {this.renderList()}
       </View>
     );
   }
 }
 
+// 页面的样式对象
+const style = {
+  pageStyle: {
+    height: height,
+    width: width,
+    flexDirection: "column",
+    backgroundColor: "#fff"
+  },
+  defaultStyle: {
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  rowDefaultStyle: {
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row"
+  },
+  // renderFeaturedImage组件的样式
+  renderListStyle: {
+    zIndex: -10,
+    height: height - 43 - 30,
+    width: width,
+    backgroundColor: "#f7f7f7"
+  }
+};
+
 const mapStateToProps = applicationState => {
   return {
-    ...applicationState.memberCollection
+    ...applicationState.memberCollection,
+    // 直接这么取isAud太不规范了吧！
+    isAud: applicationState.PriceList.isAud
   };
 };
+
+// const mapDispatchToProps = (dispatch) => {
+//   return(
+//     checkDetail: (id, that) => dispatch({ type: 'checkDetail', id: id, instance: that }),
+//   )
+// }
 
 export default connect(mapStateToProps)(MemberCollection);

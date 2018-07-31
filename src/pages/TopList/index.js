@@ -46,21 +46,22 @@ class TopList extends Component {
   /**
    * 渲染单个产品
    */
-  renderGoods = child => {
-    const item = child.item;
-    const { isAud } = this.props;
-    const { price, price2 } = priceHelper(isAud, item);
+  renderGoods = good => {
+    // const { item } = good;
+    // const { isAud } = this.props;
+    // const { price, price2 } = priceHelper(isAud, item.ap);
 
-    return (
-      <ProductBox
-        onPress={() => this.props.GoodItem(item.id)}
-        isAud={isAud}
-        price={price}
-        price2={price2}
-        name={item.n}
-        uri={item.i}
-      />
-    );
+    // return (
+    //   <ProductBox
+    //     onPress={() => this.props.GoodItem(item.id)}
+    //     isAud={isAud}
+    //     price={price}
+    //     price2={price2}
+    //     name={item.n}
+    //     uri={item.i}
+    //   />
+    // );
+    <Text>111</Text>
   };
 
   /**
@@ -78,12 +79,13 @@ class TopList extends Component {
    * 渲染Tab
    */
   renderTab = () => {
-    console.log("页面中的tabs", this.props.data.tabs);
+    // console.log("页面中的tabs", this.props.topList.tabs ? this.props.topList.tabs : {});
     return (
       <Tabs
-        tabs={this.props.data.tabs}
+        tabs={this.props.topList.tabs ? this.props.topList.tabs : []}
         //page={1}
         //initialPage={0}
+        //renderTabBar={props => <Tabs.DefaultTabBar {...props} page={3} />}
         renderTabBar={props => <Tabs.DefaultTabBar {...props} page={3} />}
         //onChange={(tab, index) => this._onTabChange(tab, index)}
       >
@@ -109,7 +111,7 @@ class TopList extends Component {
     console.log("list", this.props.topList);
     return (
       <FlatList
-        data={this.props.topList.items ? this.props.topList.items : {}}
+        data={this.props.topList? this.props.topList : {}}
         renderItem={this.renderGoods}
         initialNumToRender={16}
         keyExtractor={this._keyExtractor}
@@ -144,7 +146,8 @@ const style = {
 
 const mapStateToProps = applicationState => {
   return {
-    ...applicationState.topList
+    ...applicationState.topList,
+    isAud: applicationState.PriceList.isAud
   };
 };
 

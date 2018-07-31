@@ -42,11 +42,12 @@ export class Body extends Component {
     this.props.navigate("Cart");
   };
 
-  onCateListPress = () => {
-    this.props.navigate("Category");
-  }
+  // onCateListPress = (cateId) => {
+  //   //this.props.navigate("Category");
+  //   console.log('cateId', cateId);
+  // }
 
-  // 渲染特色链接模块
+  // 渲染特色链接组件
   renderFeaturedLinks = () => {
     const { featuredLinks } = this.state;
     return (
@@ -331,7 +332,7 @@ export class Body extends Component {
         <CustomHeader
           search={this.props.search}
           onCartPress={this.onCartPress}
-          onCateListPress={this.onCateListPress}
+          onCateListPress={this.props.cateListPress}
           onValueChange={this.props.onValueChange}
           isShowAud={this.props.isAud}
           cateList={this.props.cateList}

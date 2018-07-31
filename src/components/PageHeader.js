@@ -82,7 +82,10 @@ export class CustomHeader extends React.Component {
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {cateList.map(item => {
               return (
-                <TouchableOpacity key={item.name} onPress = {this.props.onCateListPress}>
+                <TouchableOpacity key={item.name} onPress = {() => {
+                  this.props.onCateListPress(item.cateId, this)
+                }}>
+                {/* 这个this.props.onCateListPress是从index中的mapDispatch->body->这里，传过来的，太不规范 */}
                   <View
                     style={{
                       height: 30,

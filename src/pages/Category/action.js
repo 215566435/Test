@@ -35,6 +35,7 @@ const actionStategy = {
         })
         // 跳转到search页面显示，具体类别的产品
         console.log('Category的Instance', others.instance);
+        console.log('Category的text', others.text);
         others.instance.props.navigation.navigate('Search')
 
         const json = yield fetchSelect({

@@ -13,7 +13,7 @@ import { Body } from './Views/body'
 import { Icon } from './Views/Icon'
 import { Button } from '../../components/Button';
 
-import BasicTabsExample from './Views/tabs';
+//import BasicTabsExample from './Views/tabs';
 
 class Home extends Component {
   componentDidMount() {
@@ -51,6 +51,7 @@ class Home extends Component {
           // event={this.props.event}
           homeItems={this.props.homeItems}
           cateList={this.props.cateList}
+          cateListPress={(text) => this.props.cateListPress(text, this)}
           onLayoutPress={this.onLayoutPress}
           onEventPress={id => this.props.checkDetail(id, this)}
           isAud={this.props.isAud}
@@ -88,7 +89,8 @@ function mapDispatch(dispatch) {
     checkDetail: (id, that) => dispatch({ type: 'checkDetail', id: id, instance: that }),
     search: that => dispatch({ type: 'homeSearch', instance: that }),
     EventImagePress: (id, that) => dispatch({ type: 'EventImagePress', id: id, instance: that }),
-    onValueChange: () => dispatch({ type: 'AUDonValueChange' })
+    onValueChange: () => dispatch({ type: 'AUDonValueChange' }),
+    cateListPress: (text, that) => dispatch({ type: 'cateListPress', text: text, instance: that })
   }
 }
 export default connect(mapState, mapDispatch)(Home)

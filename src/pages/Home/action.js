@@ -69,7 +69,7 @@ class HomeManager extends BaseManager {
     }
 }
 
-
+// 把Action放在对象里，方便redux-saga监听
 const actionStategy = {
     /**
      * 首页加载
@@ -125,6 +125,35 @@ const actionStategy = {
             data: { ...state, isAud: state.isAud !== void 666 ? !state.isAud : true }
         })
     },
+    // 点击顶部cateList， 显示商品list
+    cateListPress: function* (state, others) {
+        const SearchPageState = yield select(state => state.SearchPage)
+
+        yield put({
+            type: "Search_SET_STATE",
+            data: { ...state, autoFocus: false }
+        })
+        // 跳转到search页面显示，具体类别的产品
+        console.log('Category的Instance', others.instance);
+        console.log('Category的text', others.text);
+        others.instance.props.navigation.navigate('Search')
+
+        const json = yield fetchFunc({
+            url: Url + 'goods/PriceList',
+            body: {
+                cateid: others.text,
+                keyword: '',
+                currentPage: 1,
+                pagesize: 16
+            }
+        })
+        yield put({
+            type: "searchPage",
+            text: '',
+            currentCateId: others.text,
+            autoFocus: false
+        })
+    },
     refreshAll: function* () {
         yield put({
             type: 'fetchHome'
@@ -136,6 +165,10 @@ function convert() {
     return Object.keys(actionStategy)
 }
 
+/**
+ * 这是1.0 式代码 还在action写 watch
+ * 2.0 式就是在rootsaga中写watch，store中配置
+ */
 export const watch = function* () {
     const actionList = convert()
 
