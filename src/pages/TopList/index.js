@@ -11,12 +11,15 @@ import { Spin } from "../../components/Spin";
 
 // 从Views文件夹拿来头部
 import { HeaderWithLeftArrow } from "../../components/PageHeader";
+import AnimatedImage from "../../components/AnimatedImage";
 import { ProductBox } from "../../components/ProductBox";
 import { width, height, priceHelper } from "../../util";
 import { Tabs } from "antd-mobile-rn";
 
 class TopList extends Component {
-  // state = {};
+  state = {
+    listData: {}
+  };
 
   /********************* 生命周期函数 **********************/
   componentDidMount() {
@@ -40,28 +43,32 @@ class TopList extends Component {
   /**
    * tabs被点击
    */
-  _onTabChange = () => {};
+  _onTabChange = (tab, index) => {
+    //console.log("tab and index", tab, index);
+    this.setState({
+      listData: this.props.topList.items[index].g
+    });
+  };
 
   /********************* 渲染页面的方法 **********************/
   /**
    * 渲染单个产品
    */
   renderGoods = good => {
-    // const { item } = good;
-    // const { isAud } = this.props;
-    // const { price, price2 } = priceHelper(isAud, item.ap);
+    const { item } = good;
+    const { isAud } = this.props;
+    const { price, price2 } = priceHelper(isAud, item.ap);
 
-    // return (
-    //   <ProductBox
-    //     onPress={() => this.props.GoodItem(item.id)}
-    //     isAud={isAud}
-    //     price={price}
-    //     price2={price2}
-    //     name={item.n}
-    //     uri={item.i}
-    //   />
-    // );
-    <Text>111</Text>
+    return (
+      <ProductBox
+        onPress={() => this.props.GoodItem(item.id)}
+        isAud={isAud}
+        price={price}
+        price2={price2}
+        name={item.n}
+        uri={item.i}
+      />
+    );
   };
 
   /**
@@ -76,10 +83,30 @@ class TopList extends Component {
   };
 
   /**
+   * 渲染顶部图片
+   */
+  renderImage = () => {
+    const { image } = this.props.topList;
+    return (
+      <AnimatedImage
+        url={
+          "http://cdn2u.com" +
+          image +
+          `?width=${400}` +
+          `&height=${250}` +
+          `&bgcolor=white `
+        }
+        Pheight={120}
+        Pwidth={width - 20}
+        style={style.defaultStyle}
+      />
+    );
+  };
+  /**
    * 渲染Tab
+   * tabs标签包裹了flatList，用户切换tabs页，使用setState切换显示的产品，因为后台是把所有页面一起返回的。
    */
   renderTab = () => {
-    // console.log("页面中的tabs", this.props.topList.tabs ? this.props.topList.tabs : {});
     return (
       <Tabs
         tabs={this.props.topList.tabs ? this.props.topList.tabs : []}
@@ -87,19 +114,9 @@ class TopList extends Component {
         //initialPage={0}
         //renderTabBar={props => <Tabs.DefaultTabBar {...props} page={3} />}
         renderTabBar={props => <Tabs.DefaultTabBar {...props} page={3} />}
-        //onChange={(tab, index) => this._onTabChange(tab, index)}
+        onChange={(tab, index) => this._onTabChange(tab, index)}
       >
-        {/* 里面的Tab页面 */}
-        {/* <View>
-          <Text>Content of First Tab</Text>
-        </View>
-        <View>
-          <Text>Content of Second Tab</Text>
-        </View>
-        <View>
-          <Text>Content of Third Tab</Text>
-        </View> */}
-        <View>{this.renderList()}</View>
+        {this.renderList()}
       </Tabs>
     );
   };
@@ -108,10 +125,20 @@ class TopList extends Component {
    * 渲染列表
    */
   renderList = () => {
-    console.log("list", this.props.topList);
+    // 第一次加载flatList时的数据
+    const firstLoadListData = this.props.topList.items[0].g;
+    // console.log('renderList中props', this.props);
+    // console.log('renderList中state', this.state);
+    // console.log('是否第一次加载', Object.keys(this.state.listData).length);
+    // console.log('firstLoadListData', firstLoadListData);
+    // console.log('firstLoadListData中第0个', firstLoadListData);
     return (
       <FlatList
-        data={this.props.topList? this.props.topList : {}}
+        data={
+          Object.keys(this.state.listData).length === 0
+            ? firstLoadListData
+            : this.state.listData
+        }
         renderItem={this.renderGoods}
         initialNumToRender={16}
         keyExtractor={this._keyExtractor}
@@ -120,12 +147,14 @@ class TopList extends Component {
     );
   };
 
+  /********************* 页面render方法 **********************/
   render() {
     console.log("销量冠军中props", this.props);
 
     return (
       <View style={style.pageStyle}>
         {this.renderHeader()}
+        {this.renderImage()}
         {this.renderTab()}
       </View>
     );

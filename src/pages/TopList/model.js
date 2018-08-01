@@ -5,47 +5,52 @@ import { Alert } from "react-native";
 import BaseManager from "../../NetworkManager/BaseManager";
 
 export default {
-  namespace: 'topList',
+  namespace: "topList",
   // 这个state是伪数据，也可以在index中声明
   // 如果没有后端配合，现在这里写伪数据
   state: {
-      data: {
-        topList: [],
-        topImage: {},
-        topType: [],
-      },
-      topList: {}
-
-      // data: {
-      //   tabs: [
-      //     { title: '产品分类1' },
-      //     { title: '产品分类2' },
-      //     { title: '产品分类3' },
-      //     { title: '产品分类4' },
-      //     { title: '产品分类5' },
-      //     { title: '产品分类6' },
-      //   ],
-      //   items: [
-      //     {id: 1, n: "abc", i: "/proimgs/AG/20160408191118644.jpg", p: { a: 12.5, ai: 16.92, r: 63.69, ri: 86.29},  p2: { a: 12.5, ai: 17.92, r: 64.69, ri: 87.29},},
-      //     {id: 2, n: "abc", i: "/proimgs/AG/20160408191118644.jpg", p: { a: 12.5, ai: 16.92, r: 63.69, ri: 86.29},  p2: { a: 12.5, ai: 17.92, r: 64.69, ri: 87.29},},
-      //     {id: 3, n: "abc", i: "/proimgs/AG/20160408191118644.jpg", p: { a: 12.5, ai: 16.92, r: 63.69, ri: 86.29},  p2: { a: 12.5, ai: 17.92, r: 64.69, ri: 87.29},},
-      //     {id: 4, n: "abc", i: "/proimgs/AG/20160408191118644.jpg", p: { a: 12.5, ai: 16.92, r: 63.69, ri: 86.29},  p2: { a: 12.5, ai: 17.92, r: 64.69, ri: 87.29},},
-      //   ],
-      //   image: "/proimgs/AG/20160408191118644.jpg",
-      // },
-      // topList: {}
+    topImage: {},
+    topList: {
+      items: [
+        'n': {},
+        'i': {},
+        'g': [],
+        'l': {},
+      ],
+      tabs: []
     },
+    tabs: []
+
+    // data: {
+    //   tabs: [
+    //     { title: '产品分类1' },
+    //     { title: '产品分类2' },
+    //     { title: '产品分类3' },
+    //     { title: '产品分类4' },
+    //     { title: '产品分类5' },
+    //     { title: '产品分类6' },
+    //   ],
+    //   items: [
+    //     {id: 1, n: "abc", i: "/proimgs/AG/20160408191118644.jpg", p: { a: 12.5, ai: 16.92, r: 63.69, ri: 86.29},  p2: { a: 12.5, ai: 17.92, r: 64.69, ri: 87.29},},
+    //     {id: 2, n: "abc", i: "/proimgs/AG/20160408191118644.jpg", p: { a: 12.5, ai: 16.92, r: 63.69, ri: 86.29},  p2: { a: 12.5, ai: 17.92, r: 64.69, ri: 87.29},},
+    //     {id: 3, n: "abc", i: "/proimgs/AG/20160408191118644.jpg", p: { a: 12.5, ai: 16.92, r: 63.69, ri: 86.29},  p2: { a: 12.5, ai: 17.92, r: 64.69, ri: 87.29},},
+    //     {id: 4, n: "abc", i: "/proimgs/AG/20160408191118644.jpg", p: { a: 12.5, ai: 16.92, r: 63.69, ri: 86.29},  p2: { a: 12.5, ai: 17.92, r: 64.69, ri: 87.29},},
+    //   ],
+    //   image: "/proimgs/AG/20160408191118644.jpg",
+    // },
+    // topList: {}
+  },
 
   reducers: {
     mapTopList(state, { payload }) {
-      return { ...state,  topList: payload};
+      return { ...state, topList: payload };
     }
   },
   effects: {
     // 当第一次加载时，拿数据，返回前台显示
     *fetchTopList({ select, call, put }, { payload }) {
       let topList = yield select(state => state.topList);
-      console.log('TopList', topList);
+      console.log("model中的TopList！！！！！！！！！！！！！！！！！！！！！", topList);
       const manager = new BaseManager();
       const res = yield manager.fetchApi({
         //fetch新的数据
@@ -60,15 +65,17 @@ export default {
       // 拿到伪数据
       //const res = topList
 
-      console.log('请求拿到的数据', res);
+      console.log("请求拿到的数据", res);
       try {
         let items = res.data.topList; //数据格式转化
         let tabs = res.data.topType; //数据格式转化
+        let image = res.data.topImage; //数据格式转化
         yield put({
           type: "mapTopList",
           payload: {
-            "items": items,
-            "tabs": tabs
+            items: items,
+            tabs: tabs,
+            image: image,
           }
         });
       } catch (e) {
@@ -76,38 +83,38 @@ export default {
       }
     },
 
-    // 当Tab被点击时，拿新数据，覆盖旧数据
-    *fetchNewTopList({ select, call, put }, { payload }) {
-      let topList = yield select(state => state.topList);
-      console.log('TopList', topList);
-      // const manager = new BaseManager();
-      // const res = yield manager.fetchApi({
-      //   //fetch新的数据
-      //   url: manager.Url + "TopList/list",
-      //   body: {
-      //     type: payload.type,
-      //     keyword: "",
-      //     currentpage: payload.page,
-      //     pagesize: 15
-      //   }
-      // });
+    // // 当Tab被点击时，拿新数据，覆盖旧数据, 没用了，都是一起返回的
+    // *fetchNewTopList({ select, call, put }, { payload }) {
+    //   let topList = yield select(state => state.topList);
+    //   console.log("TopList", topList);
+    //   // const manager = new BaseManager();
+    //   // const res = yield manager.fetchApi({
+    //   //   //fetch新的数据
+    //   //   url: manager.Url + "TopList/list",
+    //   //   body: {
+    //   //     type: payload.type,
+    //   //     keyword: "",
+    //   //     currentpage: payload.page,
+    //   //     pagesize: 15
+    //   //   }
+    //   // });
 
-      // 拿到伪数据
-      const res = topList
+    //   // 拿到伪数据
+    //   const res = topList;
 
-      console.log('请求拿到的数据', res);
-      try {
-        // 拿到items信息
-        let items = res.data.items; 
-        // 拿到tabs信息
-        let tabs = res.data.tabs;
-        yield put({
-          type: "mapTopList",
-          payload: items
-        });
-      } catch (e) {
-        Alert.alert("出错了", e.message);
-      }
-    }
+    //   console.log("请求拿到的数据", res);
+    //   try {
+    //     // 拿到items信息
+    //     let items = res.data.items;
+    //     // 拿到tabs信息
+    //     let tabs = res.data.tabs;
+    //     yield put({
+    //       type: "mapTopList",
+    //       payload: items
+    //     });
+    //   } catch (e) {
+    //     Alert.alert("出错了", e.message);
+    //   }
+    // }
   }
 };
