@@ -2,6 +2,7 @@
  * 达人分享页面的model
  */
 import { Alert } from "react-native";
+import BaseManager from "../../NetworkManager/BaseManager";
 
 export default {
   namespace: 'expertShareDetail',
@@ -13,6 +14,9 @@ export default {
         avatar: "/proimgs/AG/20160408191118644.jpg",
         author: "AustGo",
         content: "content here",
+      },
+      expertShareDetail: {
+
       }
     },
 
@@ -24,8 +28,8 @@ export default {
   effects: {
     // 接收index发来的请求，处理，访问服务器API拿数据
     *fetchExpertShareDetail({ select, call, put }, { payload }) {
-      let expertShareDetail = yield select(state => state.expertShareDetail);
-      console.log('ExpertShareDetail', expertShareDetail);
+      let expertShareDetail = yield select(state => state.data);
+      //console.log('ExpertShareDetail', expertShareDetail);
       // const manager = new BaseManager();
       // const res = yield manager.fetchApi({
       //   //fetch新的数据
@@ -39,11 +43,11 @@ export default {
       // });
 
       // 拿到伪数据
-      const res = ExpertShareDetail
+      const res = expertShareDetail
 
-      console.log('请求拿到的数据', res);
+      //console.log('请求拿到的数据', res);
       try {
-        let items = res.data.items; //数据格式转化
+        let items = res; //数据格式转化
         yield put({
           type: "mapExpertShareDetail",
           payload: items

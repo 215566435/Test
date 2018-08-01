@@ -6,7 +6,7 @@ import BaseManager from "../../NetworkManager/BaseManager";
 
 export default {
   namespace: "topList",
-  // 这个state是伪数据，也可以在index中声明
+  // 这个state是伪数据
   // 如果没有后端配合，现在这里写伪数据
   state: {
     topImage: {},

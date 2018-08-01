@@ -6,7 +6,7 @@ import { Alert } from "react-native";
 
 export default {
   namespace: "memberCollection",
-  //这个state是伪数据，也可以在index中声明
+  //这个state是伪数据
   state: {
     // data: {
     //   items: [
@@ -54,6 +54,18 @@ export default {
       }
     },
 
+  // 单个产品点击跳转到产品页面， 本来想自己写的， 但是直接调用就能跳，虽然也不明白原理。
+  // TODO： 弄明白产品跳转的原理。
+  //   *GoodItem({ select, call, put },{payload} ){
+  //     const PriceListState = yield select(allState => allState.PriceList)
+  //     console.log('点击时间的payload', payload);
+  //     // yield put({
+  //     //     type: 'SET_STATE',
+  //     //     data: { ...PriceListState, currentID: others.id }
+  //     // })
+  //     // others.instance.props.navigation.navigate('EventDetailPage')
+  // }
+
     //   checkDetail: function* (state, others) {
     //     const PriceListState = yield select(allState => allState.PriceList)
     //     yield put({
@@ -63,6 +75,7 @@ export default {
     //     others.instance.props.navigation.navigate('EventDetailPage')
     // },
 
+    // 首页的checkDetail实现产品跳转方法
     //会员臻选页面的goodsOnPressHandler，同理于首页的checkDetail。。吐槽这个命名方式
     // *goodsOnPressHandler({ select, call, put }, { payload }) {
     //   const PriceListState = yield select(allState => allState.PriceList);

@@ -115,7 +115,7 @@ class ExpertShareDetail extends Component {
   };
 
   render() {
-    console.log("达人分享中props", this.props);
+    console.log("达人分享详情中props", this.props);
     return (
       <View style={style.pageStyle}>
         {this.renderHeader()}

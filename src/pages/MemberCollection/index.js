@@ -26,6 +26,14 @@ class MemberCollection extends Component {
   }
 
   /********************* 事件handler **********************/
+
+  /**
+   * 点击单个产品，跳到产品页面
+   * 不懂他怎么实现的。。。！
+   */
+  goodOnPressHandler = (goodId) => {
+    this.props.dispatch({ type: "GoodItem", id: goodId, instance: this })
+  }
   /**
    * 返回主页方法
    */
@@ -49,7 +57,7 @@ class MemberCollection extends Component {
 
     return (
       <ProductBox
-        onPress={() => this.props.GoodItem(item.id)}
+        onPress={() => this.goodOnPressHandler(item.id)}
         isAud={isAud}
         price={price}
         price2={price2}
@@ -86,6 +94,7 @@ class MemberCollection extends Component {
     );
   };
 
+  /********************* 页面render方法 **********************/
   render() {
     console.log("会员臻选中props", this.props);
     return (
@@ -131,10 +140,12 @@ const mapStateToProps = applicationState => {
   };
 };
 
-// const mapDispatchToProps = (dispatch) => {
-//   return(
-//     checkDetail: (id, that) => dispatch({ type: 'checkDetail', id: id, instance: that }),
-//   )
-// }
+// 类Dva封装里废弃了mapDispatchToProps
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     GoodItem: (id, that) =>
+//       dispatch({ type: "GoodItem", id: id, instance: that })
+//   };
+// };
 
 export default connect(mapStateToProps)(MemberCollection);

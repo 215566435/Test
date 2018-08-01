@@ -31,8 +31,11 @@ class ExpertShare extends Component {
   /**
    * 跳转到单个文章的方法
    */
-  onPressHandler = () => {
-    this.props.navigation.navigate("ExpertShareDetail");
+  onPressHandler = id => {
+    console.log('onPressHandler中的id', id);
+    this.props.navigation.navigate("ExpertShareDetail", {
+      expertShareId: id
+    });
   };
   /**
    * 返回主页方法
@@ -49,11 +52,15 @@ class ExpertShare extends Component {
    * 渲染单个信息
    */
   renderExpertShareRow = (item, index) => {
-    const { image, title, subTitle } = item.item;
+    const { image, title, subTitle, id } = item.item;
+    console.log("id", id);
     return (
       <TouchableOpacity
         style={style.rowStyle.rowDefaultStyle}
-        onPress={this.onPressHandler}
+        onPress={ id => {
+          console.log("id", id);
+          this.onPressHandler(id);
+        }}
       >
         <View
           style={{ ...style.rowStyle.AnimatedImage, ...style.defaultStyle }}
