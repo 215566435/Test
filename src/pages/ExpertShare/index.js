@@ -32,7 +32,7 @@ class ExpertShare extends Component {
    * 跳转到单个文章的方法
    */
   onPressHandler = id => {
-    console.log('onPressHandler中的id', id);
+    console.log("onPressHandler中的id", id);
     this.props.navigation.navigate("ExpertShareDetail", {
       expertShareId: id
     });
@@ -57,8 +57,8 @@ class ExpertShare extends Component {
     return (
       <TouchableOpacity
         style={style.rowStyle.rowDefaultStyle}
-        onPress={ id => {
-          console.log("id", id);
+        // 注意传了ID
+        onPress={() => {
           this.onPressHandler(id);
         }}
       >

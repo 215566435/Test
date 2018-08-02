@@ -32,6 +32,7 @@ class MemberCollection extends Component {
    * 不懂他怎么实现的。。。！
    */
   goodOnPressHandler = (goodId) => {
+    console.log(goodId);
     this.props.dispatch({ type: "GoodItem", id: goodId, instance: this })
   }
   /**

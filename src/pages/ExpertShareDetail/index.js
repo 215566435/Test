@@ -21,7 +21,10 @@ class ExpertShareDetail extends Component {
   componentDidMount() {
     // 页面加载完成，请求API，加载数据
     this.props.dispatch({
-      type: "fetchExpertShareDetail"
+      type: "fetchExpertShareDetail",
+      payload: {
+        expertShareId: this.props.navigation.state.params.expertShareId
+      }
     });
   }
   /********************* 事件handler **********************/
@@ -59,14 +62,14 @@ class ExpertShareDetail extends Component {
    * 渲染featuredImage
    */
   renderFeaturedImage = () => {
-    const { image } = this.props.data;
+    const { detailImage } = this.props.expertShareDetail;
 
     return (
       <View style={style.rowDefaultStyle}>
         <AnimatedImage
           url={
             "http://cdn2u.com" +
-            image +
+            detailImage +
             `?width=${800}` +
             `&height=${500}` +
             `&bgcolor=white `
@@ -83,10 +86,11 @@ class ExpertShareDetail extends Component {
    * 渲染作者
    */
   renderAuthor = () => {
-    const { avatar, author } = this.props.data;
+    // const { avatar, author } = this.props.data;
+    const { detailAuthor } = this.props.expertShareDetail;
     return (
       <View style={style.rowAuthorStyle}>
-        <AnimatedImage
+        {/* <AnimatedImage
           url={
             "http://cdn2u.com" +
             avatar +
@@ -97,8 +101,8 @@ class ExpertShareDetail extends Component {
           Pheight={30}
           Pwidth={30}
           style={style.authorStyle}
-        />
-        <Text style={style.authorStyle}>{author}</Text>
+        /> */}
+        <Text style={style.authorStyle}>{detailAuthor}</Text>
       </View>
     );
   };
@@ -107,9 +111,10 @@ class ExpertShareDetail extends Component {
    * 渲染featuredImage
    */
   renderContent = () => {
+    const { detailContent } = this.props.expertShareDetail;
     return (
       <View style={style.contentStyle}>
-        <Text>正文111</Text>
+        <Text>{detailContent}</Text>
       </View>
     );
   };
