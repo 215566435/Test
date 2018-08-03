@@ -91,8 +91,9 @@ export class Body extends Component {
 
     if (!homeItems) {
       return (
-        <View>
-          <Text>暂无数据</Text>
+        <View style={{justifyContent: 'center'}}>
+          <Text>正在加载。。。</Text>
+          <spin size={42}/>
         </View>
       );
     }

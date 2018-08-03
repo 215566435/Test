@@ -28,8 +28,9 @@ export default {
   effects: {
     // 接收index发来的请求，处理，访问服务器API拿数据
     *fetchExpertShareDetail({ select, call, put }, { payload }) {
-      let expertShareDetail = yield select(state => state.data);
+      let expertShareDetail = yield select(state => state.expertShareDetail);
       //console.log('payLoad', payload);
+      console.log('select到的数据', expertShareDetail);
       const { expertShareId } = payload;
 
       const manager = new BaseManager();

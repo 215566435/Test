@@ -31,6 +31,14 @@ class TopList extends Component {
 
   /********************* 事件handler **********************/
   /**
+   * 点击单个产品，跳到产品页面
+   * 不懂他怎么实现的。。。！
+   */
+  goodOnPressHandler = (goodId) => {
+    console.log(goodId);
+    this.props.dispatch({ type: "GoodItem", id: goodId, instance: this })
+  }
+  /**
    * 返回主页方法
    */
   goBack = () => {
@@ -61,7 +69,7 @@ class TopList extends Component {
 
     return (
       <ProductBox
-        onPress={() => this.props.GoodItem(item.id)}
+        onPress={() => this.goodOnPressHandler(item.id)}
         isAud={isAud}
         price={price}
         price2={price2}
