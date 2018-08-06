@@ -3,7 +3,7 @@
  * 老代码
  * 用于商品展示页面
  * 建议使用 dva 模式进行封装
- * 
+ *
  * Hank： 我去，文件490行，一句注释没有。。。
  * 我先整理一下
  */
@@ -112,8 +112,8 @@ class DetailPage extends Component {
       });
 
       // 找到了！！
-      // 整理报错，要穿入string，urlMap是个array
-      console.log(urlMap);
+      // 这里报错，要传入string，urlMap是个array
+      console.log("分享时的图片链接数组", urlMap);
       if (urlMap.length === 0) {
         Alert.alert(
           "分享失败",
@@ -132,13 +132,15 @@ class DetailPage extends Component {
         Clipboard.setString(this.props.shareText[0]);
       }
 
+      // IOS分享实现方法
       if (Platform.OS === "ios") {
         this.setState({
           loading: true
-        });
+        }); 
+        // showShareActionSheetWithOptions已经被修改，所以和文档上的用法不太一样。
         ActionSheetIOS.showShareActionSheetWithOptions(
           {
-            url: urlMap
+            url: urlMap // 这个urlMap是数组， 但是需要传入String啊
           },
           () => {
             this.setState({
@@ -152,6 +154,7 @@ class DetailPage extends Component {
           }
         );
       } else {
+        // Android分享实现
         sharePictures({
           winTitle: "窗口标题",
           subject: "主题",
@@ -172,7 +175,7 @@ class DetailPage extends Component {
   };
 
   /**
-   * 
+   *
    */
   chooseImage = item => {
     this.setState({
@@ -212,7 +215,7 @@ class DetailPage extends Component {
       });
     }
   };
-  
+
   onPopChange = property => {
     if (typeof property === "number") {
       this.currentQty = property;

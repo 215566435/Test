@@ -4,7 +4,7 @@
  */
 
 import React, { Component } from "react";
-import { View, Text, FlatList, Image } from "react-native";
+import { View, Text, FlatList, Image, ScrollView } from "react-native";
 import { connect } from "react-redux";
 import { TabHead } from "../../components/Tab";
 import { Spin } from "../../components/Spin";
@@ -34,10 +34,10 @@ class TopList extends Component {
    * 点击单个产品，跳到产品页面
    * 不懂他怎么实现的。。。！
    */
-  goodOnPressHandler = (goodId) => {
+  goodOnPressHandler = goodId => {
     console.log(goodId);
-    this.props.dispatch({ type: "GoodItem", id: goodId, instance: this })
-  }
+    this.props.dispatch({ type: "GoodItem", id: goodId, instance: this });
+  };
   /**
    * 返回主页方法
    */

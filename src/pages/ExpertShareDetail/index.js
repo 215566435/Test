@@ -68,6 +68,7 @@ class ExpertShareDetail extends Component {
    * 进入分享Modal后，分享按钮点击事件Handler
    */
   shareTabPress = (e, child, index) => {
+    console.log("分享按钮被点击");
     // if (index === 0) {
     //   this.setState({
     //     share: false
@@ -174,17 +175,32 @@ class ExpertShareDetail extends Component {
               height: 80,
               backgroundColor: "white",
               justifyContent: "center",
+              flexDirection: "row",
               alignItems: "center"
             }}
           >
-            <View style={{flexDirection: "column", alignItems: "center"}}>
+            <TouchableOpacity
+              style={{ flexDirection: "column", alignItems: "center", width: 80 }}
+              onPress={() => {
+                this.shareTabPress();
+              }}
+            >
               <Ionicons
                 name="ios-chatbubbles"
                 size={48}
                 color="#f46e65"
                 style={{ backgroundColor: "transparent" }}
               />
-              <Text>分享到微信</Text>
+              <Text>分享</Text>
+            </TouchableOpacity>
+            <View style={{ flexDirection: "column", alignItems: "center" }}>
+              <Ionicons
+                name="ios-chatbubbles"
+                size={48}
+                color="#f46e65"
+                style={{ backgroundColor: "transparent" }}
+              />
+              <Text>复制链接</Text>
             </View>
           </View>
         </View>
@@ -328,6 +344,6 @@ const mapStateToProps = applicationState => {
   };
 };
 
-const wrapper = PageWithTab(ExpertShareDetail, ["分享"], ["#ff7875"]);
+const wrapper = PageWithTab(ExpertShareDetail, ["一键分享"], ["#ff7875"]);
 
 export default connect(mapStateToProps)(wrapper);
