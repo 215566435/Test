@@ -112,7 +112,7 @@ export const TabHead = ({ tabItem, ActivateIndex = 0, onPress = () => { }, flexD
 
 
 
-const Item = ({ style, title, activate, onPress, headFontSize = 15, activateBackground = '#f56a00', activateColor = 'white', activateSize = 15 }) => (
+const Item = ({ style, title, activate, onPress, headFontSize = 12, activateBackground = '#f56a00', activateColor = 'white', activateSize = 12 }) => (
     <TouchableOpacity style={{ ...style, backgroundColor: activate ? activateBackground : 'white' }} onPress={onPress}>
         <Text
             style={{

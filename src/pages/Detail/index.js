@@ -400,13 +400,13 @@ class DetailPage extends Component {
         >
           <Ionicons
             name="ios-arrow-dropleft-outline"
-            size={34}
+            size={28}
             style={{ backgroundColor: "transparent" }}
           />
           {btns.map((btn, index) => (
             <Text
               key={index}
-              style={{ color: "white", backgroundColor: "transparent" }}
+              style={{ color: "white", backgroundColor: "transparent", fontSize: 12 }}
             >
               {btn}
             </Text>

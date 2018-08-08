@@ -290,11 +290,13 @@ class GlobalProducts extends Component {
   render() {
     console.log("全球好物中props", this.props);
     return (
-      <ScrollView style={style.pageStyle}>
+      <View style={style.pageStyle}>
         {this.renderHeader()}
-        {this.renderFeaturedImage()}
-        {this.renderAllLists()}
-      </ScrollView>
+        <ScrollView>
+          {this.renderFeaturedImage()}
+          {this.renderAllLists()}
+        </ScrollView>
+      </View>
     );
   }
 }

@@ -90,6 +90,7 @@ class ManifestPage extends Component {
           tabItem={["全部", "待付款", "待发货", "待收货", "已收货"]}
           onPress={this.onTabChange}
           ActivateIndex={this.state.ActivateIndex}
+          headFontSize = {12}
         />
 
         <View

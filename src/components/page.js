@@ -1,3 +1,8 @@
+/**
+ * Page还封装。。。
+ * 不建议使用
+ * 没必要，可读性差了
+ */
 import React from 'react'
 import { View } from 'react-native'
 

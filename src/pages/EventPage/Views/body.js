@@ -91,7 +91,7 @@ export class Body extends Component {
                                 }}
                                 onPress={() => this.props.onItemPress(itm.id)}
                             >
-                                <View style={{ height: 200, width: 100 }}>
+                                <View style={{ height: 180, width: 130 }}>
                                     <Image
                                         source={{
                                             uri:
@@ -105,7 +105,7 @@ export class Body extends Component {
                                                     'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36'
                                             }
                                         }}
-                                        style={{ height: 100, width: 100 }}
+                                        style={{ height: 110, width: 110 }}
                                         resizeMode="contain"
                                     />
                                     <Text
@@ -120,7 +120,7 @@ export class Body extends Component {
                                     <Text
                                         numberOfLines={2}
                                         style={{
-                                            fontSize: 12,
+                                            fontSize: 10,
                                             color: '#f56a00',
                                             backgroundColor: 'transparent'
                                         }}
@@ -267,7 +267,7 @@ class PriceListHeader extends React.Component {
                                 }}
                             >
                                 <SwitchWithTitle
-                                    title={'显示澳币'}
+                                    title={'显示澳帝'}
                                     onValueChange={onValueChange}
                                     value={isShowAud}
                                 />

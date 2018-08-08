@@ -112,7 +112,7 @@ export class CustomHeader extends React.Component {
             })}
           </ScrollView>
         ) : (
-          <Text>暂无分类</Text>
+          <Text>正在加载。。。</Text>
         )}
       </View>
     );

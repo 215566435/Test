@@ -238,7 +238,14 @@ class Profile extends React.Component {
     //目前因为goBack不能刷新状态，所以这里只能使用navigate回去了，这里有瑕疵
     //不然回不去了
     //this.props.navigation.goBack(null);
-    this.props.navigation.navigate('Home');
+    // this.props.navigation.navigate('Home');
+
+    // 佣金体现死循环暂时解决，但是提现回来时候动画应该还是不对。
+    if (this.props.navigation.state.params) {
+      this.props.navigation.navigate('Home');
+    } else {
+      this.props.navigation.goBack(null);
+    }
   };
 
   render() {

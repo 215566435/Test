@@ -14,7 +14,7 @@ import { HeaderWithLeftArrow } from "../../components/PageHeader";
 import AnimatedImage from "../../components/AnimatedImage";
 import { ProductBox } from "../../components/ProductBox";
 import { width, height, priceHelper } from "../../util";
-import { Tabs } from "antd-mobile-rn";
+import { Tabs, List } from "antd-mobile-rn";
 
 class TopList extends Component {
   state = {
@@ -32,7 +32,6 @@ class TopList extends Component {
   /********************* 事件handler **********************/
   /**
    * 点击单个产品，跳到产品页面
-   * 不懂他怎么实现的。。。！
    */
   goodOnPressHandler = goodId => {
     console.log(goodId);
@@ -104,15 +103,16 @@ class TopList extends Component {
           `&height=${250}` +
           `&bgcolor=white `
         }
-        Pheight={120}
+        Pheight={80}
         Pwidth={width - 20}
         style={style.defaultStyle}
       />
     );
   };
+
   /**
    * 渲染Tab
-   * tabs标签包裹了flatList，用户切换tabs页，使用setState切换显示的产品，因为后台是把所有页面一起返回的。
+   * tabs标签控制flatList的数据，用户切换tabs页，使用setState切换显示的产品，因为后台是把所有页面一起返回的。
    */
   renderTab = () => {
     return (
@@ -123,8 +123,12 @@ class TopList extends Component {
         //renderTabBar={props => <Tabs.DefaultTabBar {...props} page={3} />}
         renderTabBar={props => <Tabs.DefaultTabBar {...props} page={3} />}
         onChange={(tab, index) => this._onTabChange(tab, index)}
+        animated={false}
+        // 关掉useOnPan因为官方建议向右手势滑动会和返回按钮冲突
+        useOnPan={false}
       >
-        {this.renderList()}
+        {/* 如果手动渲染list结构，可以在里面渲染， 这里用的flatList，直接在onChange时间改数据就行了*/}
+        {/* {this.renderList()} */}
       </Tabs>
     );
   };
@@ -142,6 +146,7 @@ class TopList extends Component {
     // console.log('firstLoadListData中第0个', firstLoadListData);
     return (
       <FlatList
+        // 判断listData是否为空， 如果为空，那就是第一次加载，手动设置数据
         data={
           Object.keys(this.state.listData).length === 0
             ? firstLoadListData
@@ -162,8 +167,11 @@ class TopList extends Component {
     return (
       <View style={style.pageStyle}>
         {this.renderHeader()}
-        {this.renderImage()}
-        {this.renderTab()}
+        <ScrollView style={style.scrollViewStyle} stickyHeaderIndices={[1]}>
+          {this.renderImage()}
+          {this.renderTab()}
+          {this.renderList()}
+        </ScrollView>
       </View>
     );
   }
@@ -178,6 +186,10 @@ const style = {
   defaultStyle: {
     alignItems: "center",
     justifyContent: "center"
+  },
+  scrollViewStyle: {
+    flex: 1,
+    backgroundColor: "#fff"
   }
 };
 
