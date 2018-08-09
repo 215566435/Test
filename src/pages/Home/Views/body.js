@@ -16,6 +16,7 @@ import { Carousel } from "../../../components/Carousel";
 import { Grid } from "../../../components/Grid";
 import { Spin } from "../../../components/Spin";
 import { CustomHeader } from "../../../components/PageHeader";
+import { EventLayout, GridLayout } from "../../../components/Layout";
 
 import Ionicons from "react-native-vector-icons/Ionicons"; // 4.4.2
 // import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
@@ -91,9 +92,9 @@ export class Body extends Component {
 
     if (!homeItems) {
       return (
-        <View style={{justifyContent: 'center'}}>
+        <View style={{ justifyContent: "center" }}>
           <Text>正在加载。。。</Text>
-          <spin size={42}/>
+          <spin size={42} />
         </View>
       );
     }
@@ -108,184 +109,108 @@ export class Body extends Component {
 
       // 如果Type不是Event，就是cate，按照cate样式渲染
       console.log("这里是cate", homeItem.cate);
-      return this.renderLayout(homeItem.cate, index);
+      return this.renderGrid(homeItem.cate, index);
     });
   };
 
   // 渲染单个Event
   renderEvent = event => {
+    // 从本页的props中取得isAud
+    const { isAud } = this.props;
     return (
-      <View style={{ alignItems: "center", marginTop: 10 }} key={event.image}>
-        <Text
-          style={{
-            fontSize: 20,
-            padding: 10,
-            color: "#f56a00",
-            backgroundColor: "transparent"
-          }}
-        >
-          🌟{event.name}🌟
-        </Text>
-        <TouchableOpacity onPress={() => this.props.EventImagePress(event.id)}>
-          <Image
-            source={{
-              uri:
-                "http://cdn2u.com" +
-                event.image +
-                "?width=750&constrain=true&bgcolor=white"
-            }}
-            style={{ height: 200, width: width }}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {event.goods.map(item => {
-            const { isAud } = this.props;
-
-            const price = {
-              p: isAud ? "$" + item.ap.p.a : "¥" + item.ap.p.r,
-              pi: isAud ? "$" + item.ap.p.ai : "¥" + item.ap.p.ri
-            };
-
-            return (
-              <TouchableOpacity
-                key={item.id}
-                onPress={() => this.props.onEventPress(item.id)}
-              >
-                <View
-                  style={{
-                    height: 180,
-                    width: 130,
-                    padding: 10,
-                    borderWidth: 0.5,
-                    borderColor: "#f7f7f7"
-                  }}
-                >
-                  <Image
-                    source={{
-                      uri:
-                        "http://cdn2u.com" +
-                        item.i +
-                        "?width=140&height=140&constrain=true&bgcolor=white",
-                      header: {
-                        Accept:
-                          "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;",
-                        "User-Agent":
-                          "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36"
-                      }
-                    }}
-                    style={{ height: 110, width: 110 }}
-                    resizeMode="contain"
-                  />
-                  <Text
-                    numberOfLines={2}
-                    style={{
-                      fontSize: 10,
-                      backgroundColor: "transparent"
-                    }}
-                  >
-                    {item.n}
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      color: "#f56a00",
-                      backgroundColor: "transparent"
-                    }}
-                  >
-                    {price.p !== "$null" ? price.p : "¥" + item.ap.p.r}
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 10,
-                      color: "#919191",
-                      backgroundColor: "transparent"
-                    }}
-                  >
-                    包邮价:{price.pi !== "$null"
-                      ? price.pi
-                      : "¥" + item.ap.p.ri}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
-      </View>
+      <EventLayout
+        data={event}
+        isAud={isAud}
+        onEventImagePress={this.props.EventImagePress}
+        onEventPress={this.props.onEventPress}
+      />
     );
   };
 
   // 渲染首页Cate
   // 后台没返回ID， 只能拿index做key
-  renderLayout = (cate, index) => {
+  // renderGrid = (cate, index) => {
+  //   return (
+  //     <View key={index} style={{ alignItems: "center", marginTop: 10 }}>
+  //       <Text
+  //         style={{
+  //           fontSize: 20,
+  //           color: "#f46e65",
+  //           backgroundColor: "transparent"
+  //         }}
+  //       >
+  //         🌟{cate.n}🌟
+  //       </Text>
+  //       <Grid
+  //         onPress={this.props.onLayoutPress}
+  //         cols={2}
+  //         wMargin={5}
+  //         hMargin={5}
+  //         itemHeight={Platform.OS === "ios" ? 190 : 220}
+  //         borderWidth={0.5}
+  //         borderColor={"rgba(120,120,120,0.3)"}
+  //       >
+  //         {cate.g.map(good => {
+  //           const { isAud } = this.props;
+  //           const price = {
+  //             p: isAud ? "$" + good.ap.p.a : "¥" + good.ap.p.r,
+  //             pi: isAud ? "$" + good.ap.p.ai : "¥" + good.ap.p.ri
+  //           };
+  //           return (
+  //             <View style={{ alignItems: "center" }} key={good.id}>
+  //               <Image
+  //                 key={good.i}
+  //                 source={{
+  //                   uri:
+  //                     "http://cdn2u.com" +
+  //                     good.i +
+  //                     "?width=140&height=140&constrain=true&bgcolor=white"
+  //                 }}
+  //                 style={{ height: 120, width: 150 }}
+  //                 resizeMode="contain"
+  //               />
+  //               <Text
+  //                 numberOfLines={2}
+  //                 style={{ fontSize: 10, backgroundColor: "transparent" }}
+  //               >
+  //                 {good.n}
+  //               </Text>
+  //               <Text
+  //                 style={{
+  //                   color: "#f56a00",
+  //                   backgroundColor: "transparent",
+  //                   fontSize: 12
+  //                 }}
+  //               >
+  //                 {price.p ? price.p : "¥" + good.ap.p.r}
+  //               </Text>
+  //               <Text
+  //                 style={{
+  //                   fontSize: 10,
+  //                   color: "#919191",
+  //                   backgroundColor: "transparent"
+  //                 }}
+  //               >
+  //                 包邮价:{price.pi ? price.pi : "¥" + good.ap.p.ri}
+  //               </Text>
+  //             </View>
+  //           );
+  //         })}
+  //       </Grid>
+  //     </View>
+  //   );
+  // };
+
+  renderGrid = cat => {
+    console.log("cat中的Props", this.props);
+    console.log("cat中的cat", cat);
+    const { isAud } = this.props;
     return (
-      <View key={index} style={{ alignItems: "center", marginTop: 10 }}>
-        <Text
-          style={{
-            fontSize: 20,
-            color: "#f46e65",
-            backgroundColor: "transparent"
-          }}
-        >
-          🌟{cate.n}🌟
-        </Text>
-        <Grid
-          onPress={this.props.onLayoutPress}
-          cols={2}
-          wMargin={5}
-          hMargin={5}
-          itemHeight={Platform.OS === "ios" ? 190 : 220}
-          borderWidth={0.5}
-          borderColor={"rgba(120,120,120,0.3)"}
-        >
-          {cate.g.map(good => {
-            const { isAud } = this.props;
-            const price = {
-              p: isAud ? "$" + good.ap.p.a : "¥" + good.ap.p.r,
-              pi: isAud ? "$" + good.ap.p.ai : "¥" + good.ap.p.ri
-            };
-            return (
-              <View style={{ alignItems: "center" }} key={good.id}>
-                <Image
-                  key={good.i}
-                  source={{
-                    uri:
-                      "http://cdn2u.com" +
-                      good.i +
-                      "?width=140&height=140&constrain=true&bgcolor=white"
-                  }}
-                  style={{ height: 120, width: 150 }}
-                  resizeMode="contain"
-                />
-                <Text
-                  numberOfLines={2}
-                  style={{ fontSize: 10, backgroundColor: "transparent" }}
-                >
-                  {good.n}
-                </Text>
-                <Text
-                  style={{
-                    color: "#f56a00",
-                    backgroundColor: "transparent",
-                    fontSize: 12
-                  }}
-                >
-                  {price.p ? price.p : "¥" + good.ap.p.r}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 10,
-                    color: "#919191",
-                    backgroundColor: "transparent"
-                  }}
-                >
-                  包邮价:{price.pi ? price.pi : "¥" + good.ap.p.ri}
-                </Text>
-              </View>
-            );
-          })}
-        </Grid>
-      </View>
+      <GridLayout
+        data={cat}
+        isAud={isAud}
+        onGridPress={this.props.onLayoutPress}
+      />
     );
   };
 

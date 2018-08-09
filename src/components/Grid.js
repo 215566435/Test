@@ -49,7 +49,7 @@ export class Grid extends React.Component {
       borderColor
     } = this.props
     const cellWidth = (ContainerWidth - (cols + 1) * wMargin) / cols
-
+    // TODO :这个map还能传两个参数？？？
     const GridItem = React.Children.map(this.props.children, (child, index) => {
       const fixKey = child.key || index
       return (

@@ -3,15 +3,15 @@
  * app 进来的第一个页面就是这个页面
  */
 
-import React, { Component } from 'react'
-import { View, Text, AsyncStorage } from 'react-native'
-import { connect } from 'react-redux'
+import React, { Component } from "react";
+import { View, Text, AsyncStorage } from "react-native";
+import { connect } from "react-redux";
 
-import { CustomTabBar } from '../../components/CustomTabBar'
+import { CustomTabBar } from "../../components/CustomTabBar";
 
-import { Body } from './Views/body'
-import { Icon } from './Views/Icon'
-import { Button } from '../../components/Button';
+import { Body } from "./Views/body";
+import { Icon } from "./Views/Icon";
+import { Button } from "../../components/Button";
 
 //import BasicTabsExample from './Views/tabs';
 
@@ -21,29 +21,34 @@ class Home extends Component {
     // AsyncStorage.clear();
     this.props.fetchHome();
   }
+  // 明白了。。。
+  // 把这个回调函数传到Body组件->GridLayout组件->Grid组件的onPress属性中
+  // 然后再把Grid标签的Key设置成产品ID，就可以通过child.key确定点击产品的ID。。。
   onLayoutPress = (e, child, index) => {
-    this.props.checkDetail(child.key, this)
-  }
-  
+    console.log("onLayoutPress的child", child);
+    console.log("onLayoutPress的child", child.key);
+    this.props.checkDetail(child.key, this);
+  };
+
   // 底部导航栏点击事件
   navigationTabBarPress = (e, child, index) => {
     if (index === 0) {
-      this.props.navigation.navigate('EventPage')
+      this.props.navigation.navigate("EventPage");
     } else if (index === 1) {
-      this.props.navigation.navigate('PriceList')
+      this.props.navigation.navigate("PriceList");
     } else if (index === 3) {
-      this.props.navigation.navigate('Category')
+      this.props.navigation.navigate("Category");
     } else if (index === 4) {
-      this.props.navigation.navigate('Profile')
+      this.props.navigation.navigate("Profile");
     }
-  }
+  };
 
   render() {
-    console.log('首页渲染')
-    console.log('首页Props', this.props);
+    console.log("首页渲染");
+    console.log("首页Props", this.props);
     return (
-      <View style={{ backgroundColor: 'white' }}>
-      {/* <BasicTabsExample /> */}
+      <View style={{ backgroundColor: "white" }}>
+        {/* <BasicTabsExample /> */}
         <Body
           {...this.props.navigation}
           Carousel={this.props.Carousel}
@@ -51,7 +56,7 @@ class Home extends Component {
           // event={this.props.event}
           homeItems={this.props.homeItems}
           cateList={this.props.cateList}
-          cateListPress={(text) => this.props.cateListPress(text, this)}
+          cateListPress={text => this.props.cateListPress(text, this)}
           onLayoutPress={this.onLayoutPress}
           onEventPress={id => this.props.checkDetail(id, this)}
           isAud={this.props.isAud}
@@ -64,10 +69,15 @@ class Home extends Component {
           <Icon name="ios-paper" title="报价表" />
           <Icon name="ios-home" title="澳购商城" color="#f46e65" />
           <Icon name="md-list-box" title="分类" />
-          <Icon name="ios-person" title="个人中心" note={true} noteCount={this.props.noteCount} />
+          <Icon
+            name="ios-person"
+            title="个人中心"
+            note={true}
+            noteCount={this.props.noteCount}
+          />
         </CustomTabBar>
       </View>
-    )
+    );
   }
 }
 
@@ -80,17 +90,23 @@ function mapState(state) {
     noteCount: state.Home.noteCount,
     cateList: state.Home.cateList,
     homeItems: state.Home.homeItems
-  }
+  };
 }
 
 function mapDispatch(dispatch) {
   return {
-    fetchHome: () => dispatch({ type: 'fetchHome' }),
-    checkDetail: (id, that) => dispatch({ type: 'checkDetail', id: id, instance: that }),
-    search: that => dispatch({ type: 'homeSearch', instance: that }),
-    EventImagePress: (id, that) => dispatch({ type: 'EventImagePress', id: id, instance: that }),
-    onValueChange: () => dispatch({ type: 'AUDonValueChange' }),
-    cateListPress: (text, that) => dispatch({ type: 'cateListPress', text: text, instance: that })
-  }
+    fetchHome: () => dispatch({ type: "fetchHome" }),
+    checkDetail: (id, that) =>
+      dispatch({ type: "checkDetail", id: id, instance: that }),
+    search: that => dispatch({ type: "homeSearch", instance: that }),
+    EventImagePress: (id, that) =>
+      dispatch({ type: "EventImagePress", id: id, instance: that }),
+    onValueChange: () => dispatch({ type: "AUDonValueChange" }),
+    cateListPress: (text, that) =>
+      dispatch({ type: "cateListPress", text: text, instance: that })
+  };
 }
-export default connect(mapState, mapDispatch)(Home)
+export default connect(
+  mapState,
+  mapDispatch
+)(Home);
