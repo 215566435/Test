@@ -14,8 +14,14 @@ export default {
     sender: {}
   },
   effects: {
-    *fetchSubmit({ put }, { payload: keyword }) {
-      const j = yield CartManager.SwitchDelivery(false)
+    *fetchSubmit({ put }, { payload }) {
+      // payload中的keyword好像没用,我注释掉了
+      // *fetchSubmit({ put }, { payload: keyword }) {
+      // const j = yield CartManager.SwitchDelivery(false)
+      const {isSelfPickup} = payload;
+      console.log('这里是isSelfPickup', isSelfPickup);
+      // 
+      const j = yield CartManager.SwitchDelivery(isSelfPickup)
 
       const json = yield CartManager.ListSummary()
       const approach = json.data.p ? '现场打包' : '仓库代发'
