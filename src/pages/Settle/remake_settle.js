@@ -16,13 +16,14 @@ export default {
   },
   effects: {
     //接收订单信息
-    *fetchSubmit({ put }, { payload: keyword }) {
+    *fetchSubmit({ put }, { payload }) {
       // 清除本地内存数据
       // AsyncStorage.clear();
       // 测试用删除本地
       // AsyncStorage.removeItem('receiver');
       // AsyncStorage.removeItem('sender');
-      const j = yield CartManager.SwitchDelivery(false)
+      const { isSelfPickup } = payload;
+      const j = yield CartManager.SwitchDelivery(isSelfPickup)
 
       const json = yield CartManager.ListSummary()
       console.log('listSummary', json);

@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, View, Picker, Text, Alert, Image, TouchableOpacity } from 'react-native'
+import { ScrollView, View, Picker, Text, Alert, Image, TouchableOpacity, Platform, SegmentedControlIOS } from 'react-native'
 import { PageWithTab } from '../../HOC/PageWithTab'
 import { width } from '../../util'
 import { connect } from 'react-redux'
@@ -38,16 +38,18 @@ const AddressBlock = ({
 class Settle extends React.Component {
   //本地component level state默认值
   state = {
-    isKeyboardShow: false
+    isKeyboardShow: false,
+    isSelfPickup: false
   }
 
   // 组件加载后开始加载状态
   componentDidMount() {
     this.props.dispatch({
-      type: 'fetchSubmit'
+      type: 'fetchSubmit',
+      payload: {
+        isSelfPickup: this.state.isSelfPickup
+      }
     });
-
-    console.log('this', this);
   }
 
   // 返回或者提交订单处理Handler
@@ -129,12 +131,19 @@ class Settle extends React.Component {
     )
   }
 
-  // 渲染快递选项
+  /**
+   * 渲染包裹
+   */
   renderPackage = () => {
     // const addressPacks = mock
-    const { packs } = this.props
+    const { packs } = this.props;
 
-    if (!packs || packs.length === 0) return null
+    if (!packs || packs.length === 0) return null;
+
+    // if (!packs || packs.length === 0 || this.state.isSpin) {
+    //   return <SpinScreen />;
+    // }
+
     return packs.map((pack, index) => {
       return (
         <List title={pack.showName} key={index}>
@@ -142,28 +151,34 @@ class Settle extends React.Component {
             return (
               <View key={item.id}>
                 <Li>{item.name}</Li>
-                <Li
-                  onPress={() => {
-                    this.props.navigation.navigate('SettleCourierPicker', { pack })
-                  }}
-                  color="rgba(120,120,120,1)"
-                >
-                  {'快递：' + pack.options.courierName}
-                </Li>
               </View>
-            )
+            );
           })}
+          <View>
+            <Li
+              onPress={() => {
+                this.props.navigation.navigate("SettleCourierPicker", {
+                  pack
+                });
+              }}
+              color="rgba(120,120,120,1)"
+            >
+              {"快递：" + pack.options.courierName}
+            </Li>
+          </View>
         </List>
-      )
-    })
-  }
+      );
+    });
+  };
 
-  // 自提包裹列表，好像没有渲染出来？？？
+  /**
+   * 渲染自提??? 这个好像没用???
+   */
   renderSelfPickUp = () => {
     // const addressPacks = mock
-    const { pickupPacks } = this.props
+    const { pickupPacks } = this.props;
 
-    if (!pickupPacks || pickupPacks.length === 0) return null
+    if (!pickupPacks || pickupPacks.length === 0) return null;
 
     return (
       <Collapse title="自提包裹列表">
@@ -175,16 +190,16 @@ class Settle extends React.Component {
                     style={{ padding: 10 }}
                     key={idx}
                     pack={pack}
-                    isSelfPickup={true}
+                    isSelfPickup={isSelfPickup}
                     dispatch={this.props.dispatch}
                   />
-                )
+                );
               })
             : null
         }
       </Collapse>
-    )
-  }
+    );
+  };
 
   // 不懂
   handleGetFreeItem = key => {
@@ -373,6 +388,105 @@ class Settle extends React.Component {
     })
   }
 
+  /**
+   * 渲染包裹上面的切换邮寄方式按钮
+   */
+  renderSwitch = () => {
+    if (Platform.OS === "ios") { // IOS下发货模式Switch
+      return (
+        <View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center"
+            }}
+          >
+            <Text
+              style={{
+                width: "48%",
+                paddingLeft: 10
+              }}
+            >
+              发货模式
+            </Text>
+            <SegmentedControlIOS
+              values={["仓库代发", "现场自提"]}
+              selectedIndex={0}
+              onChange={() => {
+                // 更改本地状态
+                this.setState({
+                  isSelfPickup: !this.state.isSelfPickup,
+                  isSpin:true
+                });
+                // 发请求API获取需要渲染的信息
+                this.props.dispatch({
+                  type: "fetchSubmit",
+                  payload: {
+                    isSelfPickup: !this.state.isSelfPickup
+                  }
+                });
+              }}
+              style={{
+                width: "50%"
+              }}
+            />
+          </View>
+          <View>
+            <Text
+              style={{
+                width: "98%",
+                paddingLeft: 10,
+                paddingTop: 10,
+                fontSize: 10,
+                color: "#ccc",
+                textAlign: "right"
+              }}
+            >
+              {this.state.isSelfPickup
+                ? "下单后订单备货完毕后需要您到现场自行打包或提走"
+                : "订单将由我们代您打包及发货"}
+            </Text>
+          </View>
+        </View>
+      );
+    }
+
+    // 安卓下渲染发货模式switch
+    return (
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center"
+        }}
+      >
+        <Text
+          style={{
+            width: "83%",
+            paddingLeft: 10
+          }}
+        >
+          发货模式
+        </Text>
+        <Switch
+          onValueChange={() => {
+            // 更改本地状态
+            this.setState({
+              isSelfPickup: !this.state.isSelfPickup
+            });
+            // 发请求API获取需要渲染的信息
+            this.props.dispatch({
+              type: "fetchSubmit",
+              payload: {
+                isSelfPickup: !this.state.isSelfPickup
+              }
+            });
+          }}
+          value={this.state.isSelfPickup}
+        />
+      </View>
+    );
+  };
+
   onFocus = () => {
     this.setState({
       isKeyboardShow: true
@@ -395,6 +509,9 @@ class Settle extends React.Component {
     }
   }
 
+  /**
+   * 06/18加入从线上获取之前订单信息
+   */
   fetchInfoNoAsyncStorage = (billName, billPhone, billAddress) => {
     this.props.dispatch({
       type: 'EditAdressInfo',
@@ -414,11 +531,11 @@ class Settle extends React.Component {
     // console.log(this.props.addressPacks)
     const { pickupPacks, receiver, sender, receiverJSON, senderJSON } = this.props
     const { cr } = this.props
-    console.log('前台props', this.props);
-    console.log('前台receiver', receiver);
-    console.log('前台sender', sender);
-    console.log('前台receiverJSON', receiverJSON);
-    console.log('前台senderJSON', senderJSON);
+    // console.log('前台props', this.props);
+    // console.log('前台receiver', receiver);
+    // console.log('前台sender', sender);
+    // console.log('前台receiverJSON', receiverJSON);
+    // console.log('前台senderJSON', senderJSON);
 
     //封装显示收件人发件人地址方法
     const mergeSource = (type, source) => {
@@ -466,16 +583,16 @@ class Settle extends React.Component {
           {this.renderFreeItems()}
           <Input
             addonBefore="订单留言"
-            onFocus={this.onFocus}
-            onBlur={this.onBlur}
+            // onFocus={this.onFocus}
+            // onBlur={this.onBlur}
             placeholder="后台及打包人员可见信息"
             name="their_commits"
             onChangeText={this.onChangeText}
           />
           <Input
             addonBefore="我的备注"
-            onFocus={this.onFocus}
-            onBlur={this.onBlur}
+            // onFocus={this.onFocus}
+            // onBlur={this.onBlur}
             placeholder="留备信息，仅自己可见"
             name="mycommits"
             onChangeText={this.onChangeText}
@@ -484,6 +601,7 @@ class Settle extends React.Component {
           <Li onPress={() => this.ChangePeople('sender')}>{mergeSource('发件人', sender ? sender : senderJSON)}</Li> */}
           <Li onPress={() => this.ChangePeople('receiver')}>{mergeSource('收件人', receiver )}</Li>
           <Li onPress={() => this.ChangePeople('sender')}>{mergeSource('发件人', sender )}</Li>
+          <Li>{this.renderSwitch()}</Li>
           {this.renderPackage()}
           {this.renderSelfPickUp()}
           <Li>
