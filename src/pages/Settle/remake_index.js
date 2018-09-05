@@ -20,6 +20,7 @@ import { Page } from "../../components/page";
 import { ListItem } from "../../components/ListItem";
 import { convertCurrency } from "./settle-util";
 import { Input, InputSelfControl } from "../../components/Input";
+import { Spin, SpinScreen } from "../../components/Spin";
 
 /**
  * 自定义的地址显示组件
@@ -153,7 +154,20 @@ class Settle extends React.Component {
     // const addressPacks = mock
     const { packs } = this.props;
 
+    // return(
+    //   <SpinScreen />
+    // )
+
     if (!packs || packs.length === 0) return null;
+
+    // if (!packs || packs.length === 0 || this.state.isSpin) {
+    //   return <SpinScreen />;
+    // }
+    
+    // if (this.state.isSpin) {
+    //   return <SpinScreen />;
+    // }
+
     return packs.map((pack, index) => {
       return (
         <List title={pack.showName} key={index}>
@@ -161,19 +175,21 @@ class Settle extends React.Component {
             return (
               <View key={item.id}>
                 <Li>{item.name}</Li>
-                <Li
-                  onPress={() => {
-                    this.props.navigation.navigate("SettleCourierPicker", {
-                      pack
-                    });
-                  }}
-                  color="rgba(120,120,120,1)"
-                >
-                  {"快递：" + pack.options.courierName}
-                </Li>
               </View>
             );
           })}
+          <View>
+            <Li
+              onPress={() => {
+                this.props.navigation.navigate("SettleCourierPicker", {
+                  pack
+                });
+              }}
+              color="rgba(120,120,120,1)"
+            >
+              {"快递：" + pack.options.courierName}
+            </Li>
+          </View>
         </List>
       );
     });
@@ -420,12 +436,13 @@ class Settle extends React.Component {
               发货模式
             </Text>
             <SegmentedControlIOS
-              values={[ "仓库代发","现场自提"]}
+              values={["仓库代发", "现场自提"]}
               selectedIndex={0}
               onChange={() => {
                 // 更改本地状态
                 this.setState({
-                  isSelfPickup: !this.state.isSelfPickup
+                  isSelfPickup: !this.state.isSelfPickup,
+                  isSpin:true
                 });
                 // 发请求API获取需要渲染的信息
                 this.props.dispatch({
@@ -447,10 +464,13 @@ class Settle extends React.Component {
                 paddingLeft: 10,
                 paddingTop: 10,
                 fontSize: 10,
-                color: '#ccc'
+                color: "#ccc",
+                textAlign: "right"
               }}
             >
-              {this.state.isSelfPickup ? '下单后订单备货完毕后需要您到现场自行打包或提走' : '订单将由我们代您打包及发货'}
+              {this.state.isSelfPickup
+                ? "下单后订单备货完毕后需要您到现场自行打包或提走"
+                : "订单将由我们代您打包及发货"}
             </Text>
           </View>
         </View>
@@ -544,16 +564,18 @@ class Settle extends React.Component {
           {this.renderFreeItems()}
           <Input
             addonBefore="订单留言"
-            onFocus={this.onFocus}
-            onBlur={this.onBlur}
+            // 这两个注释掉,不然显示键盘就会把格式挤乱 09/18
+            // onFocus={this.onFocus}
+            // onBlur={this.onBlur}
             placeholder="后台及打包人员可见信息"
             name="their_commits"
             onChangeText={this.onChangeText}
           />
           <Input
             addonBefore="我的备注"
-            onFocus={this.onFocus}
-            onBlur={this.onBlur}
+            // 这两个注释掉,不然显示键盘就会把格式挤乱 09/18
+            // onFocus={this.onFocus}
+            // onBlur={this.onBlur}
             placeholder="留备信息，仅自己可见"
             name="mycommits"
             onChangeText={this.onChangeText}
@@ -566,7 +588,8 @@ class Settle extends React.Component {
           </Li>
           <Li>{this.renderSwitch()}</Li>
           {this.renderPackage()}
-          {this.renderSelfPickUp()}
+          {/* 这个貌似没用 */}
+          {/* {this.renderSelfPickUp()} */}
           {/* {this.state.isSelfPickup
             ? this.renderSelfPickUp()
             : this.renderPackage()} */}
