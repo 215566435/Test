@@ -222,7 +222,7 @@ export function getCurrent(state) {
   if (currentPage === void 666 || currentPage === null) {
     throw Error(`${state}:这个属性中没有currentPage`)
   }
-  if (currentPage >= totalPages) {
+  if (currentPage > totalPages) { //这里把>=改成了>要不然报错
     throw Error('MAX')
   }
   return {

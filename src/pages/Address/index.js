@@ -74,6 +74,7 @@ class Address extends Component {
     if (index === 0) {
       this.props.navigation.goBack()
     } else {
+      console.log('点击');
       this.props.navigation.navigate('AddressEditPage', {
         isAdd: true,
         type: 'Receiver'
