@@ -1,14 +1,25 @@
-import React from 'react'
-import { ScrollView, View, Picker, Text, Alert, Image, TouchableOpacity, Platform, SegmentedControlIOS } from 'react-native'
-import { PageWithTab } from '../../HOC/PageWithTab'
-import { width } from '../../util'
-import { connect } from 'react-redux'
-import { List, Li, Flex, Collapse } from './list'
-import { PacksBlock } from './settle-packblock'
-import { Page } from '../../components/page'
-import { ListItem } from '../../components/ListItem'
-import { convertCurrency } from './settle-util'
-import { Input, InputSelfControl } from '../../components/Input'
+import React from "react";
+import {
+  ScrollView,
+  View,
+  Picker,
+  Text,
+  Alert,
+  Image,
+  TouchableOpacity,
+  Platform,
+  SegmentedControlIOS,
+  Switch
+} from "react-native";
+import { PageWithTab } from "../../HOC/PageWithTab";
+import { width } from "../../util";
+import { connect } from "react-redux";
+import { List, Li, Flex, Collapse } from "./list";
+import { PacksBlock } from "./settle-packblock";
+import { Page } from "../../components/page";
+import { ListItem } from "../../components/ListItem";
+import { convertCurrency } from "./settle-util";
+import { Input, InputSelfControl } from "../../components/Input";
 
 // //不懂这是干什么的
 const AddressBlock = ({
@@ -25,27 +36,35 @@ const AddressBlock = ({
   return (
     <View>
       <Li onPress={onPress} arrow={true}>
-        <Text>发件人：{senderName === null ? '点击编辑发件人' : `${senderName} ${senderPhone} ${senderAddress} `}</Text>
+        <Text>
+          发件人：
+          {senderName === null
+            ? "点击编辑发件人"
+            : `${senderName} ${senderPhone} ${senderAddress} `}
+        </Text>
       </Li>
       <Li onPress={onPress} arrow={true}>
-        <Text>收件人：{`${billName} ${billPhone} ${billAddress} `}</Text>
+        <Text>
+          收件人：
+          {`${billName} ${billPhone} ${billAddress} `}
+        </Text>
       </Li>
       {children}
     </View>
-  )
-}
+  );
+};
 
 class Settle extends React.Component {
   //本地component level state默认值
   state = {
     isKeyboardShow: false,
     isSelfPickup: false
-  }
+  };
 
   // 组件加载后开始加载状态
   componentDidMount() {
     this.props.dispatch({
-      type: 'fetchSubmit',
+      type: "fetchSubmit",
       payload: {
         isSelfPickup: this.state.isSelfPickup
       }
@@ -55,81 +74,81 @@ class Settle extends React.Component {
   // 返回或者提交订单处理Handler
   CustomTabBarPress = (e, child, index) => {
     //返回按钮被点击
-    if (index === 0) this.props.navigation.goBack()
+    if (index === 0) this.props.navigation.goBack();
 
     const dispatch = () => {
       this.props.dispatch({
-        type: 'createOrder',
+        type: "createOrder",
         payload: {
           their_commits: this.their_commits,
           mycommits: this.mycommits,
           instance: this
         }
-      })
-    }
+      });
+    };
     //提交订单按钮被点击
     if (index === 1) {
-      const { promotionsSum, freeItems } = this.props
+      const { promotionsSum, freeItems } = this.props;
       if (promotionsSum.length === 0) {
-        var hasOpptunity = false
+        var hasOpptunity = false;
         Object.keys(freeItems).forEach(() => {
-          hasOpptunity = true
-        })
+          hasOpptunity = true;
+        });
 
         if (hasOpptunity) {
           Alert.alert(
-            '赠品提示',
-            '根据你选择的商品，你有赠品可以选择，你确定不选赠品直接下单吗？',
+            "赠品提示",
+            "根据你选择的商品，你有赠品可以选择，你确定不选赠品直接下单吗？",
             [
               {
-                text: '不选赠品直接下单',
+                text: "不选赠品直接下单",
                 onPress: () => {
-                  dispatch()
+                  dispatch();
                 }
               },
-              { text: '返回选择赠品' }
+              { text: "返回选择赠品" }
             ],
             { cancelable: false }
-          )
+          );
         } else {
-          dispatch()
+          dispatch();
         }
       } else {
-        dispatch()
+        dispatch();
       }
     }
-  }
-  
+  };
+
   // 判断是否存在voucher
   componentWillReceiveProps(nextprops) {
     if (nextprops.voucher) {
-      this.handleChangeText(nextprops.voucher.vouchersCode)
+      this.handleChangeText(nextprops.voucher.vouchersCode);
     }
   }
 
   // 修改收件人发件人，转到别的页面
   ChangePeople = type => {
     Alert.alert(
-      type === 'receiver' ? '操作收件人地址' : '操作发件人地址',
-      '',
+      type === "receiver" ? "操作收件人地址" : "操作发件人地址",
+      "",
       [
         {
-          text: '选择地址簿的地址',
+          text: "选择地址簿的地址",
           onPress: () => {
-            this.props.navigation.navigate('SettleAddressSelector', { type })
+            this.props.navigation.navigate("SettleAddressSelector", { type });
           }
         },
         {
-          text: '输入地址',
+          text: "输入地址",
           onPress: () => {
-            this.props.navigation.navigate('SettleEditAddress', { type })
+            this.props.navigation.navigate("SettleEditAddress", { type });
           }
         },
-        { text: '取消' }
+        { text: "取消" }
       ],
       { cancelable: false }
-    )
-  }
+    );
+  };
 
   /**
    * 渲染包裹
@@ -203,56 +222,60 @@ class Settle extends React.Component {
 
   // 不懂
   handleGetFreeItem = key => {
-    this.props.navigation.navigate('FreeItem', { key })
-  }
+    this.props.navigation.navigate("FreeItem", { key });
+  };
 
   // promotionSum列表，好像没有渲染出来？？？
   renderPromotionsSum = () => {
-    if (this.props.promotionsSum === void 666 || this.props.promotionsSum.length === 0) return
+    if (
+      this.props.promotionsSum === void 666 ||
+      this.props.promotionsSum.length === 0
+    )
+      return;
 
     return (
       <Li>
-        <View style={{ alignItems: 'center' }}>
+        <View style={{ alignItems: "center" }}>
           {this.props.promotionsSum.map((item, index) => {
             return (
               <Flex direction="row" key={index}>
                 <Text
                   style={{
                     fontSize: 12,
-                    color: '#ff7875',
+                    color: "#ff7875",
                     paddingLeft: 10,
-                    fontWeight: 'bold'
+                    fontWeight: "bold"
                   }}
                 >
                   {item.promotionsName}: -{item.price}
                 </Text>
               </Flex>
-            )
+            );
           })}
         </View>
       </Li>
-    )
-  }
+    );
+  };
 
   // 输入代金劵后， 失去焦点
   onVoucherBlur = () => {
     this.props.dispatch({
-      type: 'handleVoucher',
+      type: "handleVoucher",
       payload: this.voucherComponent.getText()
-    })
+    });
     this.setState({
       isKeyboardShow: false
-    })
-  }
+    });
+  };
 
   // 清空代金劵
   handleClearVoucher = () => {
-    this.voucherComponent.clear()
+    this.voucherComponent.clear();
     this.props.dispatch({
-      type: 'handleVoucher',
-      payload: ''
-    })
-  }
+      type: "handleVoucher",
+      payload: ""
+    });
+  };
 
   // handleClearVoucher = () => {
   //   this.voucherComponent.clear()
@@ -262,62 +285,61 @@ class Settle extends React.Component {
   //   })
   // }
 
-
   //直接操作DOM进行渲染修改text，不通过state
   handleChangeText = text => {
     // console.log('........', text)
-    this.voucherComponent.setText(text)
-  }
+    this.voucherComponent.setText(text);
+  };
 
   //渲染voucher
   renderVoucher = () => {
-    const { voucher } = this.props
+    const { voucher } = this.props;
     const renderAmount = () => {
       return voucher ? (
         <ListItem
           content={
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{ flexDirection: "row" }}>
               <View style={{ width: width - 150 }} />
               <Text
                 style={{
                   width: 150,
                   fontSize: 12,
-                  color: '#ff7875',
+                  color: "#ff7875",
                   paddingLeft: 10,
-                  fontWeight: 'bold'
+                  fontWeight: "bold"
                 }}
               >{`代金券减免金额:-${voucher.amount}元`}</Text>
             </View>
           }
-          ArrowColor={'transparent'}
+          ArrowColor={"transparent"}
         />
-      ) : null
-    }
+      ) : null;
+    };
     const button = ({ onPress, color, title }) => (
       <TouchableOpacity
         onPress={onPress}
         style={{
           width: 60,
-          justifyContent: 'center',
-          alignItems: 'center',
+          justifyContent: "center",
+          alignItems: "center",
           backgroundColor: color
         }}
       >
         <View>
-          <Text style={{ color: 'white', fontSize: 10 }}>{title}</Text>
+          <Text style={{ color: "white", fontSize: 10 }}>{title}</Text>
         </View>
       </TouchableOpacity>
-    )
+    );
 
     return (
       <View>
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{ flexDirection: "row" }}>
           <View style={{ width: width - 60 }}>
             <InputSelfControl
               addonBefore="代金券"
               placeholder="请输入代金券"
               ref={node => (this.voucherComponent = node)} //
-              defaultValue={voucher ? voucher.vouchersCode : ''}
+              defaultValue={voucher ? voucher.vouchersCode : ""}
               // onFocus={this.onFocus}
               onBlur={this.onVoucherBlur}
               onChangeText={this.handleChangeText}
@@ -326,23 +348,23 @@ class Settle extends React.Component {
           </View>
           {button({
             onPress: this.handleClearVoucher,
-            color: '#40a9ff',
-            title: '清除代金券'
+            color: "#40a9ff",
+            title: "清除代金券"
           })}
         </View>
         {renderAmount()}
       </View>
-    )
-  }
+    );
+  };
 
   renderFreeItems = () => {
-    const { freeItems } = this.props
-    if (!freeItems) return null
-    var item = {}
-    var button = []
+    const { freeItems } = this.props;
+    if (!freeItems) return null;
+    var item = {};
+    var button = [];
     for (const key in freeItems) {
-      item = freeItems[key]
-      button.push(freeItems[key])
+      item = freeItems[key];
+      button.push(freeItems[key]);
     }
     return button.map((i, index) => {
       return (
@@ -351,48 +373,50 @@ class Settle extends React.Component {
           content={
             <View
               style={{
-                flexDirection: 'row',
-                alignItems: 'center'
+                flexDirection: "row",
+                alignItems: "center"
               }}
             >
               <Text
                 style={{
                   width: 60,
                   fontSize: 12,
-                  color: '#ff7875',
+                  color: "#ff7875",
                   paddingLeft: 10
                 }}
               >
-                赠品{index + 1}
+                赠品
+                {index + 1}
               </Text>
               <Text style={{ width: width - 160, fontSize: 12 }}>{i.name}</Text>
               <TouchableOpacity
                 onPress={() => this.handleGetFreeItem(i.key)}
                 style={{
                   width: 100,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  backgroundColor: '#ff7a45',
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "#ff7a45",
                   minHeight: 30
                 }}
               >
                 <View>
-                  <Text style={{ color: 'white', fontSize: 10 }}>选择赠品</Text>
+                  <Text style={{ color: "white", fontSize: 10 }}>选择赠品</Text>
                 </View>
               </TouchableOpacity>
             </View>
           }
-          ArrowColor={'transparent'}
+          ArrowColor={"transparent"}
         />
-      )
-    })
-  }
+      );
+    });
+  };
 
   /**
    * 渲染包裹上面的切换邮寄方式按钮
    */
   renderSwitch = () => {
-    if (Platform.OS === "ios") { // IOS下发货模式Switch
+    if (Platform.OS === "ios") {
+      // IOS下发货模式Switch
       return (
         <View>
           <View
@@ -449,71 +473,72 @@ class Settle extends React.Component {
         </View>
       );
     }
-
     // 安卓下渲染发货模式switch
-    return (
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center"
-        }}
-      >
-        <Text
+    if (Platform.OS === "android") {
+      return (
+        <View
           style={{
-            width: "83%",
-            paddingLeft: 10
+            flexDirection: "row",
+            alignItems: "center"
           }}
         >
-          发货模式
-        </Text>
-        <Switch
-          onValueChange={() => {
-            // 更改本地状态
-            this.setState({
-              isSelfPickup: !this.state.isSelfPickup
-            });
-            // 发请求API获取需要渲染的信息
-            this.props.dispatch({
-              type: "fetchSubmit",
-              payload: {
+          <Text
+            style={{
+              width: "83%",
+              paddingLeft: 10
+            }}
+          >
+            发货模式： 仓库代发/现场自提
+          </Text>
+          <Switch
+            onValueChange={() => {
+              // 更改本地状态
+              this.setState({
                 isSelfPickup: !this.state.isSelfPickup
-              }
-            });
-          }}
-          value={this.state.isSelfPickup}
-        />
-      </View>
-    );
+              });
+              // 发请求API获取需要渲染的信息
+              this.props.dispatch({
+                type: "fetchSubmit",
+                payload: {
+                  isSelfPickup: !this.state.isSelfPickup
+                }
+              });
+            }}
+            value={this.state.isSelfPickup}
+          />
+        </View>
+      );
+    }
   };
 
   onFocus = () => {
     this.setState({
       isKeyboardShow: true
-    })
-  }
+    });
+  };
 
   onBlur = () => {
     this.setState({
       isKeyboardShow: false
-    })
-  }
+    });
+  };
 
   // 绑定输入数据显示
   onChangeText = (text, name) => {
     if (this[name] !== void 666) {
-      this[name] = text
+      this[name] = text;
     } else {
-      this[name] = ''
-      this[name] = text
+      this[name] = "";
+      this[name] = text;
     }
-  }
+  };
 
   /**
    * 06/18加入从线上获取之前订单信息
    */
   fetchInfoNoAsyncStorage = (billName, billPhone, billAddress) => {
     this.props.dispatch({
-      type: 'EditAdressInfo',
+      type: "EditAdressInfo",
       payload: {
         type: this.type(),
         address: {
@@ -522,14 +547,19 @@ class Settle extends React.Component {
           billName
         }
       }
-    })
-    
-  }
+    });
+  };
 
   render() {
     // console.log(this.props.addressPacks)
-    const { pickupPacks, receiver, sender, receiverJSON, senderJSON } = this.props
-    const { cr } = this.props
+    const {
+      pickupPacks,
+      receiver,
+      sender,
+      receiverJSON,
+      senderJSON
+    } = this.props;
+    const { cr } = this.props;
     // console.log('前台props', this.props);
     // console.log('前台receiver', receiver);
     // console.log('前台sender', sender);
@@ -541,15 +571,15 @@ class Settle extends React.Component {
       // if(!source) return `${type}：点击编辑`
 
       //传入的receiver和sender为空
-      if(!source) return `${type}：没有记录，点击编辑`
+      if (!source) return `${type}：没有记录，点击编辑`;
 
-      console.log('source', source);
+      console.log("source", source);
 
-      let { name, phone, address, idNumber} = source
-      name = name || ''
-      phone = phone || ''
-      address = address || ''
-      idNumber = idNumber || ''
+      let { name, phone, address, idNumber } = source;
+      name = name || "";
+      phone = phone || "";
+      address = address || "";
+      idNumber = idNumber || "";
 
       //传入的receiver和sender不为空，return前面的原来的代码都不懂
       // let { billName, billPhone, billAddress, idNumber } = source
@@ -558,21 +588,23 @@ class Settle extends React.Component {
       // idNumber = idNumber || ''
 
       //传入的receiver和sender不为空，return前面的原来的代码都不懂
-      let { billName, billPhone, billAddress } = source
-      billName = billName || name
-      billPhone = billPhone || phone
-      billAddress = billAddress || address
+      let { billName, billPhone, billAddress } = source;
+      billName = billName || name;
+      billPhone = billPhone || phone;
+      billAddress = billAddress || address;
 
-      console.log('idNumber', idNumber);
+      console.log("idNumber", idNumber);
       // 原来的代码
       // return billName ? `${type}：${billName} ${billPhone} ${idNumber} ${billAddress}` : `${type}：点击编辑`
-      return billName ? `${type}：${billName} ${billPhone} ${idNumber} ${billAddress}` : `${type}：没有记录 点击编辑`
-    }
-    
+      return billName
+        ? `${type}：${billName} ${billPhone} ${idNumber} ${billAddress}`
+        : `${type}：没有记录 点击编辑`;
+    };
+
     return (
       <Page
         style={{
-          height: '100%',
+          height: "100%",
           transform: [{ translateY: this.state.isKeyboardShow ? -180 : 0 }]
         }}
       >
@@ -598,39 +630,49 @@ class Settle extends React.Component {
           />
           {/* <Li onPress={() => this.ChangePeople('receiver')}>{mergeSource('收件人', receiver ? receiver : receiverJSON)}</Li>
           <Li onPress={() => this.ChangePeople('sender')}>{mergeSource('发件人', sender ? sender : senderJSON)}</Li> */}
-          <Li onPress={() => this.ChangePeople('receiver')}>{mergeSource('收件人', receiver )}</Li>
-          <Li onPress={() => this.ChangePeople('sender')}>{mergeSource('发件人', sender )}</Li>
+          <Li onPress={() => this.ChangePeople("receiver")}>
+            {mergeSource("收件人", receiver)}
+          </Li>
+          <Li onPress={() => this.ChangePeople("sender")}>
+            {mergeSource("发件人", sender)}
+          </Li>
           <Li>{this.renderSwitch()}</Li>
           {this.renderPackage()}
           {/* {this.renderSelfPickUp()} */}
           <Li>
             <View>
-              <View style={{ flexDirection: 'row' }}>
+              <View style={{ flexDirection: "row" }}>
                 <View style={{ width: width - 150 }} />
-                <Text style={{ fontSize: 12, paddingLeft: 10 }}>商品价格：{convertCurrency(cr, this.props.o)}</Text>
+                <Text style={{ fontSize: 12, paddingLeft: 10 }}>
+                  商品价格：
+                  {convertCurrency(cr, this.props.o)}
+                </Text>
               </View>
-              <View style={{ flexDirection: 'row' }}>
+              <View style={{ flexDirection: "row" }}>
                 <View style={{ width: width - 150 }} />
-                <Text style={{ fontSize: 13, paddingLeft: 10 }}>总价格：{convertCurrency(cr, this.props.t)}</Text>
+                <Text style={{ fontSize: 13, paddingLeft: 10 }}>
+                  总价格：
+                  {convertCurrency(cr, this.props.t)}
+                </Text>
               </View>
             </View>
           </Li>
         </ScrollView>
       </Page>
-    )
+    );
   }
 }
 
 // 增加底部按钮
-const wapprer = PageWithTab(Settle, ['返回', '提交订单'], ['white', '#f5222d'])
+const wapprer = PageWithTab(Settle, ["返回", "提交订单"], ["white", "#f5222d"]);
 
 // 从application level state 获取状态
 const mapState = state => {
   return {
     ...state.settle.data,
     receiver: state.settle.receiver,
-    sender: state.settle.sender,
-  }
-}
+    sender: state.settle.sender
+  };
+};
 
-export default connect(mapState)(wapprer)
+export default connect(mapState)(wapprer);
