@@ -415,8 +415,7 @@ class Settle extends React.Component {
               onChange={() => {
                 // 更改本地状态
                 this.setState({
-                  isSelfPickup: !this.state.isSelfPickup,
-                  isSpin:true
+                  isSelfPickup: !this.state.isSelfPickup
                 });
                 // 发请求API获取需要渲染的信息
                 this.props.dispatch({
@@ -603,7 +602,7 @@ class Settle extends React.Component {
           <Li onPress={() => this.ChangePeople('sender')}>{mergeSource('发件人', sender )}</Li>
           <Li>{this.renderSwitch()}</Li>
           {this.renderPackage()}
-          {this.renderSelfPickUp()}
+          {/* {this.renderSelfPickUp()} */}
           <Li>
             <View>
               <View style={{ flexDirection: 'row' }}>

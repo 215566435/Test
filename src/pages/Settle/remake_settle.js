@@ -23,6 +23,8 @@ export default {
       // AsyncStorage.removeItem('receiver');
       // AsyncStorage.removeItem('sender');
       const { isSelfPickup } = payload;
+
+      // 这个J应该在SwitchDelivery里用到吧
       const j = yield CartManager.SwitchDelivery(isSelfPickup)
 
       const json = yield CartManager.ListSummary()
