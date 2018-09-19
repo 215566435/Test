@@ -1,6 +1,6 @@
 import { call, put, take, select } from "redux-saga/effects";
 import { Url, header } from "../../util";
-import { Alert, Platform, ToastAndroid } from "react-native";
+import { Alert, Platform, ToastAndroid, AsyncStorage } from "react-native";
 import * as WeChat from "react-native-wechat";
 /**
  * 服务器返回的错误代码，用map来对应

@@ -3,38 +3,41 @@
  * app 进来的第一个页面就是这个页面
  */
 
-import React, { Component } from 'react'
-import { View, Text } from 'react-native'
-import { connect } from 'react-redux'
+import React, { Component } from "react";
+import { View, Text, AsyncStorage } from "react-native";
+import { connect } from "react-redux";
 
-import { CustomTabBar } from '../../components/CustomTabBar'
+import { CustomTabBar } from "../../components/CustomTabBar";
 
-import { Body } from './Views/body'
-import { Icon } from './Views/Icon'
+import { Body } from "./Views/body";
+import { Icon } from "./Views/Icon";
 
 class Home extends Component {
   componentDidMount() {
-    this.props.fetchHome()
+    // AsyncStorage.clear();
+    this.props.fetchHome();
   }
   onLayoutPress = (e, child, index) => {
-    this.props.checkDetail(child.key, this)
-  }
+    this.props.checkDetail(child.key, this);
+  };
   navigationTabBarPress = (e, child, index) => {
     if (index === 0) {
-      this.props.navigation.navigate('EventPage')
+      this.props.navigation.navigate("EventPage");
     } else if (index === 1) {
-      this.props.navigation.navigate('PriceList')
+      this.props.navigation.navigate("PriceList");
     } else if (index === 3) {
-      this.props.navigation.navigate('Category')
+      this.props.navigation.navigate("Category");
     } else if (index === 4) {
-      this.props.navigation.navigate('Profile')
+      this.props.navigation.navigate("Profile");
     }
-  }
+  };
 
   render() {
-    console.log('首页渲染')
+    console.log("首页渲染");
+    console.log("首页本地缓存", AsyncStorage.getAllKeys());
+    console.log("首页本地缓存noteCount", this.props.noteCount);
     return (
-      <View style={{ backgroundColor: 'white' }}>
+      <View style={{ backgroundColor: "white" }}>
         <Body
           {...this.props.navigation}
           Carousel={this.props.Carousel}
@@ -52,10 +55,15 @@ class Home extends Component {
           <Icon name="ios-paper" title="报价表" />
           <Icon name="ios-home" title="澳购商城" color="#f46e65" />
           <Icon name="md-list-box" title="分类" />
-          <Icon name="ios-person" title="个人中心" note={true} noteCount={this.props.noteCount} />
+          <Icon
+            name="ios-person"
+            title="个人中心"
+            note={true}
+            noteCount={this.props.noteCount}
+          />
         </CustomTabBar>
       </View>
-    )
+    );
   }
 }
 
@@ -66,16 +74,21 @@ function mapState(state) {
     event: state.Home.event,
     isAud: state.PriceList.isAud,
     noteCount: state.Home.noteCount
-  }
+  };
 }
 
 function mapDispatch(dispatch) {
   return {
-    fetchHome: () => dispatch({ type: 'fetchHome' }),
-    checkDetail: (id, that) => dispatch({ type: 'checkDetail', id: id, instance: that }),
-    search: that => dispatch({ type: 'homeSearch', instance: that }),
-    EventImagePress: (id, that) => dispatch({ type: 'EventImagePress', id: id, instance: that }),
-    onValueChange: () => dispatch({ type: 'AUDonValueChange' })
-  }
+    fetchHome: () => dispatch({ type: "fetchHome" }),
+    checkDetail: (id, that) =>
+      dispatch({ type: "checkDetail", id: id, instance: that }),
+    search: that => dispatch({ type: "homeSearch", instance: that }),
+    EventImagePress: (id, that) =>
+      dispatch({ type: "EventImagePress", id: id, instance: that }),
+    onValueChange: () => dispatch({ type: "AUDonValueChange" })
+  };
 }
-export default connect(mapState, mapDispatch)(Home)
+export default connect(
+  mapState,
+  mapDispatch
+)(Home);

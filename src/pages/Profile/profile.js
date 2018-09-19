@@ -2,7 +2,7 @@
  * 2017/10/26 方正 创建
  * 本页面是用于个人登陆
  */
-import React, { Component } from 'react'
+import React, { Component } from "react";
 import {
   View,
   Text,
@@ -16,152 +16,159 @@ import {
   AsyncStorage,
   Alert,
   Platform
-} from 'react-native'
-import { StackNavigator } from 'react-navigation' // 1.0.0-beta.14
+} from "react-native";
+import { StackNavigator } from "react-navigation"; // 1.0.0-beta.14
 
-import { CustomTabBar } from '../../components/CustomTabBar'
-import { Grid } from '../../components/Grid'
-import FontAwesome from 'react-native-vector-icons/FontAwesome' // 4.4.2
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import Entypo from 'react-native-vector-icons/Entypo'
+import { CustomTabBar } from "../../components/CustomTabBar";
+import { Grid } from "../../components/Grid";
+import FontAwesome from "react-native-vector-icons/FontAwesome"; // 4.4.2
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import Entypo from "react-native-vector-icons/Entypo";
 
-import codePush from 'react-native-code-push'
+import codePush from "react-native-code-push";
 
-import Login from '../Login'
+import Login from "../Login";
 
-import { header, Url, height, width } from '../../util'
-import { PageWithTab } from '../../HOC/PageWithTab'
-import { ToolItem } from './profile-tools'
-import { Head } from './profile-head'
+import { header, Url, height, width } from "../../util";
+import { PageWithTab } from "../../HOC/PageWithTab";
+import { ToolItem } from "./profile-tools";
+import { Head } from "./profile-head";
 
 class Profile extends React.Component {
   state = {
-    userName: '',
+    userName: "",
     userBalence: {
-      aud: '',
-      rmb: ''
+      aud: "",
+      rmb: ""
     }
-  }
+  };
 
   fetchBalance = () => {
-    ;(async that => {
-      const res = await fetch(Url + 'user/GetDepositBalance', {
-        method: 'POST',
+    (async that => {
+      const res = await fetch(Url + "user/GetDepositBalance", {
+        method: "POST",
         headers: header.get(),
-        body: '{}'
-      })
+        body: "{}"
+      });
 
-      const json = await res.json()
+      const json = await res.json();
       that.setState({
         userBalence: {
           aud: json.data[1],
           rmb: json.data[0]
         }
-      })
-    })(this)
-  }
+      });
+    })(this);
+  };
   componentDidMount() {
-    this.checkLogin()
+    this.checkLogin();
     this.props.dispatch({
-      type: 'mapProfileInstance',
+      type: "mapProfileInstance",
       payload: this
-    })
+    });
   }
   /**
    * 处理用户6个方块的选择
    */
   onGridItemClick = (e, child, index) => {
-    if (this.state.userName === '') {
-      this.checkLogin()
-      return
+    if (this.state.userName === "") {
+      this.checkLogin();
+      return;
     }
-    if (child.props.name === 'logout') {
+    if (child.props.name === "logout") {
       Alert.alert(
-        '退出登陆',
-        '您确定需要退出登陆吗?',
+        "退出登陆",
+        "您确定需要退出登陆吗?",
         [
-          { text: '取消', style: 'cancel' },
+          { text: "取消", style: "cancel" },
           {
-            text: '确定退出',
+            text: "确定退出",
             onPress: () => {
-              AsyncStorage.removeItem('token')
+              AsyncStorage.removeItem("token") // 09/18 解决bug登录之后价格不变, 因为还是从之前的本地内存中取数据
                 .then(res => {
-                  this.checkLogin()
+                  this.checkLogin();
                   this.setState({
                     userBalence: {
-                      rmb: '',
-                      aud: ''
+                      rmb: "",
+                      aud: ""
                     }
-                  })
+                  });
                 })
                 .catch(res => {
                   //出错
-                })
+                });
             }
           }
         ],
         { cancelable: false }
-      )
+      );
     } else {
-      this.props.navigation.navigate(child.props.name)
+      this.props.navigation.navigate(child.props.name);
     }
-  }
+  };
   checkLogin = () => {
-    AsyncStorage.multiGet(['token', 'name'])
+    AsyncStorage.multiGet(["token", "name"])
       .then(res => {
         if (res[0][1] === null) {
-          this.props.navigation.navigate('Login')
+          this.props.navigation.navigate("Login");
           this.setState({
-            userName: '',
+            userName: "",
             userBalence: {
-              aud: '',
-              rmb: ''
+              aud: "",
+              rmb: ""
             }
-          })
+          });
         } else {
-          header.set(res[0][1])
+          header.set(res[0][1]);
           this.setState({
             userName: res[1][1]
-          })
-          this.fetchBalance()
+          });
+          this.props.refreshAll(); // 09/18修改这里, 登录之后 主页产品的价钱会根据会员等级改变
+          this.fetchBalance();
         }
       })
       .catch(res => {
         //出错
-      })
-  }
+      });
+  };
   onLoginFinished = personInformation => {
     if (personInformation.success === true) {
-      header.set(personInformation.data.token)
-      AsyncStorage.multiSet([['token', personInformation.data.token], ['name', personInformation.data.name]])
+      // 09/18 解决bug登录之后价格不变, 因为还是从之前的本地内存中取数据
+      // 登录前把之前缓存的价钱清理掉
+      AsyncStorage.clear();
+      header.set(personInformation.data.token);
+      AsyncStorage.multiSet([
+        ["token", personInformation.data.token],
+        ["name", personInformation.data.name]
+      ])
         .then(res => {
           this.setState({
             userName: personInformation.data.name
-          })
-          this.props.refreshAll()
-          this.fetchBalance()
+          });
+          this.props.refreshAll();
+          this.fetchBalance();
         })
         .catch(res => {
           //登陆失败
-        })
+        });
     }
-  }
+  };
   loginCancel = () => {
     this.setState({
       isLogined: true
-    })
-  }
+    });
+  };
   CustomTabBarPress = () => {
-    this.props.navigation.goBack(null)
-  }
+    this.props.navigation.goBack(null);
+  };
   render() {
     return (
       <View style={headStyle.container}>
         <View
           style={{
-            height: height - 44 - (Platform.OS === 'ios' ? 0 : 24)
+            height: height - 44 - (Platform.OS === "ios" ? 0 : 24)
           }}
         >
           <Head
@@ -174,11 +181,11 @@ class Profile extends React.Component {
           <GridBody GridItemClick={this.onGridItemClick} />
         </View>
       </View>
-    )
+    );
   }
 }
 
-export default PageWithTab(Profile, '返回')
+export default PageWithTab(Profile, "返回");
 
 /**
  * 工具栏
@@ -188,12 +195,12 @@ export default PageWithTab(Profile, '返回')
 class GridBody extends Component {
   shouldComponentUpdate(nextProps) {
     //蠢静态的，永远不更新
-    return false
+    return false;
   }
   render() {
-    const { GridItemClick } = this.props
-    const ToolItemSize = 33
-    const ToolItemColor = '#f79992'
+    const { GridItemClick } = this.props;
+    const ToolItemSize = 33;
+    const ToolItemColor = "#f79992";
     return (
       <Grid onPress={GridItemClick}>
         <ToolItem
@@ -204,7 +211,7 @@ class GridBody extends Component {
               name="file-text-o"
               color={ToolItemColor}
               size={ToolItemSize}
-              style={{ backgroundColor: 'transparent' }}
+              style={{ backgroundColor: "transparent" }}
             />
           }
         />
@@ -216,7 +223,7 @@ class GridBody extends Component {
               color={ToolItemColor}
               name="map-marker-radius"
               size={ToolItemSize}
-              style={{ backgroundColor: 'transparent' }}
+              style={{ backgroundColor: "transparent" }}
             />
           }
         />
@@ -228,7 +235,7 @@ class GridBody extends Component {
               name="logo-yen"
               color={ToolItemColor}
               size={ToolItemSize}
-              style={{ backgroundColor: 'transparent' }}
+              style={{ backgroundColor: "transparent" }}
             />
           }
         />
@@ -240,7 +247,7 @@ class GridBody extends Component {
               color={ToolItemColor}
               name="border-color"
               size={ToolItemSize}
-              style={{ backgroundColor: 'transparent' }}
+              style={{ backgroundColor: "transparent" }}
             />
           }
         />
@@ -252,7 +259,7 @@ class GridBody extends Component {
               color={ToolItemColor}
               name="lock"
               size={ToolItemSize}
-              style={{ backgroundColor: 'transparent' }}
+              style={{ backgroundColor: "transparent" }}
             />
           }
         />
@@ -264,12 +271,12 @@ class GridBody extends Component {
               name="log-out"
               color={ToolItemColor}
               size={ToolItemSize}
-              style={{ backgroundColor: 'transparent' }}
+              style={{ backgroundColor: "transparent" }}
             />
           }
         />
       </Grid>
-    )
+    );
   }
 }
 
@@ -277,28 +284,28 @@ class Message extends Component {
   render() {
     return (
       <TouchableOpacity
-        onPress={() => this.props.navigation.navigate('Message')}
+        onPress={() => this.props.navigation.navigate("Message")}
         style={{
-          position: 'absolute',
+          position: "absolute",
           right: 20,
           top: 40,
           height: 35,
           width: 35,
-          alignItems: 'center',
-          justifyContent: 'center',
+          alignItems: "center",
+          justifyContent: "center",
           // backgroundColor: 'black',
           zIndex: 100
         }}
       >
         <View
           style={{
-            backgroundColor: '#f5222d',
+            backgroundColor: "#f5222d",
             height: 15,
             width: 15,
             borderRadius: 7.5,
-            alignItems: 'center',
-            justifyContent: 'center',
-            position: 'absolute',
+            alignItems: "center",
+            justifyContent: "center",
+            position: "absolute",
             zIndex: 10,
             right: -5,
             top: -2
@@ -306,8 +313,8 @@ class Message extends Component {
         >
           <Text
             style={{
-              textAlign: 'center',
-              color: 'white',
+              textAlign: "center",
+              color: "white",
               fontSize: 8,
               height: 10,
               width: 13
@@ -318,17 +325,17 @@ class Message extends Component {
         </View>
         <FontAwesome name="envelope-o" color="#fff7e6" size={24} />
       </TouchableOpacity>
-    )
+    );
   }
 }
 
 const headStyle = StyleSheet.create({
   container: {
-    backgroundColor: '#eee',
-    height: '100%'
+    backgroundColor: "#eee",
+    height: "100%"
   },
   head: {
-    height: '60%',
-    backgroundColor: '#f46e65'
+    height: "60%",
+    backgroundColor: "#f46e65"
   }
-})
+});
