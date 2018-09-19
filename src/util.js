@@ -22,17 +22,17 @@ export const EveryChildWidth = children => {
 }
 
 //切换开发服务器或者生产服务器
-//export var hostName = 'test.austgo.com'
+export var hostName = 'test.austgo.com'
 
 // TODO: 测试服务器挂了! 连生产服务器!!!
-// if (__DEV__) {
-//   hostName = 'test.austgo.com'
-// } else {
-//   hostName = 'app.niuaomall.com'
-// }
+if (__DEV__) {
+  hostName = 'test.austgo.com'
+} else {
+  hostName = 'app.niuaomall.com'
+}
 
-// TODO: 测试服务器挂了! 连生产服务器!!!
-export var hostName = 'app.niuaomall.com'
+// // TODO: 测试服务器挂了! 连生产服务器!!!
+// export var hostName = 'app.niuaomall.com'
 
 export const Url = `http://${hostName}/api/app/1.4/`
 

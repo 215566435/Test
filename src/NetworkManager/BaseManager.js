@@ -1,15 +1,15 @@
 import { fetchApi, getCurrent } from '../util'
 
 // TODO: 测试服务器挂了! 连生产服务器!!!
-// var hostName = 'test.austgo.com'
+var hostName = 'test.austgo.com'
 
-// if (__DEV__) {
-//   hostName = 'test.austgo.com'
-// } else {
-//   hostName = 'app.niuaomall.com'
-// }
+if (__DEV__) {
+  hostName = 'test.austgo.com'
+} else {
+  hostName = 'app.niuaomall.com'
+}
 
-var hostName = 'app.niuaomall.com'
+// var hostName = 'app.niuaomall.com'
 
 const Url = `http://${hostName}/api/app/1.4/`
 
