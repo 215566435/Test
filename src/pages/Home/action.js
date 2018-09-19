@@ -58,17 +58,17 @@ const actionStategy = {
         header.set(Token)
     }
     const hmanager = new HomeManager();
-    yield hmanager.mapHomeDataToProps(
-      yield hmanager.getHomeDataRefresh(),
-      put,
-      state
-    );
-    // yield hmanager.mapHomeDataToProps(yield hmanager.getHomeData(), put, state);
+    // yield hmanager.mapHomeDataToProps(
+    //   yield hmanager.getHomeDataRefresh(),
+    //   put,
+    //   state
+    // );
+    yield hmanager.mapHomeDataToProps(yield hmanager.getHomeData(), put, state);
 
     // setTimeout(() => {
     //   hmanager.mapHomeDataToProps(hmanager.getHomeDataRefresh(), put, state);
     // }, 1000);
-    // yield hmanager.mapHomeDataToProps(yield hmanager.getHomeDataRefresh(), put, state);
+    yield hmanager.mapHomeDataToProps(yield hmanager.getHomeDataRefresh(), put, state);
     // const Token = yield AsyncStorage.getItem('Token')
     // if (Token) {
     //     AsyncStorage.clear();
